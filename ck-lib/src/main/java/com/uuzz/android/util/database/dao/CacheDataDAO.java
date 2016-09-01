@@ -8,6 +8,8 @@ package com.uuzz.android.util.database.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Message;
 
 import com.uuzz.android.util.database.DataBasesUtil;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
@@ -79,13 +81,38 @@ public class CacheDataDAO extends AbstractDAO<CacheDataEntity> {
      * @param name 接口请求参数的md5
      * @return 需要的缓存数据对象
      */
-    public String getCacheData(String userId, String name) {
+    public CacheDataEntity getCacheData(String userId, String name) {
         try{
-            return getCacheDataModle(userId, name).getmData();
+            return getCacheDataModle(userId, name);
         } catch (Exception e) {
             logger.w("Obtain cached data failed", e);
             return null;
         }
+    }
+
+    /**
+     * 描 述：异步获取缓存数据并发布给监听者对象<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (版本) 谌珂 2016/2/24 注释 <br/>
+     * @param userId 用户id
+     * @param name 接口请求参数的md5
+     */
+    public void getCacheDataAsync(final String userId, final String name) {
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                CacheDataEntity data = getCacheData(userId, name);
+                if(data == null) {
+                    return;
+                }
+
+                Message msg = Message.obtain();
+                msg.what = CACHE_DATA;
+                msg.obj = data;
+                setChanged();
+                notifyObservers(msg);
+            }
+        });
     }
 
     /**

@@ -49,11 +49,11 @@ public abstract class CkActivity extends Activity {
     /** 整个头部的根布局 */
     public RelativeLayout mHeader;
     /** 头部左侧布局 */
-    public LinearLayout mHeadLeft;
+    public LinearLayout mHeadLeftContainer;
     /** 头部中间文字 */
     public TextView mHeadMiddle;
     /** 头部右侧布局 */
-    public LinearLayout mHeadRight;
+    public LinearLayout mHeadRightContainer;
 
     /** 内容的根布局 */
     protected View mContentView;
@@ -107,12 +107,12 @@ public abstract class CkActivity extends Activity {
         return mHeader;
     }
 
-    public LinearLayout getmHeadLeft() {
-        return mHeadLeft;
+    public LinearLayout getmHeadLeftContainer() {
+        return mHeadLeftContainer;
     }
 
-    public LinearLayout getmHeadRight() {
-        return mHeadRight;
+    public LinearLayout getmHeadRightContainer() {
+        return mHeadRightContainer;
     }
 
     public TextView getmHeadMiddle() {
@@ -148,13 +148,13 @@ public abstract class CkActivity extends Activity {
      */
     protected void initHeadViews() {
         mHeader = (RelativeLayout) findViewById(R.id.header);
-        mHeadLeft = (LinearLayout) findViewById(R.id.ll_head_left);
+        mHeadLeftContainer = (LinearLayout) findViewById(R.id.ll_head_left);
         mHeadMiddle = (TextView) findViewById(R.id.tv_head_middle);
-        mHeadRight = (LinearLayout) findViewById(R.id.ll_head_right);
+        mHeadRightContainer = (LinearLayout) findViewById(R.id.ll_head_right);
 
         mHeadMiddle.setText(getHeadTitle());
-        setHeadLeftView();
-        setHeadRightView();
+        configHeadLeftView();
+        configHeadRightView();
 
         if(!isShowHeader()){
             mHeader.setVisibility(View.GONE);
@@ -185,7 +185,7 @@ public abstract class CkActivity extends Activity {
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/5 注释 <br/>
      */
-    protected abstract void setHeadLeftView();
+    protected abstract void configHeadLeftView();
 
     /**
      * 描 述：获取头部标题文字<br/>
@@ -200,7 +200,7 @@ public abstract class CkActivity extends Activity {
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/5 注释 <br/>
      */
-    protected abstract void setHeadRightView();
+    protected abstract void configHeadRightView();
 
     @Override
     protected void onRestart() {

@@ -23,7 +23,9 @@ import java.util.concurrent.Executors;
  */
 public abstract class AbstractDAO<T> extends Observable {
 	/** 数据库改变的标记，用于传递给监听者 */
-	public static final int DB_CHANGED = 200;
+	public static final int DB_CHANGED = 0;
+	/** 缓存数据的标记 */
+	public static final int CACHE_DATA = 1;
 
 
 	/** 线程池 */
