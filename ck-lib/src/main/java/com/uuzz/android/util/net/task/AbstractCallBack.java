@@ -1,8 +1,7 @@
 /**
- * 项目名称：手机大管家
+ * 项目名称：工具库
  * 文件名称: AbstractCallBack.java
  * Created by 谌珂 on 2016/1/10.
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.uuzz.android.util.net.task;
 
@@ -11,7 +10,7 @@ import android.content.Context;
 import com.uuzz.android.util.Toaster;
 
 /**
- * 项目名称：手机大管家<br/>
+ * 项目名称：工具库<br/>
  * 类  名: AbstractCallBack<br/>
  * 类描述: <br/>
  * @author 谌珂 <br/>

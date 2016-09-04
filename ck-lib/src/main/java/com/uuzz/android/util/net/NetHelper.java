@@ -8,7 +8,7 @@ import com.uuzz.android.R;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.exception.TaskFailException;
-import com.uuzz.android.util.net.request.AbstractRequest;
+import com.uuzz.android.util.net.request.IRequest;
 import com.uuzz.android.util.net.response.base.ResponseContent;
 import com.uuzz.android.util.net.task.AbstractTask;
 
@@ -28,14 +28,14 @@ public class NetHelper {
      * @param isShowLoading 是否弹出Loading
      * @return 线程任务，可用来取消任务进度。如果创建网络任务失败直接返回null
      */
-    public static AsyncTask getDataFromNet(Context context, AbstractRequest pRequest, AbstractTask.HttpCallBack pCallBack, boolean isShowLoading) {
+    public static AsyncTask getDataFromNet(Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack, boolean isShowLoading) {
         if(isShowLoading) {
             // TODO: 谌珂 2016/8/31 show loading
         }
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
-            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(AbstractRequest.class, Context.class);
-            AbstractTask abstractTask = constructor.newInstance(pRequest, context);               //创建Task的实例
+            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class, boolean.class);
+            AbstractTask abstractTask = constructor.newInstance(pRequest, context, isShowLoading);               //创建Task的实例
             return abstractTask.execute(pCallBack);                               //调用异步请求方法并返回子线程任务对象
         } catch (Exception e) {
             logger.e("Create " + lTaskClass.getSimpleName() + "failed!", e);
@@ -58,7 +58,7 @@ public class NetHelper {
      * @param pCallBack 回调方法
      * @return 线程任务，可用来取消任务进度。如果创建网络任务失败直接返回null
      */
-    public static AsyncTask getDataFromNet(Context context, AbstractRequest pRequest, AbstractTask.HttpCallBack pCallBack) {
+    public static AsyncTask getDataFromNet(Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack) {
         return getDataFromNet(context, pRequest, pCallBack, true);
     }
 
@@ -70,10 +70,10 @@ public class NetHelper {
      * @return AgentResponse
      * @throws TaskFailException 网络任务创建失败或网络请求返回码不是200抛出此异常
      */
-    public static AbstractRequest getDataFromNet(Context context, AbstractRequest pRequest) throws TaskFailException {
+    public static IRequest getDataFromNet(Context context, IRequest pRequest) throws TaskFailException {
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
-            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(AbstractRequest.class, Context.class);
+            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class);
             AbstractTask abstractTask = constructor.newInstance(pRequest, context);               //创建Task的实例
             ResponseContent lResponseContent = abstractTask.execute();            //调用同步请求方法
             if(lResponseContent == null) {
@@ -85,7 +85,7 @@ public class NetHelper {
                 throw new TaskFailException("Result code is: " + lResponseContent.getmResultCode());
             }
             // TODO: 谌珂 2016/8/31 组织返回对象
-            return JSON.parseObject((String)lResponseContent.getEntity(), AbstractRequest.class);
+            return JSON.parseObject((String)lResponseContent.getEntity(), IRequest.class);
         } catch (Exception e) {
             logger.e("Create " + lTaskClass.getSimpleName() + "failed!", e);
             throw new TaskFailException("Create " + lTaskClass.getSimpleName() + "failed!");
