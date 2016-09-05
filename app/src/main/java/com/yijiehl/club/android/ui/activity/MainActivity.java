@@ -62,6 +62,7 @@ public class MainActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewPager.setCurrentItem(mCurrentPage);
+        setFootFocus(mCurrentPage);
         //创建适配器
         HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
@@ -106,12 +107,23 @@ public class MainActivity extends BmActivity {
         });
     }
 
+    /**
+     * 描 述：点击底部tab按钮后切换ViewPager的内容，并记录页面索引<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/5 <br/>
+     */
     @OnClick({R.id.fgb_grow_up, R.id.fgb_health, R.id.fgb_host, R.id.fgb_photo, R.id.fgb_question})
     private void switchContent(View v) {
         mCurrentPage = mFootContainer.indexOfChild(v);
         mViewPager.setCurrentItem(mCurrentPage);
     }
 
+    /**
+     * 描 述：根据索引给底部tab设置样式<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/5 <br/>
+     * @param index 被选中页面的索引
+     */
     public void setFootFocus(int index) {
         for (int i = 0; i < mFootContainer.getChildCount(); i++) {
             if(i == index) {

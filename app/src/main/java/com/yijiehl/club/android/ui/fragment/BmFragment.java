@@ -45,7 +45,7 @@ public class BmFragment extends CkFragment implements Observer {
         if(observable instanceof CacheDataDAO) {
             Message msg = Message.obtain();
             switch (msg.what) {
-                case CacheDataDAO.CACHE_DATA:
+                case CacheDataDAO.CACHE_DATA:                           //数据缓存被成功取到
                     onReceiveCacheData((CacheDataEntity) msg.obj);
                     break;
             }
