@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.uuzz.android.R;
+import com.uuzz.android.util.LoadingCOM;
 import com.uuzz.android.util.Utils;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.HttpFactory;
@@ -101,9 +102,9 @@ public abstract class AbstractTask implements BaseHttp.HttpRequestListener<Strin
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/11 注释 <br/>
      */
-    private void closeLoadingCom() {
+    protected void closeLoadingCom() {
         if(mContext != null && isCloseLoadCom) {
-//            LoadingCOM.getInstance(mContext).dismissLoading();
+            LoadingCOM.getInstance(mContext).dismissLoading();
         }
     }
 

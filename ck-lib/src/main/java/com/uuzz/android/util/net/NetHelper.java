@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.R;
+import com.uuzz.android.util.LoadingCOM;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.exception.TaskFailException;
 import com.uuzz.android.util.net.request.IRequest;
+import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.response.base.ResponseContent;
 import com.uuzz.android.util.net.task.AbstractTask;
 
@@ -30,7 +32,7 @@ public class NetHelper {
      */
     public static AsyncTask getDataFromNet(Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack, boolean isShowLoading) {
         if(isShowLoading) {
-            // TODO: 谌珂 2016/8/31 show loading
+            LoadingCOM.getInstance(context).showLoading(true);
         }
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
@@ -42,7 +44,7 @@ public class NetHelper {
             if(pCallBack != null){
                 pCallBack.onFailed(null);
                 if(isShowLoading) {
-                    // TODO: 谌珂 2016/8/31 dismiss loading
+                    LoadingCOM.getInstance(context).dismissLoading();
                 }
             }
             return null;
@@ -70,7 +72,7 @@ public class NetHelper {
      * @return AgentResponse
      * @throws TaskFailException 网络任务创建失败或网络请求返回码不是200抛出此异常
      */
-    public static IRequest getDataFromNet(Context context, IRequest pRequest) throws TaskFailException {
+    public static AbstractResponse getDataFromNet(Context context, IRequest pRequest) throws TaskFailException {
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
             Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class);
@@ -84,8 +86,7 @@ public class NetHelper {
                 syncTaskErrorCallBack(context);
                 throw new TaskFailException("Result code is: " + lResponseContent.getmResultCode());
             }
-            // TODO: 谌珂 2016/8/31 组织返回对象
-            return JSON.parseObject((String)lResponseContent.getEntity(), IRequest.class);
+            return JSON.parseObject((String)lResponseContent.getEntity(), pRequest.getResponseClass());
         } catch (Exception e) {
             logger.e("Create " + lTaskClass.getSimpleName() + "failed!", e);
             throw new TaskFailException("Create " + lTaskClass.getSimpleName() + "failed!");

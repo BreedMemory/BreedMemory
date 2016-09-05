@@ -43,7 +43,7 @@ public final class Logger {
      */
     public void v(String msg){
         GlobalLog.v(TAG, msg);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Verbose", msg, null);
@@ -58,7 +58,7 @@ public final class Logger {
      */
     public void v(String msg, Throwable throwable){
         GlobalLog.v(TAG, msg, throwable);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Verbose", msg, throwable);
@@ -72,7 +72,7 @@ public final class Logger {
      */
     public void d(String msg){
         GlobalLog.d(TAG, msg);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Debug", msg, null);
@@ -87,7 +87,7 @@ public final class Logger {
      */
     public void d(String msg, Throwable throwable){
         GlobalLog.d(TAG, msg, throwable);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Debug", msg, throwable);
@@ -101,7 +101,7 @@ public final class Logger {
      */
     public void i(String msg){
         GlobalLog.i(TAG, msg);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Info", msg, null);
@@ -116,7 +116,7 @@ public final class Logger {
      */
     public void i(String msg, Throwable throwable){
         GlobalLog.i(TAG, msg, throwable);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Info", msg, throwable);
@@ -130,7 +130,7 @@ public final class Logger {
      */
     public void w(String msg){
         GlobalLog.w(TAG, msg);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Warn", msg, null);
@@ -145,7 +145,7 @@ public final class Logger {
      */
     public void w(String msg, Throwable throwable){
         GlobalLog.w(TAG, msg, throwable);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Warn", msg, throwable);
@@ -159,7 +159,7 @@ public final class Logger {
      */
     public void e(String msg){
         GlobalLog.e(TAG, msg);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Error", msg, null);
@@ -174,7 +174,7 @@ public final class Logger {
      */
     public void e(String msg, Throwable throwable){
         GlobalLog.e(TAG, msg, throwable);
-        if(FileLog.getInstance() != null) {
+        if(FileLog.getInstance() == null) {
             return;
         }
         FileLog.getInstance().saveLog(TAG, "Error", msg, throwable);

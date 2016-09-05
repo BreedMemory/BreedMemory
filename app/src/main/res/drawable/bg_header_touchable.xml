@@ -4,7 +4,7 @@
     <item android:state_pressed="true">
         <shape>
             <solid
-                android:color="@color/colorPrimaryDark"
+                android:color="#29FFFFFF"
                 />
             <padding
                 android:bottom="0dp"

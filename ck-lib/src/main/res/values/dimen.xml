@@ -2,7 +2,7 @@
 <resources>
     <dimen name="primary_margin">15dp</dimen>
     <dimen name="primary_List_margin">10dp</dimen>
-    <dimen name="primary_text_size">17dp</dimen>
+    <dimen name="primary_text_size">18dp</dimen>
 
     <dimen name="second_text_size">15dp</dimen>
     <dimen name="third_text_size">12dp</dimen>

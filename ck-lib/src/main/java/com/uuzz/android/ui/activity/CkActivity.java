@@ -51,7 +51,7 @@ public abstract class CkActivity extends Activity {
     /** 头部左侧布局 */
     public LinearLayout mHeadLeftContainer;
     /** 头部中间文字 */
-    public TextView mHeadMiddle;
+    public TextView mTitleText;
     /** 头部右侧布局 */
     public LinearLayout mHeadRightContainer;
 
@@ -73,6 +73,8 @@ public abstract class CkActivity extends Activity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+
+        initRootView();
 
         onDataRestored(savedInstanceState);
 
@@ -115,8 +117,8 @@ public abstract class CkActivity extends Activity {
         return mHeadRightContainer;
     }
 
-    public TextView getmHeadMiddle() {
-        return mHeadMiddle;
+    public TextView getmTitleText() {
+        return mTitleText;
     }
 
     /**
@@ -149,10 +151,10 @@ public abstract class CkActivity extends Activity {
     protected void initHeadViews() {
         mHeader = (RelativeLayout) findViewById(R.id.header);
         mHeadLeftContainer = (LinearLayout) findViewById(R.id.ll_head_left);
-        mHeadMiddle = (TextView) findViewById(R.id.tv_head_middle);
+        mTitleText = (TextView) findViewById(R.id.tv_head_middle);
         mHeadRightContainer = (LinearLayout) findViewById(R.id.ll_head_right);
 
-        mHeadMiddle.setText(getHeadTitle());
+        mTitleText.setText(getHeadTitle());
         configHeadLeftView();
         configHeadRightView();
 
@@ -163,12 +165,12 @@ public abstract class CkActivity extends Activity {
 
     @Override
     public void setTitle(CharSequence title) {
-        mHeadMiddle.setText(title);
+        mTitleText.setText(title);
     }
 
     @Override
     public void setTitle(int titleId) {
-        mHeadMiddle.setText(titleId);
+        mTitleText.setText(titleId);
     }
 
     /**

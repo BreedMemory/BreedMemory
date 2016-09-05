@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_weight="0"
     android:layout_height="45dip"
-    android:paddingLeft="5dip"
-    android:paddingRight="5dip"
     android:id="@+id/header">
 
     <LinearLayout

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LotteryAgent</string>
+    <string name="app_name"></string>
     <string name="loading">加载中…</string>
     <string name="load_more">查看更多</string>
     <string name="no_more">没有更多</string>

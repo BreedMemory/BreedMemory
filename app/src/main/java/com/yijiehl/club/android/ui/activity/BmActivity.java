@@ -8,7 +8,7 @@ package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.os.PersistableBundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -33,8 +33,12 @@ import java.util.Observer;
 public abstract class BmActivity extends CkActivity implements Observer {
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //默认根布局背景色
+        getmRootLayout().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mHeader.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mTitleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.primary_text_size));
         CacheDataDAO.getInstance(this).addObserver(this);
     }
 

@@ -32,4 +32,18 @@
         <attr name="roundWidth" format="dimension" />
         <attr name="roundHeight" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="FootGroupBtn">
+        <attr name="icon_value" format="string"/>
+        <attr name="text_value" format="string"/>
+        <attr name="value_color" format="color"/>
+        <attr name="value_color_focus" format="color"/>
+        <attr name="background_color_focus" format="color"/>
+        <attr name="background_color" format="color"/>
+        <attr name="tip_color" format="color"/>
+        <attr name="icon_size" format="dimension"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="icon_height" format="dimension"/>
+        <attr name="text_height" format="dimension"/>
+    </declare-styleable>
 </resources>

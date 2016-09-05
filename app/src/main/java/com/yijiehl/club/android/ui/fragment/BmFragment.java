@@ -27,6 +27,7 @@ import java.util.Observer;
  * @author 谌珂 <br/>
  */
 public class BmFragment extends CkFragment implements Observer {
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

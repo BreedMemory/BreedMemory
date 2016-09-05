@@ -370,14 +370,14 @@ public class InjectUtils {
 				ContentView contentView = clazz.getAnnotation(ContentView.class);
 				if(contentView == null) {
 					logger.i("Annotation ContentView is null!");
-					return;
+					continue;
 				}
 				//获取注解的值（布局id）
 				int layoutId = contentView.value();
 				//设置布局
 				LayoutInflater inflater = LayoutInflater.from(activity);
 				View v = inflater.inflate(layoutId, null);
-				if(ViewGroup.class.isAssignableFrom(activity.getmContentView().getClass())) {
+				if(activity.getmContentView() != null && ViewGroup.class.isAssignableFrom(activity.getmContentView().getClass())) {
 					((ViewGroup)activity.getmContentView()).addView(v, 0);
 				} else {
 					activity.setmContentView(v);
@@ -423,7 +423,7 @@ public class InjectUtils {
 				ContentView contentView = clazz.getAnnotation(ContentView.class);
 				if(contentView == null) {
 					logger.i("Annotation ContentView is null!");
-					return;
+					continue;
 				}
 				//获取注解的值（布局id）
 				int layoutId = contentView.value();

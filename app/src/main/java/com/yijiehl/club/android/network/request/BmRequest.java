@@ -1,15 +1,14 @@
 /**
- * 项目名称：手机大管家
+ * 项目名称：孕育迹忆
  * 文件名称: BmRequest.java
  * Created by 谌珂 on 2016/9/3.
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.network.request;
 
 import com.uuzz.android.util.net.request.IRequest;
 
 /**
- * 项目名称：手机大管家<br/>
+ * 项目名称：孕育迹忆<br/>
  * 类  名: BmRequest<br/>
  * 类描述: <br/>
  * @author 谌珂 <br/>
