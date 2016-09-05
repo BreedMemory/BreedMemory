@@ -109,7 +109,7 @@ public abstract class BaseHttp<E, T> {
 	}
 
 	/**
-	 * 描 述：异步请求的毁掉方法<br/>
+	 * 描 述：异步请求的回调方法<br/>
 	 * {@link #doInMainThread(ResponseContent)} http在没被取消的情况下回调到主线程{@link #doInMainThread},如果在请求过程中http层出现问题则会返回null<br/>
 	 * {@link #onCancelled()} AsyncTask被取消后回调到取消方法（主线程）{@link #onCancelled}<br/>
 	 * {@link #updateProgress(int)} 进度条更新会返回一个int型整数，用来代表进度（主线程）{@link #onCancelled}<br/>
@@ -117,8 +117,12 @@ public abstract class BaseHttp<E, T> {
 	 * 历 史: (版本) 谌珂 2016/1/3 注释 <br/>
 	 */
 	public interface HttpRequestListener<T> {
+
 		/**
 		 * 当子线程中所有任务都执行完以后会切换到主线程调用此方法
+		 * 回调到这里证明http层运行没有出现问题，但是并不代表请求一定是成功的
+		 * 如果请求过程中出现了异常，result将会是null
+		 * 即使result不是null，http状态码也有可能不是200
 		 * @param result
 		 */
 		void doInMainThread(ResponseContent<T> result);

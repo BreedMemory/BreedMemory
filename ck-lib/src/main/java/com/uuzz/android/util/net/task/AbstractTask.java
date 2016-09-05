@@ -1,8 +1,7 @@
 /**
- * 项目名称：手机大管家
+ * 项目名称：工具库
  * 文件名称: AbstractTask.java
  * Created by 谌珂 on 2016/1/3.
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.uuzz.android.util.net.task;
 
@@ -15,24 +14,26 @@ import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.HttpFactory;
 import com.uuzz.android.util.net.httpcore.BaseHttp;
 import com.uuzz.android.util.net.httpcore.RequestParams;
-import com.uuzz.android.util.net.request.AbstractRequest;
+import com.uuzz.android.util.net.request.IRequest;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.response.base.ResponseContent;
 
 /**
- * 项目名称：手机大管家<br/>
+ * 项目名称：工具库<br/>
  * 类  名: AbstractTask<br/>
  * 类描述: 请求任务的基类<br/>
  * @author 谌珂 <br/>
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-public abstract class AbstractTask {
+public abstract class AbstractTask implements BaseHttp.HttpRequestListener<String> {
 
     protected Logger logger = new Logger(this.getClass());
     protected Context mContext;
+    /** 是否自动关闭加载对话框 */
+    protected boolean isCloseLoadCom;
     /** 请求实体对象 */
-//    protected AgentRequest mRequest;
+    protected IRequest mRequest;
     /** http请求参数列表 */
     protected RequestParams mRequestParams;
     /** 发起http请求的对象 */
@@ -40,25 +41,20 @@ public abstract class AbstractTask {
     /** 分析http请求后的回调 */
     protected HttpCallBack mListener;
     protected String mPath;
-    /** 从http请求层回调的方法 */
-    protected BaseHttp.HttpRequestListener mHttpRequestListener = new BaseHttp.HttpRequestListener<String>() {
-        @Override
-        public void doInMainThread(ResponseContent<String> result) {
-            /* 回调到这里证明http层运行没有出现问题，但是并不代表请求一定是成功的
-             * 如果请求过程中出现了异常，result将会是null
-             * 即使result不是null，http状态码也有可能不是200
-             */
-//            if(mListener == null){
-//                logger.e("http callback is null!");
-//                closeLoadingCom();
-//                return;
-//            }
-//            if(result == null || result.getmResultCode() != 200){   //说明请求的内容还是有问题
-//                mListener.onFailed(mContext.getString(R.string.net_error));
-//                closeLoadingCom();
-//                return;
-//            }
-//
+
+    @Override
+    public void doInMainThread(ResponseContent<String> result) {
+        if(mListener == null){
+            logger.e("http callback is null!");
+            closeLoadingCom();
+            return;
+        }
+        if(result == null || result.getmResultCode() != 200){   //说明请求的内容还是有问题
+            mListener.onFailed(mContext.getString(R.string.net_error));
+            closeLoadingCom();
+            return;
+        }
+
 //            AgentResponse lAgentResponse = JSON.parseObject(result.getEntity(), AgentResponse.class);
 //            if(!lAgentResponse.isSessionValid(mContext)) {      //如果服务器返回码为10001代表session失效，跳转到登录页面
 //                closeLoadingCom();
@@ -82,24 +78,23 @@ public abstract class AbstractTask {
 //            }
 //            mListener.onSuccess(createHttpResponse(lAgentResponse.getBody()));
 //            closeLoadingCom();
-        }
+    }
 
-        @Override
-        public void onCancelled() {
-            if(mListener != null){
-                mListener.onCancelled();
-            }
-            closeLoadingCom();
+    @Override
+    public void onCancelled() {
+        if(mListener != null){
+            mListener.onCancelled();
         }
+        closeLoadingCom();
+    }
 
-        @Override
-        public void updateProgress(int progress) {
-            if(mListener != null){
-                mListener.updateProgress(progress);
-            }
-            closeLoadingCom();
+    @Override
+    public void updateProgress(int progress) {
+        if(mListener != null){
+            mListener.updateProgress(progress);
         }
-    };
+        closeLoadingCom();
+    }
 
     /**
      * 描 述：关闭加载对话框<br/>
@@ -107,15 +102,16 @@ public abstract class AbstractTask {
      * 历 史: (版本) 谌珂 2016/1/11 注释 <br/>
      */
     private void closeLoadingCom() {
-        if(mContext != null) {
+        if(mContext != null && isCloseLoadCom) {
 //            LoadingCOM.getInstance(mContext).dismissLoading();
         }
     }
 
-    public AbstractTask(AbstractRequest lRequest, Context pContext) {
+    public AbstractTask(IRequest lRequest, Context pContext, boolean isCloseLoadCom) {
         this.mContext = pContext;
-//        this.mRequest = createAgentRequest(lRequest);
-//        this.mRequestParams = DefaultRequestParam.getRequestParams(mRequest, isSingleHttp());
+        this.isCloseLoadCom = isCloseLoadCom;
+        this.mRequest = getRequest(lRequest);
+        this.mRequestParams = createRequestParam(mRequest, isSingleHttp());
         this.mPath = lRequest.getPath();
     }
 
@@ -129,20 +125,26 @@ public abstract class AbstractTask {
     }
 
     /**
-     * 描 述：创建AgentRequest对象<br/>
-     * 例：return NetHelper.createAgentRequest(lRequest);   使用默认密钥创建请求参数<br/>
-     * 或：return NetHelper.createAgentRequest(lRequest, keyId);    使用指定密钥id创建请求参数<br/>
+     * 描 述：获取http连接参数<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/3 <br/>
+     * @param pRequest http请求实体
+     * @param isSingleHttp 是否使用http单例
+     * @return http连接参数
+     */
+    protected abstract RequestParams createRequestParam(IRequest pRequest, boolean isSingleHttp);
+
+    /**
+     * 描 述：获取IRequest实例<br/>
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/4 注释 <br/>
      * @param lRequest 业务请求消息对象
-     * @return AgentRequest对象
+     * @return IRequest实例
      */
-//    protected abstract AgentRequest createAgentRequest(AbstractRequest lRequest);
+    protected abstract IRequest getRequest(IRequest lRequest);
 
     /**
      * 描 述：创建http请求后返回的业务消息对象<br/>
-     * 例：NetHelper.createResponse(mContext, data, getResponseClass());   使用默认密钥创建返回的消息对象
-     * 或：NetHelper.createResponse(mContext, data, getResponseClass(), keyId);    使用指定密钥id创建返回的消息对象
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/5 注释 <br/>
      * @param data 加密的报文体
@@ -162,7 +164,9 @@ public abstract class AbstractTask {
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/4 注释 <br/>
      */
-    public abstract Class getResponseClass();
+    public Class getResponseClass() {
+        return mRequest.getResponseClass();
+    }
 
     /**
      * 同步请求
@@ -182,7 +186,7 @@ public abstract class AbstractTask {
             return null;
         }
         mListener = lCallBack;
-        return mHttp.httpRequest(mRequestParams, mHttpRequestListener);
+        return mHttp.httpRequest(mRequestParams, this);
     }
 
     /**
