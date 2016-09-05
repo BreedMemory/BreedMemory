@@ -24,7 +24,7 @@ import java.util.Observer;
 /**
  * 项目名称：孕育迹忆 <br/>
  * 类  名: BmActivity <br/>
- * 类描述: <br/>
+ * 类描述: https://www.processon.com/view/link/57cccb4de4b0942d7a360ae6<br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
  * 修改时间：2016/9/1 <br/>
@@ -36,6 +36,12 @@ public abstract class BmActivity extends CkActivity implements Observer {
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         CacheDataDAO.getInstance(this).addObserver(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CacheDataDAO.getInstance(this).deleteObserver(this);
     }
 
     @Override
