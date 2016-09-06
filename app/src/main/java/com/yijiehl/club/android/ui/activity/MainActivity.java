@@ -6,6 +6,7 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -102,7 +103,9 @@ public class MainActivity extends BmActivity {
         mHeadRightContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 谌珂 2016/9/5 跳转到个人账户
+                // TODO: 谌珂 2016/9/5 跳转到个人添加
+                //测试代码
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
             }
         });
     }

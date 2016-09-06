@@ -13,8 +13,10 @@ public class UEHandler implements Thread.UncaughtExceptionHandler {
 
 	@Override
 	public void uncaughtException(Thread arg0, Throwable arg1) {
-        FileLog.getInstance().saveLog("crash", "Crash", "Crash", arg1);
         Log.e("UEHandler", "Lottery is crash!", arg1);
+        if(FileLog.getInstance() != null) {
+            FileLog.getInstance().saveLog("crash", "Crash", "Crash", arg1);
+        }
         android.os.Process.killProcess(android.os.Process.myPid());
 	}
 }

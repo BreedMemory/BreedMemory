@@ -1,5 +1,5 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: BaseHostFragment.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/5.  <br/>
@@ -13,7 +13,7 @@ import android.view.View;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: BaseHostFragment <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
