@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BreedMemory</string>
     <string name="host_page">首页</string>
+    <string name="login">登录</string>
+    <string name="phone_number">手机号</string>
+    <string name="identifying_code">验证码</string>
+    <string name="get_identifying_code">获取验证码</string>
 </resources>

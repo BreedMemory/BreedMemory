@@ -5,17 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yijiehl.club.android.ui.view.NumberPickerView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/npv_number_picker_view"
-        android:layout_width="0dip"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        app:numberColorNormal="@color/textColorPrimary"
-        app:numberColorSelected="@color/textColorPrimary"
-        app:maxValue="2015"
-        app:minValue="1993"
-        app:numberTextSize="@dimen/primary_text_size"
-        app:numberPageSize="5" />
+    <com.yijiehl.club.android.ui.view.TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

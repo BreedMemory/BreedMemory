@@ -7,5 +7,7 @@
         <attr name="numberPageSize" format="reference|integer" />
         <attr name="minValue" format="reference|integer" />
         <attr name="maxValue" format="reference|integer" />
+        <attr name="drawLeftLine" format="boolean" />
+        <attr name="drawRightLine" format="boolean" />
     </declare-styleable>
 </resources>

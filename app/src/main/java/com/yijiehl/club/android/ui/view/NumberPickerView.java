@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.annotation.DimenRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -25,44 +24,43 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
 
-/**
- * Created by yjwfn on 15-12-24.
- */
+
 public class NumberPickerView extends View {
 
-    private static final String TAG = "NumberPickerView";
     private Paint   mTextPaint;
 
-    private int     mMinValue;
+    private int mMinValue;
 
-    private int     mMaxValue;
+    private int mMaxValue;
 
-    private int     mPageSize;
+    private int mPageSize;
 
-    @DimenRes
-    private int     mTextSize;
-
-    private int     mLastTouchY;
+    private int mLastTouchY;
 
 
-    private int     mActivePointerId;
+    private int mActivePointerId;
 
-    private Object[]  mSelector;
+    private int[] mSelector;
 
-    private OverScroller    mOverScroller;
+    private OverScroller mOverScroller;
     private VelocityTracker mVelocityTracker;
 
     private boolean mIsDragging;
-    private int     mTouchSlop;
-    private int     mMaximumVelocity;
-    private int     mMinimumVelocity;
+    private int mTouchSlop;
+    private int mMaximumVelocity;
+    private int mMinimumVelocity;
+    /** 是否画左边线 */
+    private boolean isDrawLeftLine;
+    /** 是否画右边线 */
+    private boolean isDrawRightLine;
+    private Rect mItemRect = new Rect();
 
 
     @ColorInt
-    private int     mTextColorNormal;
+    private int mTextColorNormal;
 
     @ColorInt
-    private int     mTextColorSelected;
+    private int mTextColorSelected;
 
 
     private Reference<OnValueChanged> mCallbackRef;
@@ -79,12 +77,14 @@ public class NumberPickerView extends View {
         super(context, attrs, defStyleAttr);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.NumberPickerView);
-        mTextSize = array.getDimensionPixelOffset(R.styleable.NumberPickerView_numberTextSize, 22);
+        int mTextSize = array.getDimensionPixelOffset(R.styleable.NumberPickerView_numberTextSize, 22);
         mMaxValue = array.getInt(R.styleable.NumberPickerView_maxValue, 0);
         mMinValue = array.getInt(R.styleable.NumberPickerView_minValue, 0);
         mPageSize = array.getInt(R.styleable.NumberPickerView_numberPageSize, 5);
         mTextColorNormal = array.getColor(R.styleable.NumberPickerView_numberColorNormal, Color.GREEN);
         mTextColorSelected = array.getColor(R.styleable.NumberPickerView_numberColorSelected, Color.RED);
+        isDrawLeftLine = array.getBoolean(R.styleable.NumberPickerView_drawLeftLine, false);
+        isDrawRightLine = array.getBoolean(R.styleable.NumberPickerView_drawRightLine, false);
         array.recycle();
 
         mTextPaint = new Paint();
@@ -101,9 +101,14 @@ public class NumberPickerView extends View {
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
     }
 
+    /**
+     * 描 述：创建数据集<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     */
     private void createSelector() {
         if(mMinValue < mMaxValue){
-            mSelector = new Object[mMaxValue - mMinValue + 1];
+            mSelector = new int[mMaxValue - mMinValue + 1];
             for(int  selectorIndex = mMinValue; selectorIndex <= mMaxValue; selectorIndex++){
                 mSelector[selectorIndex - mMinValue] = selectorIndex;
             }
@@ -123,14 +128,17 @@ public class NumberPickerView extends View {
         int itemHeight = getItemHeight();
         int textHeight = computeTextHeight();
         int centerY = getScrollY() + height / 2;
-        Rect itemRect = new Rect();
         int selectedPos = computePosition();
+        if(selectedPos > mSelector.length-1) {             //当前选择位置已经超过最大位置
+            smoothScrollToValue(mSelector[mSelector.length-1]);
+            selectedPos = mSelector.length-1;
+        }
         int half = mPageSize / 2 + 1;   //去除已选择的
         int itemIndex = selectedPos > half ? selectedPos - half : 0;
         int itemEnd = (selectedPos + half ) <= mSelector.length ? (selectedPos + half) : mSelector.length;
         for( ; itemIndex < itemEnd; itemIndex++){
 
-            itemRect.set(0, itemIndex * itemHeight, width, itemIndex * itemHeight + itemHeight);
+            mItemRect.set(0, itemIndex * itemHeight, width, itemIndex * itemHeight + itemHeight);
            // canvas.drawRect(itemRect, mTextPaint);
 
             if(itemIndex == selectedPos){
@@ -148,7 +156,7 @@ public class NumberPickerView extends View {
 
                 distance乘0.5可以确保scale不小于0.5
              */
-            float distance = Math.abs(itemRect.centerY() - centerY) * 0.8f;
+            float distance = Math.abs(mItemRect.centerY() - centerY) * 0.8f;
             float scale = 1f - distance / (height / 2f) ;
             int  alpha = (int) (scale * 255);
 
@@ -156,8 +164,8 @@ public class NumberPickerView extends View {
             mTextPaint.setAlpha(alpha);
             canvas.save();
 //            canvas.scale(scale, scale, itemRect.centerX(),  pivotY);
-            int y = (itemRect.top + itemRect.bottom - textHeight) /2;
-            canvas.drawText(mSelector[itemIndex] + "" , itemRect.width() / 2 , y , mTextPaint);
+            int y = (mItemRect.top + mItemRect.bottom - textHeight) /2;
+            canvas.drawText(mSelector[itemIndex] + "" , mItemRect.width() / 2 , y , mTextPaint);
             canvas.restore();
         }
 
@@ -165,6 +173,12 @@ public class NumberPickerView extends View {
         canvas.drawLine(0, centerY - itemHeight/2, width, centerY - itemHeight/2, mTextPaint);
         canvas.drawLine(0, centerY + itemHeight/2, width, centerY + itemHeight/2, mTextPaint);
 
+        if(isDrawLeftLine) {
+            canvas.drawLine(0, centerY - itemHeight/2, 0, centerY + itemHeight/2, mTextPaint);
+        }
+        if(isDrawRightLine) {
+            canvas.drawLine(width, centerY - itemHeight/2, width, centerY + itemHeight/2, mTextPaint);
+        }
     }
 
     @Override
@@ -184,14 +198,7 @@ public class NumberPickerView extends View {
         setMeasuredDimension(width, height);
     }
 
-    /**
-     *
-     * @param suggestedSize 最合适的大小
-     * @param paramSize 配置的大小
-     * @param measureSpec
-     * @return
-     */
-    private int calculateSize(int suggestedSize, int paramSize, int measureSpec){
+    private int calculateSize(int suggestedSize, int paramSize, int measureSpec) {
         int result = 0;
         int size = MeasureSpec.getSize(measureSpec);
         int mode = MeasureSpec.getMode(measureSpec);
@@ -297,13 +304,9 @@ public class NumberPickerView extends View {
                 }
 
                 if(mIsDragging){
-                    if(canScroll(deltaY))
+                    if(canScroll(deltaY)){
                         scrollBy(0, deltaY);
-                    else {
-
-
                     }
-
                     mLastTouchY = (int) event.getY();
                 }
 
@@ -352,21 +355,21 @@ public class NumberPickerView extends View {
         return true;
     }
 
-    private void    recyclerVelocityTracker(){
+    private void recyclerVelocityTracker(){
 
         if(mVelocityTracker != null)
                 mVelocityTracker.recycle();
 
         mVelocityTracker = null;
     }
-    private void    invalidateOnAnimation(){
+    private void invalidateOnAnimation(){
         if(Build.VERSION.SDK_INT >= 16)
             postInvalidateOnAnimation();
         else
             invalidate();
     }
 
-    private void    handlerClick(int y){
+    private void handlerClick(int y){
 
         y = y + getScrollY();
 
@@ -381,8 +384,8 @@ public class NumberPickerView extends View {
 
     /**
      * 获取一个item位置，通过滚动正好将这个item放置在中间
-     * @param position
-     * @return
+     * @param position 当前选中的索引
+     * @return 当前选中区域的矩形
      */
     private Rect getLocationByPosition(int position){
         int scrollY = position * getItemHeight() + getMinimumScrollY();
@@ -403,18 +406,13 @@ public class NumberPickerView extends View {
         }
     }
 
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-
-        if(mCallbackRef != null && mCallbackRef.get() != null) {
-            int position = computePosition();
-            mCallbackRef.get().onValueChanged(position, mSelector[position]);
-        }
-
-    }
-
-    public void    smoothScrollTo(int position){
+    /**
+     * 描 述：缓慢滑动到position指定位置<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param position y坐标
+     */
+    public void smoothScrollTo(int position){
         if(position < 0 || mSelector == null || position > mSelector.length)
             return;
 
@@ -424,25 +422,46 @@ public class NumberPickerView extends View {
         invalidateOnAnimation();
     }
 
-
-    public void smoothScrollToValue(Object object){
+    /**
+     * 描 述：缓慢滑动到value对应位置<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param value 值
+     */
+    public void smoothScrollToValue(int value){
         if(mSelector == null)
             return;
 
-        int pos = Arrays.binarySearch(mSelector, object);
+        int pos = Arrays.binarySearch(mSelector, value);
         smoothScrollTo(pos);
+    }
+
+    /**
+     * 描 述：迅速滑动到value对应位置<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param value 值
+     */
+    public void scrollToValue(int value){
+        if(mSelector == null)
+            return;
+
+        int pos = Arrays.binarySearch(mSelector, value);
+        scrollTo(0, pos);
     }
 
     /**
      * 调整item使对齐居中
      */
-    private void    adjustItem( ){
+    private void adjustItem( ){
         int position  = computePosition();
         Rect rect = getLocationByPosition(position);
         int scrollY =    rect.top - getScrollY();
+        if(mCallbackRef != null && mCallbackRef.get() != null) {
+            mCallbackRef.get().onValueChanged(position, mSelector[position]);
+        }
 
         if(scrollY != 0) {
-            mOverScroller.startScroll(getScrollX(), getScrollY(), 0, scrollY);
             mOverScroller.startScroll(getScrollX(), getScrollY(), 0, scrollY);
             invalidateOnAnimation();
         }
@@ -458,22 +477,10 @@ public class NumberPickerView extends View {
 
     /**
      * 计算当前显示的位置
-     * @return
+     * @return 当前位置
      */
     public int computePosition(){
         return computePosition(0);
-    }
-
-    private void    printLog(String msg){
-       // Log.d(TAG,msg);
-
-    }
-
-    public void     setSelector(Object...args){
-        mSelector = args;
-
-
-        postInvalidate();
     }
 
     private boolean canScroll(int deltaY){
@@ -485,29 +492,29 @@ public class NumberPickerView extends View {
     }
 
 
-    private int     getMaximumScrollY(){
+    private int getMaximumScrollY(){
         return (mSelector.length - 1) * getItemHeight()  + getMinimumScrollY();
     }
 
-    private int     getMinimumScrollY(){
+    private int getMinimumScrollY(){
         return   -((getHeight() - getItemHeight()) / 2);
     }
 
 
-    public int     getItemHeight(){
+    public int getItemHeight(){
         return getHeight() / mPageSize;
     }
 
-    private int     computeTextHeight(){
+    private int computeTextHeight(){
         Paint.FontMetricsInt metricsInt = mTextPaint.getFontMetricsInt();
         return metricsInt.bottom + metricsInt.top;
     }
 
     private int computeMaximumWidth(){
         int result = (int) mTextPaint.measureText("0000");
-        int width = 0;
+        int width;
         for(int objIndex =  0; mSelector != null &&  objIndex < mSelector.length; objIndex++){
-            width = (int) mTextPaint.measureText(mSelector[objIndex].toString());
+            width = (int) mTextPaint.measureText(String.valueOf(mSelector[objIndex]));
             if(width > result)
                 result = width;
         }
@@ -516,17 +523,48 @@ public class NumberPickerView extends View {
     }
 
 
-    public void     setListener(OnValueChanged valueChanged){
+    public void  setListener(OnValueChanged valueChanged){
         mCallbackRef = new SoftReference<>(valueChanged);
     }
 
     public interface OnValueChanged{
-        void onValueChanged(int position, Object value);
+        void onValueChanged(int position, int value);
     }
 
-    public void setMaxValue(int maxValue) {
+    /**
+     * 描 述：修改最大最小值<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param minValue 最小值
+     * @param maxValue 最大值
+     */
+    public void setBoundValue(int minValue, int maxValue) {
         this.mMaxValue = maxValue;
+        this.mMinValue = minValue;
         createSelector();
         invalidate();
+    }
+
+    /**
+     * 描 述：修改最大值<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param maxValue 最大值
+     */
+    public void setMaxValue(int maxValue) {
+        setBoundValue(mMinValue, maxValue);
+    }
+
+    /**
+     * 描 述：获取选值<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     */
+    public int getValue() {
+        return mSelector[computePosition()];
+    }
+
+    public void setVaule(int value) {
+        scrollToValue(value);
     }
 }

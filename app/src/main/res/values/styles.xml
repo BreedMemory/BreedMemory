@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="login_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dip</item>
+        <item name="android:layout_marginLeft">24dip</item>
+        <item name="android:layout_marginRight">24dip</item>
+        <item name="android:paddingLeft">25dip</item>
+        <item name="android:background">@drawable/background_edit_text</item>
+        <item name="android:inputType">number</item>
+    </style>
+
 </resources>

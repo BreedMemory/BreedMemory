@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yijiehl.club.android.ui.view.NumberPickerView
+        android:id="@+id/npv_year"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:numberColorNormal="@color/textColorPrimary"
+        app:numberColorSelected="@color/textColorPrimary"
+        app:maxValue="2016"
+        app:minValue="1950"
+        app:numberTextSize="@dimen/primary_text_size"
+        app:drawLeftLine="true"
+        app:numberPageSize="5" />
+
+    <com.yijiehl.club.android.ui.view.NumberPickerView
+        android:id="@+id/npv_month"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:numberColorNormal="@color/textColorPrimary"
+        app:numberColorSelected="@color/textColorPrimary"
+        app:maxValue="12"
+        app:minValue="1"
+        app:numberTextSize="@dimen/primary_text_size"
+        app:numberPageSize="5" />
+
+    <com.yijiehl.club.android.ui.view.NumberPickerView
+        android:id="@+id/npv_day"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:numberColorNormal="@color/textColorPrimary"
+        app:numberColorSelected="@color/textColorPrimary"
+        app:maxValue="31"
+        app:minValue="1"
+        app:numberTextSize="@dimen/primary_text_size"
+        app:drawRightLine="true"
+        app:numberPageSize="5" />
+
+</LinearLayout>
