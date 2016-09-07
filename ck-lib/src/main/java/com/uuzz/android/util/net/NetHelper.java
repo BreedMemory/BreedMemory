@@ -5,10 +5,14 @@ import android.os.AsyncTask;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.R;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.LoadingCOM;
+import com.uuzz.android.util.MD5;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.exception.TaskFailException;
+import com.uuzz.android.util.net.httpcore.RequestParams;
 import com.uuzz.android.util.net.request.IRequest;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.response.base.ResponseContent;
@@ -34,6 +38,7 @@ public class NetHelper {
         if(isShowLoading) {
             LoadingCOM.getInstance(context).showLoading(true);
         }
+        CacheDataDAO.getInstance(context).getCacheDataAsync(ContextUtils.getSharedString(context, R.string.shared_preference_user_id), MD5.mD5Encode(pRequest.toString(), RequestParams.UTF_8));
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
             Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class, boolean.class);

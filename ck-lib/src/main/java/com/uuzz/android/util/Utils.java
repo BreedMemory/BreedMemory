@@ -137,13 +137,18 @@ public class Utils {
      * 历 史: (版本) 谌珂 2016/3/1 注释 <br/>
      */
     public static String getIMEI(Context context) {
-        final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        final String tmDevice, tmSerial, androidId;
-        tmDevice = String.valueOf(tm.getDeviceId());
-        tmSerial = String.valueOf(tm.getSimSerialNumber());
-        androidId = String.valueOf(android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID));
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-        return deviceUuid.toString();
+        try {
+            final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            final String tmDevice, tmSerial, androidId;
+            tmDevice = String.valueOf(tm.getDeviceId());
+            tmSerial = String.valueOf(tm.getSimSerialNumber());
+            androidId = String.valueOf(android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID));
+            UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+            return deviceUuid.toString();
+        } catch (Exception e) {
+            return "";
+        }
+
     }
 
     /**

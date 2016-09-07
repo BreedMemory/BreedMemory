@@ -704,6 +704,9 @@ public class InjectUtils {
 			String fieldName = field.getName();
 			try {
 				field.setAccessible(true);
+				if(bundle.get(fieldName) == null) {       //如果数据为空则跳过
+					continue;
+				}
 				field.set(obj, bundle.get(fieldName));
 			} catch (Exception e) {
 				logger.i("restore instance failed!" + "field name is:"+fieldName, e);

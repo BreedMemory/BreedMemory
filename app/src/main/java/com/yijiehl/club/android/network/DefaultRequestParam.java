@@ -6,9 +6,8 @@
  */
 package com.yijiehl.club.android.network;
 
-import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.net.httpcore.RequestParams;
-import com.yijiehl.club.android.Common;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.BmRequest;
 
 /**
@@ -30,7 +29,6 @@ public class DefaultRequestParam {
      * @return 请求参数列表
      */
     public static RequestParams getRequestParams(BmRequest pRequest, boolean isSignle, String path){
-        String params = "msg=" + JSON.toJSONString(pRequest);
         StringBuilder url = new StringBuilder();
         if(pRequest.isHttps()) {
             url.append("https://");
@@ -42,7 +40,7 @@ public class DefaultRequestParam {
             url.append("/");
         }
         url.append(pRequest.getPath().toLowerCase());
-        return new RequestParams<>(url.toString(), params, null, null, -1, false, path, isSignle);
+        return new RequestParams<>(url.toString(), pRequest, null, null, -1, false, path, isSignle);
     }
 
     /**

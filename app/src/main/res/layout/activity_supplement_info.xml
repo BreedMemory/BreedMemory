@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"/>
+
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:button="@null"
+                android:background="@drawable/bg_item_white_touchable"/>
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:button="@null"
+                android:background="@drawable/bg_item_white_touchable"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_choose_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose"/>
+
+        <com.yijiehl.club.android.ui.view.TimePicker
+            android:id="@+id/tp_choose_date"
+            android:layout_width="match_parent"
+            android:layout_height="334dip" />
+
+        <com.uuzz.android.ui.view.MyButton
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next"/>
+
+    </LinearLayout>
+</ScrollView>

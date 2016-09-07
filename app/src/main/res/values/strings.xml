@@ -5,4 +5,18 @@
     <string name="phone_number">手机号</string>
     <string name="identifying_code">验证码</string>
     <string name="get_identifying_code">获取验证码</string>
+    <string name="resend_identifying_code">%d后重新发送</string>
+    <string name="input_correct_phone_number">请输入正确电话号码！</string>
+
+    <string name="shared_preference_uccode">shared_preference_uccode</string>
+    <string name="shared_preference_ucid">shared_preference_ucid</string>
+    <string name="shared_preference_secode">shared_preference_secode</string>
+    <string name="shared_preference_acctStatus">shared_preference_acctStatus</string>
+    <string name="shared_preference_msgUrl">shared_preference_msgUrl</string>
+    <string name="shared_preference_resourceUrl">shared_preference_resourceUrl</string>
+    <string name="shared_preference_client_info">shared_preference_client_info</string>
+    <string name="supplement_info">完善个人信息</string>
+    <string name="name">姓名</string>
+    <string name="choose">选择</string>
+    <string name="next">下一步</string>
 </resources>
