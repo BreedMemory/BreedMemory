@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android.network.response;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 /**
@@ -21,6 +23,10 @@ public class UserInfo implements Serializable {
 
     /** 自己的名称 */
     private String acctName;
+    /** 昵称 */
+    private String shortName;
+    /** 性别，可为空，m表示男，f表示女 */
+    private String genderCode;
     /** abc@sina.com */
     private String emailAddr;
     /** 手机号码 */
@@ -37,6 +43,8 @@ public class UserInfo implements Serializable {
     private String imageInfo;
     /** 欢迎信息，用于首页展现等，可为空 */
     private String welcomeInfo;
+    /** 签到信息, 如果有值就表示需要显示签到的界面，值为空就表示不需要签到 */
+    private String signinInfo;
     /** 基本描述信息/简介信息，可为空 */
     private String baseInfo;
     /** 业务/商务模式, 如正常/普通normal，公众public(简化版)等 */
@@ -59,6 +67,34 @@ public class UserInfo implements Serializable {
     private String iconInfo1;
     /** 小图标URL地址，如果有值尺寸可能更小，只有图标没有文字等 */
     private String iconInfo2;
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getGenderCode() {
+        return genderCode;
+    }
+
+    public boolean isMale() {
+        return TextUtils.equals(genderCode, "m");
+    }
+
+    public void setGenderCode(String genderCode) {
+        this.genderCode = genderCode;
+    }
+
+    public String getSigninInfo() {
+        return signinInfo;
+    }
+
+    public void setSigninInfo(String signinInfo) {
+        this.signinInfo = signinInfo;
+    }
 
     public String getAcctName() {
         return acctName;

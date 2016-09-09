@@ -23,8 +23,8 @@ import com.yijiehl.club.android.network.task.DefaultTask;
  * @author 谌珂 <br/>
  */
 public class ReqLogin extends ReqBaseLogin {
-    public ReqLogin(Context context, String loginAcct, String verifyCode) {
-        super(context);
+    public ReqLogin(Context context, String clientSecode, String loginAcct, String verifyCode) {
+        super(context, clientSecode);
         this.loginAcct = loginAcct;
         this.verifyCode = verifyCode;
     }
