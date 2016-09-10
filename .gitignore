@@ -8,4 +8,11 @@
 /captures
 .externalNativeBuild
 /app/build
+/app/bulid.gradle
 /ck-lib/build
+/ck-lib/bulid.gradle
+/setting.gradle
+/local.properties
+/build.gradle
+/gradle.properties
+/gradle/wrapper/gradle-wrapper.properties
