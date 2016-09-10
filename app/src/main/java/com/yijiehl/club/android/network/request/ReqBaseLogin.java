@@ -20,16 +20,15 @@ import com.yijiehl.club.android.common.Common;
  * @author 谌珂 <br/>
  */
 public abstract class ReqBaseLogin extends BmRequest {
-    public ReqBaseLogin(Context context) {
+    public ReqBaseLogin(Context context, String clientSecode) {
         clientInfo = new ClientInfo(context);
+        this.clientSecode = clientSecode;
     }
 
-    /** 客户端会话编码 */
-    protected String clientSecode = String.valueOf(System.currentTimeMillis());
+    /** 客户端会话编码，必须保证与登录接口值一样 */
+    protected String clientSecode;
     /** 客户端类型 */
     protected String clientType = "android";
-    /** 客户端编号 */
-    protected String clientNum = Common.CLIENT_NUMBER;
     /** 客户端详细信息，有很多项 */
     protected ClientInfo clientInfo;
     /** 一个json串, 用于存放以后扩展的其它请求参数 */

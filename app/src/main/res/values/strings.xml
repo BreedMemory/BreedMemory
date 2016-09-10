@@ -19,4 +19,5 @@
     <string name="name">姓名</string>
     <string name="choose">选择</string>
     <string name="next">下一步</string>
+    <string name="choose_bron_time">选择预产期</string>
 </resources>

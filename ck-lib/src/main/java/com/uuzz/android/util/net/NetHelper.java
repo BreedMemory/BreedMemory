@@ -57,7 +57,7 @@ public class NetHelper {
     }
 
     /**
-     * 描 述：异步任务请求网络并返回子线程任务对象，必弹Loading<br/>
+     * 描 述：异步任务请求网络并返回子线程任务对象，不弹Loading<br/>
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/4 注释 <br/>
      * @param context context
@@ -66,7 +66,7 @@ public class NetHelper {
      * @return 线程任务，可用来取消任务进度。如果创建网络任务失败直接返回null
      */
     public static AsyncTask getDataFromNet(Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack) {
-        return getDataFromNet(context, pRequest, pCallBack, true);
+        return getDataFromNet(context, pRequest, pCallBack, false);
     }
 
     /**

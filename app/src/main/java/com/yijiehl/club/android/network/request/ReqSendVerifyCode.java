@@ -23,8 +23,8 @@ import com.yijiehl.club.android.network.task.DefaultTask;
  * @author 谌珂 <br/>
  */
 public class ReqSendVerifyCode extends ReqBaseLogin {
-    public ReqSendVerifyCode(Context context, String loginAcct) {
-        super(context);
+    public ReqSendVerifyCode(Context context, String clientSecode, String loginAcct) {
+        super(context, clientSecode);
         this.loginAcct = loginAcct;
     }
 

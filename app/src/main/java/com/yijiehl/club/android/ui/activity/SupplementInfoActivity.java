@@ -9,6 +9,7 @@ package com.yijiehl.club.android.ui.activity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -39,6 +40,8 @@ public class SupplementInfoActivity extends BmActivity {
     /** 性别选择 */
     @ViewInject(R.id.rg_sex)
     private RadioGroup mSex;
+    @ViewInject(R.id.tv_choose_bron_time)
+    private TextView mChooseBronTime;
     /** 性别选择 */
     @ViewInject(R.id.tp_choose_date)
     private TimePicker mTimePicker;
@@ -53,9 +56,12 @@ public class SupplementInfoActivity extends BmActivity {
         if(serializableExtra != null) {            //从Intent获取用户数据
             mUserInfo = (UserInfo) serializableExtra;
         }
-
+        //设置名称
         mName.setText(mUserInfo.getAcctName());
-//        mSex.check();
+        //设置性别
+        mSex.check(mUserInfo.isMale()?R.id.rb_male : R.id.rb_female);
+        // TODO: 谌珂 2016/9/8 设置预产期
+//        mChooseBronTime.setText();
     }
 
     @Override

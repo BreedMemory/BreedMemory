@@ -6,6 +6,7 @@
 package com.yijiehl.club.android.network.request;
 
 import com.uuzz.android.util.net.request.IRequest;
+import com.yijiehl.club.android.common.Common;
 
 /**
  * 项目名称：孕育迹忆<br/>
@@ -16,6 +17,18 @@ import com.uuzz.android.util.net.request.IRequest;
  * 版    本：1.0.0<br/>
  */
 public abstract class BmRequest implements IRequest {
+
+    /** 客户端编号 */
+    protected String clientNum = Common.CLIENT_NUMBER;
+
+    public String getClientNum() {
+        return clientNum;
+    }
+
+    public void setClientNum(String clientNum) {
+        this.clientNum = clientNum;
+    }
+
     @Override
     public boolean selfCheck() {
         return true;

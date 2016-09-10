@@ -7,16 +7,12 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSON;
 import com.uuzz.android.ui.view.MyButton;
-import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -28,7 +24,6 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.ReqLogin;
 import com.yijiehl.club.android.network.request.ReqSendVerifyCode;
-import com.yijiehl.club.android.network.response.UserInfo;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.svc.ActivitySvc;
 
@@ -75,6 +70,8 @@ public class LoginActivity extends BmActivity {
     private EditText mVerifyCode;
     /** 发送验证码的按钮 */
     private MyButton mSendVerifyCode;
+    /** 客户端会话标识 */
+    private final String CLIET_SECODE = String.valueOf(System.currentTimeMillis());
 
     @Override
     protected String getHeadTitle() {
@@ -96,7 +93,7 @@ public class LoginActivity extends BmActivity {
         msg.obj = 60;
         mHandler.sendMessage(msg);
 
-        NetHelper.getDataFromNet(this, new ReqSendVerifyCode(this, phoneNumber), null, false);
+        NetHelper.getDataFromNet(this, new ReqSendVerifyCode(this, CLIET_SECODE, phoneNumber), null, false);
     }
 
     @OnClick(R.id.mb_login)
@@ -106,35 +103,12 @@ public class LoginActivity extends BmActivity {
         if(!checkPhoneNumber(phoneNumber) || !checkVerifyCode(code)) {
             return;
         }
-        NetHelper.getDataFromNet(this, new ReqLogin(this, phoneNumber, code), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqLogin(this, CLIET_SECODE, phoneNumber, code), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespLogin data = (RespLogin) pResponse;
-                switch (data.getAccountStatus()) {
-                    case INIT:
-                    case GENERAL:
-                        // DONE: 谌珂 2016/9/7 跳转到完善信息页面
-                        Intent intent = new Intent(LoginActivity.this, SupplementInfoActivity.class);
-                        intent.putExtra(UserInfo.class.getName(), data.getCfgParams());
-                        startActivity(intent);
-                        break;
-                    default:
-                        ActivitySvc.startMainActivity(LoginActivity.this);
-                        break;
-                }
-                // DONE: 谌珂 2016/9/7 保存基本参数
-                SharedPreferences.Editor editor = ContextUtils.getEditor(LoginActivity.this);
-                editor.clear();
-                editor.commit();
-                editor.putString(getString(R.string.shared_preference_uccode), data.getUccode());
-                editor.putString(getString(R.string.shared_preference_ucid), data.getUcid());
-                editor.putString(getString(R.string.shared_preference_secode), data.getSecode());
-                editor.putString(getString(R.string.shared_preference_acctStatus), data.getAcctStatus());
-                editor.putString(getString(R.string.shared_preference_msgUrl), data.getMsgUrl());
-                editor.putString(getString(R.string.shared_preference_resourceUrl), data.getResourceUrl());
-                editor.putString(getString(R.string.shared_preference_client_info), JSON.toJSONString(data.getCfgParams()));
-                editor.putString(getString(R.string.shared_preference_user_id), mPhoneNumber.getText().toString());
-                editor.commit();
+                ActivitySvc.loginSuccess(LoginActivity.this, data);
+                ActivitySvc.saveClientInfoNative(LoginActivity.this, data, mPhoneNumber.getText().toString());
             }
         }, false);
     }
