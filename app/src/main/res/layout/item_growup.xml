@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/iv_item_pic"
         android:layout_width="101dip"
-        android:layout_height="181dip"
+        android:layout_height="101dip"
         android:background="@drawable/item_image_corners"
         android:src="@mipmap/ic_launcher" />
 
@@ -16,6 +16,7 @@
         android:layout_height="18dip"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
+        android:textSize="18dip"
         android:text="标题" />
 
     <TextView
@@ -25,7 +26,7 @@
         android:layout_below="@+id/tv_item_title"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
-        android:layout_marginTop="16dip"
+        android:layout_marginTop="10dip"
         android:text="11111" />
 
     <ImageView
@@ -35,7 +36,8 @@
         android:layout_alignBottom="@+id/iv_item_pic"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_item_content"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginRight="17dip"
+        android:src="@drawable/item_share" />
 
     <ImageView
         android:id="@+id/iv_item_heart"
@@ -44,7 +46,8 @@
         android:layout_alignBottom="@+id/iv_item_pic"
         android:layout_below="@+id/tv_item_content"
         android:layout_toLeftOf="@+id/iv_item_share"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginRight="35dip"
+        android:src="@drawable/item_heart" />
 
 
 </RelativeLayout>
