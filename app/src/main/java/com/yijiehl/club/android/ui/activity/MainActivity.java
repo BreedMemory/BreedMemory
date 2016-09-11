@@ -7,9 +7,11 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.FootGroupBtn;
@@ -42,6 +44,9 @@ public class MainActivity extends BmActivity {
     /** 底部tab容器 */
     @ViewInject(R.id.footer)
     private LinearLayout mFootContainer;
+    /** 底部tab中间的圆形背景图 */
+    @ViewInject(R.id.im_middle_background)
+    private ImageView mFootMiddleBackground;
     /** 当前页面的索引 */
     @SaveInstance
     private int mCurrentPage;
@@ -133,6 +138,11 @@ public class MainActivity extends BmActivity {
                 ((FootGroupBtn) mFootContainer.getChildAt(index)).setFocus();
             } else {
                 ((FootGroupBtn) mFootContainer.getChildAt(index)).setUnFocus();
+            }
+            if(i == 2) {
+                mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
+            } else {
+                mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle));
             }
         }
     }
