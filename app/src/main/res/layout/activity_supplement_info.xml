@@ -2,65 +2,124 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <RelativeLayout
-        android:orientation="vertical"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_name"
             style="@style/login_edit_text"
-            android:hint="@string/name"/>
+            android:hint="@string/name" />
 
         <LinearLayout
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-        <RadioGroup
-            android:id="@+id/rg_sex"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/rb_female"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:button="@null"
-                android:background="@drawable/bg_item_white_touchable"/>
-            <RadioButton
-                android:id="@+id/rb_male"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:button="@null"
-                android:background="@drawable/bg_item_white_touchable"/>
-        </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/rg_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52dip"
+                    android:layout_marginRight="29dip"
+                    android:background="@drawable/bg_item_white_touchable"
+                    android:button="@null"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@mipmap/ic_launcher"
+                    android:gravity="center"
+                    android:paddingBottom="9dip"
+                    android:paddingLeft="25dip"
+                    android:paddingRight="25dip"
+                    android:paddingTop="15dip"
+                    android:text="@string/male"
+                    android:textColor="@drawable/choose_sex_text_color"
+                    android:textSize="17dip" />
+
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="52dip"
+                    android:background="@drawable/bg_item_white_touchable"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@mipmap/ic_launcher"
+                    android:gravity="center"
+                    android:paddingBottom="9dip"
+                    android:paddingLeft="25dip"
+                    android:paddingRight="25dip"
+                    android:paddingTop="15dip"
+                    android:text="@string/female"
+                    android:textColor="@drawable/choose_sex_text_color"
+                    android:textSize="17dip" />
+            </RadioGroup>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tv_choose_bron_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/choose_bron_time"/>
+            android:text="@string/choose_bron_time"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/et_club"
+            style="@style/login_edit_text"
+            android:hint="@string/club" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dip">
+
+            <EditText
+                android:id="@+id/et_choose_bron_time"
+                style="@style/login_edit_text"
+                android:hint="@string/choose_bron_time" />
+
+            <ImageButton
+                android:id="@+id/ib_choose_bron_time"
+                android:layout_width="23dip"
+                android:layout_height="23dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="15dip"
+                android:layout_marginRight="27dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/choose_bron_time" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btn_choose_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose"/>
+            android:text="@string/choose"
+            android:visibility="gone" />
 
         <com.yijiehl.club.android.ui.view.TimePicker
             android:id="@+id/tp_choose_date"
             android:layout_width="match_parent"
-            android:layout_height="334dip" />
+            android:layout_height="334dip"
+            android:visibility="gone" />
 
         <com.uuzz.android.ui.view.MyButton
             android:id="@+id/btn_commit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/next"/>
+            android:layout_marginTop="18dip"
+            android:text="@string/next" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
