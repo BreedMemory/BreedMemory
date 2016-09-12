@@ -1,6 +1,7 @@
 package com.uuzz.android.util.net.httpcore;
 
 import com.uuzz.android.util.ReflectUtils;
+import com.uuzz.android.util.Utils;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.request.base.BaseRequestBean;
 import com.uuzz.android.util.net.response.base.ResponseContent;
@@ -8,7 +9,9 @@ import com.uuzz.android.util.net.response.base.ResponseContent;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -25,7 +28,9 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -53,33 +58,37 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 	@Override
 	protected ResponseContent<String> doPost(String url, Object params, Header[] headers, String charset, int timeout, boolean isSingle) {
 		if(mHttpClient == null){
-			mHttpClient = SingleHttpClient.getInstance(isSingle);
+			if(url.startsWith("https")) {
+				mHttpClient = SingleHttpClient.getHttpsInstance();
+			} else {
+				mHttpClient = SingleHttpClient.getInstance(isSingle);
+			}
 		}
-		HttpEntity stringEntity = null;
-		MultipartEntity multipartEntity = null;
+		HttpEntity mEntity = null;
 		Class<?> clazz = null;
 		if(params != null){
 			clazz = params.getClass();
 			try {
 				if(BaseRequestBean.class.isAssignableFrom(clazz)){
-					multipartEntity = new MultipartEntity();
-					// params是一个Bean对象
-//					List<NameValuePair> parameters = ReflectUtils.transformBeanToNameValuePairs(params.getClass(), params);
-//					mEntity = new UrlEncodedFormEntity(parameters, charset);
-					Field[] fields = clazz.getDeclaredFields();
-					File file = null;
-					for (Field field : fields) {
-						field.setAccessible(true);
-						if(field.getType().getSimpleName().equals("File")){
-							file = (File) field.get(params);
-							multipartEntity.addPart(field.getName(),
-									new FileBody(file, fileHeadInfo.get(file.getName().substring(file.getName().lastIndexOf(".")+1))));
-						}else{
-							multipartEntity.addPart(field.getName(), new StringBody(String.valueOf(field.get(params))));
+					MultipartEntity multipartEntity = new MultipartEntity();
+					List<Class> classes = Utils.getSuperClasses(clazz, BaseRequestBean.class);
+					for (Class cls : classes) {
+						Field[] fields = cls.getDeclaredFields();
+						File file;
+						for (Field field : fields) {
+							field.setAccessible(true);
+							if(field.getType().getSimpleName().equals("File")){
+								file = (File) field.get(params);
+								multipartEntity.addPart(field.getName(),
+										new FileBody(file, fileHeadInfo.get(file.getName().substring(file.getName().lastIndexOf(".")+1))));
+							}else{
+								multipartEntity.addPart(field.getName(), new StringBody(String.valueOf(field.get(params)), Charset.forName(charset)));
+							}
 						}
 					}
+					mEntity = multipartEntity;
 				} else if(Map.class.isAssignableFrom(clazz)) {
-					multipartEntity = new MultipartEntity();
+					MultipartEntity multipartEntity = new MultipartEntity();
 					// params是一个Map对象
 					File file = null;
 					for (Entry<String, Object> param : ((HashMap<String, Object>) params).entrySet()) {
@@ -88,16 +97,21 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 						Class<?> valueClass = param.getValue().getClass();
 						if(valueClass.getSimpleName().equals("File")){
 							file = (File) param.getValue();
-							multipartEntity.addPart(param.getKey(), 
+							multipartEntity.addPart(param.getKey(),
 									new FileBody(file, fileHeadInfo.get(file.getName().substring(file.getName().lastIndexOf(".")+1))));
 						}else{
 							multipartEntity.addPart(param.getKey(), new StringBody(String.valueOf(param.getValue())));
 						}
 					}
+					mEntity = multipartEntity;
 //					mEntity = new UrlEncodedFormEntity(parameters, charset);
 				} else if(String.class.isAssignableFrom(clazz)) {
 					// params是一个String对象
-					stringEntity = new StringEntity((String) params, charset);
+					mEntity = new StringEntity((String) params, charset);
+				} else {
+					// params是一个Bean对象
+					List<NameValuePair> parameters = ReflectUtils.transformBeanToNameValuePairs(params.getClass(), params);
+					mEntity = new UrlEncodedFormEntity(parameters, charset);
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -112,11 +126,7 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 			HttpPost mHttpPost = new HttpPost(url);
 			//添加实体到post请求中
 			if(clazz != null){
-				if(String.class.isAssignableFrom(clazz)){
-					mHttpPost.setEntity(stringEntity);
-				}else{
-					mHttpPost.setEntity(multipartEntity);
-				}
+				mHttpPost.setEntity(mEntity);
 			}
 			if(headers != null && headers.length > 0){
 				mHttpPost.setHeaders(headers);
@@ -158,7 +168,11 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 	@Override
 	protected ResponseContent<String> doGet(String url, Object params, Header[] headers, String charset, int timeout, boolean isSingle) {
 		if(mHttpClient == null){
-			mHttpClient = SingleHttpClient.getInstance(isSingle);
+			if(url.startsWith("https")) {
+				mHttpClient = SingleHttpClient.getHttpsInstance();
+			} else {
+				mHttpClient = SingleHttpClient.getInstance(isSingle);
+			}
 		}
 		// 序列化参数
 		if(params != null){

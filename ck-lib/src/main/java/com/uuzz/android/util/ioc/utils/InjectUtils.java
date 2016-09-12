@@ -29,7 +29,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,39 +65,12 @@ public class InjectUtils {
 	}
 
 	/**
-	 * 描 述：获取所有父类的class<br/>
-	 * 作 者：谌珂<br/>
-	 * 历 史: (版本) 谌珂 2016/7/5 注释 <br/>
-	 */
-	private static List<Class> getSuperClasses(Class cls, Class finalClass) {
-		if(finalClass == null) {
-			finalClass = Object.class;
-		}
-		String finalClassName = finalClass.getName();
-		List<Class> classes = new ArrayList<>();
-		classes.add(cls);
-		Class superClass = cls;
-		while (true) {
-			superClass = superClass.getSuperclass();
-			if(superClass == null) {
-				break;
-			}
-			classes.add(superClass);
-			if(TextUtils.equals(finalClassName, superClass.getName())) {
-				break;
-			}
-		}
-		Collections.reverse(classes);
-		return classes;
-	}
-
-	/**
 	 * 给控件注入事件
 	 * @param activity
 	 */
 	public static void injectEvents(Activity activity) {
 		try {
-			List<Class> classes = getSuperClasses(activity.getClass(), CkActivity.class);
+			List<Class> classes = Utils.getSuperClasses(activity.getClass(), CkActivity.class);
 			for (Class clazz : classes ) {
 				//获取带有OnClick注解的方法
 				Method[] methods = clazz.getDeclaredMethods();
@@ -180,7 +152,7 @@ public class InjectUtils {
 	 */
 	private static void injectEvents(CkFragment fragment) {
 		try {
-			List<Class> classes = getSuperClasses(fragment.getClass(), CkFragment.class);
+			List<Class> classes = Utils.getSuperClasses(fragment.getClass(), CkFragment.class);
 			for (Class clazz : classes ) {
 				//获取带有OnClick注解的方法
 				Method[] methods = clazz.getDeclaredMethods();
@@ -258,7 +230,7 @@ public class InjectUtils {
 	 */
 	private static void injectViews(CkActivity activity) {
 		try {
-			List<Class> classes = getSuperClasses(activity.getClass(), CkActivity.class);
+			List<Class> classes = Utils.getSuperClasses(activity.getClass(), CkActivity.class);
 			for (Class clazz : classes ) {
 				//通过Class获取类的属性列表
 				Field[] fields = clazz.getDeclaredFields();
@@ -293,7 +265,7 @@ public class InjectUtils {
 	 */
 	public static void injectViews(View view, Object o) {
 		try {
-			List<Class> classes = getSuperClasses(o.getClass(), null);
+			List<Class> classes = Utils.getSuperClasses(o.getClass(), null);
 			for (Class clazz : classes ) {
 				//通过Class获取类的属性列表
 				Field[] fields = clazz.getDeclaredFields();
@@ -327,7 +299,7 @@ public class InjectUtils {
 	 */
 	private static void injectViews(CkFragment fragment) {
 		try {
-			List<Class> classes = getSuperClasses(fragment.getClass(), CkFragment.class);
+			List<Class> classes = Utils.getSuperClasses(fragment.getClass(), CkFragment.class);
 			for (Class clazz : classes ) {
 				//通过Class获取类的属性列表
 				Field[] fields = clazz.getDeclaredFields();
@@ -363,7 +335,7 @@ public class InjectUtils {
 	 */
 	private static void injectContentView(CkActivity activity) {
 		//获取所有父对象的 Class，直到CkActivity
-		List<Class> classes = getSuperClasses(activity.getClass(), CkActivity.class);
+		List<Class> classes = Utils.getSuperClasses(activity.getClass(), CkActivity.class);
 		for (Class<?> clazz : classes ) {
 			try {
 				//获取Mainctivity Class上的ContentView注解
@@ -416,7 +388,7 @@ public class InjectUtils {
 	 */
 	public static void injectContentView(CkFragment fragment) {
 		//获取所有父对象的 Class，直到CkFragment
-		List<Class> classes = getSuperClasses(fragment.getClass(), CkFragment.class);
+		List<Class> classes = Utils.getSuperClasses(fragment.getClass(), CkFragment.class);
 		for (Class<?> clazz : classes ) {
 			try {
 				//获取Mainctivity Class上的ContentView注解

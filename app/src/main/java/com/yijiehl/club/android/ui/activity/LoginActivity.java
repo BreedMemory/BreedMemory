@@ -7,9 +7,11 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 
 import com.uuzz.android.ui.view.MyButton;
@@ -48,6 +50,8 @@ public class LoginActivity extends BmActivity {
                     // TODO: 谌珂 2016/9/7 按钮样式及字体颜色变换
                     if(second > 0) {          //验证码间隔时间大于零，修改按钮上的读秒并延时一秒再发送任务
                         mSendVerifyCode.setText(String.format(getString(R.string.resend_identifying_code), second));
+                        msg = Message.obtain();
+                        msg.what = Common.TIME_TASK_IDENTIFYING_CODE;
                         msg.obj = --second;
                         mHandler.sendMessageDelayed(msg, 1000);
                     } else {                  //验证码倒计时完成，恢复按钮初始状态
@@ -69,9 +73,16 @@ public class LoginActivity extends BmActivity {
     @ViewInject(R.id.et_identifying_code)
     private EditText mVerifyCode;
     /** 发送验证码的按钮 */
+    @ViewInject(R.id.mb_get_verify_code)
     private MyButton mSendVerifyCode;
     /** 客户端会话标识 */
     private final String CLIET_SECODE = String.valueOf(System.currentTimeMillis());
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHeader.setVisibility(View.GONE);
+    }
 
     @Override
     protected String getHeadTitle() {

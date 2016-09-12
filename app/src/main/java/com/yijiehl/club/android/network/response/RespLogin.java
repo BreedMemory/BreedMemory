@@ -8,6 +8,8 @@ package com.yijiehl.club.android.network.response;
 
 import android.text.TextUtils;
 
+import com.yijiehl.club.android.network.response.base.BaseResponse;
+
 /**
  * 项目名称：手机大管家 <br/>
  * 类  名: RespLogin <br/>

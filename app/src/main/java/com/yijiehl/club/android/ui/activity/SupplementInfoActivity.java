@@ -7,10 +7,13 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.uuzz.android.ui.view.ShadeView;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -40,11 +43,21 @@ public class SupplementInfoActivity extends BmActivity {
     /** 性别选择 */
     @ViewInject(R.id.rg_sex)
     private RadioGroup mSex;
+    /** 选择会所 */
+    @ViewInject(R.id.tv_club)
+    private TextView mClub;
+    /** 选择预产期 */
     @ViewInject(R.id.tv_choose_bron_time)
     private TextView mChooseBronTime;
-    /** 性别选择 */
+    /** 预产期选择按钮 */
+    @ViewInject(R.id.ll_time_picker_container)
+    private View mTimePickerContainer;
+    /** 预产期选择控件 */
     @ViewInject(R.id.tp_choose_date)
     private TimePicker mTimePicker;
+    /** 蒙版 */
+    @ViewInject(R.id.v_masking)
+    private ShadeView mMasking;
     /** 用户信息 */
     @SaveInstance
     private UserInfo mUserInfo;
@@ -62,6 +75,9 @@ public class SupplementInfoActivity extends BmActivity {
         mSex.check(mUserInfo.isMale()?R.id.rb_male : R.id.rb_female);
         // TODO: 谌珂 2016/9/8 设置预产期
 //        mChooseBronTime.setText();
+        if(!TextUtils.isEmpty(mUserInfo.getOrgInfo())) {
+            mClub.setText(mUserInfo.getOrgInfo());
+        }
     }
 
     @Override
@@ -70,13 +86,36 @@ public class SupplementInfoActivity extends BmActivity {
     }
 
     /**
+     * 描 述：选择会所<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/7 <br/>
+     */
+    @OnClick(R.id.tv_club)
+    private void chooseClub() {
+        Toaster.showShortToast(this, mTimePicker.getDate());
+    }
+
+    /**
+     * 描 述：确认时间<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/12 <br/>
+     */
+    @OnClick(R.id.btn_choose_time)
+    private void commitTime() {
+        mTimePickerContainer.setVisibility(View.GONE);
+        mMasking.setVisibility(View.GONE);
+        mChooseBronTime.setText(mTimePicker.getDate());
+    }
+
+    /**
      * 描 述：选择时间<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/7 <br/>
      */
-    @OnClick(R.id.btn_choose_time)
+    @OnClick(R.id.tv_choose_bron_time)
     private void chooseTime() {
-        Toaster.showShortToast(this, mTimePicker.getDate());
+        mTimePickerContainer.setVisibility(View.VISIBLE);
+        mMasking.setVisibility(View.VISIBLE);
     }
 
     /**

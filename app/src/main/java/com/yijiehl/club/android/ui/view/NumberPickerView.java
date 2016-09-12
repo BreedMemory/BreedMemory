@@ -23,6 +23,7 @@ import com.yijiehl.club.android.R;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class NumberPickerView extends View {
@@ -54,8 +55,10 @@ public class NumberPickerView extends View {
     /** 是否画右边线 */
     private boolean isDrawRightLine;
     private Rect mItemRect = new Rect();
-
-
+    /** 额外文字描述 */
+    private String mTextExtra;
+    /** 额外文字描述 */
+    private List<String> mTextExtras;
     @ColorInt
     private int mTextColorNormal;
 
@@ -85,6 +88,7 @@ public class NumberPickerView extends View {
         mTextColorSelected = array.getColor(R.styleable.NumberPickerView_numberColorSelected, Color.RED);
         isDrawLeftLine = array.getBoolean(R.styleable.NumberPickerView_drawLeftLine, false);
         isDrawRightLine = array.getBoolean(R.styleable.NumberPickerView_drawRightLine, false);
+        mTextExtra = array.getString(R.styleable.NumberPickerView_extra_desc);
         array.recycle();
 
         mTextPaint = new Paint();
@@ -165,7 +169,13 @@ public class NumberPickerView extends View {
             canvas.save();
 //            canvas.scale(scale, scale, itemRect.centerX(),  pivotY);
             int y = (mItemRect.top + mItemRect.bottom - textHeight) /2;
-            canvas.drawText(mSelector[itemIndex] + "" , mItemRect.width() / 2 , y , mTextPaint);
+            String content;
+            if(mTextExtras == null) {
+                content = mSelector[itemIndex] + mTextExtra;
+            } else {
+                content = mTextExtras.get(itemIndex);
+            }
+            canvas.drawText(content, mItemRect.width() / 2 , y , mTextPaint);
             canvas.restore();
         }
 
@@ -532,7 +542,7 @@ public class NumberPickerView extends View {
     }
 
     /**
-     * 描 述：修改最大最小值<br/>
+     * 描 述：修改最大最小值(仅用于修改数字选择边界)<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
      * @param minValue 最小值
@@ -546,13 +556,24 @@ public class NumberPickerView extends View {
     }
 
     /**
-     * 描 述：修改最大值<br/>
+     * 描 述：修改最大值(仅用于修改数字选择边界)<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
      * @param maxValue 最大值
      */
     public void setMaxValue(int maxValue) {
         setBoundValue(mMinValue, maxValue);
+    }
+
+    /**
+     * 描 述：设置字符串集合<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
+     * @param textExtras 字符串集合
+     */
+    public void setMaxValue(List<String> textExtras) {
+        mTextExtras = textExtras;
+        setBoundValue(1, textExtras.size());
     }
 
     /**

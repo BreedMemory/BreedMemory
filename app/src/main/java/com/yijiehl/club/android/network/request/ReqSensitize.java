@@ -13,6 +13,7 @@ import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractTask;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.BmRequest;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
@@ -55,7 +56,7 @@ public class ReqSensitize extends BmRequest {
 
     @Override
     public String getPath() {
-        return "crmverify.htm";
+        return "crmsechk.htm";
     }
 
     @Override

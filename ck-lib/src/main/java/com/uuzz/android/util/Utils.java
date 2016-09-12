@@ -20,6 +20,9 @@ import com.uuzz.android.util.log.Logger;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -158,5 +161,32 @@ public class Utils {
      */
     public static Uri getUriFromImageName(String imageName) {
         return Uri.parse("android.resource://" + Common.PACKAGE_NAME + "/drawable/imageName");
+    }
+
+    /**
+     * 描 述：获取所有父类的class<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (版本) 谌珂 2016/7/5 注释 <br/>
+     */
+    public static List<Class> getSuperClasses(Class cls, Class finalClass) {
+        if(finalClass == null) {
+            finalClass = Object.class;
+        }
+        String finalClassName = finalClass.getName();
+        List<Class> classes = new ArrayList<>();
+        classes.add(cls);
+        Class superClass = cls;
+        while (true) {
+            superClass = superClass.getSuperclass();
+            if(superClass == null) {
+                break;
+            }
+            classes.add(superClass);
+            if(TextUtils.equals(finalClassName, superClass.getName())) {
+                break;
+            }
+        }
+        Collections.reverse(classes);
+        return classes;
     }
 }

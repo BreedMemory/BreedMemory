@@ -10,7 +10,8 @@ import android.content.Context;
 
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractTask;
-import com.yijiehl.club.android.network.response.BaseResponse;
+import com.yijiehl.club.android.network.request.base.ReqBaseLogin;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
 /**

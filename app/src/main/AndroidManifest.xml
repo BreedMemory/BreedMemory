@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".ui.activity.MainActivity"
+        <activity android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -34,6 +34,22 @@
             </intent-filter>
         </activity>
 
+        <!-- 登录页面 -->
+        <activity android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <!-- 主页面 -->
+        <activity android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <!-- 完善信息页面 -->
+        <activity android:name=".ui.activity.SupplementInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+<!-- 测试页面 -->
         <activity android:name=".ui.activity.TestActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>

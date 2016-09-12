@@ -15,7 +15,9 @@ import com.uuzz.android.util.net.request.IRequest;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.response.base.ResponseContent;
 import com.uuzz.android.util.net.task.AbstractTask;
-import com.yijiehl.club.android.network.response.BaseResponse;
+import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.DefaultRequestParam;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 
 
 /**
@@ -35,18 +37,28 @@ public class DefaultTask extends AbstractTask {
 
     @Override
     protected RequestParams createRequestParam(IRequest pRequest, boolean isSingleHttp) {
-        return null;
+        return DefaultRequestParam.getRequestParams(pRequest, isSingleHttp);
     }
 
     @Override
     public void doInMainThread(ResponseContent<String> result) {
         super.doInMainThread(result);
         BaseResponse responseData = (BaseResponse)createHttpResponse(result.getEntity());
+        if(responseData == null) {
+            logger.e("http response entity is null");
+            if(mListener != null) {
+                mListener.onFailed(mContext.getString(R.string.net_error));
+            }
+            closeLoadingCom();
+            return;
+        }
         if(!responseData.getReturnMsg().isSuccess()) {
             logger.e(responseData.getReturnMsg().getEnMessage());
             if(mListener != null) {
                 mListener.onFailed(responseData.getReturnMsg().getMessage());
             }
+            closeLoadingCom();
+            return;
         }
         //缓存接口数据
         CacheDataDAO.getInstance(mContext).insertCacheDate(mContext, String.valueOf(mRequest.hashCode()), result.getEntity());

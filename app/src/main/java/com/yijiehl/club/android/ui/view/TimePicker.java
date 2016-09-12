@@ -115,6 +115,6 @@ public class TimePicker extends FrameLayout {
      * @return yyyy-MM-dd
      */
     public String getDate() {
-        return TimeUtil.getTime(getDateTimeStamp());
+        return TimeUtil.getTime(getDateTimeStamp(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
     }
 }

@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
+    android:layout_height="match_parent">
+    <ImageView
+        android:src="@drawable/sina_web_default"
+        style="@style/splash_background_image" />
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/et_name"
-            style="@style/login_edit_text"
-            android:hint="@string/name" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/login_edit_text"
+                android:textColor="@color/textColorHint"
+                android:layout_marginTop="80dip"
+                android:hint="@string/name" />
 
             <RadioGroup
                 android:id="@+id/rg_sex"
-                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18dip"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
@@ -30,7 +35,6 @@
                     android:id="@+id/rb_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="52dip"
                     android:layout_marginRight="29dip"
                     android:background="@drawable/bg_item_white_touchable"
                     android:button="@null"
@@ -49,7 +53,6 @@
                     android:id="@+id/rb_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="52dip"
                     android:background="@drawable/bg_item_white_touchable"
                     android:button="@null"
                     android:checked="true"
@@ -65,61 +68,78 @@
                     android:textSize="17dip" />
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/tv_club"
+                android:layout_marginTop="18dip"
+                style="@style/login_edit_text"
+                android:gravity="center_vertical"
+                android:hint="@string/club" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dip">
+
+                <TextView
+                    android:id="@+id/tv_choose_bron_time"
+                    style="@style/login_edit_text"
+                    android:gravity="center_vertical"
+                    android:hint="@string/choose_bron_time" />
+
+                <ImageButton
+                    android:id="@+id/ib_choose_bron_time"
+                    android:layout_width="23dip"
+                    android:layout_height="23dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="15dip"
+                    android:layout_marginRight="27dip"
+                    android:layout_marginTop="15dip"
+                    android:background="@drawable/choose_bron_time" />
+            </RelativeLayout>
+
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_commit"
+                style="@style/common_btn"
+                android:layout_marginTop="18dip"
+                android:text="@string/next" />
+
         </LinearLayout>
+    </ScrollView>
 
+    <com.uuzz.android.ui.view.ShadeView
+        android:id="@+id/v_masking"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/tv_choose_bron_time"
+    <LinearLayout
+        android:id="@+id/ll_time_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="334dip"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/choose_bron_time"
-            android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/et_club"
-            style="@style/login_edit_text"
-            android:hint="@string/club" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dip">
-
-            <EditText
-                android:id="@+id/et_choose_bron_time"
-                style="@style/login_edit_text"
-                android:hint="@string/choose_bron_time" />
-
-            <ImageButton
-                android:id="@+id/ib_choose_bron_time"
-                android:layout_width="23dip"
-                android:layout_height="23dip"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="15dip"
-                android:layout_marginRight="27dip"
-                android:layout_marginTop="15dip"
-                android:background="@drawable/choose_bron_time" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btn_choose_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose"
-            android:visibility="gone" />
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_choose_time"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_text_size"
+                android:text="@string/choose" />
+        </LinearLayout>
 
         <com.yijiehl.club.android.ui.view.TimePicker
             android:id="@+id/tp_choose_date"
             android:layout_width="match_parent"
-            android:layout_height="334dip"
-            android:visibility="gone" />
-
-        <com.uuzz.android.ui.view.MyButton
-            android:id="@+id/btn_commit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dip"
-            android:text="@string/next" />
-
+            android:layout_height="0dip"
+            android:layout_weight="1"/>
     </LinearLayout>
-</ScrollView>
+</FrameLayout>

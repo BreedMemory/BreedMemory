@@ -7,8 +7,8 @@
 package com.yijiehl.club.android.network;
 
 import com.uuzz.android.util.net.httpcore.RequestParams;
+import com.uuzz.android.util.net.request.IRequest;
 import com.yijiehl.club.android.common.Common;
-import com.yijiehl.club.android.network.request.BmRequest;
 
 /**
  * 项目名称：孕育迹忆
@@ -24,11 +24,11 @@ public class DefaultRequestParam {
      * 作者：谌珂<br/>
      * 历 史: (版本) 谌珂 2016/1/3 注释 <br/>
      * @param pRequest 请求实体对象
-     * @param isSignle 是否使用单例httpclient发送请求（若使用com.uuzz.android.util.net.http.DownloadHttp）可忽略此参数
+     * @param isSingle 是否使用单例httpclient发送请求（若使用com.uuzz.android.util.net.http.DownloadHttp）可忽略此参数
      * @param path 下载文件需要保存的路径
      * @return 请求参数列表
      */
-    public static RequestParams getRequestParams(BmRequest pRequest, boolean isSignle, String path){
+    public static RequestParams getRequestParams(IRequest pRequest, boolean isSingle, String path){
         StringBuilder url = new StringBuilder();
         if(pRequest.isHttps()) {
             url.append("https://");
@@ -40,7 +40,7 @@ public class DefaultRequestParam {
             url.append("/");
         }
         url.append(pRequest.getPath().toLowerCase());
-        return new RequestParams<>(url.toString(), pRequest, null, null, -1, false, path, isSignle);
+        return new RequestParams<>(url.toString(), pRequest, null, null, -1, false, path, isSingle);
     }
 
     /**
@@ -51,7 +51,7 @@ public class DefaultRequestParam {
      * @param isSignle 是否使用单例httpclient发送请求（若使用com.uuzz.android.util.net.http.DownloadHttp）可忽略此参数
      * @return 请求参数列表
      */
-    public static RequestParams getRequestParams(BmRequest pRequest, boolean isSignle){
+    public static RequestParams getRequestParams(IRequest pRequest, boolean isSignle){
         return getRequestParams(pRequest, isSignle, null);
     }
 }

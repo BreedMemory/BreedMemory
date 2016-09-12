@@ -4,9 +4,10 @@
  * <p>
  * Created by 谌珂 on 2016/9/5.  <br/>
  */
-package com.yijiehl.club.android.network.response;
+package com.yijiehl.club.android.network.response.base;
 
 import com.uuzz.android.util.net.response.AbstractResponse;
+import com.yijiehl.club.android.network.response.ResultMsg;
 
 /**
  * 项目名称：孕育迹忆 <br/>

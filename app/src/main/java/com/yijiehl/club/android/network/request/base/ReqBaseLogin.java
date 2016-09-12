@@ -4,11 +4,13 @@
  * <p>
  * Created by 谌珂 on 2016/9/7.  <br/>
  */
-package com.yijiehl.club.android.network.request;
+package com.yijiehl.club.android.network.request.base;
 
 import android.content.Context;
 
-import com.yijiehl.club.android.common.Common;
+import com.alibaba.fastjson.JSON;
+import com.yijiehl.club.android.network.request.base.BmRequest;
+import com.yijiehl.club.android.network.request.base.ClientInfo;
 
 /**
  * 项目名称：手机大管家 <br/>
@@ -21,7 +23,7 @@ import com.yijiehl.club.android.common.Common;
  */
 public abstract class ReqBaseLogin extends BmRequest {
     public ReqBaseLogin(Context context, String clientSecode) {
-        clientInfo = new ClientInfo(context);
+        clientInfo = JSON.toJSONString(new ClientInfo(context));
         this.clientSecode = clientSecode;
     }
 
@@ -30,9 +32,14 @@ public abstract class ReqBaseLogin extends BmRequest {
     /** 客户端类型 */
     protected String clientType = "android";
     /** 客户端详细信息，有很多项 */
-    protected ClientInfo clientInfo;
+    protected String clientInfo;
     /** 一个json串, 用于存放以后扩展的其它请求参数 */
     protected String cfgParams;
+
+    @Override
+    public boolean isHttps() {
+        return true;
+    }
 
     public String getClientSecode() {
         return clientSecode;
@@ -58,11 +65,11 @@ public abstract class ReqBaseLogin extends BmRequest {
         this.clientNum = clientNum;
     }
 
-    public ClientInfo getClientInfo() {
+    public String getClientInfo() {
         return clientInfo;
     }
 
-    public void setClientInfo(ClientInfo clientInfo) {
+    public void setClientInfo(String clientInfo) {
         this.clientInfo = clientInfo;
     }
 

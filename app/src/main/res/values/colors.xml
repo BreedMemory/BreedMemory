@@ -9,4 +9,5 @@
     <color name="textColorLight">#9b9b9b</color>
     <color name="textColorFootDark">#B4D3D4</color>
     <color name="transparent">#00000000</color><!--透明 -->
+    <color name="textColorHint">#858585</color>
 </resources>

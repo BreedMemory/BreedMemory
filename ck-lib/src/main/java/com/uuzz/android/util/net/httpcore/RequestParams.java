@@ -65,7 +65,7 @@ public class RequestParams<E> {
 		if(TextUtils.isEmpty(charset)){
 			charset = UTF_8;
 		}
-		if(!url.startsWith("http://")){
+		if(!url.startsWith("http://") && !url.startsWith("https://")){
 			url = "http://" + url;
 		}
 		if(timeout < 1){

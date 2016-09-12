@@ -2,6 +2,8 @@ package com.uuzz.android.util;
 
 import android.annotation.SuppressLint;
 
+import com.uuzz.android.util.net.request.base.BaseRequestBean;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -142,11 +144,14 @@ import java.util.List;
 	 */
 	public static <T> List<NameValuePair> transformBeanToNameValuePairs(Class<T> clazz, Object obj){
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		Field[] fields = clazz.getDeclaredFields();
-		NameValuePair mNameValuePair;
-		for (Field field : fields) {
-			mNameValuePair = new BasicNameValuePair(field.getName(), String.valueOf( ReflectUtils.getValueByField(obj, field)));
-			parameters.add(mNameValuePair);
+		List<Class> classes = Utils.getSuperClasses(clazz, BaseRequestBean.class);
+		for (Class cls : classes) {
+			Field[] fields = cls.getDeclaredFields();
+			NameValuePair mNameValuePair;
+			for (Field field : fields) {
+				mNameValuePair = new BasicNameValuePair(field.getName(), String.valueOf(ReflectUtils.getValueByField(obj, field)));
+				parameters.add(mNameValuePair);
+			}
 		}
 		return parameters;
 	}

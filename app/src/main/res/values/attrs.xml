@@ -9,5 +9,6 @@
         <attr name="maxValue" format="reference|integer" />
         <attr name="drawLeftLine" format="boolean" />
         <attr name="drawRightLine" format="boolean" />
+        <attr name="extra_desc" format="reference|string" />
     </declare-styleable>
 </resources>
