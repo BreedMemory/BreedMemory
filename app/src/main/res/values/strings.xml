@@ -40,4 +40,8 @@
     <string name="photo_manage">照片管理</string>
     <string name="club_introduction">会所介绍</string>
     <string name="my_exit">退出</string>
+    <string name="health">健康</string>
+    <string name="picture">照片</string>
+    <string name="ask_and_answer">问答</string>
+    <string name="grow_up">成长</string>
 </resources>

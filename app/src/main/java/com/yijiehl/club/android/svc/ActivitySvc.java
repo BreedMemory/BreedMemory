@@ -79,7 +79,7 @@ public class ActivitySvc {
         editor.putString(context.getString(R.string.shared_preference_acctStatus), data.getAcctStatus());
         editor.putString(context.getString(R.string.shared_preference_msgUrl), data.getMsgUrl());
         editor.putString(context.getString(R.string.shared_preference_resourceUrl), data.getResourceUrl());
-        editor.putString(context.getString(R.string.shared_preference_client_info), JSON.toJSONString(data.getCfgParams()));
+        editor.putString(context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data.getCfgParams()));
         if(!TextUtils.isEmpty(phoneNumber)) {
             editor.putString(context.getString(R.string.shared_preference_user_id), phoneNumber);
         }
