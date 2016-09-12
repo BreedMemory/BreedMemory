@@ -102,6 +102,7 @@
                 android:id="@+id/im_activity_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 tools:src="@drawable/bg_activity"/>
             <ImageView
                 android:id="@+id/im_arc_2"
@@ -150,9 +151,9 @@
                 android:layout_height="33dip"
                 android:src="@drawable/collect"/>
             <ImageView
+                android:id="@id/im_share_activity"
                 android:layout_marginRight="-18dip"
                 android:layout_marginTop="10dip"
-                android:id="@id/im_share_activity"
                 android:layout_below="@id/activity_divider"
                 android:layout_alignRight="@id/activity_divider"
                 android:layout_width="33dip"

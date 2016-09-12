@@ -55,6 +55,18 @@ public class HostFragment extends BaseHostFragment {
     /** 建议 */
     @ViewInject(R.id.tv_advice)
     private TextView mAdvice;
+    /** 活动背景图 */
+    @ViewInject(R.id.im_activity_image)
+    private ImageView mActivityImage;
+    /** 活动名称 */
+    @ViewInject(R.id.tv_activity_name)
+    private ImageView mActivityName;
+    /** 活动时间 */
+    @ViewInject(R.id.tv_activity_time)
+    private ImageView mActivityTime;
+    /** 会所长logo */
+    @ViewInject(R.id.im_logo_info)
+    private ImageView mClubLogoInfo;
 
 
     @Nullable
@@ -171,5 +183,15 @@ public class HostFragment extends BaseHostFragment {
     @OnClick(R.id.im_logo)
     private void startWebView() {
         // TODO: 谌珂 2016/9/11 跳转到会所简介
+    }
+
+    @OnClick({R.id.im_collect_activity})
+    private void collect(View v) {
+        // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
+    }
+
+    @OnClick({R.id.im_share_activity})
+    private void share(View v) {
+        // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
     }
 }

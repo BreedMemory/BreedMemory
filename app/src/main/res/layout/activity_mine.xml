@@ -99,14 +99,6 @@
                 android:text="元"
                 android:textSize="14dip" />
 
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_below="@+id/tv_show_my_money"
-                android:layout_marginLeft="9dip"
-                android:layout_marginTop="7dip"
-                android:layout_toRightOf="@+id/iv_my_money_pic"
-                android:text="@string/growup_comeon" />
-
             <View
                 android:id="@+id/v_vertical_divider"
                 android:layout_width="1dip"
@@ -148,6 +140,14 @@
                 android:layout_marginTop="7dip"
                 android:layout_toRightOf="@+id/iv_my_sign"
                 android:text="@string/sign_record" />
+
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:text="@string/growup_comeon"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_my_money_pic"
+                android:layout_toEndOf="@+id/iv_my_money_pic"
+                android:id="@+id/textView" />
         </RelativeLayout>
 
         <View
