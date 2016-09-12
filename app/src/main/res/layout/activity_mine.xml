@@ -32,7 +32,7 @@
                 android:text="周玲安" />
 
             <TextView
-                android:id="tv_mynickname"
+                android:id="@+id/tv_mynickname"
                 style="@style/tv_personal_info_item_left_text"
                 android:layout_below="@+id/tv_show_myname"
                 android:layout_marginTop="14dip"
