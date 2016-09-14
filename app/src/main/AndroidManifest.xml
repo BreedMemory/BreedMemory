@@ -42,7 +42,8 @@
         <!-- 主页面 -->
         <activity android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <!-- 完善信息页面 -->
         <activity android:name=".ui.activity.SupplementInfoActivity"

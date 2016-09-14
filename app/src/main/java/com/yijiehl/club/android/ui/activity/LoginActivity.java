@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: LoginActivity.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/6.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.ui.activity;
 
@@ -30,7 +29,7 @@ import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.svc.ActivitySvc;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: LoginActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

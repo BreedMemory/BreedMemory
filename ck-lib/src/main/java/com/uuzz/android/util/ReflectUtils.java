@@ -79,9 +79,16 @@ import java.util.List;
 	public static <T> HashMap<String, Object> transformBeanToHashMap(Class<T> clazz, Object obj){
 		
 		HashMap<String, Object> maps = new HashMap<String, Object>();
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			maps.put(field.getName(), String.valueOf( ReflectUtils.getValueByField(obj, field)));
+		List<Class> classes = Utils.getSuperClasses(clazz, BaseRequestBean.class);
+		for (Class cls : classes) {
+			Field[] fields = cls.getDeclaredFields();
+			for (Field field : fields) {
+				if(field.getName().contains("$")) {
+					continue;
+				}
+				String value = String.valueOf(ReflectUtils.getValueByField(obj, field));
+				maps.put(field.getName(), android.text.TextUtils.equals(value, "null")?"": value);
+			}
 		}
 		
 		return maps;
@@ -149,7 +156,11 @@ import java.util.List;
 			Field[] fields = cls.getDeclaredFields();
 			NameValuePair mNameValuePair;
 			for (Field field : fields) {
-				mNameValuePair = new BasicNameValuePair(field.getName(), String.valueOf(ReflectUtils.getValueByField(obj, field)));
+				if(field.getName().contains("$")) {
+					continue;
+				}
+				String value = String.valueOf(ReflectUtils.getValueByField(obj, field));
+				mNameValuePair = new BasicNameValuePair(field.getName(), android.text.TextUtils.equals(value, "null")?"": value);
 				parameters.add(mNameValuePair);
 			}
 		}

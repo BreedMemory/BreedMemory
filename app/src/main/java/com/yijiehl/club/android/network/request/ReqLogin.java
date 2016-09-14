@@ -15,7 +15,7 @@ import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ReqLogin <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

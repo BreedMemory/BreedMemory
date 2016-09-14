@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: SplashActivity.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/8.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.ui.activity;
 
@@ -23,7 +22,7 @@ import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.svc.ActivitySvc;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: SplashActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
@@ -44,6 +43,7 @@ public class SplashActivity extends BmActivity {
         mHeader.setVisibility(View.GONE);
         if(TextUtils.isEmpty(ContextUtils.getSharedString(this, R.string.shared_preference_user_id))) {   //本地保存的userid为空，说明用户没有登录过，跳转到登录页面
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
         } else {   //走激活接口
             sensitize();
         }
@@ -61,12 +61,16 @@ public class SplashActivity extends BmActivity {
                 RespLogin data = (RespLogin) pResponse;
                 ActivitySvc.loginSuccess(SplashActivity.this, data);
                 ActivitySvc.saveClientInfoNative(SplashActivity.this, data, null);
+                finish();
             }
 
             @Override
             public void onFailed(String msg) {
                 super.onFailed(msg);
-                sensitize();
+                // TODO: 谌珂 2016/9/13 测试代码
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
+//                sensitize();
             }
         }, false);
     }

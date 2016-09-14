@@ -14,6 +14,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.uuzz.android.util.log.Logger;
 
@@ -188,5 +190,16 @@ public class Utils {
         }
         Collections.reverse(classes);
         return classes;
+    }
+
+    /**
+     * 描 述：隐藏键盘<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
+     * @param v 键盘所在页面中的一个View
+     */
+    public static void hideKeyBoard(View v) {
+        InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
     }
 }

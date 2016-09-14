@@ -1,8 +1,7 @@
 /**
- * 项目名称：手机大管家
+ * 项目名称：孕育迹忆
  * 文件名称: HostFragment.java
  * Created by 谌珂 on 2016/9/11.
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.ui.fragment;
 
@@ -20,18 +19,27 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.UserInfo;
+import com.yijiehl.club.android.network.request.ReqSearchActivitys;
+import com.yijiehl.club.android.network.response.RespSearchActivitys;
+import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+
 /**
- * 项目名称：手机大管家<br/>
+ * 项目名称：孕育迹忆<br/>
  * 类  名: HostFragment<br/>
  * 类描述: <br/>
  * @author 谌珂 <br/>
@@ -60,13 +68,18 @@ public class HostFragment extends BaseHostFragment {
     private ImageView mActivityImage;
     /** 活动名称 */
     @ViewInject(R.id.tv_activity_name)
-    private ImageView mActivityName;
+    private TextView mActivityName;
     /** 活动时间 */
     @ViewInject(R.id.tv_activity_time)
-    private ImageView mActivityTime;
+    private TextView mActivityTime;
     /** 会所长logo */
     @ViewInject(R.id.im_logo_info)
     private ImageView mClubLogoInfo;
+
+    /** 活动信息 */
+    private ActivityInfo mActivityInfo;
+    /** 请求活动信息的特征码 */
+    private String mDataCacheActivitys;
 
 
     @Nullable
@@ -94,6 +107,15 @@ public class HostFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ReqSearchActivitys lReqSearchActivitys = new ReqSearchActivitys(getActivity(), true);
+        mDataCacheActivitys = NetHelper.createObjectName(lReqSearchActivitys);
+        NetHelper.getDataFromNet(getActivity(), lReqSearchActivitys, new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchActivitys activity = (RespSearchActivitys)pResponse;
+                fillActivityInfo(activity);
+            }
+        });
         UserInfo info = JSON.parseObject(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_info), UserInfo.class);
         //提示语
         makeUpTip(info.getWelcomeInfo());
@@ -101,8 +123,26 @@ public class HostFragment extends BaseHostFragment {
         ImageLoader.getInstance().displayImage(info.getImageInfo(), mMainPicture);
         //会所logo
         ImageLoader.getInstance().displayImage(info.getIconInfo1(), mClubLogo);
+        //会所长logo
+        ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfo);
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
+    }
+
+    /**
+     * 描 述：填充活动信息<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
+     */
+    private synchronized void fillActivityInfo(RespSearchActivitys activity) {
+        if(activity != null && activity.getResultList() != null && activity.getResultList().size() > 0) {
+            mActivityInfo = activity.getResultList().get(0);
+        } else {
+            return;
+        }
+        ImageLoader.getInstance().displayImage(mActivityInfo.getImageInfo(), mActivityImage);
+        mActivityName.setText(mActivityInfo.getDataName());
+        mActivityTime.setText(mActivityInfo.getStartTimeStr());
     }
 
     /**
@@ -147,7 +187,7 @@ public class HostFragment extends BaseHostFragment {
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        v.setTextSize(ScreenTools.dip2px(getActivity(), 18));
+        v.setTextSize(COMPLEX_UNIT_DIP, 18);
         v.setTextColor(getResources().getColor(R.color.textColorPrimary));
         v.setText(text);
     }
@@ -193,5 +233,12 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_share_activity})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if(TextUtils.equals(mDataCacheActivitys, pCacheDataEntity.getmName()) && mActivityInfo == null) {
+            fillActivityInfo(JSON.parseObject(pCacheDataEntity.getmData(), RespSearchActivitys.class));
+        }
     }
 }

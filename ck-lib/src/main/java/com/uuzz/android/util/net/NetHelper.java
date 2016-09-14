@@ -38,7 +38,7 @@ public class NetHelper {
         if(isShowLoading) {
             LoadingCOM.getInstance(context).showLoading(true);
         }
-        CacheDataDAO.getInstance(context).getCacheDataAsync(ContextUtils.getSharedString(context, R.string.shared_preference_user_id), MD5.mD5Encode(pRequest.toString(), RequestParams.UTF_8));
+        CacheDataDAO.getInstance(context).getCacheDataAsync(ContextUtils.getSharedString(context, R.string.shared_preference_user_id), createObjectName(pRequest));
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
             Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class, boolean.class);
@@ -106,5 +106,14 @@ public class NetHelper {
      */
     private static void syncTaskErrorCallBack(Context context) {
         Toaster.showShortToast(context, R.string.net_error);
+    }
+
+    /**
+     * 描 述：生成对象信息的特征码<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
+     */
+    public static String createObjectName(Object obj) {
+        return MD5.mD5Encode(JSON.toJSONString(obj), RequestParams.UTF_8);
     }
 }

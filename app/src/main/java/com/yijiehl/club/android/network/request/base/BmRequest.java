@@ -38,4 +38,9 @@ public abstract class BmRequest implements IRequest {
     public boolean isHttps() {
         return false;
     }
+
+    @Override
+    public boolean isGet() {
+        return false;
+    }
 }

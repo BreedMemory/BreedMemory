@@ -4,14 +4,14 @@
  * <p>
  * Created by 谌珂 on 2016/9/7.  <br/>
  */
-package com.yijiehl.club.android.network.response;
+package com.yijiehl.club.android.network.response.innerentity;
 
 import android.text.TextUtils;
 
 import java.io.Serializable;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: UserInfo <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
@@ -67,6 +67,16 @@ public class UserInfo implements Serializable {
     private String iconInfo1;
     /** 小图标URL地址，如果有值尺寸可能更小，只有图标没有文字等 */
     private String iconInfo2;
+    /** 预产期或出生日期 */
+    private String birthday;
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public String getShortName() {
         return shortName;

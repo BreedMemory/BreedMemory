@@ -571,7 +571,7 @@ public class NumberPickerView extends View {
      * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
      * @param textExtras 字符串集合
      */
-    public void setMaxValue(List<String> textExtras) {
+    public void setExtras(List<String> textExtras) {
         mTextExtras = textExtras;
         setBoundValue(1, textExtras.size());
     }

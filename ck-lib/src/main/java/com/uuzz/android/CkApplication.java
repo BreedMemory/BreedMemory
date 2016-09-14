@@ -52,7 +52,7 @@ public class CkApplication extends Application {
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .discCacheFileCount(100) //缓存的文件数量
                 // TODO: 谌珂 2016/9/5 设置默认图片
-                .defaultDisplayImageOptions(ImageLoaderUtils.getDisplayImageOptions(R.drawable.flat_loading_rotate_image))
+                .defaultDisplayImageOptions(ImageLoaderUtils.getDisplayImageOptions(R.mipmap.ic_launcher))
                 .imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
 //                .writeDebugLogs() // Remove for release app
                 .build();

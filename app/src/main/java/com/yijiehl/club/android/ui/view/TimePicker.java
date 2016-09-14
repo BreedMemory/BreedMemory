@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: TimePicker.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/6.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.ui.view;
 
@@ -23,7 +22,7 @@ import com.yijiehl.club.android.R;
 import java.util.GregorianCalendar;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: TimePicker <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
@@ -116,5 +115,17 @@ public class TimePicker extends FrameLayout {
      */
     public String getDate() {
         return TimeUtil.getTime(getDateTimeStamp(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+    }
+
+    /**
+     * 描 述：设置日期<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/12 <br/>
+     */
+    public void setDate(String date) {
+        String[] split = date.split("-");
+        mYear.scrollToValue(Integer.valueOf(split[0]));
+        mMonth.scrollToValue(Integer.valueOf(split[1]));
+        mDay.scrollToValue(Integer.valueOf(split[2]));
     }
 }

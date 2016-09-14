@@ -37,12 +37,23 @@ public class DefaultTask extends AbstractTask {
 
     @Override
     protected RequestParams createRequestParam(IRequest pRequest, boolean isSingleHttp) {
+        logger.d("request entity:" + JSON.toJSONString(pRequest));
         return DefaultRequestParam.getRequestParams(pRequest, isSingleHttp);
     }
 
     @Override
     public void doInMainThread(ResponseContent<String> result) {
-        super.doInMainThread(result);
+        if(mListener == null){
+            logger.e("http callback is null!");
+            closeLoadingCom();
+            return;
+        }
+        if(result == null || result.getmResultCode() != 200){   //说明请求的内容还是有问题
+            mListener.onFailed(mContext.getString(com.uuzz.android.R.string.net_error));
+            closeLoadingCom();
+            return;
+        }
+        logger.d("response entity:" + result.getEntity());
         BaseResponse responseData = (BaseResponse)createHttpResponse(result.getEntity());
         if(responseData == null) {
             logger.e("http response entity is null");
@@ -52,7 +63,7 @@ public class DefaultTask extends AbstractTask {
             closeLoadingCom();
             return;
         }
-        if(!responseData.getReturnMsg().isSuccess()) {
+        if(responseData.getReturnMsg() != null &&!responseData.getReturnMsg().isSuccess()) {
             logger.e(responseData.getReturnMsg().getEnMessage());
             if(mListener != null) {
                 mListener.onFailed(responseData.getReturnMsg().getMessage());
@@ -76,7 +87,12 @@ public class DefaultTask extends AbstractTask {
 
     @Override
     protected AbstractResponse createHttpResponse(String data) {
-        return JSON.parseObject(data, mRequest.getResponseClass());
+        try {
+            return JSON.parseObject(data, mRequest.getResponseClass());
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @Override

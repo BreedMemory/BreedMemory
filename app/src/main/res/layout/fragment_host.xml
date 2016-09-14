@@ -11,9 +11,8 @@
 
         <!-- 第一个页面 -->
         <RelativeLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="554dip"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50dip"
             android:background="@color/colorPrimary">
             <!-- 外层半透明背景 -->
@@ -23,6 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
                 android:padding="5dip"
                 android:background="@drawable/bg_border_corner_sime_white">
                 <!-- 内层白色背景 -->

@@ -16,12 +16,12 @@ import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.RespLogin;
-import com.yijiehl.club.android.network.response.UserInfo;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.SupplementInfoActivity;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ActivitySvc <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
@@ -63,7 +63,7 @@ public class ActivitySvc {
     }
 
     /**
-     * 描 述：保存数据到本地<br/>
+     * 描 述：保存登录返回数据到本地<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
      * @param context 上下文
@@ -79,10 +79,23 @@ public class ActivitySvc {
         editor.putString(context.getString(R.string.shared_preference_acctStatus), data.getAcctStatus());
         editor.putString(context.getString(R.string.shared_preference_msgUrl), data.getMsgUrl());
         editor.putString(context.getString(R.string.shared_preference_resourceUrl), data.getResourceUrl());
-        editor.putString(context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data.getCfgParams()));
         if(!TextUtils.isEmpty(phoneNumber)) {
             editor.putString(context.getString(R.string.shared_preference_user_id), phoneNumber);
         }
+        editor.commit();
+        saveUserInfoNative(context, data.getCfgParams());
+    }
+
+    /**
+     * 描 述：保存用户信息数据到本地<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
+     * @param context 上下文
+     * @param data 用户信息
+     */
+    public static void saveUserInfoNative(Context context, UserInfo data) {
+        SharedPreferences.Editor editor = ContextUtils.getEditor(context);
+        editor.putString(context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
         editor.commit();
     }
 }

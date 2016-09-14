@@ -13,7 +13,7 @@ import com.yijiehl.club.android.common.Common;
 /**
  * 项目名称：孕育迹忆
  * 类  名: DefaultRequestParam
- * 类描述: 手机大管家默认的http请求参数列表，对com.uuzz.android.util.net.request.RequestParams简单的封装
+ * 类描述: 孕育迹忆的http请求参数列表，对com.uuzz.android.util.net.request.RequestParams简单的封装
  * @author 谌珂 <br/>
  * 版    本：1.0.0
  */
@@ -40,7 +40,7 @@ public class DefaultRequestParam {
             url.append("/");
         }
         url.append(pRequest.getPath().toLowerCase());
-        return new RequestParams<>(url.toString(), pRequest, null, null, -1, false, path, isSingle);
+        return new RequestParams<>(url.toString(), pRequest, null, null, -1, pRequest.isGet(), path, isSingle);
     }
 
     /**

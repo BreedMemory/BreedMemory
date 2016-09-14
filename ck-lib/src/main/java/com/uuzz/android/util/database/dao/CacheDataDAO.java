@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Message;
 
+import com.uuzz.android.R;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.DataBasesUtil;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 
@@ -136,11 +138,7 @@ public class CacheDataDAO extends AbstractDAO<CacheDataEntity> {
      * @param data 接口返回的数据
      */
     public void insertCacheDate(Context context, String name, String data) {
-        String userId = "";
-        // TODO: 谌珂 2016/8/31 取userid
-//        if(AgentBaseActivity.class.isAssignableFrom(context.getClass())) {
-//            userId = ((AgentBaseActivity) context).getSharedString(R.string.sharedperference_user_id);
-//        }
+        String userId = ContextUtils.getSharedString(context, R.string.shared_preference_user_id);
         //缓存接口数据
         if(getCacheDataModle(userId, name) != null) {      //如果数据库中存在这条数据则更新
             updateCacheData(userId, name, data);

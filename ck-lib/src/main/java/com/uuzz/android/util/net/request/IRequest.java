@@ -53,4 +53,11 @@ public interface IRequest {
      * 历 史: (1.0.0) 谌珂 2016/9/3 <br/>
      */
     boolean isHttps();
+
+    /**
+     * 描 述：描述是否是get<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/3 <br/>
+     */
+    boolean isGet();
 }

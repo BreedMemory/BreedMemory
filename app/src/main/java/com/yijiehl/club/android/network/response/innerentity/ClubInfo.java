@@ -1,16 +1,15 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: ClubInfo.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/12.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.network.response.innerentity;
 
 import com.yijiehl.club.android.network.response.base.RespBaseSearchResult;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ClubInfo <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

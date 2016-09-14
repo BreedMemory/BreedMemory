@@ -9,9 +9,10 @@ package com.yijiehl.club.android.network.response;
 import android.text.TextUtils;
 
 import com.yijiehl.club.android.network.response.base.BaseResponse;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: RespLogin <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

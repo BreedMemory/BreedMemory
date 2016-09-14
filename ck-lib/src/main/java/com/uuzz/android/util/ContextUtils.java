@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: ContextUtils.java <br/>
  * <p/>
  * Created by 谌珂 on 2016/3/7.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.uuzz.android.util;
 
@@ -17,7 +16,7 @@ import com.uuzz.android.R;
 
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ContextUtils <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

@@ -43,10 +43,15 @@ public class BmFragment extends CkFragment implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         if(observable instanceof CacheDataDAO) {
-            Message msg = Message.obtain();
+            final Message msg = Message.obtain();
             switch (msg.what) {
                 case CacheDataDAO.CACHE_DATA:                           //数据缓存被成功取到
-                    onReceiveCacheData((CacheDataEntity) msg.obj);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onReceiveCacheData((CacheDataEntity) msg.obj);
+                        }
+                    });
                     break;
             }
         }

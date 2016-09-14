@@ -15,7 +15,7 @@ import com.uuzz.android.util.Utils;
 import java.util.Calendar;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: UserInfo <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

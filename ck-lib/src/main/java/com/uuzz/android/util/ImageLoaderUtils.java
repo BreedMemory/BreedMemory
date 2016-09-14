@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: ImageLoaderUtils.java <br/>
  * <p/>
  * Created by 谌珂 on 2016/3/8.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.uuzz.android.util;
 
@@ -15,7 +14,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ImageLoaderUtils <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

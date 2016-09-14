@@ -45,40 +45,6 @@ public abstract class AbstractTask implements BaseHttp.HttpRequestListener<Strin
 
     @Override
     public void doInMainThread(ResponseContent<String> result) {
-        if(mListener == null){
-            logger.e("http callback is null!");
-            closeLoadingCom();
-            return;
-        }
-        if(result == null || result.getmResultCode() != 200){   //说明请求的内容还是有问题
-            mListener.onFailed(mContext.getString(R.string.net_error));
-            closeLoadingCom();
-            return;
-        }
-
-//            AgentResponse lAgentResponse = JSON.parseObject(result.getEntity(), AgentResponse.class);
-//            if(!lAgentResponse.isSessionValid(mContext)) {      //如果服务器返回码为10001代表session失效，跳转到登录页面
-//                closeLoadingCom();
-//                return;
-//            }
-//
-//
-//            if(!lAgentResponse.isSuccess()){           //如果服务器的返回码不等于0代表业务传输层有问题
-//                logger.e(mPath + " return the result code:" + lAgentResponse.getResult_code() + " from server:" + lAgentResponse.getResult_desc());
-//                mListener.onFailed(lAgentResponse.getResult_desc());
-//                closeLoadingCom();
-//                return;
-//            }
-//
-//            String lBody = lAgentResponse.getBody();
-//            if(TextUtils.equals("BQGHoM3lqYcsurCRq3PlUw==", lBody)) {
-//                logger.e("Response body is empty!");
-//                mListener.onFailed(mContext.getString(R.string.net_error));
-//                closeLoadingCom();
-//                return;
-//            }
-//            mListener.onSuccess(createHttpResponse(lAgentResponse.getBody()));
-//            closeLoadingCom();
     }
 
     @Override

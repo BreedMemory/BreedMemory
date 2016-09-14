@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: FootGroupBtn.java <br/>
  * <p/>
  * Created by 谌珂 on 2016/1/11.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.uuzz.android.ui.view;
 
@@ -21,7 +20,7 @@ import android.widget.TextView;
 import com.uuzz.android.R;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: FootGroupBtn <br/>
  * 类描述: 应用大厅底部组合button<br/>
  * 实现的主要功能 <br/>

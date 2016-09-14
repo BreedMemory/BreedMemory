@@ -9,11 +9,9 @@ package com.yijiehl.club.android.network.request.base;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.yijiehl.club.android.network.request.base.BmRequest;
-import com.yijiehl.club.android.network.request.base.ClientInfo;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: ReqBaseLogin <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>

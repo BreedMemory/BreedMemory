@@ -1,9 +1,8 @@
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 文件名称: HostViewPagerAdapter.java <br/>
  * <p>
  * Created by 谌珂 on 2016/9/5.  <br/>
- * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
 package com.yijiehl.club.android.ui.adapter;
 
@@ -14,12 +13,13 @@ import android.support.v4.view.ViewPager;
 
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.fragment.BaseHostFragment;
+import com.yijiehl.club.android.ui.fragment.HostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 项目名称：手机大管家 <br/>
+ * 项目名称：孕育迹忆 <br/>
  * 类  名: HostViewPagerAdapter <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
@@ -38,6 +38,7 @@ public class HostViewPagerAdapter extends FragmentPagerAdapter implements ViewPa
     private List<BaseHostFragment> fragments = new ArrayList<>();
     {
         // TODO: 谌珂 2016/9/5 添加Fragment
+        fragments.add(new HostFragment());
     }
 
     @Override
