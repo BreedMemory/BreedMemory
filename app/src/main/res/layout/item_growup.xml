@@ -7,6 +7,7 @@
         android:id="@+id/iv_item_pic"
         android:layout_width="101dip"
         android:layout_height="101dip"
+        android:layout_marginTop="15dip"
         android:background="@drawable/item_image_corners"
         android:src="@mipmap/ic_launcher" />
 
@@ -14,6 +15,7 @@
         android:id="@+id/tv_item_title"
         android:layout_width="wrap_content"
         android:layout_height="18dip"
+        android:layout_marginTop="15dip"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
         android:textSize="18dip"

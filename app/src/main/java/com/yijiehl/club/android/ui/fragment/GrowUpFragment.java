@@ -118,7 +118,7 @@ public class GrowUpFragment extends BaseHostFragment {
                 mHealth.setTextColor(getResources().getColor(R.color.colorPrimary));
                 mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
                 mEducation.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
+                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_white));
                 break;
             case R.id.tv_health :
                 mHealth.setTextColor(getResources().getColor(R.color.white));

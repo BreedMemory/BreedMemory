@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_more_list_view_ptr_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dip"
+            android:layout_marginBottom="15dip"
+            android:layout_marginRight="32dip"
+            android:layout_marginLeft="32dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_person"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/growup_title_left_pink"
+                android:gravity="center"
+                android:text="个人"
+                android:textColor="@color/white"
+                android:textSize="14dip" />
+
+            <TextView
+                android:id="@+id/tv_club"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/growup_title_right_white"
+                android:gravity="center"
+                android:text="会所"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dip" />
+
+        </LinearLayout>
+        <com.uuzz.android.ui.view.ptr.PtrListView
+            android:id="@+id/lv_listview"
+            android:layout_below="@id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/bg_item_white_touchable"
+            android:listSelector="@drawable/bg_item_white_touchable"
+            android:scrollbarStyle="outsideOverlay" />
+        <LinearLayout
+            android:id="@+id/click_uploading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/uploading_small"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="点击上传照片"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout>
