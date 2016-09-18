@@ -64,5 +64,27 @@
             android:name="UMENG_APPKEY"
             android:value="57d13359e0f55a9a87001b45" />
 
+        <!-- 我的页面 -->
+        <activity android:name=".ui.activity.MineActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <!-- 个人信息页面 -->
+        <activity android:name=".ui.activity.PersonalInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <!-- 成长文章详细页面 -->
+        <activity android:name=".ui.activity.ArticalDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 昵称修改页面 -->
+        <activity android:name=".ui.activity.NickChangeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 手机号修改页面 -->
+        <activity android:name=".ui.activity.PhoneNumChangeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
