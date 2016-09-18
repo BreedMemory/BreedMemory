@@ -58,4 +58,15 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">17dip</item>
     </style>
+
+    <style name="share_btn_size">
+        <item name="android:layout_width">33dip</item>
+        <item name="android:layout_height">33dip</item>
+    </style>
+
+    <style name="host_page_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">554dip</item>
+        <item name="android:layout_marginBottom">49dip</item>
+    </style>
 </resources>

@@ -13,7 +13,11 @@ import android.support.v4.view.ViewPager;
 
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.fragment.BaseHostFragment;
+import com.yijiehl.club.android.ui.fragment.GrowUpFragment;
+import com.yijiehl.club.android.ui.fragment.HealthFragment;
 import com.yijiehl.club.android.ui.fragment.HostFragment;
+import com.yijiehl.club.android.ui.fragment.PictureFragment;
+import com.yijiehl.club.android.ui.fragment.QuestionFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +41,11 @@ public class HostViewPagerAdapter extends FragmentPagerAdapter implements ViewPa
     /** Fragment队列 */
     private List<BaseHostFragment> fragments = new ArrayList<>();
     {
-        // TODO: 谌珂 2016/9/5 添加Fragment
         fragments.add(new HostFragment());
+        fragments.add(new HealthFragment());
+        fragments.add(new PictureFragment());
+        fragments.add(new QuestionFragment());
+        fragments.add(new GrowUpFragment());
     }
 
     @Override

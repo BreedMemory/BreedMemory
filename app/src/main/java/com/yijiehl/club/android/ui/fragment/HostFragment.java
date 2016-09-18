@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
@@ -64,7 +66,7 @@ public class HostFragment extends BaseHostFragment {
     @ViewInject(R.id.tv_advice)
     private TextView mAdvice;
     /** 活动背景图 */
-    @ViewInject(R.id.im_activity_image)
+    @ViewInject(R.id.im_activity_background)
     private ImageView mActivityImage;
     /** 活动名称 */
     @ViewInject(R.id.tv_activity_name)
@@ -73,8 +75,20 @@ public class HostFragment extends BaseHostFragment {
     @ViewInject(R.id.tv_activity_time)
     private TextView mActivityTime;
     /** 会所长logo */
-    @ViewInject(R.id.im_logo_info)
-    private ImageView mClubLogoInfo;
+    @ViewInject(R.id.im_logo_info_activity)
+    private ImageView mClubLogoInfoActivity;
+    /** 会所长logo */
+    @ViewInject(R.id.im_logo_info_question)
+    private ImageView mClubLogoInfoQuestion;
+    /** 问答的问题 */
+    @ViewInject(R.id.tv_question_name)
+    private TextView mQuestion;
+    /** 成长文章标题 */
+    @ViewInject(R.id.tv_grow_up_title)
+    private TextView mGrowUpTitle;
+    /** 成长文章描述 */
+    @ViewInject(R.id.tv_grow_up_desc)
+    private TextView mGrowUpDesc;
 
     /** 活动信息 */
     private ActivityInfo mActivityInfo;
@@ -120,11 +134,32 @@ public class HostFragment extends BaseHostFragment {
         //提示语
         makeUpTip(info.getWelcomeInfo());
         //用户照片
-        ImageLoader.getInstance().displayImage(info.getImageInfo(), mMainPicture);
+        if(TextUtils.isEmpty(info.getImageInfo())) {
+            mMainPicture.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test_main_image));
+        } else {
+            ImageLoader.getInstance().displayImage(info.getImageInfo(), mMainPicture);
+        }
+
         //会所logo
-        ImageLoader.getInstance().displayImage(info.getIconInfo1(), mClubLogo);
-        //会所长logo
-        ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfo);
+        if(TextUtils.isEmpty(info.getIconInfo1())) {
+            mClubLogo.setVisibility(View.GONE);
+        } else {
+            ImageLoader.getInstance().displayImage(info.getIconInfo1(), mClubLogo);
+        }
+
+        //会所长logo 活动模块
+        if(TextUtils.isEmpty(info.getIconInfo2())) {
+            mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
+        } else {
+            ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfoActivity);
+        }
+
+        //会所长logo 问答模块
+        if(TextUtils.isEmpty(info.getIconInfo2())) {
+            mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
+        } else {
+            ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfoQuestion);
+        }
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
     }
@@ -140,7 +175,12 @@ public class HostFragment extends BaseHostFragment {
         } else {
             return;
         }
-        ImageLoader.getInstance().displayImage(mActivityInfo.getImageInfo(), mActivityImage);
+        ImageLoader.getInstance().displayImage(mActivityInfo.getImageInfo(), mActivityImage, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                mActivityImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_activity));
+            }
+        });
         mActivityName.setText(mActivityInfo.getDataName());
         mActivityTime.setText(mActivityInfo.getStartTimeStr());
     }
@@ -222,15 +262,15 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick(R.id.im_logo)
     private void startWebView() {
-        // TODO: 谌珂 2016/9/11 跳转到会所简介
+        // TODO: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
     }
 
-    @OnClick({R.id.im_collect_activity})
+    @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
     }
 
-    @OnClick({R.id.im_share_activity})
+    @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
     }
