@@ -119,6 +119,7 @@ public class LoginActivity extends BmActivity {
                 RespLogin data = (RespLogin) pResponse;
                 ActivitySvc.loginSuccess(LoginActivity.this, data);
                 ActivitySvc.saveClientInfoNative(LoginActivity.this, data, mPhoneNumber.getText().toString());
+                finish();
             }
         }, false);
     }

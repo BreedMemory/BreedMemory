@@ -139,4 +139,9 @@ public class RespLogin extends BaseResponse {
             return INIT;
         }
     }
+
+    @Override
+    public boolean isNeedLogin() {
+        return false;
+    }
 }

@@ -17,6 +17,7 @@ import com.uuzz.android.util.ContextUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.ui.activity.LoginActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.SupplementInfoActivity;
 
@@ -38,6 +39,14 @@ public class ActivitySvc {
      */
     public static void startMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
+    }
+    /**
+     * 描 述：跳转到登录页<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/7 <br/>
+     */
+    public static void startLoginActivity(Context context) {
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 
     /**

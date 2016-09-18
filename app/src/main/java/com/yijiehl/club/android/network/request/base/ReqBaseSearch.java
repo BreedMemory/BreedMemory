@@ -144,6 +144,6 @@ public abstract class ReqBaseSearch extends ReqBase {
 
     @Override
     public boolean isGet() {
-        return true;
+        return false;
     }
 }

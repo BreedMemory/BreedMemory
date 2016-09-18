@@ -19,7 +19,6 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
-import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,9 +88,9 @@ public class PictureFragment extends BaseHostFragment {
         // TODO: 2016/9/14 首先获取数据再设置自己的设配器
 
         //首先联网获取List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
-        dataPhotoList=getList((ArrayList<PhotoInfo>) dataPhoto);
-        PicturePersonAdapter picturePersonAdapter=new PicturePersonAdapter(getActivity(),dataPhotoList);
-        mListView.setAdapter(picturePersonAdapter);
+//        dataPhotoList=getList((ArrayList<PhotoInfo>) dataPhoto);
+//        PicturePersonAdapter picturePersonAdapter=new PicturePersonAdapter(getActivity(),dataPhotoList);
+//        mListView.setAdapter(picturePersonAdapter);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener(){
 
