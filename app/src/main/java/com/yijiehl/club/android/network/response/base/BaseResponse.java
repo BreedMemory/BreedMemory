@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android.network.response.base;
 
+import android.text.TextUtils;
+
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.yijiehl.club.android.network.response.ResultMsg;
 
@@ -28,5 +30,15 @@ public class BaseResponse extends AbstractResponse {
 
     public void setReturnMsg(ResultMsg returnMsg) {
         this.returnMsg = returnMsg;
+    }
+
+    /**
+     * 描 述：是否需要重新登录<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/18 <br/>
+     * @return true表示需要登录
+     */
+    public boolean isNeedLogin() {
+        return returnMsg != null && (TextUtils.equals(returnMsg.getResultCode(), "offline") || TextUtils.equals(returnMsg.getResultCode(), "offline_expire"));
     }
 }

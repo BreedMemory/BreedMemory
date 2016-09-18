@@ -121,8 +121,10 @@ public class HostFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //构建查询活动内容的Request
         ReqSearchActivitys lReqSearchActivitys = new ReqSearchActivitys(getActivity(), true);
         mDataCacheActivitys = NetHelper.createObjectName(lReqSearchActivitys);
+        //查询活动内容
         NetHelper.getDataFromNet(getActivity(), lReqSearchActivitys, new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {

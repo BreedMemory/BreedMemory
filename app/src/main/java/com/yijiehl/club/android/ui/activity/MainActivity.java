@@ -135,14 +135,17 @@ public class MainActivity extends BmActivity {
     public void setFootFocus(int index) {
         for (int i = 0; i < mFootContainer.getChildCount(); i++) {
             if(i == index) {
-                ((FootGroupBtn) mFootContainer.getChildAt(index)).setFocus();
+                if(i == 2) {          //如果当前选中的是照片模块单独修改样式
+                    mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
+                } else {
+                    ((FootGroupBtn) mFootContainer.getChildAt(i)).setFocus();
+                }
             } else {
-                ((FootGroupBtn) mFootContainer.getChildAt(index)).setUnFocus();
-            }
-            if(i == 2) {
-                mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
-            } else {
-                mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle));
+                if(i == 2) {
+                    mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle));
+                } else {
+                    ((FootGroupBtn) mFootContainer.getChildAt(i)).setUnFocus();
+                }
             }
         }
     }

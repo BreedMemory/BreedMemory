@@ -67,10 +67,7 @@ public class SplashActivity extends BmActivity {
             @Override
             public void onFailed(String msg) {
                 super.onFailed(msg);
-                // TODO: 谌珂 2016/9/13 测试代码
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
-//                sensitize();
+                sensitize();
             }
         }, false);
     }

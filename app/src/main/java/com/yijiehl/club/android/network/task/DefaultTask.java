@@ -18,6 +18,7 @@ import com.uuzz.android.util.net.task.AbstractTask;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.DefaultRequestParam;
 import com.yijiehl.club.android.network.response.base.BaseResponse;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 
 /**
@@ -67,6 +68,9 @@ public class DefaultTask extends AbstractTask {
             logger.e(responseData.getReturnMsg().getEnMessage());
             if(mListener != null) {
                 mListener.onFailed(responseData.getReturnMsg().getMessage());
+            }
+            if(responseData.isNeedLogin()) {
+                ActivitySvc.startLoginActivity(mContext);
             }
             closeLoadingCom();
             return;
