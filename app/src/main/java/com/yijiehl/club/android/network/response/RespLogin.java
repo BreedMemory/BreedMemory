@@ -142,6 +142,6 @@ public class RespLogin extends BaseResponse {
 
     @Override
     public boolean isNeedLogin() {
-        return false;
+        return true;
     }
 }

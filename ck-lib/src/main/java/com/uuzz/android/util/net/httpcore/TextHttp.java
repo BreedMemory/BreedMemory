@@ -182,26 +182,8 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 					url += "?" + params;
 				}
 			}else{
-				HashMap<String, Object> paramMap = null;
-				if(!params.getClass().isAssignableFrom(HashMap.class)){
-					//传入参数不为HashMap则先转为Hashmap
-					paramMap = ReflectUtils.transformBeanToHashMap(params.getClass(), params);
-				}else{
-					paramMap = (HashMap<String, Object>) params;
-				}
-				//传入参数为Hashmap
-				StringBuffer sb = new StringBuffer();
-				for (Entry<String, Object> param : paramMap.entrySet()) {
-					try {
-						sb.append(param.getKey()).append("=").append(URLEncoder.encode(String.valueOf(param.getValue()), charset)).append("&");
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-				}
-				if(sb.length() >= 1){
-					sb.deleteCharAt(sb.length()-1);
-				}
-				url += "?" + sb.toString();
+
+				url += "?" + createParams(params, charset);
 			}
 		}
 		
@@ -243,5 +225,42 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 			logger.w("connect error!", e);
 		}
 		return null;
+	}
+
+	/**
+	 * 描 述：构造get请求后面的参数列表<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.0.0) 谌珂 2016/9/19 <br/>
+	 */
+	public static String createParams(Object obj, String charset) {
+		HashMap<String, Object> paramMap;
+		if(!obj.getClass().isAssignableFrom(HashMap.class)){
+			//传入参数不为HashMap则先转为Hashmap
+			paramMap = ReflectUtils.transformBeanToHashMap(obj.getClass(), obj);
+		}else{
+			paramMap = (HashMap<String, Object>) obj;
+		}
+		//传入参数为Hashmap
+		StringBuilder sb = new StringBuilder();
+		for (Entry<String, Object> param : paramMap.entrySet()) {
+			try {
+				sb.append(param.getKey()).append("=").append(URLEncoder.encode(String.valueOf(param.getValue()), charset)).append("&");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		if(sb.length() >= 1){
+			sb.deleteCharAt(sb.length()-1);
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 描 述：构造get请求后面的参数列表<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.0.0) 谌珂 2016/9/19 <br/>
+	 */
+	public static String createParams(Object obj) {
+		return createParams(obj, RequestParams.UTF_8);
 	}
 }

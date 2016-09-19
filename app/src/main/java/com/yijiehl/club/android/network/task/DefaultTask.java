@@ -94,6 +94,7 @@ public class DefaultTask extends AbstractTask {
         try {
             return JSON.parseObject(data, mRequest.getResponseClass());
         } catch (Exception e) {
+            logger.e("create response failed! response is :" + data, e);
             return null;
         }
 

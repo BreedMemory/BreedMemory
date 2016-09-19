@@ -29,11 +29,13 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.ReqSearchActivitys;
+import com.yijiehl.club.android.network.request.dataproc.UploadPicture;
+import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -270,6 +272,8 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
+        // TODO: 谌珂 2016/9/19 测试代码
+        UploadPicture ipload = new UploadPicture(new File(""));
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})

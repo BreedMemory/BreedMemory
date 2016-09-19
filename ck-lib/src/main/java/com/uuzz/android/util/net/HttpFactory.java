@@ -9,6 +9,7 @@ package com.uuzz.android.util.net;
 import com.uuzz.android.util.net.httpcore.BaseHttp;
 import com.uuzz.android.util.net.httpcore.DownloadHttp;
 import com.uuzz.android.util.net.httpcore.TextHttp;
+import com.uuzz.android.util.net.httpcore.UploadHttp;
 
 /**
  * 项目名称：工具库 <br/>
@@ -23,6 +24,7 @@ public class HttpFactory {
 
     public static final int TEXT_DATA = 0;
     public static final int DOWNLOAD_DATA = 1;
+    public static final int UPLOAD = 2;
 
     /**
      * 描 述：获取网络请求的工具对象<br/>
@@ -39,6 +41,9 @@ public class HttpFactory {
                 break;
             case DOWNLOAD_DATA:
                 result = new DownloadHttp();
+                break;
+            case UPLOAD:
+                result = new UploadHttp();
                 break;
             default:
                 result = new TextHttp();

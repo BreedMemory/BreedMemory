@@ -4,7 +4,7 @@
  * <p>
  * Created by 谌珂 on 2016/9/12.  <br/>
  */
-package com.yijiehl.club.android.network.request;
+package com.yijiehl.club.android.network.request.search;
 
 import android.content.Context;
 

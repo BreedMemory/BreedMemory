@@ -67,7 +67,8 @@ public class SplashActivity extends BmActivity {
             @Override
             public void onFailed(String msg) {
                 super.onFailed(msg);
-                sensitize();
+                // TODO: 谌珂 2016/9/19 激活失败后的处理
+//                sensitize();
             }
         }, false);
     }

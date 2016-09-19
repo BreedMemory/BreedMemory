@@ -24,7 +24,7 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.ReqSearchClub;
+import com.yijiehl.club.android.network.request.search.ReqSearchClub;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.base.Sex;
 import com.yijiehl.club.android.network.request.dataproc.UpdateUserInfo;

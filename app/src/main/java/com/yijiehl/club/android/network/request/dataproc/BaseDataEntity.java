@@ -43,7 +43,8 @@ public abstract class BaseDataEntity {
         CREATE(0, "create"),
         UPDATE(1, "update"),
         DELETE(2, "delete"),
-        CANCEL(3, "cancel");
+        CANCEL(3, "cancel"),
+        UPLOAD(4, "upload");
 
         private int value;
         private String name;

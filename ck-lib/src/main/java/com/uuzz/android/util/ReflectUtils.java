@@ -7,6 +7,7 @@ import com.uuzz.android.util.net.request.base.BaseRequestBean;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ import java.util.List;
 		for (Class cls : classes) {
 			Field[] fields = cls.getDeclaredFields();
 			for (Field field : fields) {
-				if(field.getName().contains("$")) {
+				if(field.getName().contains("$") || field.getType() == File.class) {
 					continue;
 				}
 				String value = String.valueOf(ReflectUtils.getValueByField(obj, field));
