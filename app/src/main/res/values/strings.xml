@@ -27,8 +27,13 @@
     <string name="person_info">个人信息</string>
     <string name="headpic">头像</string>
     <string name="nickname">昵称</string>
+    <string name="new_nickname">请输入昵称</string>
+    <string name="phone_num">手机号</string>
+    <string name="phone_num_input">请输入手机号</string>
     <string name="sex">性别</string>
     <string name="address">通讯地址</string>
+    <string name="address_change">修改地址</string>
+    <string name="address_change_hint">街道门牌信息</string>
     <string name="relaccount">亲友账号</string>
     <string name="mine">我的</string>
     <string name="sign_record">签到记录</string>
