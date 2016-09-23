@@ -31,10 +31,11 @@ public class ReqUploadFile extends ReqBase {
         super(context);
     }
 
-    public ReqUploadFile(Context context, UploadType bizType, String fileName, File file) {
+    public ReqUploadFile(Context context, UploadType bizType, File file) {
         super(context);
         this.bizType = bizType.getName();
-        this.fileName = fileName;
+        this.fileName = file.getName();
+        this.fileName = file.getName();
         this.file = file;
     }
 

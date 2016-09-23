@@ -75,10 +75,12 @@ public class DefaultRequestParam {
     public static RequestParams getUploadRequestParams(Context context, ReqUploadFile pRequest, boolean isSingle, String path){
         String resourceUrl = ContextUtils.getSharedString(context, R.string.shared_preference_resourceUrl);
         StringBuilder url = new StringBuilder();
-        if(pRequest.isHttps()) {
-            url.append("https://");
-        } else {
-            url.append("http://");
+        if(!resourceUrl.startsWith("http")) {
+            if(pRequest.isHttps()) {
+                url.append("https://");
+            } else {
+                url.append("http://");
+            }
         }
 
         url.append(resourceUrl);
@@ -87,6 +89,7 @@ public class DefaultRequestParam {
         }
         path = TextHttp.createParams(pRequest);
         url.append(pRequest.getPath().toLowerCase());
+        url.append("?").append(path);
         return new RequestParams<>(url.toString(), pRequest.getFile(), null, null, -1, pRequest.isGet(), path, isSingle);
     }
 

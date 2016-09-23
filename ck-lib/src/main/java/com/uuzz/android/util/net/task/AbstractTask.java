@@ -60,7 +60,6 @@ public abstract class AbstractTask implements BaseHttp.HttpRequestListener<Strin
         if(mListener != null){
             mListener.updateProgress(progress);
         }
-        closeLoadingCom();
     }
 
     /**

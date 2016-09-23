@@ -29,9 +29,12 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.UploadPicture;
 import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
+import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 
@@ -41,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static com.yijiehl.club.android.network.request.upload.ReqUploadFile.UploadType.CRM_PHOTO_DETAIL;
 
 /**
  * 项目名称：孕育迹忆<br/>
@@ -273,7 +277,18 @@ public class HostFragment extends BaseHostFragment {
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
         // TODO: 谌珂 2016/9/19 测试代码
-        UploadPicture ipload = new UploadPicture(new File(""));
+        final File file = new File("/sdcard/Pictures/1453448257206.jpg");
+        UploadPicture ipload = new UploadPicture(file);
+        ReqBaseDataProc proc = new ReqBaseDataProc(getActivity(), ipload);
+        NetHelper.getDataFromNet(getActivity(), proc, new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                BaseResponse data = (BaseResponse)pResponse;
+                data.getReturnMsg().getResultCode();
+                ReqUploadFile uploadFile = new ReqUploadFile(getActivity(), CRM_PHOTO_DETAIL, file);
+                NetHelper.getDataFromNet(getActivity(), uploadFile, null);
+            }
+        });
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
