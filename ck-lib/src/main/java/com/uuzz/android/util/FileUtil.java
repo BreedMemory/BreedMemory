@@ -36,7 +36,7 @@ public class FileUtil {
 	 * 作者：谌珂<br/>
 	 * 历 史: (版本) 谌珂 2015/12/29 注释 <br/>
 	 */
-	private static boolean hasSDCard() {
+	public static boolean hasSDCard() {
 		String status = Environment.getExternalStorageState();
 		return TextUtils.equals(status, Environment.MEDIA_MOUNTED);
 	}

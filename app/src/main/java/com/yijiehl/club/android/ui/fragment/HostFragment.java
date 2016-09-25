@@ -8,6 +8,7 @@ package com.yijiehl.club.android.ui.fragment;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -95,6 +96,9 @@ public class HostFragment extends BaseHostFragment {
     /** 成长文章描述 */
     @ViewInject(R.id.tv_grow_up_desc)
     private TextView mGrowUpDesc;
+    /** 消息提示icon */
+    @ViewInject(R.id.tv_message_tip_icon)
+    private TextView mMessageTipIcon;
 
     /** 活动信息 */
     private ActivityInfo mActivityInfo;
@@ -170,6 +174,8 @@ public class HostFragment extends BaseHostFragment {
         }
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
+
+        mGrowUpDesc.setText(Html.fromHtml(getString(R.string.grow_up_gas_station)));
     }
 
     /**

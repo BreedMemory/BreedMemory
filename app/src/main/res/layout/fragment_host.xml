@@ -7,14 +7,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:baselineAligned="false">
 
         <!-- 第一个页面 -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="50dip"
-            android:background="@color/colorPrimary">
+            android:background="@color/colorPrimary"
+            android:layout_weight="1">
             <!-- 外层半透明背景 -->
             <LinearLayout
                 android:id="@+id/ll_tip_background"
@@ -92,8 +94,30 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="-21dp"
                 android:layout_width="76dp"
-                android:layout_height="60dp"
-                tools:src="@drawable/club_logo"/>
+                android:layout_height="match_parent"
+                android:src="@drawable/club_logo"/>
+            
+            <TextView
+                android:id="@+id/tv_message_tip_icon"
+                android:layout_above="@id/im_arc_up"
+                android:layout_width="24dip"
+                android:layout_height="24dip"
+                android:layout_marginLeft="22dip"
+                android:layout_marginRight="8dip"
+                android:gravity="center"
+                android:text="!"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/message_tip_none"/>
+
+            <TextView
+                android:id="@+id/tv_message_tip"
+                android:layout_above="@id/im_arc_up"
+                android:layout_toRightOf="@id/tv_message_tip_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/second_text_size"
+                android:textColor="@color/colorAccent"
+                android:text="@string/message_tip"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -103,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                tools:src="@drawable/bg_activity"/>
+                android:src="@drawable/bg_activity"/>
             <ImageView
                 android:id="@+id/im_arc_2"
                 android:layout_width="match_parent"
@@ -120,7 +144,7 @@
                 android:layout_marginLeft="50dip"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/primary_text_size"
-                tools:text="聆听音乐"/>
+                android:text="聆听音乐"/>
             <View
                 android:id="@+id/activity_divider"
                 android:layout_below="@id/tv_activity_name"
@@ -139,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/second_text_size"
-                tools:text="8月13日 10:30 pm"/>
+                android:text="8月13日 10:30 pm"/>
 
             <ImageView
                 android:id="@+id/im_collect_activity"
@@ -164,19 +188,20 @@
                 android:maxWidth="125dip"
                 android:layout_height="25dip"
                 android:scaleType="fitStart"
-                tools:src="@drawable/club_logo_info"
+                android:src="@drawable/club_logo_info"
                 android:layout_alignTop="@+id/im_collect_activity"
                 android:layout_alignLeft="@+id/activity_divider"
                 android:layout_alignStart="@+id/activity_divider" />
         </RelativeLayout>
 
-        <RelativeLayout style="@style/host_page_container">
+        <RelativeLayout
+            style="@style/host_page_container">
             <ImageView
                 android:id="@+id/im_photo_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                tools:src="@drawable/bg_activity"/>
+                android:src="@drawable/bg_photo"/>
             <ImageView
                 android:id="@+id/im_arc_3"
                 android:layout_width="match_parent"
@@ -204,15 +229,33 @@
                     android:src="@drawable/share"/>
             </RelativeLayout>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_photo_container"
+            <LinearLayout
+                android:id="@+id/ll_photo_container"
+                android:orientation="horizontal"
                 android:layout_width="239dip"
                 android:layout_height="73dip"
                 android:layout_marginTop="21dip"
                 android:layout_below="@id/rl_photo_share_btn_container"
                 android:layout_centerHorizontal="true">
+                
+                <ImageView
+                    android:id="@+id/iv_photo_1"
+                    style="@style/host_photo_content"
+                    android:src="@drawable/photo_test"/>
 
-            </android.support.v4.view.ViewPager>
+                <ImageView
+                    android:id="@+id/iv_photo_2"
+                    style="@style/host_photo_content"
+                    android:layout_marginRight="@dimen/primary_List_margin"
+                    android:layout_marginLeft="@dimen/primary_List_margin"
+                    android:src="@drawable/photo_test"/>
+
+                <ImageView
+                    android:id="@+id/iv_photo_3"
+                    android:src="@drawable/photo_test"
+                    style="@style/host_photo_content" />
+
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout style="@style/host_page_container">
@@ -221,7 +264,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                tools:src="@drawable/bg_activity"/>
+                android:src="@drawable/question_test"/>
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="55dip"
+                android:textColor="@color/white"
+                android:layout_marginTop="161dip"
+                android:text="@string/ask_and_answer"/>
             <ImageView
                 android:id="@+id/im_arc_4"
                 android:layout_width="match_parent"
@@ -229,7 +280,7 @@
                 android:layout_alignParentBottom="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/bg_tranlusent_arc"/>
-            <TextView
+            <com.yijiehl.club.android.ui.view.UnderLineTextView
                 android:id="@+id/tv_question_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -238,9 +289,8 @@
                 android:layout_marginLeft="50dip"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="21dip"
-                android:background="@drawable/bg_line_text"
                 android:paddingBottom="14dip"
-                tools:text="婴儿一天喂几次奶？"/>
+                android:text="婴儿一天喂几次奶？"/>
 
             <ImageView
                 android:id="@+id/im_share_question"
@@ -257,7 +307,7 @@
                 android:maxWidth="125dip"
                 android:layout_height="25dip"
                 android:scaleType="fitStart"
-                tools:src="@drawable/club_logo_info"
+                android:src="@drawable/club_logo_info"
                 android:layout_marginLeft="54dip"
                 android:layout_marginTop="23dip"
                 android:layout_below="@id/tv_question_name"/>
@@ -270,7 +320,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                tools:src="@drawable/bg_activity"/>
+                android:src="@drawable/grow_up_bg"/>
             <ImageView
                 android:id="@+id/im_arc_5"
                 android:layout_width="match_parent"
@@ -298,7 +348,7 @@
                     android:src="@drawable/share"/>
             </RelativeLayout>
 
-            <TextView
+            <com.yijiehl.club.android.ui.view.UnderLineTextView
                 android:id="@+id/tv_grow_up_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -307,16 +357,16 @@
                 android:layout_marginLeft="50dip"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="21dip"
-                android:background="@drawable/bg_line_text"
+                android:background="@color/transparent"
                 android:paddingBottom="5dip"
-                tools:text="婴儿保险知多少"/>
+                android:text="婴儿保险知多少"/>
 
             <ImageView
                 android:id="@+id/im_gas_station"
                 android:layout_width="66dip"
                 android:layout_height="60dip"
                 android:scaleType="fitStart"
-                tools:src="@drawable/gas_station"
+                android:src="@drawable/gas_station"
                 android:layout_marginLeft="50dip"
                 android:layout_marginTop="14dip"
                 android:layout_below="@id/tv_grow_up_title"/>
@@ -331,7 +381,7 @@
                 android:layout_marginLeft="20dip"
                 android:layout_marginTop="45dip"
                 android:textSize="21dip"
-                tools:text="@string/grow_up_gas_station"/>
+                android:text="@string/grow_up_gas_station"/>
 
         </RelativeLayout>
 

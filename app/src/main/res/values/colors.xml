@@ -10,4 +10,10 @@
     <color name="textColorFootDark">#B4D3D4</color>
     <color name="transparent">#00000000</color><!--透明 -->
     <color name="textColorHint">#858585</color>
+
+
+
+    <color name="healthActivity">#3bb7a5</color>
+    <color name="healthFood">#3badb7</color>
+    <color name="healthKnowledge">#3b8ab7</color>
 </resources>
