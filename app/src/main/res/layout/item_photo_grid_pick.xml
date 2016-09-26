@@ -7,7 +7,6 @@
         android:id="@+id/iv_item_photo"
         android:layout_width="match_parent"
         android:layout_height="120dip"
-        android:background="@mipmap/ic_launcher"
         android:scaleType="centerCrop" />
 
     <ImageButton

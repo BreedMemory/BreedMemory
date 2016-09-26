@@ -112,10 +112,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
                 viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
                 viewHolderPick.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
 
-                ImageLoader.getInstance().displayImage("file:///mnt" + mDatas.get(position - 1), viewHolderPick.ivPhoto);
-                Log.e("QQQ", mDatas.get(position - 1));
-//                viewHolderPick.ivPhoto.setImageBitmap(BitmapFactory.decodeFile(mDatas.get(position-1)));
-                Log.e("adapter", "possition is " + position + "   " + mDatas.get(position - 1));
+                ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), viewHolderPick.ivPhoto);
                 viewHolderPick.ivPhoto.setColorFilter(null);
                 viewHolderPick.ivPhoto.setOnClickListener(new MyOnClickListener(viewHolderPick, position));
 
