@@ -54,4 +54,13 @@
     <string name="day">日</string>
     <string name="search_club_info">查询会所信息</string>
     <string name="grow_up_gas_station">成长加油站 &lt;font color="#F06C67"&gt;0&lt;/font&gt;元</string>
+    <string name="message_tip">消息提醒</string>
+    <string name="my_health">我的健康</string>
+    <string name="health_analysis">健康情况分析</string>
+    <string name="test_health">近期，妈妈的体重增加，睡眠良好。精神较好</string>
+    <string name="know_more">了解更多</string>
+    <string name="other">其他</string>
+    <string name="activity">活动</string>
+    <string name="knowledge">知识</string>
+    <string name="food">饮食</string>
 </resources>

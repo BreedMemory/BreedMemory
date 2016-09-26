@@ -64,4 +64,9 @@ public class ReqBaseDataProc extends ReqBase {
     public Class<? extends AbstractResponse> getResponseClass() {
         return BaseResponse.class;
     }
+
+    @Override
+    public boolean isGet() {
+        return true;
+    }
 }

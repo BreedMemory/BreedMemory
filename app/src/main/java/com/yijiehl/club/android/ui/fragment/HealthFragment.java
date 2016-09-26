@@ -9,6 +9,9 @@ package com.yijiehl.club.android.ui.fragment;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.yijiehl.club.android.R;
+
 /**
  * 项目名称：孕育迹忆 <br/>
  * 类  名: HealthFragment <br/>
@@ -18,6 +21,7 @@ import android.view.View;
  * 修改时间：2016/9/18 <br/>
  * @author 谌珂 <br/>
  */
+@ContentView(R.layout.fragment_health_layout)
 public class HealthFragment extends BaseHostFragment {
     @Nullable
     @Override

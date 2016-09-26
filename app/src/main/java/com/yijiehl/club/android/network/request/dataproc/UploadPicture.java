@@ -42,6 +42,78 @@ public class UploadPicture extends BaseDataEntity {
     /** 可为空，如能够取到则上传一个长整型的时间，java里面一般用 file.lastModified() 来获取(仅参考)  */
     private String fileTime;
 
+    public String getDataName() {
+        return dataName;
+    }
+
+    public void setDataName(String dataName) {
+        this.dataName = dataName;
+    }
+
+    public String getDataLabel() {
+        return dataLabel;
+    }
+
+    public void setDataLabel(String dataLabel) {
+        this.dataLabel = dataLabel;
+    }
+
+    public String getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(String albumId) {
+        this.albumId = albumId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getImageSize() {
+        return imageSize;
+    }
+
+    public void setImageSize(String imageSize) {
+        this.imageSize = imageSize;
+    }
+
+    public String getCompressFlag() {
+        return compressFlag;
+    }
+
+    public void setCompressFlag(String compressFlag) {
+        this.compressFlag = compressFlag;
+    }
+
+    public String getLocalInfo() {
+        return localInfo;
+    }
+
+    public void setLocalInfo(String localInfo) {
+        this.localInfo = localInfo;
+    }
+
+    public String getFileTime() {
+        return fileTime;
+    }
+
+    public void setFileTime(String fileTime) {
+        this.fileTime = fileTime;
+    }
+
     @Override
     protected String getDataModle() {
         return "crm_photo_detail";
