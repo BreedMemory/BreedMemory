@@ -5,6 +5,7 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -155,5 +157,10 @@ public class PictureFragment extends BaseHostFragment {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String d = format.format(date);
         return d;
+    }
+    @OnClick(R.id.click_uploading)
+    private void upLoading(){
+        // TODO: 2016/9/26  
+        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
     }
 }
