@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -23,7 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by asus on 2016/9/22.
+ * 项目名称：孕育迹忆 <br/>
+ * 类  名: PhotoPickerActivity <br/>
+ * 类描述: <br/>
+ * 实现的主要功能 <br/>
+ * 版    本：1.0.0 <br/>
+ * 修改时间：2016/9/26 <br/>
+ * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_photo_picker)
 public class PhotoPickerActivity extends BmActivity {
@@ -68,7 +73,6 @@ public class PhotoPickerActivity extends BmActivity {
                 case SCAN_OK:
                     progressDialog.dismiss();
                     photoGridItemAdapter = new PhotoGridItemAdapter(PhotoPickerActivity.this, dataPaths);
-                    Log.d("AAA",dataPaths.size()+"");
                     photoGrid.setAdapter(photoGridItemAdapter);
                     photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
                         @Override
@@ -125,7 +129,6 @@ public class PhotoPickerActivity extends BmActivity {
                     photos = directories.get(i).getPhotos();
                     for (Photo photo : photos) {
                         dataPaths.add(photo.getPath());
-                        Log.d("===","AAAA"+photo.getPath());
                     }
                 }
                 mHandler.sendEmptyMessage(SCAN_OK);

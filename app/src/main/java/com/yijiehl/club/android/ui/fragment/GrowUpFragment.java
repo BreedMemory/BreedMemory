@@ -122,19 +122,19 @@ public class GrowUpFragment extends BaseHostFragment {
                 break;
             case R.id.tv_health :
                 mHealth.setTextColor(getResources().getColor(R.color.white));
-                mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_pink));
+                mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_pink));
                 mAll.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
+                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
                 mEducation.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
+                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_white));
                 break;
             case R.id.tv_education :
                 mEducation.setTextColor(getResources().getColor(R.color.white));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_pink));
+                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_pink));
                 mHealth.setTextColor(getResources().getColor(R.color.colorPrimary));
                 mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
                 mAll.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
+                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
                 break;
         }
     }

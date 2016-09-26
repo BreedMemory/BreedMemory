@@ -122,7 +122,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
                     viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.pictures_selected);
-                    viewHolderPick.ivPhoto.setColorFilter(R.color.colorAccent);
+                    viewHolderPick.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
                     viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
                     viewHolderPick.ivPhoto.setColorFilter(null);

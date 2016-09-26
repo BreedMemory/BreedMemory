@@ -15,7 +15,13 @@ import static android.provider.MediaStore.MediaColumns.DATA;
 import static android.provider.MediaStore.MediaColumns.DATE_ADDED;
 
 /**
- * Created by asus on 2016/9/25.
+ * 项目名称：孕育迹忆 <br/>
+ * 类  名: MediaStoreHelper <br/>
+ * 类描述: <br/>
+ * 实现的主要功能 <br/>
+ * 版    本：1.0.0 <br/>
+ * 修改时间：2016/9/26 <br/>
+ * @author 张志新 <br/>
  */
 public class MediaStoreHelper {
 

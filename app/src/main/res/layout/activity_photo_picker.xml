@@ -42,6 +42,7 @@
                 android:layout_marginLeft="15dip"
                 android:text="预览"
                 android:clickable="false"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14dip" />
 
             <Button
@@ -52,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dip"
                 android:clickable="false"
-                android:text="完成" />
+                android:text="确定" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

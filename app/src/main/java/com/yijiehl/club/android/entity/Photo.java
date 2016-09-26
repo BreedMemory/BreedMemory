@@ -1,7 +1,13 @@
 package com.yijiehl.club.android.entity;
 
 /**
- * Created by asus on 2016/9/25.
+ * 项目名称：孕育迹忆 <br/>
+ * 类  名: Photo <br/>
+ * 类描述: <br/>
+ * 实现的主要功能 <br/>
+ * 版    本：1.0.0 <br/>
+ * 修改时间：2016/9/26 <br/>
+ * @author 张志新 <br/>
  */
 public class Photo {
 

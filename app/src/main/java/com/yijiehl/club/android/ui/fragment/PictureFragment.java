@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,13 +40,26 @@ import java.util.List;
  */
 @ContentView(R.layout.fragment_picture)
 public class PictureFragment extends BaseHostFragment {
-
+    /**
+     * 个人照片
+     */
     @ViewInject(R.id.tv_person)
     private TextView mPerson;
+    /**
+     * 会所照片
+     */
     @ViewInject(R.id.tv_club)
     private TextView mClub;
+    /**
+     * 无照片上传图标
+     */
     @ViewInject(R.id.click_uploading)
     private LinearLayout noData;
+    /**
+     * 有照片上传图标
+     */
+    @ViewInject(R.id.iv_uploading)
+    private ImageView upLoading;
 
     /**
      * 内容列表
@@ -58,9 +72,9 @@ public class PictureFragment extends BaseHostFragment {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
-    private List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
+    private List<PhotoInfo> dataPhoto;//个人照片数据,服务器返回的
     private List<List<PhotoInfo>> dataPhotoList;//个人照片数据源
-    private List<AlbumInfo> dataAlbum ;//相册照片数据源
+    private List<AlbumInfo> dataAlbum;//相册照片数据源
 
     @Nullable
     @Override
@@ -93,8 +107,12 @@ public class PictureFragment extends BaseHostFragment {
 //        dataPhotoList=getList((ArrayList<PhotoInfo>) dataPhoto);
 //        PicturePersonAdapter picturePersonAdapter=new PicturePersonAdapter(getActivity(),dataPhotoList);
 //        mListView.setAdapter(picturePersonAdapter);
-
-        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener(){
+      /*  if (dataPhoto.size() == 0) {
+            upLoading.setVisibility(View.INVISIBLE);
+        } else {
+            upLoading.setVisibility(View.VISIBLE);
+        }*/
+        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
             public void onLoadMore() {
@@ -153,13 +171,14 @@ public class PictureFragment extends BaseHostFragment {
     }
 
     public String getTime(String time) {
-        Date date=new Date(time);
+        Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String d = format.format(date);
         return d;
     }
+
     @OnClick(R.id.click_uploading)
-    private void upLoading(){
+    private void upLoading() {
         // TODO: 2016/9/26  
         startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
     }
