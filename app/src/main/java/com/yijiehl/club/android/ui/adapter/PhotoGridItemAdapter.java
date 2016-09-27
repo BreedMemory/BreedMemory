@@ -14,6 +14,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
-    public static List<String> mSelectedPhoto = new LinkedList<String>();
+    public static ArrayList<String> mSelectedPhoto = new ArrayList<String>();
     /**
      * 所有图片
      */

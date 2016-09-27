@@ -1,6 +1,7 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,7 +63,7 @@ public class PhotoPickerActivity extends BmActivity {
 
     //private List<PhotoDirectory> photoDirectories;//相册集合
     private List<Photo> photos;//照片集合
-    private List<String> dataPaths = new ArrayList<String>();//所有照片路径集合
+    private ArrayList<String> dataPaths = new ArrayList<String>();//所有照片路径集合
 
 
     private Handler mHandler = new Handler() {
@@ -138,7 +139,9 @@ public class PhotoPickerActivity extends BmActivity {
 
     @OnClick(R.id.tv_prview)
     private void prView() {
-
+        Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
+        i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
+        startActivity(i);
     }
 
     @OnClick(R.id.btn_ok)
