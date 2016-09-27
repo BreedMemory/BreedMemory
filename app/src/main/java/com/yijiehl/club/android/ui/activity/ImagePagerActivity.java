@@ -1,14 +1,12 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.widget.TextView;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.adapter.ImagePagerAdapter;
 
 import java.util.ArrayList;
 
@@ -22,65 +20,23 @@ import java.util.ArrayList;
  *
  * @author 张志新 <br/>
  */
-//@ContentView(R.layout.activity_image_pager)
-public class ImagePagerActivity extends FragmentActivity {
+@ContentView(R.layout.activity_image_pager)
+public class ImagePagerActivity extends BmActivity {
 
-    private static final String STATE_POSITION = "STATE_POSITION";
-    public static final String EXTRA_IMAGE_INDEX = "image_index";
-    public static final String EXTRA_IMAGE_URLS = "image_urls";
+    @ViewInject(R.id.iv_detail_show)
+    private ImageView ivShow;
 
-    //@ViewInject(R.id.pager)
-    private ViewPager mPager;
+    private ArrayList<String> urls;
 
-    // @ViewInject(R.id.indicator)
-    private TextView indicator;
-
-    private int pagerPosition;
-
+    @Override
+    protected String getHeadTitle() {
+        return "照片详情";
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_pager);
-        pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
-        ArrayList<String> urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
-
-        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(getSupportFragmentManager(), urls);
-
-        mPager = (ViewPager) findViewById(R.id.pager);
-        indicator = (TextView) findViewById(R.id.indicator);
-
-        mPager.setAdapter(imagePagerAdapter);
-
-        CharSequence text = getString(R.string.viewpager_indicator, 1, mPager.getAdapter().getCount());
-        indicator.setText(text);
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                CharSequence text = getString(R.string.viewpager_indicator, position + 1, mPager.getAdapter().getCount());
-                indicator.setText(text);
-            }
-        });
-        if (savedInstanceState != null) {
-            pagerPosition = savedInstanceState.getInt(STATE_POSITION);
-        }
-
-        mPager.setCurrentItem(pagerPosition);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_POSITION, mPager.getCurrentItem());
+        urls=getIntent().getStringArrayListExtra("image_urls");
+        ImageLoader.getInstance().displayImage("file:///" +urls.get(0),ivShow);
     }
 }

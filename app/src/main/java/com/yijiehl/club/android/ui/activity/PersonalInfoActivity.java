@@ -34,25 +34,32 @@ public class PersonalInfoActivity extends BmActivity {
     }
 
     // TODO: 2016/9/11 张志新  此处需要根据需求再写跳转。。。
-    @OnClick({R.id.layout_update_headpic, R.id.layout_update_nickname, R.id.layout_update_name
-            , R.id.layout_update_sex, R.id.layout_update_phonenum,
-            R.id.layout_update_address, R.id.layout_update_relaccount})
-    private void upDatePersonalInfo(View v) {
-        switch (v.getId()){
-            case R.id.layout_update_headpic:
-                break;
-            case R.id.layout_update_nickname:
-                break;
-            case R.id.layout_update_name:
-                break;
-            case R.id.layout_update_sex:
-                break;
-            case R.id.layout_update_phonenum:
-                break;
-            case R.id.layout_update_address:
-                break;
-            case R.id.layout_update_relaccount:
-                break;
-        }
+    @OnClick(R.id.layout_update_headpic)
+    private void upDateHeadPic(){
+
+    }
+    @OnClick(R.id.layout_update_nickname)
+    private void upDateNickName(){
+
+    }
+    @OnClick(R.id.layout_update_name)
+    private void upDateName(){
+
+    }
+    @OnClick(R.id.layout_update_sex)
+    private void upDateSex(){
+
+    }
+    @OnClick(R.id.layout_update_phonenum)
+    private void upDatePhoneNum(){
+
+    }
+    @OnClick(R.id.layout_update_address)
+    private void upDatePhoneAddress(){
+
+    }
+    @OnClick(R.id.layout_update_relaccount)
+    private void upDatePhoneRelAccount(){
+
     }
 }
