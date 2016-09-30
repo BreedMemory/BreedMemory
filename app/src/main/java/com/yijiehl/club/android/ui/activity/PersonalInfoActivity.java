@@ -7,6 +7,7 @@ package com.yijiehl.club.android.ui.activity;/**
  * Created by asus on 2016/9/11.
  */
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -33,33 +34,33 @@ public class PersonalInfoActivity extends BmActivity {
         return getString(R.string.person_info);
     }
 
-    // TODO: 2016/9/11 张志新  此处需要根据需求再写跳转。。。
+    // TODO: 2016/9/11 张志新  此处需要根据需求再写跳转；没有传值 也没有返回值；
     @OnClick(R.id.layout_update_headpic)
     private void upDateHeadPic(){
 
     }
     @OnClick(R.id.layout_update_nickname)
     private void upDateNickName(){
-
+        startActivity(new Intent(PersonalInfoActivity.this,NickChangeActivity.class));
     }
     @OnClick(R.id.layout_update_name)
     private void upDateName(){
-
+       // startActivity(new Intent(PersonalInfoActivity.this,NickChangeActivity.class));
     }
     @OnClick(R.id.layout_update_sex)
     private void upDateSex(){
-
+        startActivity(new Intent(PersonalInfoActivity.this,SexChangeActivity.class));
     }
     @OnClick(R.id.layout_update_phonenum)
     private void upDatePhoneNum(){
-
+        startActivity(new Intent(PersonalInfoActivity.this,PhoneNumChangeActivity.class));
     }
     @OnClick(R.id.layout_update_address)
     private void upDatePhoneAddress(){
-
+        startActivity(new Intent(PersonalInfoActivity.this,AddressChangeActivity.class));
     }
     @OnClick(R.id.layout_update_relaccount)
     private void upDatePhoneRelAccount(){
-
+        startActivity(new Intent(PersonalInfoActivity.this,AddRelativesAccount.class));
     }
 }
