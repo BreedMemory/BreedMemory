@@ -79,14 +79,17 @@ public class PhotoPickerActivity extends BmActivity {
                         @Override
                         public void photoClick(List<String> number) {
                             if (!number.isEmpty()) {
-                                // TODO: 2016/9/26 需要设置字体及背景
-                                preView.setTextColor(Color.BLUE);
+                                preView.setTextColor(getResources().getColor(R.color.black));
                                 preView.setClickable(true);
                                 sureBtn.setClickable(true);
+                                sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_yes);
+                                sureBtn.setTextColor(getResources().getColor(R.color.black));
                             } else {
-                                preView.setTextColor(Color.BLACK);
+                                preView.setTextColor(getResources().getColor(R.color.textColorLight));
                                 preView.setClickable(false);
                                 sureBtn.setClickable(false);
+                                sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_no);
+                                sureBtn.setTextColor(getResources().getColor(R.color.textColorLight));
                             }
                         }
 
@@ -146,7 +149,10 @@ public class PhotoPickerActivity extends BmActivity {
 
     @OnClick(R.id.btn_ok)
     private void btnSure() {
-
+        // TODO: 2016/9/29 需要完善页面的跳转，以及finish本activity
+       /* Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
+        i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
+        startActivity(i);*/
     }
 
 }

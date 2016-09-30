@@ -32,7 +32,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/white">
+            android:background="#fbfbff">
 
             <TextView
                 android:id="@+id/tv_prview"
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="15dip"
                 android:text="预览"
                 android:clickable="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textColorLight"
                 android:textSize="14dip" />
 
             <Button
@@ -52,8 +52,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:background="@drawable/pick_photo_sure_no"
                 android:clickable="false"
-                android:text="确定" />
+                android:text="确定"
+                android:textColor="@color/textColorLight"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -20,8 +20,8 @@
                 android:layout_height="30dip"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="33dip"
                 android:layout_marginLeft="33dip"
+                android:layout_marginRight="33dip"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,29 +58,56 @@
                     android:textSize="14dip" />
             </LinearLayout>
         </RelativeLayout>
-        
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="44dip"
-          android:layout_marginLeft="15dip"
-          android:layout_marginRight="15dip"
-          android:layout_marginTop="10dip"
-          android:hint="搜索"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dip"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:layout_marginTop="10dip">
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+               android:layout_marginLeft="5dip"
+                android:background="@drawable/growup_search" />
+
+            <LinearLayout
+                android:id="@+id/layout_search_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+                <ImageView
+                    android:layout_width="18dip"
+                    android:layout_height="18dip"
+                    android:src="@drawable/search_logo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="搜索"
+                    android:textColor="@color/textColorLight"/>
+            </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
             android:layout_marginTop="10dip"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
         <com.uuzz.android.ui.view.ptr.PtrListView
             android:id="@+id/lv_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_item_white_touchable"
+            android:clickable="true"
             android:divider="@null"
             android:fadingEdge="none"
             android:focusable="true"
-            android:clickable="true"
-            android:background="@drawable/bg_item_white_touchable"
             android:listSelector="@drawable/bg_item_white_touchable"
             android:scrollbarStyle="outsideOverlay" />
     </LinearLayout>
