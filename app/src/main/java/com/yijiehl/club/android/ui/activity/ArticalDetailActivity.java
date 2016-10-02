@@ -37,12 +37,14 @@ public class ArticalDetailActivity extends BmActivity {
         super.onCreate(savedInstanceState);
 
         // TODO: 2016/9/11 此处需要获取url
-        String url = getIntent().getStringExtra("url");
-
+        //String url = getIntent().getStringExtra("url");
+        String url = "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail";
         if (TextUtils.isEmpty(url)) {
             webView.setVisibility(View.GONE);
             return;
         }
+        webView.loadUrl(url);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -50,7 +52,6 @@ public class ArticalDetailActivity extends BmActivity {
                 return true;
             }
         });
-
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
     }

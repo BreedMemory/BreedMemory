@@ -90,6 +90,7 @@ public class MainActivity extends BmActivity {
             @Override
             public void onClick(View v) {
                 // TODO: 谌珂 2016/9/5 跳转到个人账户
+                startActivity(new Intent(MainActivity.this,MineActivity.class));
             }
         });
     }

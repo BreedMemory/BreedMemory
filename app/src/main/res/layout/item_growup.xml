@@ -14,21 +14,24 @@
     <TextView
         android:id="@+id/tv_item_title"
         android:layout_width="wrap_content"
-        android:layout_height="18dip"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dip"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
         android:textSize="18dip"
         android:text="标题" />
 
     <TextView
         android:id="@+id/tv_item_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="42dip"
         android:layout_below="@+id/tv_item_title"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
         android:layout_marginTop="10dip"
+        android:textSize="14dip"
         android:text="11111" />
 
     <ImageView

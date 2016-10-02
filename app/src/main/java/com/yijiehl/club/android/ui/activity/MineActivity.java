@@ -7,6 +7,7 @@ package com.yijiehl.club.android.ui.activity;/**
  * Created by asus on 2016/9/11.
  */
 
+import android.content.Intent;
 import android.view.View;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -32,25 +33,36 @@ public class MineActivity extends BmActivity {
 
 
     // TODO: 2016/9/11 此处需要根据需求再写跳转。。。
-    @OnClick({R.id.layout_health_data, R.id.layout_medicine_remind, R.id.layout_my_message
-            , R.id.layout_my_collect,R.id.layout_photo_manage, R.id.layout_club_introduction, R.id.layout_my_exit})
-    private void chooseMine(View v) {
-        switch (v.getId()) {
-            case R.id.layout_health_data:
-                break;
-            case R.id.layout_medicine_remind:
-                break;
-            case R.id.layout_my_message:
-                break;
-            case R.id.layout_my_collect:
-                break;
-            case R.id.layout_photo_manage:
-                break;
-            case R.id.layout_club_introduction:
-                break;
-            case R.id.layout_my_exit:
-                break;
+    @OnClick(R.id.layout_mine_info)
+    private void personInfo(){
+        startActivity(new Intent(MineActivity.this,PersonalInfoActivity.class));
+    }
+    @OnClick(R.id.layout_health_data)
+    private void healthData(){
 
-        }
+    }
+    @OnClick(R.id.layout_medicine_remind)
+    private void medicineRemind(){
+
+    }
+    @OnClick(R.id.layout_my_message)
+    private void myMessage(){
+
+    }
+    @OnClick(R.id.layout_my_collect)
+    private void myCellect(){
+
+    }
+    @OnClick(R.id.layout_photo_manage)
+    private void photoManege(){
+
+    }
+    @OnClick(R.id.layout_club_introduction)
+    private void clubIntro(){
+
+    }
+    @OnClick(R.id.layout_my_exit)
+    private void exit(){
+
     }
 }

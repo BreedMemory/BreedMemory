@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
@@ -37,6 +38,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
     public GrowUpContentAdapter(Context mContext, List<String> data) {
         super(mContext);
         this.data = data;
+        mDatas=data;
     }
 
     @Override
@@ -52,8 +54,22 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
         }
         holder.tvtitle.setText(data.get(position));
         holder.tvcontext.setText(data.get(position));
+        holder.ivshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2016/10/2
+                Toaster.showShortToast(mContext,"您已收藏");
+            }
+        });
+        holder.ivheart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2016/10/2
+                Toaster.showShortToast(mContext,"您已分享");
+            }
+        });
 
-        ImageLoader.getInstance().displayImage(data.get(position), holder.ivPic, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png", holder.ivPic, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 
