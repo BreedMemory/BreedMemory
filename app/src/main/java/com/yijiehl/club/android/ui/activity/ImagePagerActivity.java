@@ -27,6 +27,7 @@ public class ImagePagerActivity extends BmActivity {
     private ImageView ivShow;
 
     private ArrayList<String> urls;
+    private boolean isNative;
 
     @Override
     protected String getHeadTitle() {
@@ -36,7 +37,12 @@ public class ImagePagerActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        urls=getIntent().getStringArrayListExtra("image_urls");
-        ImageLoader.getInstance().displayImage("file:///" +urls.get(0),ivShow);
+        urls = getIntent().getStringArrayListExtra("image_urls");
+        isNative=getIntent().getBooleanExtra("isNative",false);
+        if(isNative) {
+            ImageLoader.getInstance().displayImage("file:///" + urls.get(0), ivShow);
+        }else{
+            ImageLoader.getInstance().displayImage(urls.get(0), ivShow);
+        }
     }
 }

@@ -6,6 +6,7 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,8 +18,10 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.ui.activity.ImagePagerActivity;
 import com.yijiehl.club.android.ui.view.NoScrollGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +46,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter {
     public PicturePersonAdapter(Context mContext, List<List<PhotoInfo>> data) {
         super(mContext);
         this.data = data;
+        mDatas = data;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         // TODO: 2016/9/16 需要给个人相册设置时间和低点
-        holder.showTime.setText("");
+        holder.showTime.setText(data.get(position).get(0).getCreateDay());
         holder.showAddress.setText("北京");
         dataGrid = data.get(position);
         if (dataGrid != null && dataGrid.size() > 0) {
@@ -70,7 +74,12 @@ public class PicturePersonAdapter extends BaseListViewAdapter {
         holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(mContext, ImagePagerActivity.class);
+                intent.putExtra("isNative", false);
+                ArrayList<String> list = new ArrayList<String>();
+                list.add("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+                intent.putStringArrayListExtra("image_urls", list);
+                mContext.startActivity(intent);
             }
         });
         return convertView;

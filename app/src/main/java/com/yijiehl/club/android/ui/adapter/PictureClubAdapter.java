@@ -44,6 +44,7 @@ public class PictureClubAdapter extends BaseListViewAdapter {
     public PictureClubAdapter(Context mContext, List<AlbumInfo> data) {
         super(mContext);
         this.data = data;
+        mDatas=data;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class PictureClubAdapter extends BaseListViewAdapter {
             // convertView = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tvClubTitle.setText(data.get(position).getDataNum());
+        holder.tvClubTitle.setText(data.get(position).getDataDesc());
         holder.ivClubPicNum.setText(data.get(position).getDataNum());
         holder.tvClubPivTime.setText(data.get(position).getCreateTime());
 

@@ -46,8 +46,8 @@
         <ImageView
             android:id="@+id/iv_uploading"
             android:layout_below="@id/layout_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dip"
+            android:layout_height="40dip"
             android:src="@drawable/uploading_small"
             android:layout_marginLeft="16dip"
             android:visibility="gone"/>

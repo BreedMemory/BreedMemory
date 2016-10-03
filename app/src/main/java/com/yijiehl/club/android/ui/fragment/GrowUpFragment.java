@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,9 @@ public class GrowUpFragment extends BaseHostFragment {
 
     @ViewInject(R.id.et_search)
     private EditText mSearch;
+
+    @ViewInject(R.id.iv_search_show)
+    private ImageView mSearchShow;
 
     @ViewInject(R.id.layout_search_logo)
     private LinearLayout mSearchLogo;
@@ -111,7 +115,7 @@ public class GrowUpFragment extends BaseHostFragment {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return true;
+                return false;
             }
 
             @Override
@@ -134,8 +138,10 @@ public class GrowUpFragment extends BaseHostFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
                     mSearchLogo.setVisibility(View.GONE);
+                    mSearchShow.setVisibility(View.VISIBLE);
                 }else{
                     mSearchLogo.setVisibility(View.VISIBLE);
+                    mSearchShow.setVisibility(View.INVISIBLE);
                 }
             }
         });

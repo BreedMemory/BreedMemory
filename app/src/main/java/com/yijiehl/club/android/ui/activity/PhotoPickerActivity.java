@@ -143,6 +143,7 @@ public class PhotoPickerActivity extends BmActivity {
     @OnClick(R.id.tv_prview)
     private void prView() {
         Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
+        i.putExtra("isNative",true);
         i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
         startActivity(i);
     }

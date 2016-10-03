@@ -8,13 +8,18 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
+import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
+import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -22,6 +27,8 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
 import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
+import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +81,7 @@ public class PictureFragment extends BaseHostFragment {
 
     private List<PhotoInfo> dataPhoto;//个人照片数据,服务器返回的
     private List<List<PhotoInfo>> dataPhotoList;//个人照片数据源
-    private List<AlbumInfo> dataAlbum;//相册照片数据源
+    private List<AlbumInfo> dataAlbum;//会所相册照片数据源
 
     @Nullable
     @Override
@@ -101,30 +108,81 @@ public class PictureFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: 2016/9/14 首先获取数据再设置自己的设配器
 
+        dataPhoto = new ArrayList<>();
+        dataAlbum =new ArrayList<>();
+        // TODO: 2016/9/14 首先获取数据再设置自己的设配器
         //首先联网获取List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
-//        dataPhotoList=getList((ArrayList<PhotoInfo>) dataPhoto);
-//        PicturePersonAdapter picturePersonAdapter=new PicturePersonAdapter(getActivity(),dataPhotoList);
-//        mListView.setAdapter(picturePersonAdapter);
-      /*  if (dataPhoto.size() == 0) {
+
+        addPersonFakeData();
+
+        if (dataPhoto.size() == 0) {
             upLoading.setVisibility(View.INVISIBLE);
         } else {
             upLoading.setVisibility(View.VISIBLE);
-        }*/
+        }
+
+        dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
+        PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
+        mListView.setAdapter(picturePersonAdapter);
+
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
             public void onLoadMore() {
                 // TODO: 2016/9/6 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
+                mListView.loadComplete();
             }
         });
         mListView.setEmptyView(noData);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO: 2016/10/3 需要查看相册的详细照片
+            }
+        });
+        mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return false;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPtrFrameLayout.refreshComplete();
+            }
+        });
+    }
+
+
+    @OnClick(R.id.click_uploading)
+    private void noDataUpLoading() {
+        // TODO: 2016/9/26
+        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
+    }
+
+    @OnClick(R.id.iv_uploading)
+    private void upLoading() {
+        // TODO: 2016/10/3
+        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
     }
 
     @OnClick(R.id.tv_person)
     private void choosePerson() {
         // TODO: 2016/9/14 需要数据源切换
+        addPersonFakeData();
+        if (dataPhoto.size() == 0) {
+            upLoading.setVisibility(View.INVISIBLE);
+        } else {
+            upLoading.setVisibility(View.VISIBLE);
+        }
+
+        dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
+        PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
+        mListView.setAdapter(picturePersonAdapter);
+
         mPerson.setTextColor(getResources().getColor(R.color.white));
         mPerson.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_pink));
         mClub.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -134,6 +192,11 @@ public class PictureFragment extends BaseHostFragment {
     @OnClick(R.id.tv_club)
     private void chooseClub() {
         // TODO: 2016/9/14 需要数据源切换
+        upLoading.setVisibility(View.GONE);
+        addClubFakeData();
+        PictureClubAdapter pictureClubAdapter=new PictureClubAdapter(getActivity(),dataAlbum);
+        mListView.setAdapter(pictureClubAdapter);
+
         mPerson.setTextColor(getResources().getColor(R.color.colorPrimary));
         mPerson.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
         mClub.setTextColor(getResources().getColor(R.color.white));
@@ -156,7 +219,9 @@ public class PictureFragment extends BaseHostFragment {
         String tempTime = "";
         while (templist.size() > 0) {
             PhotoInfo bean = templist.get(0);
-            String time = String.valueOf(getTime(bean.getCreateDay()));
+            //String time = String.valueOf(getTime(bean.getCreateDay()));
+            //String time=getTime(bean.getCreateDay());
+            String time = bean.getCreateDay();
             if (!time.equals(tempTime)) {
                 List<PhotoInfo> list = new ArrayList<PhotoInfo>();
                 list.add(bean);
@@ -171,15 +236,46 @@ public class PictureFragment extends BaseHostFragment {
     }
 
     public String getTime(String time) {
-        Date date = new Date(time);
+        Date date = new Date(Long.parseLong(time));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String d = format.format(date);
         return d;
     }
 
-    @OnClick(R.id.click_uploading)
-    private void upLoading() {
-        // TODO: 2016/9/26  
-        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
+    /**
+     * 临时添加个人假数据的方法
+     */
+    private void addPersonFakeData() {
+        for (int i = 0; i < 6; i++) {
+            PhotoInfo photoInfo = new PhotoInfo();
+            photoInfo.setIconInfo1("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+            photoInfo.setAlbumId("kb");
+            photoInfo.setAlbumName("逗你玩");
+            photoInfo.setCreateDay("2016-10-03");
+            dataPhoto.add(photoInfo);
+        }
+        for (int i = 0; i < 6; i++) {
+            PhotoInfo photoInfo = new PhotoInfo();
+            photoInfo.setIconInfo1("https://p.ssl.qhimg.com/t01ad7a4df0ec4d8efe.jpg");
+            photoInfo.setAlbumId("jd");
+            photoInfo.setAlbumName("不逗了");
+            photoInfo.setCreateDay("2016-10-02");
+            dataPhoto.add(photoInfo);
+        }
     }
+
+    /**
+     * 临时添加会所假数据的方法
+     */
+    private void addClubFakeData() {
+        for (int i = 0; i < 6; i++) {
+            AlbumInfo albumInfo = new AlbumInfo();
+            albumInfo.setDataNum("24");
+            albumInfo.setCreateTime("2016-10-02");
+            albumInfo.setDataDesc("音乐聆听");
+            albumInfo.setIconInfo1("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+            dataAlbum.add(albumInfo);
+        }
+    }
+
 }

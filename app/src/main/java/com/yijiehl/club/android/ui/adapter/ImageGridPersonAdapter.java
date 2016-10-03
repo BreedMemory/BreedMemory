@@ -43,6 +43,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter {
     public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
         super(mContext);
         this.data = data;
+        mDatas=data;
     }
 
 
@@ -50,7 +51,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_growup, null);
+            convertView = View.inflate(mContext, R.layout.item_picture_grid_person, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -58,7 +59,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         // TODO: 2016/9/16 给个人相册缩略图
-        ImageLoader.getInstance().displayImage(data.get(position).getIconInfo1(), holder.ivContent, new ImageLoadingListener() {
+        /*ImageLoader.getInstance().displayImage(data.get(position).getIconInfo1(), holder.ivContent, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 
@@ -78,7 +79,8 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter {
             public void onLoadingCancelled(String imageUri, View view) {
 
             }
-        });
+        });*/
+        ImageLoader.getInstance().displayImage(data.get(position).getIconInfo1(),holder.ivContent);
         return convertView;
     }
 
