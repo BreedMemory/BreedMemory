@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-        android:src="@drawable/sina_web_default"
+        android:src="@drawable/login_bg"
         style="@style/splash_background_image" />
     <ScrollView
         android:layout_width="match_parent"
@@ -30,44 +30,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dip"
-                android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="121dip"
+                    android:layout_height="121dip"
                     android:layout_marginRight="29dip"
-                    android:background="@drawable/bg_item_white_touchable"
-                    android:button="@null"
-                    android:drawablePadding="10dip"
-                    android:drawableTop="@mipmap/ic_launcher"
-                    android:gravity="center"
-                    android:paddingBottom="9dip"
-                    android:paddingLeft="25dip"
-                    android:paddingRight="25dip"
-                    android:paddingTop="15dip"
-                    android:text="@string/male"
-                    android:textColor="@drawable/choose_sex_text_color"
-                    android:textSize="17dip" />
+                    android:background="@drawable/selector_male"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:id="@+id/rb_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_item_white_touchable"
+                    android:layout_width="121dip"
+                    android:layout_height="121dip"
+                    android:background="@drawable/selector_female"
                     android:button="@null"
-                    android:checked="true"
-                    android:drawablePadding="10dip"
-                    android:drawableTop="@mipmap/ic_launcher"
-                    android:gravity="center"
-                    android:paddingBottom="9dip"
-                    android:paddingLeft="25dip"
-                    android:paddingRight="25dip"
-                    android:paddingTop="15dip"
-                    android:text="@string/female"
-                    android:textColor="@drawable/choose_sex_text_color"
-                    android:textSize="17dip" />
+                    android:checked="true"/>
             </RadioGroup>
 
             <TextView

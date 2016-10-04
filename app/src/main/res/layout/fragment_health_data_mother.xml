@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="50dip"
+    android:orientation="vertical">
+    <TextView
+        android:text="产后康复"
+        style="@style/health_data_title" />
+    <View style="@style/health_data_divider" />
+
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:layout_centerVertical="true"
+            android:text="@string/weight"/>
+        <View style="@style/health_data_item_divider" />
+        <TextView
+            android:text="58.00kg"
+            style="@style/health_data_item_data" />
+    </RelativeLayout>
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/temperature"/>
+        <View style="@style/health_data_item_divider" />
+        <TextView
+            android:text="37℃"
+            style="@style/health_data_item_data" />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/health_data_state_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/blood_sugar"/>
+        <TextView
+            android:text="@string/normal"
+            style="@style/health_data_state_item_data" />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/health_data_state_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/blood_pressure"/>
+        <TextView
+            android:text="@string/normal"
+            style="@style/health_data_state_item_data" />
+    </RelativeLayout>
+    <View style="@style/data_divider" />
+    <RelativeLayout
+        style="@style/health_data_state_item_container">
+        <TextView
+            android:text="妈妈现在血压一切正常。"
+            style="@style/health_data_state_item_data_desc" />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/health_data_state_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/sleep"/>
+        <TextView
+            android:text="@string/well"
+            style="@style/health_data_state_item_data" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:paddingLeft="@dimen/primary_List_margin"
+        android:paddingRight="@dimen/primary_List_margin"
+        android:background="#f0f0f0" />
+    <RelativeLayout
+        style="@style/health_data_state_item_container">
+        <TextView
+            android:text="妈妈的睡眠良好。"
+            style="@style/health_data_state_item_data_desc" />
+    </RelativeLayout>
+</LinearLayout>

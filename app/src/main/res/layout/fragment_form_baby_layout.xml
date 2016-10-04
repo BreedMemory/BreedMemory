@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/primary_margin"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_marginTop="0dip"
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/weight"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_weight_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_weight_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_trangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_weight_form_container"
+            android:layout_below="@id/ll_weight_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:src="@drawable/temp_weight_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_below="@id/ll_weight_form_container"
+            style="@style/form_grit_selector">
+            <RadioButton
+                android:id="@+id/rb_weight_grit_0"
+                android:text="4"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_weight_grit_1"
+                android:text="5"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_weight_grit_2"
+                android:text="6"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_weight_grit_3"
+                android:text="7"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_weight_grit_4"
+                android:text="8"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_weight_grit_5"
+                android:text="9"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_weight_grit_6"
+                android:text="10"
+                style="@style/grit_selector" />
+        </RadioGroup>
+    </RelativeLayout>
+
+<!--  头围  -->
+    <RelativeLayout
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/head_size"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_head_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_head_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_trangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_head_form_container"
+            android:layout_below="@id/ll_head_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:src="@drawable/temp_head_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_below="@id/ll_head_form_container"
+            style="@style/form_grit_selector">
+            <RadioButton
+                android:id="@+id/rb_head_grit_0"
+                android:text="4"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_head_grit_1"
+                android:text="5"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_head_grit_2"
+                android:text="6"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_head_grit_3"
+                android:text="7"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_head_grit_4"
+                android:text="8"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_head_grit_5"
+                android:text="9"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_head_grit_6"
+                android:text="10"
+                style="@style/grit_selector" />
+        </RadioGroup>
+    </RelativeLayout>
+
+<!--  胸围  -->
+    <RelativeLayout
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/chest"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_chest_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_chest_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_trangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_chest_form_container"
+            android:layout_below="@id/ll_chest_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:src="@drawable/temp_chest_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_below="@id/ll_chest_form_container"
+            style="@style/form_grit_selector">
+            <RadioButton
+                android:id="@+id/rb_chest_grit_0"
+                android:text="4"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_chest_grit_1"
+                android:text="5"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_chest_grit_2"
+                android:text="6"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_chest_grit_3"
+                android:text="7"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_chest_grit_4"
+                android:text="8"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_chest_grit_5"
+                android:text="9"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_chest_grit_6"
+                android:text="10"
+                style="@style/grit_selector" />
+        </RadioGroup>
+    </RelativeLayout>
+
+<!--  身高  -->
+    <RelativeLayout
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/height"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_height_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_height_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_trangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_height_form_container"
+            android:layout_below="@id/ll_height_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:src="@drawable/temp_height_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_below="@id/ll_height_form_container"
+            style="@style/form_grit_selector">
+            <RadioButton
+                android:id="@+id/rb_height_grit_0"
+                android:text="4"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_height_grit_1"
+                android:text="5"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_height_grit_2"
+                android:text="6"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_height_grit_3"
+                android:text="7"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_height_grit_4"
+                android:text="8"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:id="@+id/rb_height_grit_5"
+                android:text="9"
+                style="@style/grit_selector" />
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_height_grit_6"
+                android:text="10"
+                style="@style/grit_selector" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/baby_extra_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dip"
+        android:orientation="horizontal">
+        <LinearLayout style="@style/health_info_container">
+            <ImageView
+                android:src="@drawable/ic_health_food"
+                style="@style/health_info_icon" />
+            <TextView
+                android:text="@string/food"
+                style="@style/health_info_title" />
+        </LinearLayout>
+        <LinearLayout style="@style/health_info_container"
+            android:layout_marginLeft="22dip"
+            android:layout_marginRight="22dip">
+            <ImageView
+                android:src="@drawable/ic_excretion"
+                style="@style/health_info_icon" />
+            <TextView
+                android:text="@string/excretion"
+                style="@style/health_info_title" />
+        </LinearLayout>
+        <LinearLayout style="@style/health_info_container">
+            <ImageView
+                android:src="@drawable/ic_physiology"
+                style="@style/health_info_icon" />
+            <TextView
+                android:text="@string/physiology"
+                style="@style/health_info_title" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

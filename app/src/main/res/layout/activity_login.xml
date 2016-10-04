@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <ImageView
         style="@style/splash_background_image"
-        android:src="@drawable/sina_web_default"/>
+        android:src="@drawable/login_bg"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -107,4 +107,13 @@ public class ActivitySvc {
         editor.putString(context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
         editor.commit();
     }
+
+    /**
+     * 描 述：拼接资源url路径<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
+     */
+    public static String createResourceUrl(Context context, String path) {
+        return ContextUtils.getSharedString(context, R.string.shared_preference_resourceUrl) + path;
+    }
 }

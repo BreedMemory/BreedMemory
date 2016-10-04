@@ -97,4 +97,192 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">@dimen/primary_text_size</item>
     </style>
+
+    <style name="grit_selector">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/third_text_size</item>
+        <item name="android:textColor">@drawable/grit_selector_text_color</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/health_selector_grit_touchable</item>
+        <item name="android:padding">@dimen/text_space</item>
+    </style>
+
+    <style name="form_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginTop">30dip</item>
+    </style>
+
+    <style name="form_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+    </style>
+
+    <style name="form_mode_selector">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/bg_corner_green</item>
+        <item name="android:paddingTop">@dimen/text_space</item>
+        <item name="android:paddingBottom">@dimen/text_space</item>
+        <item name="android:paddingLeft">@dimen/primary_List_margin</item>
+        <item name="android:paddingRight">@dimen/primary_List_margin</item>
+    </style>
+
+    <style name="form_grit">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/third_text_size</item>
+        <item name="android:layout_marginRight">@dimen/primary_List_margin</item>
+    </style>
+
+    <style name="trangle">
+        <item name="android:layout_width">6dip</item>
+        <item name="android:layout_height">3dip</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="form_main_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_border_corner_gray</item>
+        <item name="android:layout_marginTop">@dimen/primary_margin</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="form_month">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/second_text_size</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="form">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">100dip</item>
+        <item name="android:layout_marginTop">23dip</item>
+        <item name="android:layout_marginBottom">50dip</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="form_grit_selector">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/primary_List_margin</item>
+    </style>
+
+    <style name="health_info_container">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">19dip</item>
+        <item name="android:paddingBottom">19dip</item>
+        <item name="android:background">@drawable/bg_corner_green</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="health_info_icon">
+        <item name="android:layout_width">40dip</item>
+        <item name="android:layout_height">40dip</item>
+    </style>
+
+    <style name="health_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+    </style>
+
+    <style name="week">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="health_data_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/primary_List_margin</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="health_data_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="health_data_item_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/primary_List_margin</item>
+        <item name="android:background">@drawable/bg_border_corner_gray</item>
+        <item name="android:paddingLeft">@dimen/primary_List_margin</item>
+        <item name="android:paddingRight">@dimen/primary_List_margin</item>
+        <item name="android:paddingTop">11dip</item>
+        <item name="android:paddingBottom">11dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="health_data_item_divider">
+        <item name="android:layout_width">1dip</item>
+        <item name="android:layout_height">22dip</item>
+        <item name="android:layout_marginLeft">60dip</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="health_data_item_data">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">72dip</item>
+        <item name="android:textSize">@dimen/primary_margin</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="health_data_state_item_container" parent="health_data_item_container">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="health_data_state_item_data" parent="health_data_item_data">
+        <item name="android:paddingTop">6dip</item>
+        <item name="android:paddingBottom">6dip</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:background">@drawable/bg_border_corner_gray</item>
+    </style>
+
+    <style name="health_data_state_item_data_desc" parent="health_data_state_item_data">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">44dip</item>
+    </style>
+
+    <style name="data_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:paddingLeft">@dimen/primary_List_margin</item>
+        <item name="android:paddingRight">@dimen/primary_List_margin</item>
+        <item name="android:background">#f0f0f0</item>
+    </style>
+
+    <style name="health_data_title_margin" parent="health_data_title">
+        <item name="android:layout_marginTop">20dip</item>
+    </style>
+
 </resources>

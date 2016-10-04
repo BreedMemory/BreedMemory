@@ -71,6 +71,7 @@
                 android:src="@drawable/ic_more"/>
 
             <TextView
+                android:id="@+id/tv_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/im_more"
@@ -80,6 +81,67 @@
                 android:textColor="@color/colorAccent"
                 android:text="@string/know_more"/>
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_form_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <RadioGroup
+                android:id="@+id/rg_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dip"
+                android:layout_marginRight="31dip"
+                android:layout_marginBottom="@dimen/primary_margin"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rb_mother"
+                    android:layout_width="0dip"
+                    android:layout_height="30dip"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:checked="true"
+                    android:textColor="@drawable/health_selector_text_color"
+                    android:background="@drawable/health_selector_mother_touchable"
+                    android:text="母亲"/>
+                <RadioButton
+                    android:id="@+id/rb_baby"
+                    android:layout_width="0dip"
+                    android:layout_height="30dip"
+                    android:button="@null"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@drawable/health_selector_text_color"
+                    android:background="@drawable/health_selector_baby_touchable"
+                    android:text="@string/baby"/>
+            </RadioGroup>
+            <FrameLayout
+                android:id="@+id/fl_form_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/form_mother"
+                    layout="@layout/fragment_form_mother_layout" />
+                <include
+                    android:id="@+id/form_baby"
+                    android:visibility="gone"
+                    layout="@layout/fragment_form_baby_layout"/>
+            </FrameLayout>
+            <TextView
+                android:id="@+id/tv_retract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retract"
+                android:background="@drawable/bg_corner_gray"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginRight="@dimen/primary_margin"
+                android:padding="3dip"
+                android:textSize="@dimen/primary_text_size"
+                android:gravity="center"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

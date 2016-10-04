@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_item_pic"
+        android:layout_width="101dip"
+        android:layout_height="101dip"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/item_image_corners"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:layout_toRightOf="@+id/iv_item_pic"
+        android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
+        android:textSize="18dip"
+        android:text="标题" />
+
+    <TextView
+        android:id="@+id/tv_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_title"
+        android:layout_toRightOf="@+id/iv_item_pic"
+        android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="时间：" />
+
+    <TextView
+        android:id="@+id/tv_item_time_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_title"
+        android:layout_toRightOf="@+id/tv_item_time"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="2016年9月9日 10:30 am" />
+
+    <TextView
+        android:id="@+id/tv_item_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_time"
+        android:layout_toRightOf="@+id/iv_item_pic"
+        android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="地点：" />
+
+    <TextView
+        android:id="@+id/tv_item_place_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_time"
+        android:layout_toRightOf="@+id/tv_item_time"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="艾玛家月子中心" />
+
+    <TextView
+        android:id="@+id/tv_item_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_place"
+        android:layout_toRightOf="@+id/iv_item_pic"
+        android:layout_marginLeft="14dip"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="区域：" />
+
+    <TextView
+        android:id="@+id/tv_item_area_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_place"
+        android:layout_toRightOf="@+id/tv_item_time"
+        android:layout_marginTop="10dip"
+        android:textSize="@dimen/third_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:text="北京市" />
+
+</RelativeLayout>

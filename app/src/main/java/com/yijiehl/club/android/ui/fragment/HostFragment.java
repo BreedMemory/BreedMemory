@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -30,22 +31,17 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
-import com.yijiehl.club.android.network.request.dataproc.UploadPicture;
 import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
-import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
-import com.yijiehl.club.android.network.response.base.BaseResponse;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static com.yijiehl.club.android.network.request.upload.ReqUploadFile.UploadType.CRM_PHOTO_DETAIL;
 
 /**
  * 项目名称：孕育迹忆<br/>
@@ -149,28 +145,28 @@ public class HostFragment extends BaseHostFragment {
         if(TextUtils.isEmpty(info.getImageInfo())) {
             mMainPicture.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test_main_image));
         } else {
-            ImageLoader.getInstance().displayImage(info.getImageInfo(), mMainPicture);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getImageInfo()), mMainPicture);
         }
 
         //会所logo
         if(TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(info.getIconInfo1(), mClubLogo);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogo);
         }
 
         //会所长logo 活动模块
         if(TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfoActivity);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if(TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(info.getIconInfo2(), mClubLogoInfoQuestion);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoQuestion);
         }
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
@@ -189,7 +185,7 @@ public class HostFragment extends BaseHostFragment {
         } else {
             return;
         }
-        ImageLoader.getInstance().displayImage(mActivityInfo.getImageInfo(), mActivityImage, new SimpleImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImage, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                 mActivityImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_activity));
@@ -282,24 +278,26 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
+        Toaster.showShortToast(getActivity(), "收藏成功");
         // TODO: 谌珂 2016/9/19 测试代码
-        final File file = new File("/sdcard/Pictures/1453448257206.jpg");
-        UploadPicture ipload = new UploadPicture(file);
-        ReqBaseDataProc proc = new ReqBaseDataProc(getActivity(), ipload);
-        NetHelper.getDataFromNet(getActivity(), proc, new AbstractCallBack(getActivity()) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                BaseResponse data = (BaseResponse)pResponse;
-                data.getReturnMsg().getResultCode();
-                ReqUploadFile uploadFile = new ReqUploadFile(getActivity(), CRM_PHOTO_DETAIL, file);
-                NetHelper.getDataFromNet(getActivity(), uploadFile, null);
-            }
-        });
+//        final File file = new File("/sdcard/Pictures/1453448257206.jpg");
+//        UploadPicture ipload = new UploadPicture(file);
+//        ReqBaseDataProc proc = new ReqBaseDataProc(getActivity(), ipload);
+//        NetHelper.getDataFromNet(getActivity(), proc, new AbstractCallBack(getActivity()) {
+//            @Override
+//            public void onSuccess(AbstractResponse pResponse) {
+//                BaseResponse data = (BaseResponse)pResponse;
+//                data.getReturnMsg().getResultCode();
+//                ReqUploadFile uploadFile = new ReqUploadFile(getActivity(), CRM_PHOTO_DETAIL, file);
+//                NetHelper.getDataFromNet(getActivity(), uploadFile, null);
+//            }
+//        });
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
+        Toaster.showShortToast(getActivity(), "分享成功");
     }
 
     @Override
