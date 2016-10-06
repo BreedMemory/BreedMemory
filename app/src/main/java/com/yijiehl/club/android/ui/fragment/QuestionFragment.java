@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -34,7 +35,11 @@ import com.yijiehl.club.android.ui.activity.QuestionListActivity;
  */
 @ContentView(R.layout.fragment_question)
 public class QuestionFragment extends BaseHostFragment {
-
+    /**
+     * 搜索框
+     */
+    @ViewInject(R.id.layout_search)
+    private RelativeLayout mSearch;
     /**
      * 我的问题
      */
@@ -104,7 +109,7 @@ public class QuestionFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -119,43 +124,56 @@ public class QuestionFragment extends BaseHostFragment {
 
     // TODO: 2016/10/4 此页面的所有的方法都需要完善单击事件；暂时跳转预览页面。。。
 
+    @OnClick(R.id.layout_search)
+    private void search(){
+        Toaster.showShortToast(getActivity(),"此搜索功能暂未实现");
+    }
     @OnClick(R.id.btn_my_question)
-    private void myQuestion(){
-            startActivity(new Intent(getActivity(), QuestionListActivity.class));
+    private void myQuestion() {
+        startActivity(new Intent(getActivity(), QuestionListActivity.class));
     }
 
     @OnClick(R.id.layout_mother_zone)
-    private void motherZone(){
+    private void motherZone() {
 
     }
 
     @OnClick(R.id.layout_baby_zone)
-    private void babyZone(){
-        if(!isBabyShow){
+    private void babyZone() {
+        if (!isBabyShow) {
             babyContextList.setVisibility(View.GONE);
-            isBabyShow=true;
-        }else{
+            isBabyShow = true;
+        } else {
             babyContextList.setVisibility(View.VISIBLE);
-            isBabyShow=false;
+            isBabyShow = false;
         }
     }
 
     @OnClick(R.id.layout_zero_month)
-    private void zeroMonth(){
-        startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+    private void zeroMonth() {
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_three_months)
-    private void threeMonth(){
-        startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+    private void threeMonth() {
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_one_year)
-    private void oneYear(){
-        startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+    private void oneYear() {
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
+
     @OnClick(R.id.layout_one_half_years)
-    private void oneHalfYear(){
-        startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+    private void oneHalfYear() {
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
 }

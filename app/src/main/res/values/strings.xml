@@ -97,4 +97,9 @@
     <string name="one_half_years">1岁-1岁半</string>
     <string name="one_three_years">1岁半-3岁</string>
     <string name="question_list">问题列表</string>
+    <string name="pregnancy">孕期</string>
+    <string name="after_child_birth">产后</string>
+    <string name="confinement">月子中</string>
+    <string name="confinement_after">月子后</string>
+    <string name="knowledge_list">知识列表</string>
 </resources>

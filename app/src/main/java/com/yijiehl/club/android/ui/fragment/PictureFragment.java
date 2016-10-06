@@ -97,7 +97,7 @@ public class PictureFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -140,6 +140,7 @@ public class PictureFragment extends BaseHostFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 2016/10/3 需要查看相册的详细照片
+                Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
             }
         });
         mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
@@ -246,9 +247,9 @@ public class PictureFragment extends BaseHostFragment {
      * 临时添加个人假数据的方法
      */
     private void addPersonFakeData() {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 4; i++) {
             PhotoInfo photoInfo = new PhotoInfo();
-            photoInfo.setIconInfo1("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+            photoInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
             photoInfo.setAlbumId("kb");
             photoInfo.setAlbumName("逗你玩");
             photoInfo.setCreateDay("2016-10-03");
@@ -256,7 +257,7 @@ public class PictureFragment extends BaseHostFragment {
         }
         for (int i = 0; i < 6; i++) {
             PhotoInfo photoInfo = new PhotoInfo();
-            photoInfo.setIconInfo1("https://p.ssl.qhimg.com/t01ad7a4df0ec4d8efe.jpg");
+            photoInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
             photoInfo.setAlbumId("jd");
             photoInfo.setAlbumName("不逗了");
             photoInfo.setCreateDay("2016-10-02");
@@ -273,7 +274,7 @@ public class PictureFragment extends BaseHostFragment {
             albumInfo.setDataNum("24");
             albumInfo.setCreateTime("2016-10-02");
             albumInfo.setDataDesc("音乐聆听");
-            albumInfo.setIconInfo1("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+            albumInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
             dataAlbum.add(albumInfo);
         }
     }

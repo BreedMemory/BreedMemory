@@ -20,6 +20,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.HealthInfoActivity;
+import com.yijiehl.club.android.ui.activity.KnowledgeActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -68,7 +69,7 @@ public class HealthFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -132,6 +133,13 @@ public class HealthFragment extends BaseHostFragment {
 
     @OnClick(R.id.ll_food)
     private void startFood() {
-        startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
+        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_month_meals&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.ll_knowledge)
+    private void startKnowledge(){
+        startActivity(new Intent(getActivity(), KnowledgeActivity.class));
     }
 }

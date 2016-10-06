@@ -37,8 +37,8 @@ public class ArticalDetailActivity extends BmActivity {
         super.onCreate(savedInstanceState);
 
         // TODO: 2016/9/11 此处需要获取url
-        //String url = getIntent().getStringExtra("url");
-        String url = "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail";
+        String url = getIntent().getStringExtra("url");
+        //String url = "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail";
         if (TextUtils.isEmpty(url)) {
             webView.setVisibility(View.GONE);
             return;

@@ -77,7 +77,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter {
                 Intent intent = new Intent(mContext, ImagePagerActivity.class);
                 intent.putExtra("isNative", false);
                 ArrayList<String> list = new ArrayList<String>();
-                list.add("http://imgwww.heiguang.net/f/2013/0521/20130521092859871.jpg");
+                list.add("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
                 intent.putStringArrayListExtra("image_urls", list);
                 mContext.startActivity(intent);
             }

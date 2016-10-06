@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--上半部分-->
+        <!--todo 上半部分布局需要完善，搜索栏的透明以及弧形照片-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="204dip"
+            android:background="@drawable/health_test">
+
+            <RelativeLayout
+                android:id="@+id/layout_search"
+                android:layout_width="match_parent"
+                android:layout_height="44dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/search_alpha">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="17dip"
+                        android:layout_height="17dip"
+                        android:src="@drawable/search_logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:text="@string/search" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <!--下半部分-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="179dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btn_my_question"
+                android:layout_width="92dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_marginTop="45dip"
+                android:textSize="19dip"
+                android:text="@string/knowledge"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="21dip"
+                android:layout_marginRight="28dip"
+                android:layout_marginTop="4dip"
+                android:background="#eeeeee" />
+
+            <RelativeLayout
+                android:id="@+id/layout_pregnancy"
+                android:layout_width="match_parent"
+                android:layout_height="19dip"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginTop="13dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/pregnancy" />
+
+                <ImageView
+                    android:id="@+id/iv_pregnancy_show"
+                    android:layout_width="8dip"
+                    android:layout_height="19dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/question_right" />
+
+            </RelativeLayout>
+
+            <!-- todo 此处需要添加孕期专区的下拉展示布局 -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="21dip"
+                android:layout_marginRight="28dip"
+                android:layout_marginTop="12dip"
+                android:background="#eeeeee" />
+
+            <RelativeLayout
+                android:id="@+id/layout_after_child_birth"
+                android:layout_width="match_parent"
+                android:layout_height="19dip"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginTop="13dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/after_child_birth" />
+
+                <ImageView
+                    android:id="@+id/iv_after_child_birth_show"
+                    android:layout_width="18dip"
+                    android:layout_height="9dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/question_down" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="21dip"
+                android:layout_marginRight="28dip"
+                android:layout_marginTop="12dip"
+                android:background="#eeeeee" />
+            <!--产后下拉展示布局-->
+            <LinearLayout
+                android:id="@+id/layout_after_child_birth_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dip"
+                android:layout_marginRight="26dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_confinement"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dip"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dip"
+                        android:layout_height="15dip"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/light_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dip"
+                        android:text="@string/confinement" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#eeeeee" />
+
+                <LinearLayout
+                    android:id="@+id/layout_confinement_after"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dip"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dip"
+                        android:layout_height="15dip"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/dark_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dip"
+                        android:text="@string/confinement_after" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#eeeeee" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#eeeeee" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

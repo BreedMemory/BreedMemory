@@ -53,7 +53,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tvtitle.setText(data.get(position));
-        holder.tvcontext.setText(data.get(position));
+        holder.tvcontext.setText("小孩子，需要选择适合的保险产品。然后，众多的保险产品当中，关注.....");
         holder.ivshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
             }
         });
 
-        ImageLoader.getInstance().displayImage("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png", holder.ivPic, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg", holder.ivPic, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 

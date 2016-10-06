@@ -86,7 +86,7 @@ public class GrowUpFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -129,7 +129,9 @@ public class GrowUpFragment extends BaseHostFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getActivity(), ArticalDetailActivity.class));
+                Intent intent=new Intent(getActivity(), ArticalDetailActivity.class);
+                intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
+                startActivity(intent);
             }
         });
 

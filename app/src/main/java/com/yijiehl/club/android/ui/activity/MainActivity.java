@@ -1,7 +1,7 @@
 /**
  * 项目名称：孕育迹忆 <br/>
  * 文件名称: MainActivity.java <br/>
- * <p>
+ * <p/>
  * Created by 谌珂 on 2016/9/5.  <br/>
  */
 package com.yijiehl.club.android.ui.activity;
@@ -50,6 +50,8 @@ public class MainActivity extends BmActivity {
     /** 当前页面的索引 */
     @SaveInstance
     private int mCurrentPage;
+    /** ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存 */
+    private int cachePagers = 4;
 
     public IconTextView getmLeftBtn() {
         return mLeftBtn;
@@ -73,6 +75,7 @@ public class MainActivity extends BmActivity {
         HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
+        mViewPager.setOffscreenPageLimit(cachePagers);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class MainActivity extends BmActivity {
             @Override
             public void onClick(View v) {
                 // TODO: 谌珂 2016/9/5 跳转到个人账户
-                startActivity(new Intent(MainActivity.this,MineActivity.class));
+                startActivity(new Intent(MainActivity.this, MineActivity.class));
             }
         });
     }
@@ -135,19 +138,38 @@ public class MainActivity extends BmActivity {
      */
     public void setFootFocus(int index) {
         for (int i = 0; i < mFootContainer.getChildCount(); i++) {
-            if(i == index) {
-                if(i == 2) {          //如果当前选中的是照片模块单独修改样式
+            if (i == index) {
+                if (i == 2) {          //如果当前选中的是照片模块单独修改样式
                     mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
                 } else {
                     ((FootGroupBtn) mFootContainer.getChildAt(i)).setFocus();
                 }
             } else {
-                if(i == 2) {
+                if (i == 2) {
                     mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle));
                 } else {
                     ((FootGroupBtn) mFootContainer.getChildAt(i)).setUnFocus();
                 }
             }
+        }
+    }
+
+    /**内部接口，具体执行跳转的方法封装这个接口中*/
+    public interface FragmentToFragment {
+        public void gotoFragment(ViewPager viewPager);
+    }
+
+    /**该接口类型的成员变量,并为其设置set方法*/
+    private FragmentToFragment fragmentToFragment;
+
+    public void setFragmentToFragment(FragmentToFragment fragmentToFragment) {
+        this.fragmentToFragment = fragmentToFragment;
+    }
+
+    /**调用接口中gotoFragment方法的方法*/
+    public void forSkip() {
+        if (fragmentToFragment != null) {
+            fragmentToFragment.gotoFragment(mViewPager);
         }
     }
 }

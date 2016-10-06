@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.yijiehl.club.android">
 
 
@@ -20,9 +21,10 @@
     <application
         android:name=".BmApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        tools:replace="name,icon"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <activity android:name=".ui.activity.SplashActivity"
@@ -42,6 +44,7 @@
         <!-- 主页面 -->
         <activity android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
@@ -116,6 +119,14 @@
             android:screenOrientation="portrait"/>
         <!-- 问题页面 -->
         <activity android:name=".ui.activity.QuestionListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 知识页面 -->
+        <activity android:name=".ui.activity.KnowledgeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 知识列表页面 -->
+        <activity android:name=".ui.activity.KnowledgeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
     </application>

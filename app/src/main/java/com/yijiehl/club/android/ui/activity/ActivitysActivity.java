@@ -104,7 +104,9 @@ public class ActivitysActivity extends BmActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(ActivitysActivity.this, ArticalDetailActivity.class));
+                Intent intent=new Intent(ActivitysActivity.this,ArticalDetailActivity.class);
+                intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
+                startActivity(intent);
             }
         });
     }

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -37,7 +38,7 @@ public class PersonalInfoActivity extends BmActivity {
     // TODO: 2016/9/11 张志新  此处需要根据需求再写跳转；没有传值 也没有返回值；
     @OnClick(R.id.layout_update_headpic)
     private void upDateHeadPic(){
-
+        Toaster.showShortToast(this,"暂未实现");
     }
     @OnClick(R.id.layout_update_nickname)
     private void upDateNickName(){

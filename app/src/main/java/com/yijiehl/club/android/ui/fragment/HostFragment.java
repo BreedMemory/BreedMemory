@@ -5,9 +5,11 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -36,6 +38,9 @@ import com.yijiehl.club.android.network.response.RespSearchActivitys;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.ActivitysActivity;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.MainActivity;
 
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
@@ -47,58 +52,91 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
  * 项目名称：孕育迹忆<br/>
  * 类  名: HostFragment<br/>
  * 类描述: <br/>
+ *
  * @author 谌珂 <br/>
- * 实现的主要功能<br/>
- * 版    本：1.0.0<br/>
+ *         实现的主要功能<br/>
+ *         版    本：1.0.0<br/>
  */
 @ContentView(R.layout.fragment_host)
 public class HostFragment extends BaseHostFragment {
-    /** 提示语的完整区域 */
+    /**
+     * 提示语的完整区域
+     */
     @ViewInject(R.id.ll_tip_background)
     private View mTip;
-    /** 提示语的容器 */
+    /**
+     * 提示语的容器
+     */
     @ViewInject(R.id.ll_tip_container)
     private LinearLayout mTipContainer;
-    /** 圆形照片 */
+    /**
+     * 圆形照片
+     */
     @ViewInject(R.id.ci_main_picture)
     private CircleImageView mMainPicture;
-    /** 会所的圆形logo */
+    /**
+     * 会所的圆形logo
+     */
     @ViewInject(R.id.im_club_logo)
     private ImageView mClubLogo;
-    /** 建议 */
+    /**
+     * 建议
+     */
     @ViewInject(R.id.tv_advice)
     private TextView mAdvice;
-    /** 活动背景图 */
+    /**
+     * 活动背景图
+     */
     @ViewInject(R.id.im_activity_background)
     private ImageView mActivityImage;
-    /** 活动名称 */
+    /**
+     * 活动名称
+     */
     @ViewInject(R.id.tv_activity_name)
     private TextView mActivityName;
-    /** 活动时间 */
+    /**
+     * 活动时间
+     */
     @ViewInject(R.id.tv_activity_time)
     private TextView mActivityTime;
-    /** 会所长logo */
+    /**
+     * 会所长logo
+     */
     @ViewInject(R.id.im_logo_info_activity)
     private ImageView mClubLogoInfoActivity;
-    /** 会所长logo */
+    /**
+     * 会所长logo
+     */
     @ViewInject(R.id.im_logo_info_question)
     private ImageView mClubLogoInfoQuestion;
-    /** 问答的问题 */
+    /**
+     * 问答的问题
+     */
     @ViewInject(R.id.tv_question_name)
     private TextView mQuestion;
-    /** 成长文章标题 */
+    /**
+     * 成长文章标题
+     */
     @ViewInject(R.id.tv_grow_up_title)
     private TextView mGrowUpTitle;
-    /** 成长文章描述 */
+    /**
+     * 成长文章描述
+     */
     @ViewInject(R.id.tv_grow_up_desc)
     private TextView mGrowUpDesc;
-    /** 消息提示icon */
+    /**
+     * 消息提示icon
+     */
     @ViewInject(R.id.tv_message_tip_icon)
     private TextView mMessageTipIcon;
 
-    /** 活动信息 */
+    /**
+     * 活动信息
+     */
     private ActivityInfo mActivityInfo;
-    /** 请求活动信息的特征码 */
+    /**
+     * 请求活动信息的特征码
+     */
     private String mDataCacheActivitys;
 
 
@@ -116,7 +154,7 @@ public class HostFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -134,7 +172,7 @@ public class HostFragment extends BaseHostFragment {
         NetHelper.getDataFromNet(getActivity(), lReqSearchActivitys, new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                RespSearchActivitys activity = (RespSearchActivitys)pResponse;
+                RespSearchActivitys activity = (RespSearchActivitys) pResponse;
                 fillActivityInfo(activity);
             }
         });
@@ -142,28 +180,28 @@ public class HostFragment extends BaseHostFragment {
         //提示语
         makeUpTip(info.getWelcomeInfo());
         //用户照片
-        if(TextUtils.isEmpty(info.getImageInfo())) {
+        if (TextUtils.isEmpty(info.getImageInfo())) {
             mMainPicture.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test_main_image));
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getImageInfo()), mMainPicture);
         }
 
         //会所logo
-        if(TextUtils.isEmpty(info.getIconInfo1())) {
+        if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogo);
         }
 
         //会所长logo 活动模块
-        if(TextUtils.isEmpty(info.getIconInfo2())) {
+        if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
-        if(TextUtils.isEmpty(info.getIconInfo2())) {
+        if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoQuestion);
@@ -180,7 +218,7 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
      */
     private synchronized void fillActivityInfo(RespSearchActivitys activity) {
-        if(activity != null && activity.getResultList() != null && activity.getResultList().size() > 0) {
+        if (activity != null && activity.getResultList() != null && activity.getResultList().size() > 0) {
             mActivityInfo = activity.getResultList().get(0);
         } else {
             return;
@@ -199,10 +237,11 @@ public class HostFragment extends BaseHostFragment {
      * 描 述：生成提示语<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/11 <br/>
+     *
      * @param tip 接口返回的提示语
      */
     private void makeUpTip(String tip) {
-        if(TextUtils.isEmpty(tip)) {        //没有提示语则不显示
+        if (TextUtils.isEmpty(tip)) {        //没有提示语则不显示
             mTip.setVisibility(View.GONE);
         } else {
             mTip.setVisibility(View.VISIBLE);
@@ -213,12 +252,12 @@ public class HostFragment extends BaseHostFragment {
         Pattern pattern = Pattern.compile(regular);
         Matcher m = pattern.matcher(tip);      //创建正则匹配对象
         for (String s : split) {   //循环汉字数列
-            if(TextUtils.isEmpty(s) && m.find()) {   //如果数字在第一位则第一个字符串数组一定为空，其他情况下不可能为空
+            if (TextUtils.isEmpty(s) && m.find()) {   //如果数字在第一位则第一个字符串数组一定为空，其他情况下不可能为空
                 //生成一组数字
                 addNumber(m.group());
             }
             addText(s);
-            if(TextUtils.isEmpty(s) && m.find()) {   //查找字符串中间的数字
+            if (TextUtils.isEmpty(s) && m.find()) {   //查找字符串中间的数字
                 //生成一组数字
                 addNumber(m.group());
             }
@@ -229,6 +268,7 @@ public class HostFragment extends BaseHostFragment {
      * 描 述：生成提示短语并添加到提示语容器内<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/11 <br/>
+     *
      * @param text 提示短语
      */
     private void addText(String text) {
@@ -246,6 +286,7 @@ public class HostFragment extends BaseHostFragment {
      * 描 述：便利字符串中的数字，产生对应图片并添加到提示语容器内<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/11 <br/>
+     *
      * @param numbers 只包含数字的字符串
      */
     private void addNumber(String numbers) {
@@ -302,8 +343,77 @@ public class HostFragment extends BaseHostFragment {
 
     @Override
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
-        if(TextUtils.equals(mDataCacheActivitys, pCacheDataEntity.getmName()) && mActivityInfo == null) {
+        if (TextUtils.equals(mDataCacheActivitys, pCacheDataEntity.getmName()) && mActivityInfo == null) {
             fillActivityInfo(JSON.parseObject(pCacheDataEntity.getmData(), RespSearchActivitys.class));
         }
+    }
+
+    @OnClick({R.id.ci_main_picture,R.id.tv_advice})
+    private void skipHealthFragment(){
+        skipGoalFragment(1);
+    }
+
+    @OnClick(R.id.ll_photo_container)
+    private void skipAlbumFragment() {
+        skipGoalFragment(2);
+    }
+
+    @OnClick(R.id.im_question_background)
+    private void skipAskAnswerFragment() {
+        skipGoalFragment(3);
+    }
+
+    @OnClick(R.id.im_grow_up_background)
+    private void skipGrowUpFragment() {
+        skipGoalFragment(4);
+    }
+
+
+    @OnClick(R.id.im_activity_background)
+    private void toActicitys() {
+        startActivity(new Intent(getActivity(), ActivitysActivity.class));
+    }
+
+    @OnClick(R.id.tv_activity_name)
+    private void toDetailActivitys() {
+        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_question_name)
+    private void toAnswerQue() {
+        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_grow_up_title)
+    private void toDetailGrow(){
+        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
+        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
+    }
+
+    /**
+     * 描 述：便利字符串中的数字，产生对应图片并添加到提示语容器内<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/10/6 <br/>
+     *
+     * @param i 要跳转到相应的fragment的脚标
+     */
+    private void skipGoalFragment(final int i) {
+        final MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setFragmentToFragment(new MainActivity.FragmentToFragment() {
+            @Override
+            public void gotoFragment(ViewPager viewPager) {
+                viewPager.setCurrentItem(i);
+                mainActivity.setFootFocus(i);
+            }
+        });
+        mainActivity.forSkip();
     }
 }

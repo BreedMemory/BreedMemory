@@ -7,6 +7,7 @@
         android:id="@+id/iv_club_pic"
         android:layout_width="101dip"
         android:layout_height="101dip"
+        android:layout_marginBottom="21dip"
         android:src="@mipmap/ic_launcher" />
 
     <TextView

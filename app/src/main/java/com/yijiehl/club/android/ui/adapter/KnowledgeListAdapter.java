@@ -16,70 +16,64 @@ import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: QuestionListAdapter <br/>
+ * 类  名: KnowledgeListAdapter <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
- * 修改时间：2016/10/4 <br/>
+ * 修改时间：2016/10/6 <br/>
  *
  * @author 张志新 <br/>
  */
-public class QuestionListAdapter extends BaseListViewAdapter {
+public class KnowledgeListAdapter extends BaseListViewAdapter{
 
     private List<String> data;
 
-    public QuestionListAdapter(Context mContext, List<String> data) {
+    public KnowledgeListAdapter(Context mContext, List<String> data) {
         super(mContext);
         this.data = data;
         mDatas = data;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         if(convertView==null){
-            convertView=View.inflate(mContext,R.layout.item_question_list,null);
+            convertView=View.inflate(mContext,R.layout.item_knowledge_list,null);
             holder=new ViewHolder(convertView);
             convertView.setTag(holder);
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.questionTitle.setText(data.get(position));
-        holder.questionContent.setText("婴儿每天的喂奶次数应该根据婴儿的具体情况来决定，如消化快慢，食欲状态等。喂奶....");
-        holder.questionTime.setText("2016-10-04");
-        holder.questionAnswer.setText("已回复");
-        holder.questionHeart.setOnClickListener(new View.OnClickListener() {
+        holder.knowledgeTitle.setText(data.get(position));
+        holder.knowledgeContent.setText("怀孕8周就意味着胎儿已经进入了全面发展的阶段。所以现在的胎儿正在火力全开的发育。虽然他还很小，但是发育的非常积极。");
+        holder.knowledgeHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016/10/4 此处事件需要完善
+                // TODO: 2016/10/6 此处事件需要完善
                 Toaster.showShortToast(mContext,"您已收藏");
             }
         });
-        holder.questionShare.setOnClickListener(new View.OnClickListener() {
+        holder.knowledgeShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016/10/4 此处事件需要完善
+                // TODO: 2016/10/6 此处事件需要完善
                 Toaster.showShortToast(mContext,"您已转发");
             }
         });
         return convertView;
     }
 
+
     class ViewHolder {
         public ViewHolder(View v) {
             InjectUtils.injectViews(v, this);
         }
-        @ViewInject(R.id.tv_question_list_title)
-        TextView questionTitle;
-        @ViewInject(R.id.tv_question_list_content)
-        TextView questionContent;
-        @ViewInject(R.id.tv_question_list_time)
-        TextView questionTime;
-        @ViewInject(R.id.tv_question_list_answer)
-        TextView questionAnswer;
-        @ViewInject(R.id.iv_question_list_heart)
-        ImageView questionHeart;
-        @ViewInject(R.id.iv_question_list_share)
-        ImageView questionShare;
+        @ViewInject(R.id.tv_knowledge_list_title)
+        TextView knowledgeTitle;
+        @ViewInject(R.id.tv_knowledge_list_content)
+        TextView knowledgeContent;
+        @ViewInject(R.id.iv_knowledge_list_heart)
+        ImageView knowledgeHeart;
+        @ViewInject(R.id.iv_knowledge_list_share)
+        ImageView knowledgeShare;
     }
 }

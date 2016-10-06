@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="8月15日" />
+        android:text="北京市" />
 
     <com.yijiehl.club.android.ui.view.NoScrollGridView
         android:id="@+id/person_gridview"
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/iv_show_uploading"
         android:numColumns="3"
-        android:layout_marginTop="15dip">
+        android:layout_marginTop="19dip">
 
     </com.yijiehl.club.android.ui.view.NoScrollGridView>
 </RelativeLayout>

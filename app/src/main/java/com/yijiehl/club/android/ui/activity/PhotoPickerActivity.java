@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -154,6 +155,7 @@ public class PhotoPickerActivity extends BmActivity {
        /* Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
         i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
         startActivity(i);*/
+        Toaster.showShortToast(this,"此功能暂未实现");
     }
 
 }

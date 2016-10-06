@@ -8,6 +8,7 @@
         android:layout_width="101dip"
         android:layout_height="101dip"
         android:layout_marginTop="15dip"
+        android:layout_marginBottom="13dip"
         android:background="@drawable/item_image_corners"
         android:src="@mipmap/ic_launcher" />
 
@@ -28,6 +29,7 @@
         android:layout_height="42dip"
         android:lines="2"
         android:ellipsize="end"
+        android:lineSpacingExtra="2dip"
         android:layout_below="@+id/tv_item_title"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
