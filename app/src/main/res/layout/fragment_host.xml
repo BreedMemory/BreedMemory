@@ -92,9 +92,10 @@
                 android:id="@+id/im_club_logo"
                 android:layout_alignTop="@id/im_arc_up"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="-21dp"
+                android:layout_marginTop="-41dp"
                 android:layout_width="76dp"
-                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:layout_height="76dp"
                 android:src="@drawable/club_logo"/>
             
             <TextView

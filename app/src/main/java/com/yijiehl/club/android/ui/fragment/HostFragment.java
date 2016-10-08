@@ -195,21 +195,21 @@ public class HostFragment extends BaseHostFragment {
         if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogo);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogo);
         }
 
         //会所长logo 活动模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoActivity);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoQuestion);
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogoInfoQuestion);
         }
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
