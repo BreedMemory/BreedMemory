@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.FootGroupBtn;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -62,14 +63,19 @@ public class MainActivity extends BmActivity {
         HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
-        mViewPager.setOffscreenPageLimit(cachePagers);
+//        mViewPager.setOffscreenPageLimit(cachePagers);
     }
 
     @Override
     protected void configHeadLeftView() {
-        super.configHeadLeftView();
+        mHeadLeftContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
+        mLeftBtn = new IconTextView(this);
+        mHeadLeftContainer.addView(mLeftBtn);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLeftBtn.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mLeftBtn.setText(R.string.icon_me);
-        mLeftBtn.setOnClickListener(new View.OnClickListener() {
+        mHeadLeftContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MineActivity.class));

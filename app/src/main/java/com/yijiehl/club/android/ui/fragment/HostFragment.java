@@ -19,8 +19,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
@@ -55,8 +53,8 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
  * 类描述: <br/>
  *
  * @author 谌珂 <br/>
- *         实现的主要功能<br/>
- *         版    本：1.0.0<br/>
+ * 实现的主要功能<br/>
+ * 版    本：1.0.0<br/>
  */
 @ContentView(R.layout.fragment_host)
 public class HostFragment extends BaseHostFragment {
@@ -189,27 +187,27 @@ public class HostFragment extends BaseHostFragment {
         makeUpTip(info.getWelcomeInfo());
         //用户照片
         if (TextUtils.isEmpty(info.getImageInfo())) {
-            mMainPicture.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test_main_image));
+            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.test_main_image, mMainPicture);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getImageInfo()), mMainPicture);
         }
 
         //会所logo
-        if (TextUtils.isEmpty(info.getIconInfo1())) {
+        if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogo);
         }
 
         //会所长logo 活动模块
-        if (TextUtils.isEmpty(info.getIconInfo2())) {
+        if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
-        if (TextUtils.isEmpty(info.getIconInfo2())) {
+        if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogoInfoQuestion);
@@ -231,12 +229,12 @@ public class HostFragment extends BaseHostFragment {
         } else {
             return;
         }
-        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                mActivityImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_activity));
-            }
-        });
+        if(TextUtils.isEmpty(mActivityInfo.getImageInfo())) {
+            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImage);
+        } else {
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImage);
+        }
+
         mActivityName.setText(mActivityInfo.getDataName());
         mActivityTime.setText(mActivityInfo.getStartTimeStr());
     }

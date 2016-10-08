@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/bg_activity"/>
+                android:src="@drawable/shouye_huodong_bg"/>
             <ImageView
                 android:id="@+id/im_arc_2"
                 android:layout_width="match_parent"
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/bg_photo"/>
+                android:src="@drawable/shouye_zhaopian_bg"/>
             <ImageView
                 android:id="@+id/im_arc_3"
                 android:layout_width="match_parent"
@@ -264,7 +264,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/question_test"/>
+                android:src="@drawable/shouye_wenda_bg2"/>
             <TextView
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
@@ -320,7 +320,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/grow_up_bg"/>
+                android:src="@drawable/shouye_chengzhang_bg"/>
             <ImageView
                 android:id="@+id/im_arc_5"
                 android:layout_width="match_parent"

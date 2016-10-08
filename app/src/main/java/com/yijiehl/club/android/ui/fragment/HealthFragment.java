@@ -121,14 +121,27 @@ public class HealthFragment extends BaseHostFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.mother_extra_data, R.id.baby_extra_data})
+    @OnClick({R.id.mother_extra_data,
+            R.id.form_mother_temperature,
+            R.id.form_mother_weight,
+            R.id.baby_extra_data,
+            R.id.form_baby_height,
+            R.id.form_baby_chest,
+            R.id.form_baby_head,
+            R.id.form_baby_weight})
     private void startHealthData(View v) {
         Intent intent = new Intent(getActivity(), HealthInfoActivity.class);
         switch (v.getId()) {
             case R.id.mother_extra_data:
+            case R.id.form_mother_temperature:
+            case R.id.form_mother_weight:
                 intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_mother);
                 break;
             case R.id.baby_extra_data:
+            case R.id.form_baby_height:
+            case R.id.form_baby_chest:
+            case R.id.form_baby_head:
+            case R.id.form_baby_weight:
                 intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_baby);
                 break;
         }

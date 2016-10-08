@@ -18,6 +18,7 @@ import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
+import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -25,6 +26,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.MineActivity;
 import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
@@ -83,6 +85,8 @@ public class PictureFragment extends BaseHostFragment {
     private List<PhotoInfo> dataPhoto;//个人照片数据,服务器返回的
     private List<List<PhotoInfo>> dataPhotoList;//个人照片数据源
     private List<AlbumInfo> dataAlbum;//会所相册照片数据源
+    /** 请求权限成功后回调 */
+    private StartTask mStartTask = new StartTask();
 
     @Nullable
     @Override
@@ -116,53 +120,65 @@ public class PictureFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
+    }
 
-        dataPhoto = new ArrayList<>();
-        dataAlbum =new ArrayList<>();
-        // TODO: 2016/9/14 首先获取数据再设置自己的设配器
-        //首先联网获取List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
+    /**
+     * 描 述：请求权限成功后回调<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    private class StartTask implements Runnable {
 
-        addPersonFakeData();
+        @Override
+        public void run() {
+            dataPhoto = new ArrayList<>();
+            dataAlbum =new ArrayList<>();
+            // TODO: 2016/9/14 首先获取数据再设置自己的设配器
+            //首先联网获取List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
 
-        if (dataPhoto.size() == 0) {
-            upLoading.setVisibility(View.INVISIBLE);
-        } else {
-            upLoading.setVisibility(View.VISIBLE);
+            addPersonFakeData();
+
+            if (dataPhoto.size() == 0) {
+                upLoading.setVisibility(View.INVISIBLE);
+            } else {
+                upLoading.setVisibility(View.VISIBLE);
+            }
+
+            dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
+            PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
+            mListView.setAdapter(picturePersonAdapter);
+
+            mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
+
+                @Override
+                public void onLoadMore() {
+                    // TODO: 2016/9/6 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
+                    mListView.loadComplete();
+                }
+            });
+            mListView.setEmptyView(noData);
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // TODO: 2016/10/3 需要查看相册的详细照片
+                    Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
+                }
+            });
+            mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+                @Override
+                public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                    return false;
+                }
+
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    mPtrFrameLayout.refreshComplete();
+                }
+            });
         }
-
-        dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
-        PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
-        mListView.setAdapter(picturePersonAdapter);
-
-        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-                // TODO: 2016/9/6 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
-                mListView.loadComplete();
-            }
-        });
-        mListView.setEmptyView(noData);
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 2016/10/3 需要查看相册的详细照片
-                Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
-            }
-        });
-        mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return false;
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPtrFrameLayout.refreshComplete();
-            }
-        });
     }
 
 
@@ -287,4 +303,9 @@ public class PictureFragment extends BaseHostFragment {
         }
     }
 
+    @Override
+    public void onShow() {
+        super.onShow();
+        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
+    }
 }

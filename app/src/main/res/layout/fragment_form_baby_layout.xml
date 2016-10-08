@@ -20,7 +20,7 @@
                 android:text="@string/day_tian"
                 style="@style/form_grit" />
             <ImageView
-                android:src="@drawable/ic_trangle"
+                android:src="@drawable/ic_triangle"
                 style="@style/trangle" />
         </LinearLayout>
 
@@ -33,6 +33,7 @@
                 android:text="9月"
                 style="@style/form_month" />
             <ImageView
+                android:id="@+id/form_baby_weight"
                 android:src="@drawable/temp_weight_form"
                 style="@style/form" />
 
@@ -89,7 +90,7 @@
                 android:text="@string/day_tian"
                 style="@style/form_grit" />
             <ImageView
-                android:src="@drawable/ic_trangle"
+                android:src="@drawable/ic_triangle"
                 style="@style/trangle" />
         </LinearLayout>
 
@@ -102,6 +103,7 @@
                 android:text="9月"
                 style="@style/form_month" />
             <ImageView
+                android:id="@+id/form_baby_head"
                 android:src="@drawable/temp_head_form"
                 style="@style/form" />
 
@@ -158,7 +160,7 @@
                 android:text="@string/day_tian"
                 style="@style/form_grit" />
             <ImageView
-                android:src="@drawable/ic_trangle"
+                android:src="@drawable/ic_triangle"
                 style="@style/trangle" />
         </LinearLayout>
 
@@ -171,6 +173,7 @@
                 android:text="9月"
                 style="@style/form_month" />
             <ImageView
+                android:id="@+id/form_baby_chest"
                 android:src="@drawable/temp_chest_form"
                 style="@style/form" />
 
@@ -227,7 +230,7 @@
                 android:text="@string/day_tian"
                 style="@style/form_grit" />
             <ImageView
-                android:src="@drawable/ic_trangle"
+                android:src="@drawable/ic_triangle"
                 style="@style/trangle" />
         </LinearLayout>
 
@@ -240,6 +243,7 @@
                 android:text="9月"
                 style="@style/form_month" />
             <ImageView
+                android:id="@+id/form_baby_height"
                 android:src="@drawable/temp_height_form"
                 style="@style/form" />
 
