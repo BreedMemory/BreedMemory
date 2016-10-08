@@ -457,7 +457,12 @@ public class NumberPickerView extends View {
             return;
 
         int pos = Arrays.binarySearch(mSelector, value);
-        scrollTo(0, pos);
+        if(pos < 0 || mSelector == null || pos > mSelector.length)
+            return;
+
+        Rect actualLoc = getLocationByPosition(pos);
+        int scrollY = actualLoc.top - getScrollY();
+        scrollTo(0, scrollY);
     }
 
     /**

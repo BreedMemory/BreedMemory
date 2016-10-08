@@ -10,17 +10,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.uuzz.android.ui.view.pinnedlistview.PinnedHeaderListView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrHandler;
 import com.uuzz.android.ui.view.ptr.PtrListView;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 
 import java.util.ArrayList;
@@ -75,8 +75,15 @@ public class GrowUpFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getLeftBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DONE: 谌珂 2016/9/5 跳转到个人账户
+                startActivity(new Intent(getActivity(), MineActivity.class));
+            }
+        };
     }
+
 
     @Nullable
     @Override
@@ -86,6 +93,7 @@ public class GrowUpFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
+        ((MainActivity)getActivity()).getmLeftBtn().setText(R.string.icon_me);
         return true;
     }
 

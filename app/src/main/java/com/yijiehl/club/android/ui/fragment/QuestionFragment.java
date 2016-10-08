@@ -21,6 +21,8 @@ import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.MineActivity;
 import com.yijiehl.club.android.ui.activity.QuestionListActivity;
 
 /**
@@ -90,7 +92,7 @@ public class QuestionFragment extends BaseHostFragment {
      * 1岁半-3岁
      */
     @ViewInject(R.id.layout_one_half_years)
-    private RelativeLayout oneHalfYears;
+    private LinearLayout oneHalfYears;
 
     private boolean isBabyShow;
 
@@ -98,7 +100,13 @@ public class QuestionFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getLeftBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DONE: 谌珂 2016/9/5 跳转到个人账户
+                startActivity(new Intent(getActivity(), MineActivity.class));
+            }
+        };
     }
 
     @Nullable
@@ -109,6 +117,7 @@ public class QuestionFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
+        ((MainActivity)getActivity()).getmLeftBtn().setText(R.string.icon_me);
         return true;
     }
 

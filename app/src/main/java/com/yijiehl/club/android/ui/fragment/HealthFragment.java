@@ -21,6 +21,8 @@ import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.HealthInfoActivity;
 import com.yijiehl.club.android.ui.activity.KnowledgeActivity;
+import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.MineActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -58,7 +60,13 @@ public class HealthFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getLeftBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DONE: 谌珂 2016/9/5 跳转到个人账户
+                startActivity(new Intent(getActivity(), MineActivity.class));
+            }
+        };
     }
 
     @Nullable
@@ -69,6 +77,7 @@ public class HealthFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
+        ((MainActivity)getActivity()).getmLeftBtn().setText(R.string.icon_me);
         return true;
     }
 

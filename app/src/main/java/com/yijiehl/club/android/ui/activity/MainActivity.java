@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.FootGroupBtn;
-import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -34,10 +33,6 @@ import com.yijiehl.club.android.ui.adapter.HostViewPagerAdapter;
  */
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BmActivity {
-    /** 标题栏左侧按钮 */
-    private IconTextView mLeftBtn;
-    /** 标题栏右侧按钮 */
-    private IconTextView mRightBtn;
     /** 内容容器 */
     @ViewInject(R.id.vp_content_container)
     private ViewPager mViewPager;
@@ -52,14 +47,6 @@ public class MainActivity extends BmActivity {
     private int mCurrentPage;
     /** ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存 */
     private int cachePagers = 4;
-
-    public IconTextView getmLeftBtn() {
-        return mLeftBtn;
-    }
-
-    public IconTextView getmRightBtn() {
-        return mRightBtn;
-    }
 
     @Override
     protected String getHeadTitle() {
@@ -80,41 +67,12 @@ public class MainActivity extends BmActivity {
 
     @Override
     protected void configHeadLeftView() {
-        mHeadLeftContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
-        mLeftBtn = new IconTextView(this);
-        mHeadLeftContainer.addView(mLeftBtn);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLeftBtn.getLayoutParams();
-        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        // TODO: 谌珂 2016/9/5 替换图标
-        mLeftBtn.setText(getString(R.string.icon_return));
-
-        mHeadLeftContainer.setOnClickListener(new View.OnClickListener() {
+        super.configHeadLeftView();
+        mLeftBtn.setText(R.string.icon_me);
+        mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 谌珂 2016/9/5 跳转到个人账户
                 startActivity(new Intent(MainActivity.this, MineActivity.class));
-            }
-        });
-    }
-
-    @Override
-    protected void configHeadRightView() {
-        mHeadRightContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
-        mRightBtn = new IconTextView(this);
-        mHeadRightContainer.addView(mRightBtn);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
-        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        // TODO: 谌珂 2016/9/5 替换图标
-        mRightBtn.setText(getString(R.string.icon_return));
-
-        mHeadRightContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 谌珂 2016/9/5 跳转到个人添加
-                //测试代码
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
             }
         });
     }
