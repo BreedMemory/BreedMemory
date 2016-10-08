@@ -60,11 +60,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="10dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                 android:layout_width="1dip"
                 android:layout_height="40dip"
                 android:layout_centerInParent="true"
-                android:background="#E8E8E8" />
+                android:background="#e1e1e1" />
 
             <ImageView
                 android:id="@+id/iv_my_sign"
@@ -156,7 +156,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="#E8E8E8" />
+            android:background="#eeeeee" />
 
         <RelativeLayout
             android:id="@+id/layout_health_data"
@@ -172,11 +172,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_medicine_remind"
@@ -194,7 +194,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#eeeeee" />
 
         <RelativeLayout
             android:id="@+id/layout_my_message"
@@ -210,11 +210,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_my_collect"
@@ -230,11 +230,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_photo_manage"
@@ -250,11 +250,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_club_introduction"
@@ -272,7 +272,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_my_exit"
@@ -288,11 +288,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
     </LinearLayout>
 
 </ScrollView>

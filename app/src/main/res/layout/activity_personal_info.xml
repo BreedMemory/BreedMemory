@@ -12,7 +12,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="#E8E8E8" />
+            android:background="#eeeeee" />
 
         <RelativeLayout
             android:id="@+id/layout_update_headpic"
@@ -36,11 +36,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="3dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_nickname"
@@ -65,7 +65,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_name"
@@ -89,11 +89,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="3dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_sex"
@@ -117,11 +117,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="3dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_phonenum"
@@ -145,11 +145,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
+            android:layout_height="1dip"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginTop="3dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_address"
@@ -174,7 +174,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="#E8E8E8" />
+            android:background="#e1e1e1" />
 
         <RelativeLayout
             android:id="@+id/layout_update_relaccount"
@@ -192,8 +192,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="#E8E8E8" />
+            android:layout_height="1dip"
+            android:background="#e1e1e1" />
 
         <TextView
             android:layout_width="wrap_content"
