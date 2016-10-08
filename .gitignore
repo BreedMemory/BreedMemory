@@ -4,6 +4,7 @@
 /.idea/workspace.xml
 /.idea/libraries
 /.idea/file.template.settings.xml
+/.idea/gradle.xml
 .DS_Store
 /build
 /captures

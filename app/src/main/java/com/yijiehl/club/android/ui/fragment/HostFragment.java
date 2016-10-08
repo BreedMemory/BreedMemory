@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -356,22 +355,22 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick({R.id.ci_main_picture,R.id.tv_advice})
     private void skipHealthFragment(){
-        skipGoalFragment(1);
+        ((MainActivity)getActivity()).setCurrentPage(1);
     }
 
     @OnClick(R.id.ll_photo_container)
     private void skipAlbumFragment() {
-        skipGoalFragment(2);
+        ((MainActivity)getActivity()).setCurrentPage(2);
     }
 
     @OnClick(R.id.im_question_background)
     private void skipAskAnswerFragment() {
-        skipGoalFragment(3);
+        ((MainActivity)getActivity()).setCurrentPage(3);
     }
 
     @OnClick(R.id.im_grow_up_background)
     private void skipGrowUpFragment() {
-        skipGoalFragment(4);
+        ((MainActivity)getActivity()).setCurrentPage(4);
     }
 
 
@@ -402,24 +401,5 @@ public class HostFragment extends BaseHostFragment {
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
         intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
-    }
-
-    /**
-     * 描 述：便利字符串中的数字，产生对应图片并添加到提示语容器内<br/>
-     * 作 者：张志新<br/>
-     * 历 史: (1.0.0) 张志新 2016/10/6 <br/>
-     *
-     * @param i 要跳转到相应的fragment的脚标
-     */
-    private void skipGoalFragment(final int i) {
-        final MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setFragmentToFragment(new MainActivity.FragmentToFragment() {
-            @Override
-            public void gotoFragment(ViewPager viewPager) {
-                viewPager.setCurrentItem(i);
-                mainActivity.setFootFocus(i);
-            }
-        });
-        mainActivity.forSkip();
     }
 }

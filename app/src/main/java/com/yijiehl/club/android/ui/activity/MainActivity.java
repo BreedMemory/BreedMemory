@@ -118,22 +118,12 @@ public class MainActivity extends BmActivity {
         }
     }
 
-    /**内部接口，具体执行跳转的方法封装这个接口中*/
-    public interface FragmentToFragment {
-        public void gotoFragment(ViewPager viewPager);
-    }
-
-    /**该接口类型的成员变量,并为其设置set方法*/
-    private FragmentToFragment fragmentToFragment;
-
-    public void setFragmentToFragment(FragmentToFragment fragmentToFragment) {
-        this.fragmentToFragment = fragmentToFragment;
-    }
-
-    /**调用接口中gotoFragment方法的方法*/
-    public void forSkip() {
-        if (fragmentToFragment != null) {
-            fragmentToFragment.gotoFragment(mViewPager);
-        }
+    /**
+     * 描 述：跳转到对应的fragment<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    public void setCurrentPage(int index) {
+        mViewPager.setCurrentItem(index);
     }
 }
