@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:background="@color/transparent"
-        android:layout_height="62dip" >
+        android:layout_height="26dip" >
         <com.uuzz.android.ui.view.FootGroupBtn
             android:id="@+id/fgb_host"
             app:icon_value="@string/icon_add"
