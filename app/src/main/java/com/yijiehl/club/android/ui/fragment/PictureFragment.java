@@ -8,7 +8,6 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -26,6 +25,8 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.MineActivity;
 import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
@@ -86,7 +87,13 @@ public class PictureFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getLeftBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DONE: 谌珂 2016/9/5 跳转到个人账户
+                startActivity(new Intent(getActivity(), MineActivity.class));
+            }
+        };
     }
 
     @Nullable
@@ -97,6 +104,7 @@ public class PictureFragment extends BaseHostFragment {
 
     @Override
     protected boolean isLeftBtnVisible() {
+        ((MainActivity)getActivity()).getmLeftBtn().setText(R.string.icon_me);
         return true;
     }
 

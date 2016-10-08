@@ -19,7 +19,7 @@
         android:layout_height="62dip" >
         <com.uuzz.android.ui.view.FootGroupBtn
             android:id="@+id/fgb_host"
-            app:icon_value="@string/icon_add"
+            app:icon_value="@string/icon_host"
             app:text_value="@string/host_page"
             app:background_color="@color/colorAccent"
             app:background_color_focus="@color/colorAccentDark"
@@ -33,7 +33,7 @@
         <com.uuzz.android.ui.view.FootGroupBtn
             android:id="@+id/fgb_health"
             style="@style/foot_btn"
-            app:icon_value="@string/icon_add"
+            app:icon_value="@string/icon_health"
             app:text_value="@string/health"
             app:background_color="@color/colorAccent"
             app:background_color_focus="@color/colorAccentDark"
@@ -63,7 +63,7 @@
                 android:layout_marginTop="13dip"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:icon_value="@string/icon_add"
+                app:icon_value="@string/icon_add_circel"
                 app:text_value="@string/picture"
                 app:background_color="@color/transparent"
                 app:background_color_focus="@color/transparent"
@@ -77,7 +77,7 @@
         <com.uuzz.android.ui.view.FootGroupBtn
             android:id="@+id/fgb_question"
             style="@style/foot_btn"
-            app:icon_value="@string/icon_add"
+            app:icon_value="@string/icon_question"
             app:text_value="@string/ask_and_answer"
             app:background_color="@color/colorAccent"
             app:background_color_focus="@color/colorAccentDark"
@@ -90,7 +90,7 @@
         <com.uuzz.android.ui.view.FootGroupBtn
             android:id="@+id/fgb_grow_up"
             style="@style/foot_btn"
-            app:icon_value="@string/icon_add"
+            app:icon_value="@string/icon_grow_up"
             app:text_value="@string/grow_up"
             app:background_color="@color/colorAccent"
             app:background_color_focus="@color/colorAccentDark"

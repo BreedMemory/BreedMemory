@@ -32,6 +32,19 @@ import java.util.Observer;
  */
 public abstract class BmActivity extends CkActivity implements Observer {
 
+    /** 标题栏左侧按钮 */
+    protected IconTextView mLeftBtn;
+    /** 标题栏右侧按钮 */
+    protected IconTextView mRightBtn;
+
+    public IconTextView getmLeftBtn() {
+        return mLeftBtn;
+    }
+
+    public IconTextView getmRightBtn() {
+        return mRightBtn;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +64,12 @@ public abstract class BmActivity extends CkActivity implements Observer {
     @Override
     protected void configHeadLeftView() {
         mHeadLeftContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
-        IconTextView lReturnBtn = new IconTextView(this);
-        mHeadLeftContainer.addView(lReturnBtn);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) lReturnBtn.getLayoutParams();
+        mLeftBtn = new IconTextView(this);
+        mHeadLeftContainer.addView(mLeftBtn);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLeftBtn.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        lReturnBtn.setText(getString(R.string.icon_return));
+        mLeftBtn.setText(getString(R.string.icon_return));
 
         mHeadLeftContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +82,12 @@ public abstract class BmActivity extends CkActivity implements Observer {
     @Override
     protected void configHeadRightView() {
         mHeadRightContainer.setVisibility(View.GONE);
+        mRightBtn = new IconTextView(this);
+        mHeadRightContainer.addView(mRightBtn);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        mRightBtn.setText(getString(R.string.icon_return));
     }
 
     @Override

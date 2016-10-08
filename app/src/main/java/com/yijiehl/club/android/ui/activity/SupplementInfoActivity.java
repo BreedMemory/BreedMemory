@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.Utils;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -105,6 +106,7 @@ public class SupplementInfoActivity extends BmActivity {
         if(!TextUtils.isEmpty(mUserInfo.getOrgInfo())) {
             mClub.setText(mUserInfo.getOrgInfo());
         }
+        mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
     }
 
     @Override
