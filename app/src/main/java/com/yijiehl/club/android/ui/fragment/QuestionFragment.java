@@ -77,17 +77,17 @@ public class QuestionFragment extends BaseHostFragment {
      * 0-3个月
      */
     @ViewInject(R.id.layout_zero_month)
-    private RelativeLayout zeroMonth;
+    private LinearLayout zeroMonth;
     /**
      * 3个月-1岁
      */
     @ViewInject(R.id.layout_three_months)
-    private RelativeLayout threeMonth;
+    private LinearLayout threeMonth;
     /**
      * 1岁-1岁半
      */
     @ViewInject(R.id.layout_one_year)
-    private RelativeLayout oneYear;
+    private LinearLayout oneYear;
     /**
      * 1岁半-3岁
      */
