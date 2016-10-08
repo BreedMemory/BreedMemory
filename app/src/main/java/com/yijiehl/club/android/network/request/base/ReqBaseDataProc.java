@@ -67,6 +67,6 @@ public class ReqBaseDataProc extends ReqBase {
 
     @Override
     public boolean isGet() {
-        return true;
+        return false;
     }
 }

@@ -102,4 +102,6 @@
     <string name="confinement">月子中</string>
     <string name="confinement_after">月子后</string>
     <string name="knowledge_list">知识列表</string>
+    <string name="please_input_name">请填写姓名</string>
+    <string name="please_inpute_birthday">请填写预产期</string>
 </resources>

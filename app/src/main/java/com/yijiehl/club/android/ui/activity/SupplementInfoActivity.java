@@ -239,14 +239,14 @@ public class SupplementInfoActivity extends BmActivity {
         if(!checkInfo()) {
             return;
         }
-        final UpdateUserInfo info = new UpdateUserInfo(mName.getText().toString(), getSex().getName(), mUserInfo.getMobileNum(), mClubInfos.get(mClubIndex).getDataId(), mChooseBronTime.getText().toString());
+        final UpdateUserInfo info = new UpdateUserInfo(mName.getText().toString(), getSex().getName(), mUserInfo.getMobileNum(), mClubIndex == -1 ? "" : mClubInfos.get(mClubIndex).getDataId(), mChooseBronTime.getText().toString());
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setAcctName(info.getDataName());
                 mUserInfo.setGenderCode(info.getGenderCode());
                 mUserInfo.setOrgId(String.valueOf(info.getOrgId()));
-                mUserInfo.setOrgInfo(mClubInfos.get(mClubIndex).getDataName());
+                mUserInfo.setOrgInfo(mClubIndex == -1 ? "" : mClubInfos.get(mClubIndex).getDataId());
                 mUserInfo.setBirthday(info.getBirthdate());
                 ActivitySvc.saveUserInfoNative(SupplementInfoActivity.this, mUserInfo);
                 ActivitySvc.startMainActivity(SupplementInfoActivity.this);
@@ -263,6 +263,11 @@ public class SupplementInfoActivity extends BmActivity {
      */
     private boolean checkInfo() {
         if(TextUtils.isEmpty(mName.getText().toString())) {
+            Toaster.showShortToast(this, getString(R.string.please_input_name));
+            return false;
+        }
+        if(TextUtils.isEmpty(mChooseBronTime.getText().toString())) {
+            Toaster.showShortToast(this, getString(R.string.please_inpute_birthday));
             return false;
         }
         return true;

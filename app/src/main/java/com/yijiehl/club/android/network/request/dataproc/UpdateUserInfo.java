@@ -137,7 +137,7 @@ public class UpdateUserInfo extends BaseDataEntity {
 
     @Override
     protected String getDataModle() {
-        return "acct_main ";
+        return "acct_main";
     }
 
     @Override

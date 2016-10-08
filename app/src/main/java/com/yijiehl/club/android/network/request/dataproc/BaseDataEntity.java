@@ -25,6 +25,22 @@ public abstract class BaseDataEntity {
     /** 必填, create新增，update修改，delete删除，cancel取消 */
     protected String opType = getOperateType().getName();
 
+    public String getDataModel() {
+        return dataModel;
+    }
+
+    public void setDataModel(String dataModel) {
+        this.dataModel = dataModel;
+    }
+
+    public String getOpType() {
+        return opType;
+    }
+
+    public void setOpType(String opType) {
+        this.opType = opType;
+    }
+
     /**
      * 描 述：设置数据模型<br/>
      * 作 者：谌珂<br/>
