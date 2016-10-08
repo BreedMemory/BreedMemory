@@ -38,7 +38,7 @@ public class CkApplication extends Application {
 
         //初始化ImageLoader配置
         // TODO: 谌珂 2016/9/18 替换默认图片资源
-        ImageLoaderConfiguration config = ImageLoaderUtils.getImageLoaderConfiguration(this, ImageLoaderUtils.getDisplayImageOptions(R.mipmap.ic_launcher));
+        ImageLoaderConfiguration config = ImageLoaderUtils.getImageLoaderConfiguration(this, ImageLoaderUtils.getDisplayImageOptions(android.R.mipmap.sym_def_app_icon));
         ImageLoader.getInstance().init(config);
     }
 }
