@@ -27,13 +27,14 @@
 
         <ImageView
             android:id="@+id/iv_cancel_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
             android:layout_toLeftOf="@+id/et_phone_change"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginRight="7dip"
+            android:src="@drawable/cancel_et_content" />
     </RelativeLayout>
 
     <!--<View
