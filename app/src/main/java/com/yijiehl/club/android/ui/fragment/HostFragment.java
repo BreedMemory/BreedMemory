@@ -316,9 +316,12 @@ public class HostFragment extends BaseHostFragment {
         }
     }
 
-    @OnClick(R.id.im_logo)
+    @OnClick(R.id.im_club_logo)
     private void startWebView() {
         // TODO: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
+        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
+        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})

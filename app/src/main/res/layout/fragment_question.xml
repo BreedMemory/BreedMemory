@@ -6,11 +6,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/question_test">
+        android:layout_height="wrap_content">
         <!--上半部分-->
         <RelativeLayout
             android:layout_width="match_parent"
+            android:background="@drawable/bg_question_up"
             android:layout_height="204dip">
 
             <RelativeLayout
@@ -59,7 +59,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="179dip"
-            android:background="@drawable/question_background_down"
             android:orientation="vertical">
 
             <Button
