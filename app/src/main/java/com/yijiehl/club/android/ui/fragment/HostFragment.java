@@ -87,7 +87,22 @@ public class HostFragment extends BaseHostFragment {
      * 活动背景图
      */
     @ViewInject(R.id.im_activity_background)
-    private ImageView mActivityImage;
+    private ImageView mActivityImageBackground;
+    /**
+     * 照片背景图
+     */
+    @ViewInject(R.id.im_photo_background)
+    private ImageView mPhotoImageBackground;
+    /**
+     * 问答背景图
+     */
+    @ViewInject(R.id.im_question_background)
+    private ImageView mQuestionImageBackground;
+    /**
+     * 成长背景图
+     */
+    @ViewInject(R.id.im_grow_up_background)
+    private ImageView mGrowUpImageBackground;
     /**
      * 活动名称
      */
@@ -215,6 +230,11 @@ public class HostFragment extends BaseHostFragment {
         //会所健康建议
         mAdvice.setText(info.getBaseInfo());
 
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, mPhotoImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_chengzhang_bg, mGrowUpImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_wenda_bg2, mQuestionImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImageBackground);
+
         mGrowUpDesc.setText(Html.fromHtml(getString(R.string.grow_up_gas_station)));
     }
 
@@ -229,10 +249,8 @@ public class HostFragment extends BaseHostFragment {
         } else {
             return;
         }
-        if(TextUtils.isEmpty(mActivityInfo.getImageInfo())) {
-            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImage);
-        } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImage);
+        if(!TextUtils.isEmpty(mActivityInfo.getImageInfo())) {
+            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImageBackground);
         }
 
         mActivityName.setText(mActivityInfo.getDataName());
