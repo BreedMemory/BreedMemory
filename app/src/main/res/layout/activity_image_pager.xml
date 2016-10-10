@@ -5,14 +5,14 @@
     android:orientation="vertical">
 
 
-    <ImageView
+    <com.uuzz.android.ui.view.ImageViewer
         android:id="@+id/iv_detail_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:adjustViewBounds="true"
         android:contentDescription="123"
-        android:scaleType="centerCrop"/>
+        android:scaleType="matrix"/>
     <TextView
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
@@ -30,6 +30,7 @@
         android:visibility="gone"/>
 
     <RelativeLayout
+        android:id="@+id/rl_photo_bottom"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="50dip"

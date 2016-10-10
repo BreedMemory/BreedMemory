@@ -1,11 +1,10 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.uuzz.android.ui.view.ImageViewer;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
@@ -24,9 +23,12 @@ import java.util.ArrayList;
  */
 @ContentView(R.layout.activity_image_pager)
 public class ImagePagerActivity extends BmActivity {
+    private boolean isHide;
 
     @ViewInject(R.id.iv_detail_show)
-    private ImageView ivShow;
+    private ImageViewer ivShow;
+    @ViewInject(R.id.rl_photo_bottom)
+    private View mBottomContainer;
 
     private ArrayList<String> urls;
     private boolean isNative;
@@ -46,5 +48,19 @@ public class ImagePagerActivity extends BmActivity {
         }else{
             ImageLoader.getInstance().displayImage(urls.get(0), ivShow);
         }
+        ivShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isHide) {
+                    mHeader.setVisibility(View.VISIBLE);
+                    mBottomContainer.setVisibility(View.VISIBLE);
+                    isHide = false;
+                } else {
+                    mHeader.setVisibility(View.GONE);
+                    mBottomContainer.setVisibility(View.GONE);
+                    isHide = true;
+                }
+            }
+        });
     }
 }
