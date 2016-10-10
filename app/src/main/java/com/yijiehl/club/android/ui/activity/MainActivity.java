@@ -90,8 +90,7 @@ public class MainActivity extends BmActivity {
      */
     @OnClick({R.id.fgb_grow_up, R.id.fgb_health, R.id.fgb_host, R.id.fgb_photo, R.id.fgb_question})
     private void switchContent(View v) {
-        mCurrentPage = mFootContainer.indexOfChild(v);
-        mViewPager.setCurrentItem(mCurrentPage);
+        mViewPager.setCurrentItem(mFootContainer.indexOfChild(v));
     }
 
     /**
@@ -101,8 +100,9 @@ public class MainActivity extends BmActivity {
      * @param index 被选中页面的索引
      */
     public void setFootFocus(int index) {
+        mCurrentPage = index;
         for (int i = 0; i < mFootContainer.getChildCount(); i++) {
-            if (i == index) {
+            if (i == mCurrentPage) {
                 if (i == 2) {          //如果当前选中的是照片模块单独修改样式
                     mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
                 } else {
