@@ -88,7 +88,7 @@
                 android:layout_marginLeft="20dip"
                 android:layout_marginTop="10dip"
                 android:layout_toRightOf="@+id/iv_my_money_pic"
-                android:text="100"
+                android:text="98888"
                 android:textColor="#ff4f64"
                 android:textSize="21dip" />
 
@@ -148,8 +148,8 @@
                 android:text="@string/growup_comeon"
                 android:id="@+id/textView"
                 android:layout_alignTop="@+id/textView4"
-                android:layout_toRightOf="@+id/iv_my_money_pic"
-                android:layout_toEndOf="@+id/iv_my_money_pic" />
+                android:layout_alignLeft="@+id/tv_show_my_money"
+                android:layout_alignStart="@+id/tv_show_my_money" />
         </RelativeLayout>
 
         <View
