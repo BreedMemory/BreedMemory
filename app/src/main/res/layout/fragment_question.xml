@@ -253,6 +253,25 @@
                     android:background="#eeeeee" />
             </LinearLayout>
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_ask"
+            android:layout_width="54dip"
+            android:layout_height="52dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="13dip">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_circle_layout"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="提问"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

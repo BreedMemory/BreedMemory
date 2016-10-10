@@ -360,7 +360,7 @@
                 android:textSize="21dip"
                 android:background="@color/transparent"
                 android:paddingBottom="5dip"
-                android:text="婴儿保险知多少"/>
+                android:text="宝宝成长，妈妈知道"/>
 
             <ImageView
                 android:id="@+id/im_gas_station"

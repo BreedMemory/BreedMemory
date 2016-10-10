@@ -106,8 +106,11 @@ public class GrowUpFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: 2016/10/2 此处填充假数据
-        for (int i = 0; i < 5; i++) {
-            allData.add("婴儿保险知多少");
+        for (int i = 0; i < 2; i++) {
+            allData.add("孩子的健康，你如何负责?");
+            allData.add("穷宝宝，富宝宝");
+            allData.add("幼儿重疾知多少?");
+            allData.add("海外游学规划何时开始?");
         }
         GrowUpContentAdapter growUpContentAdapter = new GrowUpContentAdapter(getActivity(), allData);
         mListView.setAdapter(growUpContentAdapter);

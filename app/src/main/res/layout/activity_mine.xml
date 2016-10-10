@@ -88,7 +88,7 @@
                 android:layout_marginLeft="20dip"
                 android:layout_marginTop="10dip"
                 android:layout_toRightOf="@+id/iv_my_money_pic"
-                android:text="98888"
+                android:text="98,888"
                 android:textColor="#ff4f64"
                 android:textSize="21dip" />
 

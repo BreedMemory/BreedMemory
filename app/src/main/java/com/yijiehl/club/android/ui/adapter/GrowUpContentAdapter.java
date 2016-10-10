@@ -16,6 +16,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ import java.util.List;
 public class GrowUpContentAdapter extends BaseListViewAdapter {
 
     private List<String> data;
+    private List<String> urlData = new ArrayList<>();
 
     public GrowUpContentAdapter(Context mContext) {
         super(mContext);
@@ -39,6 +41,14 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
         super(mContext);
         this.data = data;
         mDatas=data;
+        urlData.add("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
+        urlData.add("http://i2.s2.dpfile.com/pc/9f9d763bdeea2976024a3b0abced9788(700x700)/thumb.jpg");
+        urlData.add("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
+        urlData.add("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
+        urlData.add("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
+        urlData.add("http://i2.s2.dpfile.com/pc/9f9d763bdeea2976024a3b0abced9788(700x700)/thumb.jpg");
+        urlData.add("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
+        urlData.add("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
     }
 
     @Override
@@ -69,7 +79,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter {
             }
         });
 
-        ImageLoader.getInstance().displayImage("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg", holder.ivPic, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(urlData.get(position), holder.ivPic, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 

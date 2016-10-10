@@ -113,7 +113,7 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivitysAdapter.Entit
         String url = "http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg";
         String time = "2016年9月9日 10:30 am";
         String title = "音乐聆听";
-        String place = "艾玛家月子中心";
+        String place = "爱玛家月子中心";
         String area = "北京市";
     }
 

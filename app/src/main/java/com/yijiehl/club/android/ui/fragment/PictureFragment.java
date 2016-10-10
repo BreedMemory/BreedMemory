@@ -271,21 +271,11 @@ public class PictureFragment extends BaseHostFragment {
      * 临时添加个人假数据的方法
      */
     private void addPersonFakeData() {
-        for (int i = 0; i < 4; i++) {
-            PhotoInfo photoInfo = new PhotoInfo();
-            photoInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
-            photoInfo.setAlbumId("kb");
-            photoInfo.setAlbumName("逗你玩");
-            photoInfo.setCreateDay("2016-10-03");
-            dataPhoto.add(photoInfo);
+        for (int i = 0; i < 1; i++) {
+            addData();
         }
-        for (int i = 0; i < 6; i++) {
-            PhotoInfo photoInfo = new PhotoInfo();
-            photoInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
-            photoInfo.setAlbumId("jd");
-            photoInfo.setAlbumName("不逗了");
-            photoInfo.setCreateDay("2016-10-02");
-            dataPhoto.add(photoInfo);
+        for (int i = 0; i < 1; i++) {
+            addData();
         }
     }
 
@@ -293,14 +283,54 @@ public class PictureFragment extends BaseHostFragment {
      * 临时添加会所假数据的方法
      */
     private void addClubFakeData() {
-        for (int i = 0; i < 6; i++) {
-            AlbumInfo albumInfo = new AlbumInfo();
-            albumInfo.setDataNum("24");
-            albumInfo.setCreateTime("2016-10-02");
-            albumInfo.setDataDesc("音乐聆听");
-            albumInfo.setIconInfo1("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
-            dataAlbum.add(albumInfo);
+        for (int i = 0; i < 2; i++) {
+            AlbumInfo albumInfo1 = new AlbumInfo();
+            albumInfo1.setDataNum("24");
+            albumInfo1.setCreateTime("2016-10-02");
+            albumInfo1.setDataDesc("相册1");
+            albumInfo1.setIconInfo1("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
+            dataAlbum.add(albumInfo1);
+            AlbumInfo albumInfo2 = new AlbumInfo();
+            albumInfo2.setDataNum("36");
+            albumInfo2.setCreateTime("2016-10-03");
+            albumInfo2.setDataDesc("相册2");
+            albumInfo2.setIconInfo1("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
+            dataAlbum.add(albumInfo2);
+            AlbumInfo albumInfo3 = new AlbumInfo();
+            albumInfo3.setDataNum("12");
+            albumInfo3.setCreateTime("2016-10-10");
+            albumInfo3.setDataDesc("相册2");
+            albumInfo3.setIconInfo1("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
+            dataAlbum.add(albumInfo3);
         }
+    }
+
+    /**添加假数据；临时*/
+    private void addData(){
+        PhotoInfo photoInfo = new PhotoInfo();
+        photoInfo.setIconInfo1("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
+        photoInfo.setAlbumId("kb");
+        photoInfo.setAlbumName("逗你玩");
+        photoInfo.setCreateDay("2016-10-03");
+        PhotoInfo photoInfo1 = new PhotoInfo();
+        photoInfo1.setIconInfo1("http://i2.s2.dpfile.com/pc/9f9d763bdeea2976024a3b0abced9788(700x700)/thumb.jpg");
+        photoInfo1.setAlbumId("kb");
+        photoInfo1.setAlbumName("逗你玩");
+        photoInfo1.setCreateDay("2016-10-03");
+        PhotoInfo photoInfo2 = new PhotoInfo();
+        photoInfo2.setIconInfo1("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
+        photoInfo2.setAlbumId("kb");
+        photoInfo2.setAlbumName("逗你玩");
+        photoInfo2.setCreateDay("2016-10-03");
+        PhotoInfo photoInfo3 = new PhotoInfo();
+        photoInfo3.setIconInfo1("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
+        photoInfo3.setAlbumId("kb");
+        photoInfo3.setAlbumName("逗你玩");
+        photoInfo3.setCreateDay("2016-10-03");
+        dataPhoto.add(photoInfo);
+        dataPhoto.add(photoInfo1);
+        dataPhoto.add(photoInfo2);
+        dataPhoto.add(photoInfo3);
     }
 
     @Override

@@ -186,4 +186,9 @@ public class QuestionFragment extends BaseHostFragment {
         intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
+
+    @OnClick(R.id.layout_ask)
+    private void ask(){
+
+    }
 }

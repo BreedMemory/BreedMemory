@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.FootGroupBtn;
 import com.uuzz.android.ui.view.IconTextView;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -48,6 +50,8 @@ public class MainActivity extends BmActivity {
     private int mCurrentPage;
     /** ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存 */
     private int cachePagers = 4;
+    /**第一次回退时间*/
+    private long touchTime = 0;
 
     @Override
     protected String getHeadTitle() {
@@ -125,5 +129,25 @@ public class MainActivity extends BmActivity {
      */
     public void setCurrentPage(int index) {
         mViewPager.setCurrentItem(index);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (mCurrentPage != 0) {
+                    mViewPager.setCurrentItem(0);
+                    mCurrentPage=0;
+                    return true;
+                } else {
+                    long currentTime = System.currentTimeMillis();
+                    if ((currentTime - touchTime) >= 2000) {
+                        Toaster.showShortToast(this,R.string.click_again);
+                        touchTime = currentTime;
+                        return true;
+                    }
+                }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
