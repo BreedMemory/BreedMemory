@@ -8,6 +8,7 @@ package com.yijiehl.club.android.ui.activity;/**
  */
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -63,5 +64,9 @@ public class PersonalInfoActivity extends BmActivity {
     @OnClick(R.id.layout_update_relaccount)
     private void upDatePhoneRelAccount(){
         startActivity(new Intent(PersonalInfoActivity.this,AddRelativesAccount.class));
+    }
+    @OnClick(R.id.tv_club_phone)
+    private void callClub(){
+        // TODO: 2016/10/9 拨打会所联系电话功能；相应的权限未加以及未获取
     }
 }

@@ -37,6 +37,7 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.GrowUpGasStationAvtivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.MineActivity;
 
@@ -316,9 +317,12 @@ public class HostFragment extends BaseHostFragment {
         }
     }
 
-    @OnClick(R.id.im_logo)
+    @OnClick(R.id.im_club_logo)
     private void startWebView() {
         // TODO: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
+        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
+        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
+        startActivity(intent);
     }
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
@@ -401,5 +405,9 @@ public class HostFragment extends BaseHostFragment {
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
         intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
+    }
+    @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
+    private void toGasStation(){
+        startActivity(new Intent(getActivity(), GrowUpGasStationAvtivity.class));
     }
 }

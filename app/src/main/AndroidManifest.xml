@@ -129,5 +129,9 @@
         <activity android:name=".ui.activity.KnowledgeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
+        <!-- 成长加油站页面 -->
+        <activity android:name=".ui.activity.GrowUpGasStationAvtivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

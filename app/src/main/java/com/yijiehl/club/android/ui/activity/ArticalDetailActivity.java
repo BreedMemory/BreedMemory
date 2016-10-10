@@ -2,11 +2,14 @@ package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
@@ -33,6 +36,16 @@ public class ArticalDetailActivity extends BmActivity {
     }
 
     @Override
+    protected void configHeadRightView() {
+        mRightBtn = new IconTextView(this);
+        mHeadRightContainer.addView(mRightBtn);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        mRightBtn.setText(getString(R.string.icon_add));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -54,5 +67,16 @@ public class ArticalDetailActivity extends BmActivity {
         });
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            if(webView.canGoBack()){
+                webView.goBack();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

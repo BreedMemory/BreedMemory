@@ -3,9 +3,7 @@
  * 文件名称: MineActivity.java <br/>
  * Created by 张志新 on 2016/9/11.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;/**
- * Created by asus on 2016/9/11.
- */
+package com.yijiehl.club.android.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
@@ -64,5 +62,10 @@ public class MineActivity extends BmActivity {
     @OnClick(R.id.layout_my_exit)
     private void exit(){
 
+    }
+
+    @OnClick({R.id.iv_my_money_pic,R.id.tv_show_my_money,R.id.textView})
+    private void toGasStation(){
+        startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
     }
 }
