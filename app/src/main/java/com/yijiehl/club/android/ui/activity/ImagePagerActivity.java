@@ -1,6 +1,8 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
