@@ -43,11 +43,13 @@ public class ImagePagerActivity extends BmActivity {
         super.onCreate(savedInstanceState);
         urls = getIntent().getStringArrayListExtra("image_urls");
         isNative=getIntent().getBooleanExtra("isNative",false);
+        isNative = true;
         if(isNative) {
-            ImageLoader.getInstance().displayImage("file:///" + urls.get(0), ivShow);
+            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, ivShow);
         }else{
             ImageLoader.getInstance().displayImage(urls.get(0), ivShow);
         }
+
         ivShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
