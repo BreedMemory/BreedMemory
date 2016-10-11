@@ -122,6 +122,12 @@ public class ImageViewer extends ImageView {
 		setDrawingCacheEnabled(true);
 	}
 
+	@Override
+	public void setImageBitmap(Bitmap bm) {
+		super.setImageBitmap(bm);
+		isTouchEvent = false;
+	}
+
 	public ImageViewer(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mMatrix = getImageMatrix();
