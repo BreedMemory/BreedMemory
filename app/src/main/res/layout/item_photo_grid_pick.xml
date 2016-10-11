@@ -11,8 +11,8 @@
 
     <ImageButton
         android:id="@+id/iv_item_pick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="23dip"
+        android:layout_height="23dip"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="3dip"

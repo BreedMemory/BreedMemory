@@ -31,7 +31,7 @@ public class ImagePagerActivity extends BmActivity {
     private View mBottomContainer;
 
     private ArrayList<String> urls;
-    private boolean isNative;
+    private boolean isNative = true;
 
     @Override
     protected String getHeadTitle() {
@@ -45,7 +45,7 @@ public class ImagePagerActivity extends BmActivity {
         isNative=getIntent().getBooleanExtra("isNative",false);
         isNative = true;
         if(isNative) {
-            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, ivShow);
+            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, ivShow);
         }else{
             ImageLoader.getInstance().displayImage(urls.get(0), ivShow);
         }

@@ -38,8 +38,10 @@ import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.GrowUpGasStationAvtivity;
+import com.yijiehl.club.android.ui.activity.ImagePagerActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.MineActivity;
+import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
 
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
@@ -432,5 +434,12 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
     private void toGasStation(){
         startActivity(new Intent(getActivity(), GrowUpGasStationAvtivity.class));
+    }
+    @OnClick(R.id.im_photo_background)
+    private void lookPhoto(){
+        // TODO: 2016/10/11 此处临时写。。
+        Intent intent=new Intent(getActivity(), ImagePagerActivity.class);
+        intent.putExtra("isNative",true);
+        startActivity(intent);
     }
 }
