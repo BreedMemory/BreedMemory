@@ -133,5 +133,9 @@
         <activity android:name=".ui.activity.GrowUpGasStationAvtivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
+        <!-- 提问页面 -->
+        <activity android:name=".ui.activity.AskQuestionActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

@@ -1,277 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!--上半部分-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@drawable/bg_question_up"
-            android:layout_height="204dip">
-
+            android:layout_height="wrap_content">
+            <!--上半部分-->
             <RelativeLayout
-                android:id="@+id/layout_search"
                 android:layout_width="match_parent"
-                android:layout_height="44dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="10dip"
-                android:background="@drawable/growup_search">
+                android:layout_height="204dip"
+                android:background="@drawable/bg_question_up">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/layout_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dip"
+                    android:layout_marginLeft="15dip"
+                    android:layout_marginRight="15dip"
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/growup_search">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="17dip"
+                            android:layout_height="17dip"
+                            android:src="@drawable/search_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/search" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="17dip"
-                        android:layout_height="17dip"
-                        android:src="@drawable/search_logo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dip"
-                        android:text="@string/search" />
-                </LinearLayout>
+                    android:layout_below="@+id/layout_search"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dip"
+                    android:text="@string/ask_and_answer"
+                    android:textColor="@color/white"
+                    android:textSize="72dip" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_search"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dip"
-                android:text="@string/ask_and_answer"
-                android:textColor="@color/white"
-                android:textSize="72dip" />
-        </RelativeLayout>
 
-
-        <!--下半部分-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="179dip"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_my_question"
-                android:layout_width="92dip"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dip"
-                android:layout_marginTop="45dip"
-                android:background="@drawable/bg_my_question"
-                android:text="@string/my_question"
-                android:textColor="@color/white" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dip"
-                android:layout_marginLeft="21dip"
-                android:layout_marginRight="28dip"
-                android:layout_marginTop="4dip"
-                android:background="#eeeeee" />
-
-            <RelativeLayout
-                android:id="@+id/layout_mother_zone"
-                android:layout_width="match_parent"
-                android:layout_height="19dip"
-                android:layout_marginLeft="30dip"
-                android:layout_marginRight="30dip"
-                android:layout_marginTop="13dip">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/mother_zone" />
-
-                <ImageView
-                    android:id="@+id/iv_mother_question_show"
-                    android:layout_width="8dip"
-                    android:layout_height="19dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dip"
-                    android:src="@drawable/question_right" />
-
-            </RelativeLayout>
-
-            <!-- todo 此处需要添加母亲专区的下拉展示布局 -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dip"
-                android:layout_marginLeft="21dip"
-                android:layout_marginRight="28dip"
-                android:layout_marginTop="12dip"
-                android:background="#eeeeee" />
-
-            <RelativeLayout
-                android:id="@+id/layout_baby_zone"
-                android:layout_width="match_parent"
-                android:layout_height="19dip"
-                android:layout_marginLeft="30dip"
-                android:layout_marginRight="30dip"
-                android:layout_marginTop="13dip">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/baby_zone" />
-
-                <ImageView
-                    android:id="@+id/iv_baby_question_show"
-                    android:layout_width="18dip"
-                    android:layout_height="9dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/question_down" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dip"
-                android:layout_marginLeft="21dip"
-                android:layout_marginRight="28dip"
-                android:layout_marginTop="12dip"
-                android:background="#eeeeee" />
-            <!--婴儿下拉展示布局-->
+            <!--下半部分-->
             <LinearLayout
-                android:id="@+id/layout_baby_zone_context"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dip"
-                android:layout_marginRight="26dip"
+                android:layout_marginTop="179dip"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/layout_zero_month"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dip"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dip"
-                        android:layout_height="15dip"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/light_star" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="3dip"
-                        android:text="@string/zero_three_months" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_my_question"
+                    android:layout_width="92dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dip"
+                    android:layout_marginTop="45dip"
+                    android:background="@drawable/bg_my_question"
+                    android:text="@string/my_question"
+                    android:textColor="@color/white" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dip"
+                    android:layout_height="2dip"
+                    android:layout_marginLeft="21dip"
+                    android:layout_marginRight="28dip"
+                    android:layout_marginTop="4dip"
                     android:background="#eeeeee" />
 
-                <LinearLayout
-                    android:id="@+id/layout_three_months"
+                <RelativeLayout
+                    android:id="@+id/layout_mother_zone"
                     android:layout_width="match_parent"
-                    android:layout_height="44dip"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dip"
-                        android:layout_height="15dip"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/dark_star" />
+                    android:layout_height="19dip"
+                    android:layout_marginLeft="30dip"
+                    android:layout_marginRight="30dip"
+                    android:layout_marginTop="13dip">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="3dip"
-                        android:text="@string/three_months_one_year" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:text="@string/mother_zone" />
+
+                    <ImageView
+                        android:id="@+id/iv_mother_question_show"
+                        android:layout_width="8dip"
+                        android:layout_height="19dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:src="@drawable/question_right" />
+
+                </RelativeLayout>
+
+                <!-- todo 此处需要添加母亲专区的下拉展示布局 -->
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dip"
+                    android:layout_height="2dip"
+                    android:layout_marginLeft="21dip"
+                    android:layout_marginRight="28dip"
+                    android:layout_marginTop="12dip"
                     android:background="#eeeeee" />
 
-                <LinearLayout
-                    android:id="@+id/layout_one_year"
+                <RelativeLayout
+                    android:id="@+id/layout_baby_zone"
                     android:layout_width="match_parent"
-                    android:layout_height="44dip"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dip"
-                        android:layout_height="15dip"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/dark_star" />
+                    android:layout_height="19dip"
+                    android:layout_marginLeft="30dip"
+                    android:layout_marginRight="30dip"
+                    android:layout_marginTop="13dip">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="3dip"
-                        android:text="@string/one_half_years" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:background="#eeeeee" />
-
-                <LinearLayout
-                    android:id="@+id/layout_one_half_years"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dip"
-                    android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:text="@string/baby_zone" />
 
                     <ImageView
-                        android:layout_width="15dip"
-                        android:layout_height="15dip"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/dark_star" />
+                        android:id="@+id/iv_baby_question_show"
+                        android:layout_width="18dip"
+                        android:layout_height="9dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/question_down" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="3dip"
-                        android:text="@string/one_three_years" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dip"
+                    android:layout_height="2dip"
+                    android:layout_marginLeft="21dip"
+                    android:layout_marginRight="28dip"
+                    android:layout_marginTop="12dip"
                     android:background="#eeeeee" />
+                <!--婴儿下拉展示布局-->
+                <LinearLayout
+                    android:id="@+id/layout_baby_zone_context"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dip"
+                    android:layout_marginRight="26dip"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/layout_zero_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dip"
+                            android:layout_height="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/light_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dip"
+                            android:text="@string/zero_three_months" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="#eeeeee" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_three_months"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dip"
+                            android:layout_height="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/dark_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dip"
+                            android:text="@string/three_months_one_year" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="#eeeeee" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_one_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dip"
+                            android:layout_height="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/dark_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dip"
+                            android:text="@string/one_half_years" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="#eeeeee" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_one_half_years"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dip"
+                            android:layout_height="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/dark_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dip"
+                            android:text="@string/one_three_years" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="#eeeeee" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/layout_ask"
-            android:layout_width="54dip"
-            android:layout_height="52dip"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="13dip">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bg_circle_layout"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:text="提问"/>
         </RelativeLayout>
-    </RelativeLayout>
 
-</ScrollView>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/layout_ask"
+        android:layout_width="54dip"
+        android:layout_height="52dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="34dip"
+        android:layout_marginRight="13dip">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_circle_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/ask_question"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>
