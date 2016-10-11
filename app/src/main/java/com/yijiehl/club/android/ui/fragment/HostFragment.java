@@ -184,6 +184,11 @@ public class HostFragment extends BaseHostFragment {
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.host_page;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //构建查询活动内容的Request

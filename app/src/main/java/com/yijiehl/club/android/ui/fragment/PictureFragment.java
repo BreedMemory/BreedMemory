@@ -118,6 +118,11 @@ public class PictureFragment extends BaseHostFragment {
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.photo;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);

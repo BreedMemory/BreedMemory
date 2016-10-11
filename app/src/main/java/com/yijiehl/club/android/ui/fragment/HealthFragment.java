@@ -87,6 +87,11 @@ public class HealthFragment extends BaseHostFragment {
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.health;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 

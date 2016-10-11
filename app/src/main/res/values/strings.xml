@@ -105,4 +105,5 @@
     <string name="please_input_name">请填写姓名</string>
     <string name="please_inpute_birthday">请填写预产期</string>
     <string name="click_again">再按一次退出</string>
+    <string name="photo">照片</string>
 </resources>

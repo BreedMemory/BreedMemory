@@ -8,6 +8,7 @@
 package com.yijiehl.club.android.ui.fragment;
 
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 
 import com.yijiehl.club.android.ui.activity.MainActivity;
@@ -51,6 +52,13 @@ public abstract class BaseHostFragment extends BmFragment {
     protected abstract boolean isRightBtnVisible();
 
     /**
+     * 描 述：修改标题<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/11 <br/>
+     */
+    protected abstract @StringRes int getTitle();
+
+    /**
      * 描 述：当此Framgent显示时会调用，刷新标题栏<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/5 <br/>
@@ -60,6 +68,7 @@ public abstract class BaseHostFragment extends BmFragment {
             return;
         }
         MainActivity activity = (MainActivity) getActivity();
+        activity.getmTitleText().setText(getTitle());
         //设置点击监听
         activity.getmLeftBtn().setOnClickListener(getLeftBtnClickListener());
         activity.getmRightBtn().setOnClickListener(getRightBtnClickListener());
@@ -70,4 +79,5 @@ public abstract class BaseHostFragment extends BmFragment {
         visibility = isRightBtnVisible() ? View.VISIBLE : View.GONE;
         activity.getmHeadRightContainer().setVisibility(visibility);
     }
+
 }

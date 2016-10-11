@@ -127,6 +127,11 @@ public class QuestionFragment extends BaseHostFragment {
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.ask_and_answer;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }

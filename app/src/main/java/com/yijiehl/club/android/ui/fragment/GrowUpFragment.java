@@ -103,6 +103,11 @@ public class GrowUpFragment extends BaseHostFragment {
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.grow_up;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: 2016/10/2 此处填充假数据
