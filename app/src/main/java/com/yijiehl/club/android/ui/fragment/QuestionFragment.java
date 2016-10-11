@@ -21,6 +21,7 @@ import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.MineActivity;
 import com.yijiehl.club.android.ui.activity.QuestionListActivity;
@@ -161,34 +162,26 @@ public class QuestionFragment extends BaseHostFragment {
 
     @OnClick(R.id.layout_zero_month)
     private void zeroMonth() {
-        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), QuestionListActivity.class));
     }
 
     @OnClick(R.id.layout_three_months)
     private void threeMonth() {
-        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), QuestionListActivity.class));
     }
 
     @OnClick(R.id.layout_one_year)
     private void oneYear() {
-        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), QuestionListActivity.class));
     }
 
     @OnClick(R.id.layout_one_half_years)
     private void oneHalfYear() {
-        Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), QuestionListActivity.class));
     }
 
     @OnClick(R.id.layout_ask)
     private void ask(){
-
+        startActivity(new Intent(getActivity(), AskQuestionActivity.class));
     }
 }
