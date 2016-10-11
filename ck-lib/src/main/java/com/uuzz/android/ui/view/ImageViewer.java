@@ -143,14 +143,13 @@ public class ImageViewer extends ImageView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if(source == null) {
-			try {
-				source = ((BitmapDrawable)getDrawable()).getBitmap();
-			} catch (Exception e) {
-				return;
-			}
+		try {
+			source = ((BitmapDrawable)getDrawable()).getBitmap();
+		} catch (Exception e) {
+			return;
 		}
 		if(!isTouchEvent) {
+			mMatrix.reset();
 			float offsetWidth = Math.abs(source.getWidth()-getWidth())/(float)getWidth();
 			float offsetHeight = Math.abs(source.getHeight()-getHeight())/(float)getHeight();
 			if(offsetHeight > offsetWidth) {
