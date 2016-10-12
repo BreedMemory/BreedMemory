@@ -110,7 +110,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
                 });
                 break;
             case TYPE_2:
-                viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
                 viewHolderPick.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
 
                 ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), viewHolderPick.ivPhoto);
@@ -119,10 +119,10 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
 
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                    viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.pictures_selected);
+                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
                     viewHolderPick.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
-                    viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
                     viewHolderPick.ivPhoto.setColorFilter(null);
                 }
                 break;
@@ -149,7 +149,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
         @ViewInject(R.id.iv_item_photo)
         ImageView ivPhoto;
         @ViewInject(R.id.iv_item_pick)
-        ImageButton ibPhotoPick;
+        ImageView ivPhotoPick;
     }
 
 
@@ -171,11 +171,11 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
             //已经选择了该照片
             if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
                 mSelectedPhoto.remove(mDatas.get(position - 1));
-                viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
                 viewHolderPick.ivPhoto.setColorFilter(null);
             } else {//没有选择该照片
                 mSelectedPhoto.add(mDatas.get(position - 1));
-                viewHolderPick.ibPhotoPick.setBackgroundResource(R.drawable.pictures_selected);
+                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
                 viewHolderPick.ivPhoto.setColorFilter(R.color.colorAccent);
             }
             onPhotoSelectedListener.photoClick(mSelectedPhoto);
