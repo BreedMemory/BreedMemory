@@ -1,5 +1,7 @@
 package com.yijiehl.club.android.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
@@ -45,7 +47,8 @@ public class ImagePagerActivity extends BmActivity {
         isNative=getIntent().getBooleanExtra("isNative",false);
         isNative = true;
         if(isNative) {
-            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, ivShow);
+            //ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, ivShow);
+            ivShow.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.shouye_zhaopian_bg));
         }else{
             ImageLoader.getInstance().displayImage(urls.get(0), ivShow);
         }
