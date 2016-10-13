@@ -6,11 +6,19 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.ReqLoginOut;
+import com.yijiehl.club.android.network.response.ResultMsg;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -32,40 +40,53 @@ public class MineActivity extends BmActivity {
 
     // TODO: 2016/9/11 此处需要根据需求再写跳转。。。
     @OnClick(R.id.layout_mine_info)
-    private void personInfo(){
-        startActivity(new Intent(MineActivity.this,PersonalInfoActivity.class));
+    private void personInfo() {
+        startActivity(new Intent(MineActivity.this, PersonalInfoActivity.class));
     }
+
     @OnClick(R.id.layout_health_data)
-    private void healthData(){
+    private void healthData() {
 
     }
+
     @OnClick(R.id.layout_medicine_remind)
-    private void medicineRemind(){
+    private void medicineRemind() {
 
     }
+
     @OnClick(R.id.layout_my_message)
-    private void myMessage(){
+    private void myMessage() {
 
     }
+
     @OnClick(R.id.layout_my_collect)
-    private void myCellect(){
+    private void myCellect() {
 
     }
+
     @OnClick(R.id.layout_photo_manage)
-    private void photoManege(){
+    private void photoManege() {
 
     }
+
     @OnClick(R.id.layout_club_introduction)
-    private void clubIntro(){
+    private void clubIntro() {
 
     }
+
     @OnClick(R.id.layout_my_exit)
-    private void exit(){
-
+    private void exit() {
+        NetHelper.getDataFromNet(this, new ReqLoginOut(this), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                startActivity(new Intent(MineActivity.this,LoginActivity.class));
+                finish();
+            }
+        },false);
     }
 
-    @OnClick({R.id.iv_my_money_pic,R.id.tv_show_my_money,R.id.textView})
-    private void toGasStation(){
+    @OnClick({R.id.iv_my_money_pic, R.id.tv_show_my_money, R.id.textView})
+    private void toGasStation() {
         startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
     }
 }
