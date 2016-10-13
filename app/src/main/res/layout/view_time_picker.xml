@@ -13,8 +13,8 @@
         app:numberColorNormal="@color/textColorPrimary"
         app:numberColorSelected="@color/colorPrimary"
         app:extra_desc="@string/year"
-        app:maxValue="2050"
-        app:minValue="2016"
+        app:maxValue="2030"
+        app:minValue="2000"
         app:numberTextSize="@dimen/primary_text_size"
         app:drawLeftLine="true"
         app:numberPageSize="5" />

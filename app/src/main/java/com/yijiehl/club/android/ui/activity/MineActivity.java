@@ -6,19 +6,15 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.ReqLoginOut;
-import com.yijiehl.club.android.network.response.ResultMsg;
-import com.yijiehl.club.android.network.response.base.BaseResponse;
+import com.yijiehl.club.android.network.request.ReqLogout;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -76,13 +72,16 @@ public class MineActivity extends BmActivity {
 
     @OnClick(R.id.layout_my_exit)
     private void exit() {
-        NetHelper.getDataFromNet(this, new ReqLoginOut(this), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqLogout(this), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                startActivity(new Intent(MineActivity.this,LoginActivity.class));
-                finish();
+
             }
         },false);
+
+        startActivity(new Intent(MineActivity.this, LoginActivity.class));
+        ActivitySvc.clearClientInfoNative(this);
+        finish();
     }
 
     @OnClick({R.id.iv_my_money_pic, R.id.tv_show_my_money, R.id.textView})

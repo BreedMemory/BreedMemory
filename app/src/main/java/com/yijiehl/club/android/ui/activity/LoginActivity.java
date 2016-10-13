@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.uuzz.android.ui.view.MyButton;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -81,6 +82,10 @@ public class LoginActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHeader.setVisibility(View.GONE);
+        String phone = ContextUtils.getSharedString(this, R.string.shared_preference_user_id);
+        if(!TextUtils.isEmpty(phone)) {
+            mPhoneNumber.setText(phone);
+        }
     }
 
     @Override

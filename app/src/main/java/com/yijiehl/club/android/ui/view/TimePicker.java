@@ -103,7 +103,7 @@ public class TimePicker extends FrameLayout {
      * @return 时间戳
      */
     public long getDateTimeStamp() {
-        GregorianCalendar lGregorianCalendar = new GregorianCalendar(mYear.getValue(), mMonth.getValue(), mDay.getValue());
+        GregorianCalendar lGregorianCalendar = new GregorianCalendar(mYear.getValue(), mMonth.getValue() - 1, mDay.getValue());
         return lGregorianCalendar.getTimeInMillis();
     }
 
@@ -124,8 +124,8 @@ public class TimePicker extends FrameLayout {
      */
     public void setDate(String date) {
         String[] split = date.split("-");
-        mYear.scrollToValue(Integer.valueOf(split[0]));
-        mMonth.scrollToValue(Integer.valueOf(split[1]));
-        mDay.scrollToValue(Integer.valueOf(split[2]));
+        mYear.setDefaultValue(Integer.valueOf(split[0]));
+        mMonth.setDefaultValue(Integer.valueOf(split[1]));
+        mDay.setDefaultValue(Integer.valueOf(split[2]));
     }
 }

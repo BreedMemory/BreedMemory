@@ -96,6 +96,25 @@ public class ActivitySvc {
     }
 
     /**
+     * 描 述：清空本地数据，保留登录手机号<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
+     * @param context 上下文
+     */
+    public static void clearClientInfoNative(Context context) {
+        // DONE: 谌珂 2016/9/7 保存基本参数
+        SharedPreferences.Editor editor = ContextUtils.getEditor(context);
+        editor.remove(context.getString(R.string.shared_preference_uccode));
+        editor.remove(context.getString(R.string.shared_preference_ucid));
+        editor.remove(context.getString(R.string.shared_preference_secode));
+        editor.remove(context.getString(R.string.shared_preference_acctStatus));
+        editor.remove(context.getString(R.string.shared_preference_msgUrl));
+        editor.remove(context.getString(R.string.shared_preference_resourceUrl));
+        editor.remove(context.getString(R.string.shared_preference_user_info));
+        editor.commit();
+    }
+
+    /**
      * 描 述：保存用户信息数据到本地<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>

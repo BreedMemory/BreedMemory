@@ -26,8 +26,8 @@
             app:background_color_focus="@color/colorAccentDark"
             app:icon_size="20dip"
             app:text_size="9dip"
-            app:value_color="@color/white"
-            app:value_color_focus="@color/textColorFootDark"
+            app:value_color="@color/textColorFootDark"
+            app:value_color_focus="@color/white"
             app:icon_height="25dip"
             app:text_height="11dip"
             style="@style/foot_btn" />
@@ -40,13 +40,13 @@
             app:background_color_focus="@color/colorAccentDark"
             app:icon_size="20dip"
             app:text_size="9dip"
-            app:value_color="@color/white"
-            app:value_color_focus="@color/textColorFootDark"
+            app:value_color="@color/textColorFootDark"
+            app:value_color_focus="@color/white"
             app:icon_height="25dip"
             app:text_height="11dip"/>
 
         <FrameLayout
-            android:id="@+id/fgb_photo"
+            android:id="@+id/fl_photo"
             style="@style/foot_btn"
             android:layout_marginTop="0dip"
             android:background="@color/transparent">
@@ -61,6 +61,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/bg_foot_btn_middle"/>
             <com.uuzz.android.ui.view.FootGroupBtn
+                android:id="@+id/fgb_photo"
                 android:layout_marginTop="13dip"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -70,8 +71,8 @@
                 app:background_color_focus="@color/transparent"
                 app:icon_size="20dip"
                 app:text_size="9dip"
-                app:value_color="@color/white"
-                app:value_color_focus="@color/textColorFootDark"
+                app:value_color="@color/textColorFootDark"
+                app:value_color_focus="@color/white"
                 app:icon_height="25dip"
                 app:text_height="11dip"/>
         </FrameLayout>
@@ -84,8 +85,8 @@
             app:background_color_focus="@color/colorAccentDark"
             app:icon_size="20dip"
             app:text_size="9dip"
-            app:value_color="@color/white"
-            app:value_color_focus="@color/textColorFootDark"
+            app:value_color="@color/textColorFootDark"
+            app:value_color_focus="@color/white"
             app:icon_height="25dip"
             app:text_height="11dip"/>
         <com.uuzz.android.ui.view.FootGroupBtn
@@ -97,8 +98,8 @@
             app:background_color_focus="@color/colorAccentDark"
             app:icon_size="20dip"
             app:text_size="9dip"
-            app:value_color="@color/white"
-            app:value_color_focus="@color/textColorFootDark"
+            app:value_color="@color/textColorFootDark"
+            app:value_color_focus="@color/white"
             app:icon_height="25dip"
             app:text_height="11dip"/>
     </LinearLayout>

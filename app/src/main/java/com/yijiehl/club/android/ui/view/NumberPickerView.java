@@ -30,6 +30,8 @@ public class NumberPickerView extends View {
 
     private Paint   mTextPaint;
 
+    private int defaultValue;
+
     private int mMinValue;
 
     private int mMaxValue;
@@ -116,6 +118,14 @@ public class NumberPickerView extends View {
             for(int  selectorIndex = mMinValue; selectorIndex <= mMaxValue; selectorIndex++){
                 mSelector[selectorIndex - mMinValue] = selectorIndex;
             }
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if(changed) {
+            smoothScrollToValue(defaultValue);
         }
     }
 
@@ -447,25 +457,6 @@ public class NumberPickerView extends View {
     }
 
     /**
-     * 描 述：迅速滑动到value对应位置<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.0.0) 谌珂 2016/9/6 <br/>
-     * @param value 值
-     */
-    public void scrollToValue(int value){
-        if(mSelector == null)
-            return;
-
-        int pos = Arrays.binarySearch(mSelector, value);
-        if(pos < 0 || mSelector == null || pos > mSelector.length)
-            return;
-
-        Rect actualLoc = getLocationByPosition(pos);
-        int scrollY = actualLoc.top - getScrollY();
-        scrollTo(0, scrollY);
-    }
-
-    /**
      * 调整item使对齐居中
      */
     private void adjustItem( ){
@@ -590,7 +581,11 @@ public class NumberPickerView extends View {
         return mSelector[computePosition()];
     }
 
-    public void setVaule(int value) {
-        scrollToValue(value);
+    public void setValue(int value) {
+        smoothScrollToValue(value);
+    }
+
+    public void setDefaultValue(int value) {
+        defaultValue = value;
     }
 }

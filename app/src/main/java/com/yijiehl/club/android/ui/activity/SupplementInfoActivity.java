@@ -25,10 +25,10 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchClub;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.base.Sex;
 import com.yijiehl.club.android.network.request.dataproc.UpdateUserInfo;
+import com.yijiehl.club.android.network.request.search.ReqSearchClub;
 import com.yijiehl.club.android.network.response.RespSearchClubs;
 import com.yijiehl.club.android.network.response.innerentity.ClubInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
@@ -106,7 +106,6 @@ public class SupplementInfoActivity extends BmActivity {
         if(!TextUtils.isEmpty(mUserInfo.getOrgInfo())) {
             mClub.setText(mUserInfo.getOrgInfo());
         }
-        mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
     }
 
     @Override
@@ -186,7 +185,7 @@ public class SupplementInfoActivity extends BmActivity {
         }
 
         if(!TextUtils.isEmpty(mChooseBronTime.getText())) {
-            mClubPicker.scrollToValue(mClubIndex);
+            mClubPicker.setValue(mClubIndex);
         }
         mPickerContainer.setVisibility(View.VISIBLE);
         mMasking.setVisibility(View.VISIBLE);
@@ -220,14 +219,14 @@ public class SupplementInfoActivity extends BmActivity {
      */
     @OnClick(R.id.tv_choose_bron_time)
     private void chooseTime() {
-        if(!TextUtils.isEmpty(mChooseBronTime.getText())) {
-            mTimePicker.setDate(mChooseBronTime.getText().toString());
-        }
         mPickerContainer.setVisibility(View.VISIBLE);
         mMasking.setVisibility(View.VISIBLE);
         mTimePicker.setVisibility(View.VISIBLE);
         mClubPicker.setVisibility(View.GONE);
         Utils.hideKeyBoard(mMasking);
+        if(TextUtils.isEmpty(mChooseBronTime.getText())) {
+            mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
+        }
     }
 
     /**

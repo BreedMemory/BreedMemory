@@ -2,6 +2,7 @@ package com.uuzz.android.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Handler;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -19,6 +20,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import com.uuzz.android.R;
 import com.uuzz.android.util.log.Logger;
 
 /**
@@ -103,16 +105,11 @@ public class ImageViewer extends ImageView {
 	private long lastClick = 0;
 	/** 默认的双击事件间隔 */
 	private long delay = 200;
+	/** 填充模式 true为拉伸填充  false为缩小填充, 默认为true */
+	private boolean fillType;
 
 	public void setSource(Bitmap source){
 		this.source = source;
-	}
-
-	public ImageViewer(Context context) {
-		super(context);
-		mMatrix = getImageMatrix();
-		isTouchEvent = false;
-		setDrawingCacheEnabled(true);
 	}
 
 	public ImageViewer(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -120,19 +117,10 @@ public class ImageViewer extends ImageView {
 		mMatrix = getImageMatrix();
 		isTouchEvent = false;
 		setDrawingCacheEnabled(true);
-	}
-
-	@Override
-	public void setImageBitmap(Bitmap bm) {
-		super.setImageBitmap(bm);
-		isTouchEvent = false;
-	}
-
-	public ImageViewer(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		mMatrix = getImageMatrix();
-		isTouchEvent = false;
-		setDrawingCacheEnabled(true);
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.ImageViewer);
+		fillType = a.getBoolean(R.styleable.ImageViewer_model, true);
+		a.recycle();
 	}
 
 	@Override
@@ -153,14 +141,23 @@ public class ImageViewer extends ImageView {
 			float offsetWidth = Math.abs(source.getWidth()-getWidth())/(float)getWidth();
 			float offsetHeight = Math.abs(source.getHeight()-getHeight())/(float)getHeight();
 			if(offsetHeight > offsetWidth) {
-				mScale = (float)getHeight()/source.getHeight();
+				if(fillType) {
+					mScale = (float)getHeight()/source.getHeight();
+				} else {
+					mScale = (float)source.getHeight()/getHeight();
+				}
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(-(source.getWidth()*mScale - getWidth())/2, 0);
 			} else {
-				mScale = (float)getWidth()/source.getWidth();
+				if(fillType) {
+					mScale = (float)getWidth()/source.getWidth();
+				} else {
+					mScale = (float)source.getWidth()/getWidth();
+				}
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);
 			}
+
 		}
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
@@ -309,11 +306,11 @@ public class ImageViewer extends ImageView {
 
 
 							//判断图片移动是否会超出选区的范围，超出则不移动
-	//						float[] result = isSelectionOut(dX, dY);
-	//						translateBitmap(result[0], result[1]);
+							float[] result = isSelectionOut(dX, dY);
+							translateBitmap(result[0], result[1]);
 
 							//移动图片
-							translateBitmap(dX, dY);
+//							translateBitmap(dX, dY);
 							//////////////////////
 
 

@@ -1,304 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/primary_margin"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/layout_mine_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:layout_marginTop="24dip">
 
-            <RelativeLayout
-                android:id="@+id/layout_mine_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="24dip">
+            <ImageView
+                android:id="@+id/iv_my_head_pic"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:src="@drawable/temp_head_pic" />
 
-                <ImageView
-                    android:id="@+id/iv_my_head_pic"
-                    android:layout_width="80dip"
-                    android:layout_height="80dip"
-                    android:src="@drawable/temp_head_pic" />
+            <TextView
+                android:id="@+id/tv_show_myname"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_toRightOf="@+id/iv_my_head_pic"
+                android:paddingLeft="@dimen/primary_margin"
+                android:paddingTop="3dip"
+                android:text="周玲安" />
 
-                <TextView
-                    android:id="@+id/tv_show_myname"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_toRightOf="@+id/iv_my_head_pic"
-                    android:paddingLeft="15dip"
-                    android:paddingTop="3dip"
-                    android:text="周玲安" />
+            <TextView
+                android:id="@+id/tv_mynickname"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_below="@+id/tv_show_myname"
+                android:layout_marginTop="14dip"
+                android:layout_toRightOf="@+id/iv_my_head_pic"
+                android:paddingLeft="@dimen/primary_margin"
+                android:text="昵称:"
+                android:textColor="#9b9b9b" />
 
-                <TextView
-                    android:id="@+id/tv_mynickname"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_below="@+id/tv_show_myname"
-                    android:layout_marginTop="14dip"
-                    android:layout_toRightOf="@+id/iv_my_head_pic"
-                    android:paddingLeft="15dip"
-                    android:text="昵称:"
-                    android:textColor="#9b9b9b" />
+            <TextView
+                android:id="@+id/tv_shownickname"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_below="@+id/tv_show_myname"
+                android:layout_marginTop="14dip"
+                android:layout_toRightOf="@+id/tv_show_myname"
+                android:text="zhoulingan"
+                android:textColor="#9b9b9b" />
 
-                <TextView
-                    android:id="@+id/tv_shownickname"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_below="@+id/tv_show_myname"
-                    android:layout_marginTop="14dip"
-                    android:layout_toRightOf="@+id/tv_show_myname"
-                    android:text="zhoulingan"
-                    android:textColor="#9b9b9b" />
+            <ImageView
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/myright" />
+        </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="25dip"
-                    android:layout_height="25dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/myright" />
-            </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:layout_marginTop="@dimen/primary_List_margin"
+            android:background="#e1e1e1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:layout_marginTop="@dimen/primary_List_margin">
+
+            <ImageView
+                android:id="@+id/iv_my_money_pic"
+                android:layout_width="28dip"
+                android:layout_height="28dip"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="21dip"
+                android:layout_marginTop="25dip"
+                android:src="@drawable/mymoney" />
+
+            <TextView
+                android:id="@+id/tv_show_my_money"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="20dip"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_toRightOf="@+id/iv_my_money_pic"
+                android:text="98,888"
+                android:textColor="#ff4f64"
+                android:textSize="21dip" />
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginTop="18dip"
+                android:layout_toRightOf="@+id/tv_show_my_money"
+                android:text="元"
+                android:textSize="14dip" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="10dip"
+                android:id="@+id/v_vertical_divider"
+                android:layout_width="1dip"
+                android:layout_height="40dip"
+                android:layout_centerInParent="true"
                 android:background="#e1e1e1" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="10dip">
+            <ImageView
+                android:id="@+id/iv_my_sign"
+                android:layout_width="24dip"
+                android:layout_height="24dip"
+                android:layout_marginBottom="21dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginTop="25dip"
+                android:layout_toRightOf="@+id/v_vertical_divider"
+                android:src="@drawable/mysign" />
 
-                <ImageView
-                    android:id="@+id/iv_my_money_pic"
-                    android:layout_width="28dip"
-                    android:layout_height="28dip"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="21dip"
-                    android:layout_marginTop="25dip"
-                    android:src="@drawable/mymoney" />
+            <TextView
+                android:id="@+id/tv_show_my_sign"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="27dip"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_toRightOf="@+id/iv_my_sign"
+                android:text="1"
+                android:textColor="#f5a623"
+                android:textSize="21dip" />
 
-                <TextView
-                    android:id="@+id/tv_show_my_money"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="20dip"
-                    android:layout_marginTop="10dip"
-                    android:layout_toRightOf="@+id/iv_my_money_pic"
-                    android:text="98,888"
-                    android:textColor="#ff4f64"
-                    android:textSize="21dip" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginTop="18dip"
+                android:layout_toRightOf="@+id/tv_show_my_sign"
+                android:text="天"
+                android:textSize="14dip" />
 
-                <TextView
-                    android:id="@+id/textView3"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginTop="18dip"
-                    android:layout_toRightOf="@+id/tv_show_my_money"
-                    android:text="元"
-                    android:textSize="14dip" />
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_below="@+id/tv_show_my_sign"
+                android:layout_marginLeft="9dip"
+                android:layout_marginTop="7dip"
+                android:layout_toRightOf="@+id/iv_my_sign"
+                android:text="@string/sign_record" />
 
-                <View
-                    android:id="@+id/v_vertical_divider"
-                    android:layout_width="1dip"
-                    android:layout_height="40dip"
-                    android:layout_centerInParent="true"
-                    android:background="#e1e1e1" />
+            <TextView
+                android:id="@+id/textView"
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_alignLeft="@+id/tv_show_my_money"
+                android:layout_alignStart="@+id/tv_show_my_money"
+                android:layout_alignTop="@+id/textView4"
+                android:text="@string/growup_comeon" />
+        </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/iv_my_sign"
-                    android:layout_width="24dip"
-                    android:layout_height="24dip"
-                    android:layout_marginBottom="21dip"
-                    android:layout_marginLeft="25dip"
-                    android:layout_marginTop="25dip"
-                    android:layout_toRightOf="@+id/v_vertical_divider"
-                    android:src="@drawable/mysign" />
+        <View
 
-                <TextView
-                    android:id="@+id/tv_show_my_sign"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="27dip"
-                    android:layout_marginTop="10dip"
-                    android:layout_toRightOf="@+id/iv_my_sign"
-                    android:text="1"
-                    android:textColor="#f5a623"
-                    android:textSize="21dip" />
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="#eeeeee" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginTop="18dip"
-                    android:layout_toRightOf="@+id/tv_show_my_sign"
-                    android:text="天"
-                    android:textSize="14dip" />
+        <RelativeLayout
+            android:id="@+id/layout_health_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textView4"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_below="@+id/tv_show_my_sign"
-                    android:layout_marginLeft="9dip"
-                    android:layout_marginTop="7dip"
-                    android:layout_toRightOf="@+id/iv_my_sign"
-                    android:text="@string/sign_record" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/health_data" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_alignLeft="@+id/tv_show_my_money"
-                    android:layout_alignStart="@+id/tv_show_my_money"
-                    android:layout_alignTop="@+id/textView4"
-                    android:text="@string/growup_comeon" />
-            </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:background="#e1e1e1" />
 
-            <View
+        <RelativeLayout
+            android:id="@+id/layout_medicine_remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                android:layout_width="match_parent"
-                android:layout_height="8dip"
-                android:background="#eeeeee" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/medicine_remind" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_health_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="#eeeeee" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/health_data" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_my_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/my_message" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_medicine_remind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:background="#e1e1e1" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/medicine_remind" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_my_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dip"
-                android:layout_marginTop="15dip"
-                android:background="#eeeeee" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/my_collect" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_my_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:background="#e1e1e1" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/my_message" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_photo_manage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/photo_manage" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_my_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:background="#e1e1e1" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/my_collect" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_club_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/club_introduction" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_photo_manage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="#e1e1e1" />
 
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/photo_manage" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_my_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
+            <TextView
+                style="@style/tv_personal_info_item_left_text"
+                android:layout_marginLeft="@dimen/primary_margin"
+                android:layout_marginTop="@dimen/primary_List_margin"
+                android:layout_marginBottom="@dimen/primary_List_margin"
+                android:text="@string/my_exit" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_club_introduction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/club_introduction" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
-
-            <RelativeLayout
-                android:id="@+id/layout_my_exit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/tv_personal_info_item_left_text"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/my_exit" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="15dip"
-                android:background="#e1e1e1" />
-        </LinearLayout>
-
-    </ScrollView>
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/primary_margin"
+            android:layout_marginRight="@dimen/primary_margin"
+            android:background="#e1e1e1" />
+    </LinearLayout>
+</ScrollView>

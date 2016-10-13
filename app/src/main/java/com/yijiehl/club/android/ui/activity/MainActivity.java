@@ -45,6 +45,9 @@ public class MainActivity extends BmActivity {
     /** 底部tab中间的圆形背景图 */
     @ViewInject(R.id.im_middle_background)
     private ImageView mFootMiddleBackground;
+    /** 照片的footbtn */
+    @ViewInject(R.id.fgb_photo)
+    private FootGroupBtn mFootPhotoBtn;
     /** 当前页面的索引 */
     @SaveInstance
     private int mCurrentPage;
@@ -67,7 +70,7 @@ public class MainActivity extends BmActivity {
         HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
-//        mViewPager.setOffscreenPageLimit(cachePagers);
+        mViewPager.setOffscreenPageLimit(cachePagers);
     }
 
     @Override
@@ -92,7 +95,7 @@ public class MainActivity extends BmActivity {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/5 <br/>
      */
-    @OnClick({R.id.fgb_grow_up, R.id.fgb_health, R.id.fgb_host, R.id.fgb_photo, R.id.fgb_question})
+    @OnClick({R.id.fgb_grow_up, R.id.fgb_health, R.id.fgb_host, R.id.fl_photo, R.id.fgb_question})
     private void switchContent(View v) {
         mViewPager.setCurrentItem(mFootContainer.indexOfChild(v));
     }
@@ -109,12 +112,14 @@ public class MainActivity extends BmActivity {
             if (i == mCurrentPage) {
                 if (i == 2) {          //如果当前选中的是照片模块单独修改样式
                     mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle_pressed));
+                    mFootPhotoBtn.setFocus();
                 } else {
                     ((FootGroupBtn) mFootContainer.getChildAt(i)).setFocus();
                 }
             } else {
                 if (i == 2) {
                     mFootMiddleBackground.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_foot_btn_middle));
+                    mFootPhotoBtn.setUnFocus();
                 } else {
                     ((FootGroupBtn) mFootContainer.getChildAt(i)).setUnFocus();
                 }

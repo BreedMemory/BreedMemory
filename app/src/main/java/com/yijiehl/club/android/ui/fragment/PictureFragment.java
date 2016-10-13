@@ -128,6 +128,12 @@ public class PictureFragment extends BaseHostFragment {
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
+    }
+
     /**
      * 描 述：请求权限成功后回调<br/>
      * 作 者：谌珂<br/>
@@ -336,11 +342,5 @@ public class PictureFragment extends BaseHostFragment {
         dataPhoto.add(photoInfo1);
         dataPhoto.add(photoInfo2);
         dataPhoto.add(photoInfo3);
-    }
-
-    @Override
-    public void onShow() {
-        super.onShow();
-        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
     }
 }

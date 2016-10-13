@@ -39,7 +39,8 @@
         <!-- 登录页面 -->
         <activity android:name=".ui.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <!-- 主页面 -->
         <activity android:name=".ui.activity.MainActivity"
@@ -51,6 +52,7 @@
         <!-- 完善信息页面 -->
         <activity android:name=".ui.activity.SupplementInfoActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
 <!-- 测试页面 -->
