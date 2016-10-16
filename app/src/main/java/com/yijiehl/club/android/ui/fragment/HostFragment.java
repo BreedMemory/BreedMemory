@@ -22,28 +22,24 @@ import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
-import com.uuzz.android.util.net.NetHelper;
-import com.uuzz.android.util.net.response.AbstractResponse;
-import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
-import com.yijiehl.club.android.network.response.RespSearchActivitys;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
-import com.yijiehl.club.android.ui.activity.GrowUpGasStationAvtivity;
-import com.yijiehl.club.android.ui.activity.ImagePagerActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.MineActivity;
-import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
+import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
+import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,6 +91,21 @@ public class HostFragment extends BaseHostFragment {
      */
     @ViewInject(R.id.im_photo_background)
     private ImageView mPhotoImageBackground;
+    /**
+     * 照片第一张图
+     */
+    @ViewInject(R.id.iv_photo_1)
+    private ImageView mPhotoImage1;
+    /**
+     * 照片第二张图
+     */
+    @ViewInject(R.id.iv_photo_2)
+    private ImageView mPhotoImage2;
+    /**
+     * 照片第三张图
+     */
+    @ViewInject(R.id.iv_photo_3)
+    private ImageView mPhotoImage3;
     /**
      * 问答背景图
      */
@@ -151,10 +162,9 @@ public class HostFragment extends BaseHostFragment {
      */
     private ActivityInfo mActivityInfo;
     /**
-     * 请求活动信息的特征码
+     * 首页附加数据
      */
-    private String mDataCacheActivitys;
-
+    private List<UserInfo.MainDataEntity> mMainDataEntitys;
 
     @Nullable
     @Override
@@ -193,26 +203,23 @@ public class HostFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //构建查询活动内容的Request
-        ReqSearchActivitys lReqSearchActivitys = new ReqSearchActivitys(getActivity(), true);
-        mDataCacheActivitys = NetHelper.createObjectName(lReqSearchActivitys);
-        //查询活动内容
-        NetHelper.getDataFromNet(getActivity(), lReqSearchActivitys, new AbstractCallBack(getActivity()) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                RespSearchActivitys activity = (RespSearchActivitys) pResponse;
-                fillActivityInfo(activity);
-            }
-        });
-        UserInfo info = JSON.parseObject(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_info), UserInfo.class);
+        // DONE: 谌珂 2016/10/15 替换为从数据库取数据
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
+
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, mPhotoImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_chengzhang_bg, mGrowUpImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_wenda_bg2, mQuestionImageBackground);
+        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImageBackground);
+    }
+
+    /**
+     * 描 述：填充用户信息<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
+     */
+    private void fillActivity(UserInfo info) {
         //提示语
         makeUpTip(info.getWelcomeInfo());
-        //用户照片
-        if (TextUtils.isEmpty(info.getImageInfo())) {
-            ImageLoader.getInstance().displayImage("drawable://" + R.drawable.test_main_image, mMainPicture);
-        } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getImageInfo()), mMainPicture);
-        }
 
         //会所logo
         if (TextUtils.isEmpty(info.getIconInfo2())) {
@@ -234,34 +241,77 @@ public class HostFragment extends BaseHostFragment {
         } else {
             ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogoInfoQuestion);
         }
-        //会所健康建议
-        mAdvice.setText(info.getBaseInfo());
 
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, mPhotoImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_chengzhang_bg, mGrowUpImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_wenda_bg2, mQuestionImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImageBackground);
+        mMainDataEntitys = JSON.parseArray(info.getMainDataList(), UserInfo.MainDataEntity.class);
 
-        mGrowUpDesc.setText(Html.fromHtml(getString(R.string.grow_up_gas_station)));
+        fillExtraInfo();
     }
 
     /**
-     * 描 述：填充活动信息<br/>
+     * 描 述：填充额外信息<br/>
      * 作 者：谌珂<br/>
-     * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/15 <br/>
      */
-    private synchronized void fillActivityInfo(RespSearchActivitys activity) {
-        if (activity != null && activity.getResultList() != null && activity.getResultList().size() > 0) {
-            mActivityInfo = activity.getResultList().get(0);
-        } else {
-            return;
+    private void fillExtraInfo() {
+        for (UserInfo.MainDataEntity entity: mMainDataEntitys) {
+            switch (UserInfo.MainDataType.setValue(entity.getType())) {
+                case HEALTHINFO:
+                    //会所健康建议
+                    mAdvice.setText(entity.getValue());
+                    break;
+                case RECOMMACTIVITY:
+                    mActivityName.setText(entity.getName());
+                    mActivityTime.setText(entity.getDesc());
+                    break;
+                case RECOMMQUESTION:
+                    mQuestion.setText(entity.getName());
+                    break;
+                case RECOMMGROWUP:
+                    mGrowUpTitle.setText(entity.getName());
+                    break;
+                case ACCTAMOUNT:
+                    mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), entity.getValue())));
+                    break;
+                case IMAGECOVER:
+                    //用户照片
+                    if (TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.test_main_image, mMainPicture);
+                    } else {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mMainPicture);
+                    }
+                    break;
+                case ACTIVITYCOVER:
+                    //活动照片
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mActivityImageBackground);
+                    }
+                    break;
+                case ALBUMCOVER:
+                    //照片背景
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImageBackground);
+                    }
+                    break;
+                case ALBUMITEM1:
+                    //照片1
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage1);
+                    }
+                    break;
+                case ALBUMITEM2:
+                    //照片2
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage2);
+                    }
+                    break;
+                case ALBUMITEM3:
+                    //照片3
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage3);
+                    }
+                    break;
+            }
         }
-        if(!TextUtils.isEmpty(mActivityInfo.getImageInfo())) {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), mActivityInfo.getImageInfo()), mActivityImageBackground);
-        }
-
-        mActivityName.setText(mActivityInfo.getDataName());
-        mActivityTime.setText(mActivityInfo.getStartTimeStr());
     }
 
     /**
@@ -377,8 +427,8 @@ public class HostFragment extends BaseHostFragment {
 
     @Override
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
-        if (TextUtils.equals(mDataCacheActivitys, pCacheDataEntity.getmName()) && mActivityInfo == null) {
-            fillActivityInfo(JSON.parseObject(pCacheDataEntity.getmData(), RespSearchActivitys.class));
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            fillActivity(JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class));
         }
     }
 
@@ -438,7 +488,7 @@ public class HostFragment extends BaseHostFragment {
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){
         // TODO: 2016/10/11 此处临时写。。
-        Intent intent=new Intent(getActivity(), ImagePagerActivity.class);
+        Intent intent=new Intent(getActivity(), ImageViewerActivity.class);
         intent.putExtra("isNative",true);
         startActivity(intent);
     }

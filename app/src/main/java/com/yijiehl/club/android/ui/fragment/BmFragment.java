@@ -35,6 +35,12 @@ public class BmFragment extends CkFragment implements Observer {
     }
 
     @Override
+    public void onDestroy() {
+        CacheDataDAO.getInstance(getActivity()).deleteObserver(this);
+        super.onDestroy();
+    }
+
+    @Override
     protected void onDataRestored(Bundle savedInstanceState) {
         CacheDataDAO.getInstance(getActivity()).deleteObserver(this);
         super.onDataRestored(savedInstanceState);
@@ -43,7 +49,7 @@ public class BmFragment extends CkFragment implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         if(observable instanceof CacheDataDAO) {
-            final Message msg = Message.obtain();
+            final Message msg = (Message) data;
             switch (msg.what) {
                 case CacheDataDAO.CACHE_DATA:                           //数据缓存被成功取到
                     getActivity().runOnUiThread(new Runnable() {

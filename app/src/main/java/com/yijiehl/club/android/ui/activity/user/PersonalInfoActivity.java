@@ -3,20 +3,18 @@
  * 文件名称: PersonalInfoActivity.java <br/>
  * Created by 张志新 on 2016/9/11.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;/**
+package com.yijiehl.club.android.ui.activity.user;/**
  * Created by asus on 2016/9/11.
  */
 
 import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
-import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.activity.photo.PhoneNumChangeActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>

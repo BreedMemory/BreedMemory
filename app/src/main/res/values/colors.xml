@@ -16,4 +16,5 @@
     <color name="healthActivity">#3bb7a5</color>
     <color name="healthFood">#3badb7</color>
     <color name="healthKnowledge">#3b8ab7</color>
+    <color name="tabColor">#69c5a3</color>
 </resources>

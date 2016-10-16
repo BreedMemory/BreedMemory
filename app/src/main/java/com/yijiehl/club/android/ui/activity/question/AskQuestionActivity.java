@@ -1,7 +1,8 @@
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.question;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：手机大管家<br/>

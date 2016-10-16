@@ -1,4 +1,4 @@
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.question;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -21,7 +22,7 @@ import com.yijiehl.club.android.R;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_knowledge)
-public class KnowledgeActivity extends BmActivity{
+public class KnowledgeActivity extends BmActivity {
 
     /**产后下拉内容展示*/
     @ViewInject(R.id.layout_after_child_birth_context)

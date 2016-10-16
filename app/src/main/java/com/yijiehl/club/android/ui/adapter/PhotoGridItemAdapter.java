@@ -1,10 +1,8 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -15,7 +13,6 @@ import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,7 +30,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
-    public static ArrayList<String> mSelectedPhoto = new ArrayList<String>();
+    private ArrayList<String> mSelectedPhoto = new ArrayList<>();
     /**
      * 所有图片
      */
@@ -46,6 +43,15 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
     final int TYPE_1 = 0;
     final int TYPE_2 = 1;
     final int VIEW_TYPE = 2;
+
+
+    public ArrayList<String> getmSelectedPhoto() {
+        return mSelectedPhoto;
+    }
+
+    public void setmSelectedPhoto(ArrayList<String> mSelectedPhoto) {
+        this.mSelectedPhoto = mSelectedPhoto;
+    }
 
     public PhotoGridItemAdapter(Context mContext, List<String> mDatas) {
         super(mContext);

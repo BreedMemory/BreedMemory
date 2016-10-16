@@ -1,10 +1,13 @@
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.growup;
 
 import android.content.Intent;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.BmActivity;
+
 /**
  * 项目名称：孕育迹忆 <br/>
  * 类  名: GrowUpGasStationAvtivity <br/>
@@ -15,7 +18,7 @@ import com.yijiehl.club.android.R;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_growup_gas_station)
-public class GrowUpGasStationAvtivity extends BmActivity{
+public class GrowUpGasStationAvtivity extends BmActivity {
     @Override
     protected String getHeadTitle() {
         return getString(R.string.growup_comeon);

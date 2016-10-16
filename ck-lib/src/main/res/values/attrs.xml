@@ -50,4 +50,8 @@
     <declare-styleable name="ImageViewer">
         <attr name="model" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="HorizontalDivLayout">
+        <attr name="item_layout" format="integer"/>
+    </declare-styleable>
 </resources>

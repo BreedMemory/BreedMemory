@@ -4,7 +4,7 @@
  * <p>
  * Created by 谌珂 on 2016/9/7.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +33,7 @@ import com.yijiehl.club.android.network.response.RespSearchClubs;
 import com.yijiehl.club.android.network.response.innerentity.ClubInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.view.NumberPickerView;
 import com.yijiehl.club.android.ui.view.TimePicker;
 
@@ -100,8 +101,6 @@ public class SupplementInfoActivity extends BmActivity {
         mName.setText(mUserInfo.getAcctName());
         //设置性别
         mSex.check(mUserInfo.isMale()?R.id.rb_male : R.id.rb_female);
-        // TODO: 谌珂 2016/9/8 设置预产期
-//        mChooseBronTime.setText();
         //设置会所信息
         if(!TextUtils.isEmpty(mUserInfo.getOrgInfo())) {
             mClub.setText(mUserInfo.getOrgInfo());

@@ -37,7 +37,7 @@
         </activity>
 
         <!-- 登录页面 -->
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity android:name=".ui.activity.user.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -50,7 +50,7 @@
             android:launchMode="singleTask"/>
 
         <!-- 完善信息页面 -->
-        <activity android:name=".ui.activity.SupplementInfoActivity"
+        <activity android:name=".ui.activity.user.SupplementInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
@@ -70,12 +70,12 @@
             android:value="57d13359e0f55a9a87001b45" />
 
         <!-- 我的页面 -->
-        <activity android:name=".ui.activity.MineActivity"
+        <activity android:name=".ui.activity.user.MineActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
         <!-- 个人信息页面 -->
-        <activity android:name=".ui.activity.PersonalInfoActivity"
+        <activity android:name=".ui.activity.user.PersonalInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
@@ -84,35 +84,35 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 昵称修改页面 -->
-        <activity android:name=".ui.activity.NickChangeActivity"
+        <activity android:name=".ui.activity.user.NickChangeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 手机号修改页面 -->
-        <activity android:name=".ui.activity.PhoneNumChangeActivity"
+        <activity android:name=".ui.activity.photo.PhoneNumChangeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 地址修改页面 -->
-        <activity android:name=".ui.activity.AddressChangeActivity"
+        <activity android:name=".ui.activity.user.AddressChangeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 性别修改页面 -->
-        <activity android:name=".ui.activity.SexChangeActivity"
+        <activity android:name=".ui.activity.user.SexChangeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 添加亲友页面 -->
-        <activity android:name=".ui.activity.AddRelativesAccount"
+        <activity android:name=".ui.activity.user.AddRelativesAccount"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 相册页面 -->
-        <activity android:name=".ui.activity.PhotoPickerActivity"
+        <activity android:name=".ui.activity.photo.PhotoPickerActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 照片详情页面 -->
-        <activity android:name=".ui.activity.ImagePagerActivity"
+        <activity android:name=".ui.activity.photo.ImageViewerActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 健康详情页面 -->
-        <activity android:name=".ui.activity.HealthInfoActivity"
+        <activity android:name=".ui.activity.health.HealthInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 活动列表 -->
@@ -120,23 +120,31 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 问题页面 -->
-        <activity android:name=".ui.activity.QuestionListActivity"
+        <activity android:name=".ui.activity.question.QuestionListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 知识页面 -->
-        <activity android:name=".ui.activity.KnowledgeActivity"
+        <activity android:name=".ui.activity.question.KnowledgeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 知识列表页面 -->
-        <activity android:name=".ui.activity.KnowledgeListActivity"
+        <activity android:name=".ui.activity.question.KnowledgeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 成长加油站页面 -->
-        <activity android:name=".ui.activity.GrowUpGasStationAvtivity"
+        <activity android:name=".ui.activity.growup.GrowUpGasStationAvtivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 提问页面 -->
-        <activity android:name=".ui.activity.AskQuestionActivity"
+        <activity android:name=".ui.activity.question.AskQuestionActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 编辑标签 -->
+        <activity android:name=".ui.activity.EditTabActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 编辑标签 -->
+        <activity android:name=".ui.activity.photo.UploadPhotoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
     </application>

@@ -4,7 +4,7 @@
  * Created by 谌珂 on 2016/10/4.
  * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.health;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：手机大管家<br/>

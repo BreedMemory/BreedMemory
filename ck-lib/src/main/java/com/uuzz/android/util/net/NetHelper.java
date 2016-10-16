@@ -77,11 +77,11 @@ public class NetHelper {
      * @return AgentResponse
      * @throws TaskFailException 网络任务创建失败或网络请求返回码不是200抛出此异常
      */
-    public static AbstractResponse getDataFromNet(Context context, IRequest pRequest) throws TaskFailException {
+    public static AbstractResponse getDataFromNet(Context context, IRequest pRequest, boolean isShowLoading) throws TaskFailException {
         Class<? extends AbstractTask> lTaskClass = pRequest.getTaskClass();
         try {
-            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class);
-            AbstractTask abstractTask = constructor.newInstance(pRequest, context);               //创建Task的实例
+            Constructor<? extends AbstractTask> constructor = lTaskClass.getConstructor(IRequest.class, Context.class, boolean.class);
+            AbstractTask abstractTask = constructor.newInstance(pRequest, context, isShowLoading);               //创建Task的实例
             ResponseContent lResponseContent = abstractTask.execute();            //调用同步请求方法
             if(lResponseContent == null) {
                 syncTaskErrorCallBack(context);

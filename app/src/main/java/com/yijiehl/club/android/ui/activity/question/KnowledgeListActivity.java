@@ -1,9 +1,8 @@
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.question;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
@@ -16,23 +15,24 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.adapter.KnowledgeListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: QuestionListActivity <br/>
+ * 类  名: KnowledgeListActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
- * 修改时间：2016/10/4 <br/>
- *
+ * 修改时间：2016/10/6 <br/>
  * @author 张志新 <br/>
  */
-@ContentView(R.layout.activity_question_list)
-public class QuestionListActivity extends BmActivity {
+@ContentView(R.layout.activity_knowledge_list)
+public class KnowledgeListActivity extends BmActivity {
 
     /**
      * 搜索栏
@@ -54,7 +54,7 @@ public class QuestionListActivity extends BmActivity {
 
     @Override
     protected String getHeadTitle() {
-        return getString(R.string.question_list);
+        return getString(R.string.knowledge_list);
     }
 
     @Override
@@ -63,16 +63,16 @@ public class QuestionListActivity extends BmActivity {
 
         List<String> data = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            data.add("小孩子应该多久吃一次奶粉");
+            data.add("怀孕1-8周");
         }
-        QuestionListAdapter questionListAdapter = new QuestionListAdapter(this, data);
-        mListView.setAdapter(questionListAdapter);
+        KnowledgeListAdapter knowledgeListAdapter = new KnowledgeListAdapter(this, data);
+        mListView.setAdapter(knowledgeListAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 2016/10/4 暂时跳转文章详情页面。。。
-                Intent intent=new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
+                Intent intent=new Intent(KnowledgeListActivity.this, ArticalDetailActivity.class);
                 intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
                 startActivity(intent);
             }
@@ -89,12 +89,11 @@ public class QuestionListActivity extends BmActivity {
                 mPtrFrameLayout.refreshComplete();
             }
         });
-
     }
 
     @OnClick(R.id.layout_search)
     private void searchQuestion() {
-        // TODO: 2016/10/4 需要完善搜索页面再跳转
+        // TODO: 2016/10/6 需要完善搜索页面再跳转
         Toaster.showShortToast(this,"此搜索功能暂未实现");
     }
 }

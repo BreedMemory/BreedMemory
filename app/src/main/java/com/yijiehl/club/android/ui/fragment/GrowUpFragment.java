@@ -20,7 +20,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.MineActivity;
+import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.photo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -18,6 +16,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.MediaStoreHelper;
 import com.yijiehl.club.android.entity.Photo;
 import com.yijiehl.club.android.entity.PhotoDirectory;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.PhotoGridItemAdapter;
 
 import java.util.ArrayList;
@@ -75,6 +74,10 @@ public class PhotoPickerActivity extends BmActivity {
                 case SCAN_OK:
                     progressDialog.dismiss();
                     photoGridItemAdapter = new PhotoGridItemAdapter(PhotoPickerActivity.this, dataPaths);
+                    ArrayList<String> paths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
+                    if(paths != null && paths.size() > 0) {    //其他Activity传过来的已选择的图片路径
+                        photoGridItemAdapter.setmSelectedPhoto(paths);
+                    }
                     photoGrid.setAdapter(photoGridItemAdapter);
                     photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
                         @Override
@@ -143,19 +146,19 @@ public class PhotoPickerActivity extends BmActivity {
 
     @OnClick(R.id.tv_prview)
     private void prView() {
-        Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
-        i.putExtra("isNative",true);
-        i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
+        Intent i =new Intent(PhotoPickerActivity.this,ImageViewerActivity.class);
+        i.putExtra(ImageViewerActivity.NATIVE, true);
+        i.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
         startActivity(i);
     }
 
     @OnClick(R.id.btn_ok)
     private void btnSure() {
-        // TODO: 2016/9/29 需要完善页面的跳转，以及finish本activity
-       /* Intent i =new Intent(PhotoPickerActivity.this,ImagePagerActivity.class);
-        i.putStringArrayListExtra("image_urls", photoGridItemAdapter.mSelectedPhoto);
-        startActivity(i);*/
-        Toaster.showShortToast(this,"此功能暂未实现");
+        // DONE: 2016/9/29 需要完善页面的跳转，以及finish本activity
+        Intent i =new Intent(PhotoPickerActivity.this, UploadPhotoActivity.class);
+        i.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
+        startActivity(i);
+        finish();
     }
 
 }

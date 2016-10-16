@@ -3,7 +3,7 @@
  * 文件名称: MineActivity.java <br/>
  * Created by 张志新 on 2016/9/11.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.user;
 
 import android.content.Intent;
 
@@ -15,6 +15,8 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqLogout;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>

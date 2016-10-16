@@ -31,12 +31,13 @@ public class ReqUploadFile extends ReqBase {
         super(context);
     }
 
-    public ReqUploadFile(Context context, UploadType bizType, File file) {
+    public ReqUploadFile(Context context, UploadType bizType, File file, String relateCode) {
         super(context);
         this.bizType = bizType.getName();
         this.fileName = file.getName();
         this.fileName = file.getName();
         this.file = file;
+        this.relateCode = relateCode;
     }
 
     /** 必填，业务类型
@@ -113,7 +114,8 @@ public class ReqUploadFile extends ReqBase {
         MSG_FILE(0, "msg_file"),
         CRM_PHOTO_DETAIL(1, "crm_photo_detail"),
         USER_PORTRAIT(2, "user_portrait"),
-        CUSTOMER_PORTRAIT(3, "customer_portrait");
+        CUSTOMER_PORTRAIT(3, "customer_portrait"),
+        STAT_DATA(4, "stat_data");
 
         private int value;
         private String name;

@@ -14,12 +14,17 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.ui.activity.LoginActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.SupplementInfoActivity;
+import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
+import com.yijiehl.club.android.ui.activity.user.LoginActivity;
+import com.yijiehl.club.android.ui.activity.user.SupplementInfoActivity;
+
+import java.util.ArrayList;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -110,7 +115,8 @@ public class ActivitySvc {
         editor.remove(context.getString(R.string.shared_preference_acctStatus));
         editor.remove(context.getString(R.string.shared_preference_msgUrl));
         editor.remove(context.getString(R.string.shared_preference_resourceUrl));
-        editor.remove(context.getString(R.string.shared_preference_user_info));
+        // DONE: 谌珂 2016/10/15 从数据库删除userinfo
+        CacheDataDAO.getInstance(null).delete("c_name = ?", new String[]{context.getString(R.string.shared_preference_user_info)});
         editor.commit();
     }
 
@@ -122,9 +128,8 @@ public class ActivitySvc {
      * @param data 用户信息
      */
     public static void saveUserInfoNative(Context context, UserInfo data) {
-        SharedPreferences.Editor editor = ContextUtils.getEditor(context);
-        editor.putString(context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
-        editor.commit();
+        // DONE: 谌珂 2016/10/15 替换为存储到数据库
+        CacheDataDAO.getInstance(null).insertCacheDate(context, context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
     }
 
     /**
@@ -134,5 +139,17 @@ public class ActivitySvc {
      */
     public static String createResourceUrl(Context context, String path) {
         return ContextUtils.getSharedString(context, R.string.shared_preference_resourceUrl) + path;
+    }
+
+    /**
+     * 描 述：启动照片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     */
+    public static void startImagePicker(Context context, ArrayList<String> path, long taskId) {
+        Intent intent = new Intent(context, PhotoPickerActivity.class);
+        intent.putExtra(UploadPhotoActivity.TASK, taskId);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        context.startActivity(intent);
     }
 }

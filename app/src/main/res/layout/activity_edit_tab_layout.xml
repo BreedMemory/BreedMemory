@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/primary_margin">
+    <EditText
+        android:id="@+id/et_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/primary_margin"
+        android:paddingRight="@dimen/primary_margin"
+        android:paddingTop="@dimen/text_space"
+        android:paddingBottom="@dimen/text_space"
+        android:background="@drawable/bg_border_stroke"
+        android:hint="@string/add_tab"/>
+    <View
+        android:layout_marginTop="@dimen/primary_List_margin"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorAccent"/>
+</LinearLayout>

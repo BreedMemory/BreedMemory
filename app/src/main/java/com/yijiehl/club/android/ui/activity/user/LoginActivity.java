@@ -4,7 +4,7 @@
  * <p>
  * Created by 谌珂 on 2016/9/6.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;
+package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +28,7 @@ import com.yijiehl.club.android.network.request.ReqLogin;
 import com.yijiehl.club.android.network.request.ReqSendVerifyCode;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>

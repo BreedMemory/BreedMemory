@@ -18,7 +18,8 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
-import com.yijiehl.club.android.ui.activity.ImagePagerActivity;
+import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
+import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.view.NoScrollGridView;
 
 import java.util.ArrayList;
@@ -70,15 +71,17 @@ public class PicturePersonAdapter extends BaseListViewAdapter {
         /**
          * 图片列表点击事件
          * */
-        // TODO: 2016/9/16 图片点击进行放大查看
         holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext, ImagePagerActivity.class);
-                intent.putExtra("isNative", false);
-                ArrayList<String> list = new ArrayList<String>();
+                Intent intent = new Intent(mContext, ImageViewerActivity.class);
+                intent.putExtra(ImageViewerActivity.NATIVE, false);
+                ArrayList<String> list = new ArrayList<>();
+                // TODO: 2016/9/16 替换为真实数据
                 list.add("http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg");
-                intent.putStringArrayListExtra("image_urls", list);
+                list.add("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
+                list.add("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
+                intent.putStringArrayListExtra(UploadPhotoActivity.PATH, list);
                 mContext.startActivity(intent);
             }
         });

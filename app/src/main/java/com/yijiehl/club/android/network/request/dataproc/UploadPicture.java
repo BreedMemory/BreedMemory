@@ -18,9 +18,10 @@ import java.io.File;
  * @author 谌珂 <br/>
  */
 public class UploadPicture extends BaseDataEntity {
-    public UploadPicture(File file) {
+    public UploadPicture(File file, String tabs) {
         this.fileName = file.getName();
         this.fileSize = String.valueOf(file.length()/8);
+        this.dataLabel = tabs;
     }
 
     /** 相片名称 可为空 */

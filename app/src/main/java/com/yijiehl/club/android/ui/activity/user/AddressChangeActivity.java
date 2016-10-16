@@ -3,7 +3,7 @@
  * 文件名称: AddressChangeActivity.java <br/>
  * Created by 张志新 on 2016/9/18.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;/**
+package com.yijiehl.club.android.ui.activity.user;/**
  * Created by asus on 2016/9/18.
  */
 
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>

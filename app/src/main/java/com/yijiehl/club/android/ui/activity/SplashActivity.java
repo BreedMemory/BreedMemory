@@ -20,6 +20,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqSensitize;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.user.LoginActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>

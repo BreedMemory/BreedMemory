@@ -7,6 +7,7 @@ package com.yijiehl.club.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,10 +27,11 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.MineActivity;
-import com.yijiehl.club.android.ui.activity.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
 
@@ -37,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -87,6 +90,7 @@ public class PictureFragment extends BaseHostFragment {
     private List<AlbumInfo> dataAlbum;//会所相册照片数据源
     /** 请求权限成功后回调 */
     private StartTask mStartTask = new StartTask();
+    private long mTaskId;
 
     @Nullable
     @Override
@@ -125,6 +129,7 @@ public class PictureFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        UploadPictureSvc.getInstance().addObserver(this);
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
     }
 
@@ -192,17 +197,11 @@ public class PictureFragment extends BaseHostFragment {
         }
     }
 
-
-    @OnClick(R.id.click_uploading)
+    @OnClick({R.id.click_uploading, R.id.iv_uploading})
     private void noDataUpLoading() {
-        // TODO: 2016/9/26
-        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
-    }
-
-    @OnClick(R.id.iv_uploading)
-    private void upLoading() {
-        // TODO: 2016/10/3
-        startActivity(new Intent(getActivity(), PhotoPickerActivity.class));
+        // DONE: 2016/9/26
+        mTaskId = System.currentTimeMillis();
+        ActivitySvc.startImagePicker(getActivity(), null, mTaskId);
     }
 
     @OnClick(R.id.tv_person)
@@ -342,5 +341,26 @@ public class PictureFragment extends BaseHostFragment {
         dataPhoto.add(photoInfo1);
         dataPhoto.add(photoInfo2);
         dataPhoto.add(photoInfo3);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        Message msg = (Message) data;
+        if (UploadPictureSvc.UPLOAD_COMPLETE == msg.what) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // TODO: 谌珂 2016/10/16 重新拉接口获取图片
+                    Toaster.showShortToast(getActivity(), "上传完成");
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        UploadPictureSvc.getInstance().deleteObserver(this);
+        super.onDestroy();
     }
 }

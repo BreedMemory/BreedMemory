@@ -1,9 +1,9 @@
 package com.uuzz.android.ui.view;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Handler;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -15,9 +15,12 @@ import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import com.uuzz.android.R;
@@ -112,8 +115,26 @@ public class ImageViewer extends ImageView {
 		this.source = source;
 	}
 
+	public ImageViewer(Context context) {
+		this(context, null);
+	}
+
+	public ImageViewer(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
+	}
+
 	public ImageViewer(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
+		initView(context, attrs, defStyleAttr, 0);
+	}
+
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public ImageViewer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+		super(context, attrs, defStyleAttr, defStyleRes);
+		initView(context, attrs, defStyleAttr, defStyleRes);
+	}
+
+	private void initView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		mMatrix = getImageMatrix();
 		isTouchEvent = false;
 		setDrawingCacheEnabled(true);
@@ -238,7 +259,14 @@ public class ImageViewer extends ImageView {
 		firstClick = 0;
 		lastClick = 0;
 	}
-	
+
+	private void requestParentDisallowInterceptTouchEvent(boolean disallowIntercept) {
+		final ViewParent parent = getParent();
+		if (parent != null) {
+			parent.requestDisallowInterceptTouchEvent(disallowIntercept);
+		}
+	}
+
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -251,6 +279,12 @@ public class ImageViewer extends ImageView {
 				case MotionEvent.ACTION_DOWN:
 					downX = event.getX();
 					downY = event.getY();
+					int area = getWidth()/7;
+					if(downX < area || downX > area*6) {
+						requestParentDisallowInterceptTouchEvent(false);
+					} else {
+						requestParentDisallowInterceptTouchEvent(true);
+					}
 					perMoveX = event.getX();
 					perMoveY = event.getY();
 					// 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
@@ -604,6 +638,16 @@ public class ImageViewer extends ImageView {
 //		isCut = true;
 //		invalidate();
 		return bitmap;
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+//		source = null;
+		super.onDetachedFromWindow();
+	}
+
+	public void reset() {
+		isTouchEvent = false;
 	}
 
 	/**

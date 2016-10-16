@@ -1,9 +1,9 @@
 /**
  * 项目名称：孕育迹忆 <br/>
- * 文件名称: PhoneNumChangeActivity.java <br/>
+ * 文件名称: NickChangeActivity.java <br/>
  * Created by 张志新 on 2016/9/18.  <br/>
  */
-package com.yijiehl.club.android.ui.activity;/**
+package com.yijiehl.club.android.ui.activity.user;/**
  * Created by asus on 2016/9/18.
  */
 
@@ -17,10 +17,11 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: PhoneNumChangeActivity <br/>
+ * 类  名: NickChangeActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
@@ -28,21 +29,21 @@ import com.yijiehl.club.android.R;
  *
  * @author 张志新 <br/>
  */
-@ContentView(R.layout.activity_phone_num_change)
-public class PhoneNumChangeActivity extends BmActivity {
+@ContentView(R.layout.activity_nickname_change)
+public class NickChangeActivity extends BmActivity {
 
-    @ViewInject(R.id.et_phone_change)
+    @ViewInject(R.id.et_nickname_change)
     private EditText editText;
-    @ViewInject(R.id.iv_cancel_phone)
+
+    @ViewInject(R.id.iv_cancel_newnick)
     private ImageView imageView;
 
     @Override
     protected String getHeadTitle() {
-        return getString(R.string.phone_num);
+        return getString(R.string.nickname);
     }
 
-    // TODO: 2016/9/18 标题栏的取消和保存功能还没有实现;布局大小也是暂时的；地址，昵称类似问题需要解决
-
+    // TODO: 2016/9/18 标题栏的取消和保存功能还没有实现
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,22 +55,10 @@ public class PhoneNumChangeActivity extends BmActivity {
         }
     }
 
-    @OnClick(R.id.iv_cancel_phone)
-    private void clearPhoneNum() {
+    @OnClick(R.id.iv_cancel_newnick)
+    private void clearNickName() {
         if (!TextUtils.isEmpty(editText.getText())) {
             editText.getText().clear();
         }
-    }
-
-    /**
-     * 描 述：检测电话号码是否合法<br/>
-     * 作 者：张志新<br/>
-     * 历 史: (1.0.0) 张志新 2016/9/18 <br/>
-     *
-     * @param phoneNumber 电话号码
-     * @return true代表验证通过
-     */
-    private boolean checkPhoneNumber(String phoneNumber) {
-        return phoneNumber.startsWith("1") && phoneNumber.length() == 11;
     }
 }

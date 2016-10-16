@@ -20,10 +20,10 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.activity.AskQuestionActivity;
+import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.MineActivity;
-import com.yijiehl.club.android.ui.activity.QuestionListActivity;
+import com.yijiehl.club.android.ui.activity.user.MineActivity;
+import com.yijiehl.club.android.ui.activity.question.QuestionListActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
