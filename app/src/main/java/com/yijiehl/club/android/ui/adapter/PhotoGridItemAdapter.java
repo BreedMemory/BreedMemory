@@ -25,12 +25,13 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class PhotoGridItemAdapter extends BaseListViewAdapter {
+public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
 
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
     private ArrayList<String> mSelectedPhoto = new ArrayList<>();
+    private View.OnClickListener mListener = new MyOnClickListener();
     /**
      * 所有图片
      */
@@ -60,7 +61,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
 
     @Override
     public int getCount() {
-        return mDatas.size() + 1;
+        return super.getCount() + 1;
     }
 
     @Override
@@ -79,36 +80,26 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderTake viewHolderTake = null;
-        ViewHolderPick viewHolderPick = null;
+        ViewHolder holder;
         int type = getItemViewType(position);
 
         if (convertView == null) {
             switch (type) {
                 case TYPE_1:
                     convertView = View.inflate(mContext, R.layout.item_photo_grid_take, null);
-                    viewHolderTake = new ViewHolderTake(convertView);
-                    convertView.setTag(viewHolderTake);
                     break;
                 case TYPE_2:
                     convertView = View.inflate(mContext, R.layout.item_photo_grid_pick, null);
-                    viewHolderPick = new ViewHolderPick(convertView);
-                    convertView.setTag(viewHolderPick);
                     break;
             }
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
-            switch (type) {
-                case TYPE_1:
-                    viewHolderTake = (ViewHolderTake) convertView.getTag();
-                    break;
-                case TYPE_2:
-                    viewHolderPick = (ViewHolderPick) convertView.getTag();
-                    break;
-            }
+            holder = (ViewHolder) convertView.getTag();
         }
         switch (type) {
             case TYPE_1:
-                viewHolderTake.layoutTake.setOnClickListener(new View.OnClickListener() {
+                holder.layoutTake.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         onPhotoSelectedListener.takePhoto();
@@ -116,20 +107,23 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
                 });
                 break;
             case TYPE_2:
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                viewHolderPick.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
+                holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                holder.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
 
-                ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), viewHolderPick.ivPhoto);
-                viewHolderPick.ivPhoto.setColorFilter(null);
-                viewHolderPick.ivPhoto.setOnClickListener(new MyOnClickListener(viewHolderPick, position));
+                ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), holder.ivPhoto);
+                holder.ivPhoto.setColorFilter(null);
+                holder.ivPhoto.setTag(R.id.pick_picture_content, position - 1);
+                holder.ivPhotoPick.setTag(R.id.pick_picture_tag, position - 1);
+                holder.ivPhoto.setOnClickListener(mListener);
+                holder.ivPhotoPick.setOnClickListener(mListener);
 
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
-                    viewHolderPick.ivPhoto.setColorFilter(R.color.colorPrimary);
+                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
+                    holder.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
-                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                    viewHolderPick.ivPhoto.setColorFilter(null);
+                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                    holder.ivPhoto.setColorFilter(null);
                 }
                 break;
             default:
@@ -138,20 +132,13 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
         return convertView;
     }
 
-    class ViewHolderTake {
-        public ViewHolderTake(View v) {
+    class ViewHolder {
+        public ViewHolder(View v) {
             InjectUtils.injectViews(v, this);
         }
 
         @ViewInject(R.id.layout_grid_take)
         LinearLayout layoutTake;
-    }
-
-    class ViewHolderPick {
-        public ViewHolderPick(View v) {
-            InjectUtils.injectViews(v, this);
-        }
-
         @ViewInject(R.id.iv_item_photo)
         ImageView ivPhoto;
         @ViewInject(R.id.iv_item_pick)
@@ -164,27 +151,25 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
      */
     class MyOnClickListener implements View.OnClickListener {
 
-        ViewHolderPick viewHolderPick;
-        int position;
-
-        public MyOnClickListener(ViewHolderPick viewHolderPick, int position) {
-            this.viewHolderPick = viewHolderPick;
-            this.position = position;
-        }
-
         @Override
         public void onClick(View v) {
+            int position;
+            switch (v.getId()) {
+                case R.id.iv_item_photo:
+                    position = (int) v.getTag(R.id.pick_picture_content);
+                    break;
+                default:
+                    position = (int) v.getTag(R.id.pick_picture_tag);
+                    break;
+            }
             //已经选择了该照片
-            if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                mSelectedPhoto.remove(mDatas.get(position - 1));
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                viewHolderPick.ivPhoto.setColorFilter(null);
+            if (mSelectedPhoto.contains(mDatas.get(position))) {
+                mSelectedPhoto.remove(mDatas.get(position));
             } else {//没有选择该照片
-                mSelectedPhoto.add(mDatas.get(position - 1));
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
-                viewHolderPick.ivPhoto.setColorFilter(R.color.colorAccent);
+                mSelectedPhoto.add(mDatas.get(position));
             }
             onPhotoSelectedListener.photoClick(mSelectedPhoto);
+            refresh();
         }
     }
 

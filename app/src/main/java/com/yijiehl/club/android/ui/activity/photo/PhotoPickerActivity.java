@@ -1,10 +1,7 @@
 package com.yijiehl.club.android.ui.activity.photo;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -57,56 +54,9 @@ public class PhotoPickerActivity extends BmActivity {
 
     private PhotoGridItemAdapter photoGridItemAdapter;
 
-    private final static int SCAN_OK = 1;
-
-    private ProgressDialog progressDialog;//进度条
-
     //private List<PhotoDirectory> photoDirectories;//相册集合
     private List<Photo> photos;//照片集合
-    private ArrayList<String> dataPaths = new ArrayList<String>();//所有照片路径集合
-
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SCAN_OK:
-                    progressDialog.dismiss();
-                    photoGridItemAdapter = new PhotoGridItemAdapter(PhotoPickerActivity.this, dataPaths);
-                    ArrayList<String> paths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
-                    if(paths != null && paths.size() > 0) {    //其他Activity传过来的已选择的图片路径
-                        photoGridItemAdapter.setmSelectedPhoto(paths);
-                    }
-                    photoGrid.setAdapter(photoGridItemAdapter);
-                    photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
-                        @Override
-                        public void photoClick(List<String> number) {
-                            if (!number.isEmpty()) {
-                                preView.setTextColor(getResources().getColor(R.color.black));
-                                preView.setClickable(true);
-                                sureBtn.setClickable(true);
-                                sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_yes);
-                                sureBtn.setTextColor(getResources().getColor(R.color.black));
-                            } else {
-                                preView.setTextColor(getResources().getColor(R.color.textColorLight));
-                                preView.setClickable(false);
-                                sureBtn.setClickable(false);
-                                sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_no);
-                                sureBtn.setTextColor(getResources().getColor(R.color.textColorLight));
-                            }
-                        }
-
-                        @Override
-                        public void takePhoto() {
-
-                        }
-                    });
-                    //photoNum.setText(String.valueOf(dataPaths.size()));
-                    break;
-            }
-        }
-    };
+    private ArrayList<String> dataPaths = new ArrayList<>();//所有照片路径集合
 
     @Override
     protected String getHeadTitle() {
@@ -116,9 +66,38 @@ public class PhotoPickerActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /**获取手机中的照片*/
-        getPhotos();
+        photoGridItemAdapter = new PhotoGridItemAdapter(PhotoPickerActivity.this, null);
+        ArrayList<String> paths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
+        if(paths != null && paths.size() > 0) {    //其他Activity传过来的已选择的图片路径
+            photoGridItemAdapter.setmSelectedPhoto(paths);
+        } else {
+            /**获取手机中的照片*/
+            getPhotos();
+        }
+        photoGrid.setAdapter(photoGridItemAdapter);
+        photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
+            @Override
+            public void photoClick(List<String> number) {
+                if (!number.isEmpty()) {
+                    preView.setTextColor(getResources().getColor(R.color.black));
+                    sureBtn.setTextColor(getResources().getColor(R.color.white));
+                    preView.setClickable(true);
+                    sureBtn.setClickable(true);
+                    sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_yes);
+                } else {
+                    preView.setTextColor(getResources().getColor(R.color.textColorLight));
+                    preView.setClickable(false);
+                    sureBtn.setClickable(false);
+                    sureBtn.setBackgroundResource(R.drawable.pick_photo_sure_no);
+                    sureBtn.setTextColor(getResources().getColor(R.color.textColorLight));
+                }
+            }
 
+            @Override
+            public void takePhoto() {
+
+            }
+        });
     }
 
     /**
@@ -127,26 +106,34 @@ public class PhotoPickerActivity extends BmActivity {
      * 历 史: (1.0.0) 张志新 2016/9/23 <br/>
      */
     private void getPhotos() {
-
-        progressDialog = ProgressDialog.show(this, null, "正在加载...");
-
         MediaStoreHelper.getPhotoDirs(PhotoPickerActivity.this, new MediaStoreHelper.PhotosResultCallback() {
             @Override
             public void onResultCallback(List<PhotoDirectory> directories) {
                 for (int i = 0; i < directories.size(); i++) {
                     photos = directories.get(i).getPhotos();
+                    final ArrayList<String> paths = new ArrayList<>();
                     for (Photo photo : photos) {
-                        dataPaths.add(photo.getPath());
+                        paths.add(photo.getPath());
                     }
+                    dataPaths.addAll(paths);
                 }
-                mHandler.sendEmptyMessage(SCAN_OK);
             }
         });
     }
 
+    private synchronized void updateAdapterData(String path) {
+        if(dataPaths == null) {
+            dataPaths = new ArrayList<>();
+        }
+        if(dataPaths.contains(path)) {
+            return;
+        }
+        dataPaths.add(path);
+    }
+
     @OnClick(R.id.tv_prview)
     private void prView() {
-        Intent i =new Intent(PhotoPickerActivity.this,ImageViewerActivity.class);
+        Intent i =new Intent(PhotoPickerActivity.this, ImageViewerActivity.class);
         i.putExtra(ImageViewerActivity.NATIVE, true);
         i.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
         startActivity(i);
