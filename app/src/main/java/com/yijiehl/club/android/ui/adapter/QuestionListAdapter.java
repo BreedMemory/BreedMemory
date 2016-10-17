@@ -11,6 +11,7 @@ import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.response.innerentity.Answer;
 
 import java.util.List;
 
@@ -26,9 +27,9 @@ import java.util.List;
  */
 public class QuestionListAdapter extends BaseListViewAdapter {
 
-    private List<String> data;
+    private List<Answer> data;
 
-    public QuestionListAdapter(Context mContext, List<String> data) {
+    public QuestionListAdapter(Context mContext, List<Answer> data) {
         super(mContext);
         this.data = data;
         mDatas = data;
@@ -44,8 +45,9 @@ public class QuestionListAdapter extends BaseListViewAdapter {
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.questionTitle.setText(data.get(position));
-        holder.questionContent.setText("婴儿每天的喂奶次数应该根据婴儿的具体情况来决定，如消化快慢，食欲状态等。喂奶....");
+        holder.questionTitle.setText(data.get(position).getDataName());
+       // holder.questionContent.setText("婴儿每天的喂奶次数应该根据婴儿的具体情况来决定，如消化快慢，食欲状态等。喂奶....");
+        holder.questionContent.setText(data.get(position).getDataContent());
         holder.questionTime.setText("2016-10-04");
         holder.questionAnswer.setText("已回复");
         holder.questionHeart.setOnClickListener(new View.OnClickListener() {

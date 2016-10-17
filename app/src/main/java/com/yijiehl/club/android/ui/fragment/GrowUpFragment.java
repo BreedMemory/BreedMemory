@@ -17,7 +17,13 @@ import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchArticle;
+import com.yijiehl.club.android.network.response.RespSearchArticle;
+import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
@@ -68,9 +74,9 @@ public class GrowUpFragment extends BaseHostFragment {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
-    private List<String> allData = new ArrayList<String>();//数据源
-    private List<String> healthData = new ArrayList<String>();
-    private List<String> educationData = new ArrayList<String>();
+    private List<Article> allData = new ArrayList<Article>();//数据源
+    private List<Article> healthData = new ArrayList<Article>();
+    private List<Article> educationData = new ArrayList<Article>();
 
     @Nullable
     @Override
@@ -111,12 +117,21 @@ public class GrowUpFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: 2016/10/2 此处填充假数据
-        for (int i = 0; i < 2; i++) {
+       /* for (int i = 0; i < 2; i++) {
             allData.add("孩子的健康，你如何负责?");
             allData.add("穷宝宝，富宝宝");
             allData.add("幼儿重疾知多少?");
             allData.add("海外游学规划何时开始?");
-        }
+        }*/
+
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchArticle(getActivity()), new AbstractCallBack(getActivity()) {
+            @Override
+                public void onSuccess(AbstractResponse pResponse) {
+                RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
+                allData=respSearchArticle.getResultList();
+                }
+        },false);
+
         GrowUpContentAdapter growUpContentAdapter = new GrowUpContentAdapter(getActivity(), allData);
         mListView.setAdapter(growUpContentAdapter);
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {

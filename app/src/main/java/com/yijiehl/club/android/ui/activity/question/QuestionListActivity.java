@@ -14,7 +14,13 @@ import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
+import com.yijiehl.club.android.network.response.RespSearchQuestion;
+import com.yijiehl.club.android.network.response.innerentity.Answer;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
@@ -53,6 +59,8 @@ public class QuestionListActivity extends BmActivity {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
+    private List<Answer> data;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.question_list);
@@ -62,10 +70,19 @@ public class QuestionListActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<String> data = new ArrayList<>();
+        /*List<String> data = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             data.add("小孩子应该多久吃一次奶粉");
-        }
+        }*/
+        String type=getIntent().getStringExtra("type");
+        NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchQuestion respSearchQuestion=(RespSearchQuestion)pResponse;
+                data=respSearchQuestion.getResultList();
+            }
+        });
+
         QuestionListAdapter questionListAdapter = new QuestionListAdapter(this, data);
         mListView.setAdapter(questionListAdapter);
 
