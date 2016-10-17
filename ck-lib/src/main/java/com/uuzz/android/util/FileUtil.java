@@ -47,12 +47,15 @@ public class FileUtil {
 	 * 历 史: (版本) 谌珂 2015/12/22 注释 <br/>
 	 */
 	public static String getRootFilePath() {
+		String path;
 		if (hasSDCard()) {
-			return Environment.getExternalStorageDirectory().getAbsolutePath()
-					+ "/Lottery_agent/";
+			path =  Environment.getExternalStorageDirectory().getAbsolutePath()
+					+ "/breedmemory/";
 		} else {
-			return Environment.getDataDirectory().getAbsolutePath() + "/data/" + Common.PACKAGE_NAME + "/";
+			path =  Environment.getDataDirectory().getAbsolutePath() + "/data/" + Common.PACKAGE_NAME + "/";
 		}
+		initFilePath(null, path);
+		return path;
 	}
 
 //	public static String generName(String name) {

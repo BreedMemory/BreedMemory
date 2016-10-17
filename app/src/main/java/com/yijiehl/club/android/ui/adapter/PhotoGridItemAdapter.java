@@ -1,13 +1,16 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
@@ -25,22 +28,17 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
+public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements AdapterView.OnItemClickListener {
 
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
     private ArrayList<String> mSelectedPhoto = new ArrayList<>();
-    private View.OnClickListener mListener = new MyOnClickListener();
-    /**
-     * 所有图片
-     */
-    private List<String> mDatas;
 
     /**
      * 后面选择照片最大数量
      */
-    private int maxCount = 9;
+    public static final int MAX_COUNT = 9;
     final int TYPE_1 = 0;
     final int TYPE_2 = 1;
     final int VIEW_TYPE = 2;
@@ -54,9 +52,8 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
         this.mSelectedPhoto = mSelectedPhoto;
     }
 
-    public PhotoGridItemAdapter(Context mContext, List<String> mDatas) {
+    public PhotoGridItemAdapter(Context mContext) {
         super(mContext);
-        this.mDatas = mDatas;
     }
 
     @Override
@@ -99,23 +96,12 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
         }
         switch (type) {
             case TYPE_1:
-                holder.layoutTake.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onPhotoSelectedListener.takePhoto();
-                    }
-                });
                 break;
             case TYPE_2:
-                holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                holder.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
-
-                ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), holder.ivPhoto);
-                holder.ivPhoto.setColorFilter(null);
-                holder.ivPhoto.setTag(R.id.pick_picture_content, position - 1);
-                holder.ivPhotoPick.setTag(R.id.pick_picture_tag, position - 1);
-                holder.ivPhoto.setOnClickListener(mListener);
-                holder.ivPhotoPick.setOnClickListener(mListener);
+                if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
+                    ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), holder.ivPhoto);
+                    holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
+                }
 
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
@@ -132,6 +118,27 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
         return convertView;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (position == 0 && onPhotoSelectedListener != null) {
+            onPhotoSelectedListener.takePhoto();
+        } else {
+            position--;
+            //已经选择了该照片
+            if (mSelectedPhoto.contains(mDatas.get(position))) {
+                mSelectedPhoto.remove(mDatas.get(position));
+            } else if(mSelectedPhoto.size() >= MAX_COUNT) {//没有选择该照片
+                Toaster.showShortToast(mContext, R.string.upload_count_must_less_than_9);
+            } else {
+                mSelectedPhoto.add(mDatas.get(position));
+            }
+            notifyDataSetChanged();
+            if(onPhotoSelectedListener != null) {
+                onPhotoSelectedListener.photoClick(mSelectedPhoto);
+            }
+        }
+    }
+
     class ViewHolder {
         public ViewHolder(View v) {
             InjectUtils.injectViews(v, this);
@@ -143,34 +150,6 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
         ImageView ivPhoto;
         @ViewInject(R.id.iv_item_pick)
         ImageView ivPhotoPick;
-    }
-
-
-    /**
-     * 选择照片的单击事件
-     */
-    class MyOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            int position;
-            switch (v.getId()) {
-                case R.id.iv_item_photo:
-                    position = (int) v.getTag(R.id.pick_picture_content);
-                    break;
-                default:
-                    position = (int) v.getTag(R.id.pick_picture_tag);
-                    break;
-            }
-            //已经选择了该照片
-            if (mSelectedPhoto.contains(mDatas.get(position))) {
-                mSelectedPhoto.remove(mDatas.get(position));
-            } else {//没有选择该照片
-                mSelectedPhoto.add(mDatas.get(position));
-            }
-            onPhotoSelectedListener.photoClick(mSelectedPhoto);
-            refresh();
-        }
     }
 
     public OnPhotoSelectedListener onPhotoSelectedListener;

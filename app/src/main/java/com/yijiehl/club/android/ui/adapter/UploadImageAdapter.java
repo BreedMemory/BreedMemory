@@ -9,7 +9,6 @@ package com.yijiehl.club.android.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,7 +16,6 @@ import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -27,14 +25,14 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-public class UploadImageAdapter extends BaseListViewAdapter<String> implements AdapterView.OnItemClickListener {
+public class UploadImageAdapter extends BaseListViewAdapter<String> {
     public UploadImageAdapter(Context mContext) {
         super(mContext);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(mDatas == null || position == mDatas.size()) {
+        if(mDatas == null || (position == mDatas.size() && mDatas.size() < 9)) {
             return 1;
         } else {
             return 0;
@@ -42,7 +40,7 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> implements A
     }
 
     public int getItemViewRes(int position) {
-        if(mDatas == null || position == mDatas.size()) {
+        if(getItemViewType(position) == 1) {
             return R.layout.item_add_photo_layout;
         } else {
             return R.layout.item_photo_layout;
@@ -51,6 +49,9 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> implements A
 
     @Override
     public int getViewTypeCount() {
+        if(mDatas != null && mDatas.size() >= 9){
+            return 1;
+        }
         return 2;
     }
 
@@ -69,17 +70,10 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> implements A
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(mDatas != null && position < mDatas.size()) {
+        if(getItemViewType(position) == 0) {
             ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position), holder.photo);
         }
         return convertView;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(mDatas != null && position == mDatas.size()) {
-            ((BmActivity)mContext).finish();
-        }
     }
 
     class ViewHolder {
