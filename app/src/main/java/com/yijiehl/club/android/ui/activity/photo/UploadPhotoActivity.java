@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ import java.util.List;
  * 版    本：1.0.0<br/>
  */
 @ContentView(R.layout.activity_upload_photo_activity)
-public class UploadPhotoActivity extends BmActivity implements View.OnClickListener {
+public class UploadPhotoActivity extends BmActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     public static final int UPLOAD_PHOTO_ACTIVITY_REQUEST = 111;
 
     public static final String PATH = "PATH";
@@ -86,7 +87,7 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
         UploadImageAdapter adapter = new UploadImageAdapter(this);
         adapter.setmDatas(mFilePaths);
         mPhotoContainer.setAdapter(adapter);
-        mPhotoContainer.setOnItemClickListener(adapter);
+        mPhotoContainer.setOnItemClickListener(this);
 
         // TODO: 谌珂 2016/10/15 查询标签 ，成功后填充标签
     }
@@ -200,6 +201,14 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
             mSelectedTabs.add(text);
             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_border_tab));
             tv.setTextColor(getResources().getColor(R.color.tabColor));
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(mFilePaths != null && position == mFilePaths.size()) {
+            ActivitySvc.startImagePicker(this, mFilePaths, mTaskId);
+            finish();
         }
     }
 }

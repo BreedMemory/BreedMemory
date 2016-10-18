@@ -115,4 +115,6 @@
     <string name="owned_tabs">所持有标签</string>
     <string name="cancel">取消</string>
     <string name="confirm_upload">确认上传</string>
+    <string name="upload_count_must_less_than_9">每次最多上传9张图片</string>
+    <string name="init_file_failed">初始化文件失败</string>
 </resources>

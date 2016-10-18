@@ -1,13 +1,16 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
@@ -25,21 +28,17 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class PhotoGridItemAdapter extends BaseListViewAdapter {
+public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements AdapterView.OnItemClickListener {
 
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
     private ArrayList<String> mSelectedPhoto = new ArrayList<>();
-    /**
-     * 所有图片
-     */
-    private List<String> mDatas;
 
     /**
      * 后面选择照片最大数量
      */
-    private int maxCount = 9;
+    public static final int MAX_COUNT = 9;
     final int TYPE_1 = 0;
     final int TYPE_2 = 1;
     final int VIEW_TYPE = 2;
@@ -53,14 +52,13 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
         this.mSelectedPhoto = mSelectedPhoto;
     }
 
-    public PhotoGridItemAdapter(Context mContext, List<String> mDatas) {
+    public PhotoGridItemAdapter(Context mContext) {
         super(mContext);
-        this.mDatas = mDatas;
     }
 
     @Override
     public int getCount() {
-        return mDatas.size() + 1;
+        return super.getCount() + 1;
     }
 
     @Override
@@ -79,57 +77,39 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderTake viewHolderTake = null;
-        ViewHolderPick viewHolderPick = null;
+        ViewHolder holder;
         int type = getItemViewType(position);
 
         if (convertView == null) {
             switch (type) {
                 case TYPE_1:
                     convertView = View.inflate(mContext, R.layout.item_photo_grid_take, null);
-                    viewHolderTake = new ViewHolderTake(convertView);
-                    convertView.setTag(viewHolderTake);
                     break;
                 case TYPE_2:
                     convertView = View.inflate(mContext, R.layout.item_photo_grid_pick, null);
-                    viewHolderPick = new ViewHolderPick(convertView);
-                    convertView.setTag(viewHolderPick);
                     break;
             }
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
-            switch (type) {
-                case TYPE_1:
-                    viewHolderTake = (ViewHolderTake) convertView.getTag();
-                    break;
-                case TYPE_2:
-                    viewHolderPick = (ViewHolderPick) convertView.getTag();
-                    break;
-            }
+            holder = (ViewHolder) convertView.getTag();
         }
         switch (type) {
             case TYPE_1:
-                viewHolderTake.layoutTake.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onPhotoSelectedListener.takePhoto();
-                    }
-                });
                 break;
             case TYPE_2:
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                viewHolderPick.ivPhoto.setBackgroundResource(R.mipmap.ic_launcher);
-
-                ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), viewHolderPick.ivPhoto);
-                viewHolderPick.ivPhoto.setColorFilter(null);
-                viewHolderPick.ivPhoto.setOnClickListener(new MyOnClickListener(viewHolderPick, position));
+                if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
+                    ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), holder.ivPhoto);
+                    holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
+                }
 
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
-                    viewHolderPick.ivPhoto.setColorFilter(R.color.colorPrimary);
+                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
+                    holder.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
-                    viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                    viewHolderPick.ivPhoto.setColorFilter(null);
+                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                    holder.ivPhoto.setColorFilter(null);
                 }
                 break;
             default:
@@ -138,54 +118,38 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter {
         return convertView;
     }
 
-    class ViewHolderTake {
-        public ViewHolderTake(View v) {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (position == 0 && onPhotoSelectedListener != null) {
+            onPhotoSelectedListener.takePhoto();
+        } else {
+            position--;
+            //已经选择了该照片
+            if (mSelectedPhoto.contains(mDatas.get(position))) {
+                mSelectedPhoto.remove(mDatas.get(position));
+            } else if(mSelectedPhoto.size() >= MAX_COUNT) {//没有选择该照片
+                Toaster.showShortToast(mContext, R.string.upload_count_must_less_than_9);
+            } else {
+                mSelectedPhoto.add(mDatas.get(position));
+            }
+            notifyDataSetChanged();
+            if(onPhotoSelectedListener != null) {
+                onPhotoSelectedListener.photoClick(mSelectedPhoto);
+            }
+        }
+    }
+
+    class ViewHolder {
+        public ViewHolder(View v) {
             InjectUtils.injectViews(v, this);
         }
 
         @ViewInject(R.id.layout_grid_take)
         LinearLayout layoutTake;
-    }
-
-    class ViewHolderPick {
-        public ViewHolderPick(View v) {
-            InjectUtils.injectViews(v, this);
-        }
-
         @ViewInject(R.id.iv_item_photo)
         ImageView ivPhoto;
         @ViewInject(R.id.iv_item_pick)
         ImageView ivPhotoPick;
-    }
-
-
-    /**
-     * 选择照片的单击事件
-     */
-    class MyOnClickListener implements View.OnClickListener {
-
-        ViewHolderPick viewHolderPick;
-        int position;
-
-        public MyOnClickListener(ViewHolderPick viewHolderPick, int position) {
-            this.viewHolderPick = viewHolderPick;
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            //已经选择了该照片
-            if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                mSelectedPhoto.remove(mDatas.get(position - 1));
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
-                viewHolderPick.ivPhoto.setColorFilter(null);
-            } else {//没有选择该照片
-                mSelectedPhoto.add(mDatas.get(position - 1));
-                viewHolderPick.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
-                viewHolderPick.ivPhoto.setColorFilter(R.color.colorAccent);
-            }
-            onPhotoSelectedListener.photoClick(mSelectedPhoto);
-        }
     }
 
     public OnPhotoSelectedListener onPhotoSelectedListener;

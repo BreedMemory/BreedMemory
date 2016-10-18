@@ -152,4 +152,15 @@ public class ActivitySvc {
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         context.startActivity(intent);
     }
+
+    /**
+     * 描 述：启动照片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     */
+    public static void startUploadPhoto(Context context, ArrayList<String> path) {
+        Intent intent = new Intent(context, UploadPhotoActivity.class);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        context.startActivity(intent);
+    }
 }

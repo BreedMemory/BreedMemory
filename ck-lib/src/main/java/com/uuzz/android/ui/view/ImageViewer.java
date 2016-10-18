@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -180,6 +181,7 @@ public class ImageViewer extends ImageView {
 			}
 
 		}
+		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
 	}
