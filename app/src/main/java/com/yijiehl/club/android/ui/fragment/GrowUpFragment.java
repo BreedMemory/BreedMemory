@@ -4,33 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrHandler;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
-import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchArticle;
+import com.yijiehl.club.android.network.request.search.ReqSearchEducationArticle;
+import com.yijiehl.club.android.network.request.search.ReqSearchHealthArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
-import com.yijiehl.club.android.network.response.innerentity.Article;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -43,23 +37,14 @@ import java.util.List;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.fragment_growup)
-public class GrowUpFragment extends BaseHostFragment {
+public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnCheckedChangeListener {
 
-    @ViewInject(R.id.tv_all)
-    private TextView mAll;
-
-    @ViewInject(R.id.tv_health)
-    private TextView mHealth;
-
-    @ViewInject(R.id.tv_education)
-    private TextView mEducation;
-
+    @ViewInject(R.id.layout_title)
+    private RadioGroup mTitle;
     @ViewInject(R.id.et_search)
     private EditText mSearch;
-
     @ViewInject(R.id.iv_search_show)
     private ImageView mSearchShow;
-
     @ViewInject(R.id.layout_search_logo)
     private LinearLayout mSearchLogo;
 
@@ -74,9 +59,7 @@ public class GrowUpFragment extends BaseHostFragment {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
-    private List<Article> allData = new ArrayList<Article>();//数据源
-    private List<Article> healthData = new ArrayList<Article>();
-    private List<Article> educationData = new ArrayList<Article>();
+    private GrowUpContentAdapter mGrowUpContentAdapter;
 
     @Nullable
     @Override
@@ -116,55 +99,37 @@ public class GrowUpFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: 2016/10/2 此处填充假数据
-       /* for (int i = 0; i < 2; i++) {
-            allData.add("孩子的健康，你如何负责?");
-            allData.add("穷宝宝，富宝宝");
-            allData.add("幼儿重疾知多少?");
-            allData.add("海外游学规划何时开始?");
-        }*/
+        mTitle.setOnCheckedChangeListener(this);
+        mGrowUpContentAdapter = new GrowUpContentAdapter(getActivity(), getMode());
+        obtainData(true);
+        mListView.setAdapter(mGrowUpContentAdapter);
 
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchArticle(getActivity()), new AbstractCallBack(getActivity()) {
-            @Override
-                public void onSuccess(AbstractResponse pResponse) {
-                RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
-                allData=respSearchArticle.getResultList();
-                }
-        },false);
 
-        GrowUpContentAdapter growUpContentAdapter = new GrowUpContentAdapter(getActivity(), allData);
-        mListView.setAdapter(growUpContentAdapter);
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
             public void onLoadMore() {
-                // TODO: 2016/9/7 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
-                mListView.loadComplete();
+                // DONE: 2016/9/7 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
+                obtainData(false);
             }
         });
         mPtrFrameLayout.setPtrHandler(new PtrHandler() {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return false;
+                return mListView.getFirstVisiblePosition() == 0 && mListView.getChildAt(0).getTop() == 0;
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                // TODO: 2016/9/7 请求网络并刷新数据 ，网络请求完毕后记着关了下拉刷新动画mPtrFrameLayout.refreshComplete();
-                mPtrFrameLayout.refreshComplete();
+                // DONE: 2016/9/7 请求网络并刷新数据 ，网络请求完毕后记着关了下拉刷新动画mPtrFrameLayout.refreshComplete();
+                mGrowUpContentAdapter.setMode(GrowUpContentAdapter.ALL_DATA);
+                obtainData(true);
             }
         });
 
         // TODO: 2016/9/9 成长文章item单击事件
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), ArticalDetailActivity.class);
-                intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
-                startActivity(intent);
-            }
-        });
+        mListView.setOnItemClickListener(mGrowUpContentAdapter);
 
         mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -180,32 +145,111 @@ public class GrowUpFragment extends BaseHostFragment {
         });
     }
 
-    @OnClick({R.id.tv_all, R.id.tv_health, R.id.tv_education})
-    private void switchTitle(View v) {
-        switch (v.getId()) {
-            case R.id.tv_all:
-                mAll.setTextColor(getResources().getColor(R.color.white));
-                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_pink));
-                mHealth.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
-                mEducation.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_white));
+    /**
+     * 描 述：获取数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     * @param isRefresh 是否是完全刷新
+     */
+    private void obtainData(boolean isRefresh) {
+        switch (getMode()) {
+            case GrowUpContentAdapter.EDUCATION_DATA:
+                obtainEducationArticle(isRefresh);
                 break;
-            case R.id.tv_health:
-                mHealth.setTextColor(getResources().getColor(R.color.white));
-                mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_pink));
-                mAll.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
-                mEducation.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_white));
+            case GrowUpContentAdapter.HEALTH_DATA:
+                obtainHealthArticle(isRefresh);
                 break;
-            case R.id.tv_education:
-                mEducation.setTextColor(getResources().getColor(R.color.white));
-                mEducation.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_pink));
-                mHealth.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mHealth.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_center_white));
-                mAll.setTextColor(getResources().getColor(R.color.colorPrimary));
-                mAll.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
+            default:
+                obtainEducationArticle(isRefresh);
+                obtainHealthArticle(isRefresh);
+                break;
+        }
+    }
+
+    /**
+     * 描 述：获取教育文章<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     * @param isRefresh 是否是完全刷新
+     */
+    private void obtainEducationArticle(final boolean isRefresh) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchEducationArticle(getActivity(), isRefresh?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
+                if(isRefresh) {
+                    mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
+                } else {
+                    mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
+                }
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        },false);
+    }
+
+    /**
+     * 描 述：获取教育文章<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     */
+    private void obtainHealthArticle(final boolean isRefresh) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchHealthArticle(getActivity(), isRefresh?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
+                if(isRefresh) {
+                    mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
+                } else {
+                    mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
+                }
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        },false);
+    }
+
+    /**
+     * 描 述：获取显示类型 {@link GrowUpContentAdapter#ALL_DATA}, {@link GrowUpContentAdapter#HEALTH_DATA}, {@link GrowUpContentAdapter#EDUCATION_DATA}<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     */
+    private int getMode() {
+        switch (mTitle.getCheckedRadioButtonId()) {
+            case R.id.gb_health:
+                return GrowUpContentAdapter.HEALTH_DATA;
+            case R.id.gb_education:
+                return GrowUpContentAdapter.EDUCATION_DATA;
+            default:
+                return GrowUpContentAdapter.ALL_DATA;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.gb_all:
+                mGrowUpContentAdapter.setMode(GrowUpContentAdapter.ALL_DATA);
+                break;
+            case R.id.gb_health:
+                mGrowUpContentAdapter.setMode(GrowUpContentAdapter.HEALTH_DATA);
+                break;
+            case R.id.gb_education:
+                mGrowUpContentAdapter.setMode(GrowUpContentAdapter.EDUCATION_DATA);
                 break;
         }
     }

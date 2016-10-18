@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
@@ -139,6 +140,15 @@ public class ActivitySvc {
      */
     public static String createResourceUrl(Context context, String path) {
         return ContextUtils.getSharedString(context, R.string.shared_preference_resourceUrl) + path;
+    }
+
+    /**
+     * 描 述：拼接资源url路径<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
+     */
+    public static String createWebUrl( String path) {
+        return Common.SERVICE_URL + path;
     }
 
     /**

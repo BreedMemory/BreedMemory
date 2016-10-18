@@ -43,7 +43,7 @@ public abstract class ReqBaseSearch extends ReqBase {
     /** 可选，用于分页查询数据，默认为0，表示数据从最前面开始传送，需要与下面的limit配合使用，比如limit值为25，那么查询第二页的数据则值为 start=25，第三页的值为start=50, 每四页的值为start=75等 */
     protected int start;
     /** 可选，用于分页查询数据，一页大小，为空或小于等于0表示查全部或第一页，当不设置时系统默认每次最多传送50条数据。 */
-    protected int limit;
+    protected int limit = 10;
 
     public ReqBaseSearch(Context context) {
         super(context);

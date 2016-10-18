@@ -16,12 +16,12 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
         this.mContext = mContext;
     }
 
-    public void setmDatas(List<T> mDatas) {
+    public void setDatas(List<T> mDatas) {
         this.mDatas = mDatas;
         refresh();
     }
 
-    public List<T> getmDatas() {
+    public List<T> getDatas() {
         return mDatas;
     }
 
@@ -30,7 +30,7 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/8/19 <br/>
      */
-    public void addmDatas(List<T> datas) {
+    public void addDatas(List<T> datas) {
         if(datas == null || datas.size() < 1) {
             return;
         }

@@ -171,7 +171,7 @@ public class PhotoPickerActivity extends BmActivity {
                     }
 //                    dataPaths.addAll(paths);
                 }
-                photoGridItemAdapter.setmDatas(dataPaths);
+                photoGridItemAdapter.setDatas(dataPaths);
             }
         });
     }

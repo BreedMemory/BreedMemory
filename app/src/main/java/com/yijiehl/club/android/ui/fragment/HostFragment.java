@@ -398,7 +398,7 @@ public class HostFragment extends BaseHostFragment {
     private void startWebView() {
         // TODO: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
         Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
 
@@ -464,7 +464,7 @@ public class HostFragment extends BaseHostFragment {
     private void toDetailActivitys() {
         // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
 
@@ -472,7 +472,7 @@ public class HostFragment extends BaseHostFragment {
     private void toAnswerQue() {
         // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url", "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
 
@@ -480,7 +480,7 @@ public class HostFragment extends BaseHostFragment {
     private void toDetailGrow(){
         // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})

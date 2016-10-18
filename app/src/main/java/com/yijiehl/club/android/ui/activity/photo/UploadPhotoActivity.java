@@ -85,7 +85,7 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
             mTaskId = getIntent().getLongExtra(TASK, 0);
         }
         UploadImageAdapter adapter = new UploadImageAdapter(this);
-        adapter.setmDatas(mFilePaths);
+        adapter.setDatas(mFilePaths);
         mPhotoContainer.setAdapter(adapter);
         mPhotoContainer.setOnItemClickListener(this);
 

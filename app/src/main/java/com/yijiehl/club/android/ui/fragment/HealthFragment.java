@@ -161,7 +161,7 @@ public class HealthFragment extends BaseHostFragment {
     @OnClick(R.id.ll_food)
     private void startFood() {
         Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_month_meals&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_month_meals&dd=XXXXXXXXX&bd=showdetail");
         startActivity(intent);
     }
 

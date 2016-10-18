@@ -14,7 +14,7 @@
             android:layout_height="60dip"
             android:background="#eeeeee">
 
-            <LinearLayout
+            <RadioGroup
                 android:id="@+id/layout_title"
                 android:layout_width="match_parent"
                 android:layout_height="30dip"
@@ -24,39 +24,43 @@
                 android:layout_marginRight="33dip"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_all"
+                <RadioButton
+                    android:id="@+id/gb_all"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
+                    android:button="@null"
                     android:layout_weight="1"
-                    android:background="@drawable/growup_title_left_pink"
+                    android:checked="true"
+                    android:background="@drawable/health_selector_mother_touchable"
                     android:gravity="center"
-                    android:text="全部"
-                    android:textColor="@color/white"
+                    android:text="@string/all"
+                    android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
 
-                <TextView
-                    android:id="@+id/tv_health"
+                <RadioButton
+                    android:id="@+id/gb_health"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
+                    android:button="@null"
                     android:layout_weight="1"
-                    android:background="@drawable/growup_title_center_white"
+                    android:background="@drawable/grow_up_selector_middle_touchable"
                     android:gravity="center"
-                    android:text="健康"
-                    android:textColor="@color/colorPrimary"
+                    android:text="@string/health"
+                    android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
 
-                <TextView
-                    android:id="@+id/tv_education"
+                <RadioButton
+                    android:id="@+id/gb_education"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
+                    android:button="@null"
                     android:layout_weight="1"
-                    android:background="@drawable/growup_title_right_white"
+                    android:background="@drawable/health_selector_baby_touchable"
                     android:gravity="center"
-                    android:text="教育"
-                    android:textColor="@color/colorPrimary"
+                    android:text="@string/education"
+                    android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
-            </LinearLayout>
+            </RadioGroup>
         </RelativeLayout>
 
 

@@ -25,7 +25,6 @@ import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,7 +90,7 @@ public class QuestionListActivity extends BmActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 2016/10/4 暂时跳转文章详情页面。。。
                 Intent intent=new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
-                intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+                intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
                 startActivity(intent);
             }
         });
