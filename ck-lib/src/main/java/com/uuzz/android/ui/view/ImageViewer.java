@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -181,7 +180,7 @@ public class ImageViewer extends ImageView {
 			}
 
 		}
-		canvas.drawColor(Color.WHITE);
+
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
 	}
@@ -191,6 +190,9 @@ public class ImageViewer extends ImageView {
 	 * @param degrees 旋转角度
 	 */
 	public void rotate(float degrees){
+		if(source == null) {
+			return;
+		}
 		Matrix matrix = new Matrix();
 		matrix.setRotate(degrees);
 		source = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
@@ -407,6 +409,9 @@ public class ImageViewer extends ImageView {
 	 * 历 史: (版本) 谌珂 2016/1/27 注释 <br/>
 	 */
 	private void adjustBitmap() {
+		if(source == null) {
+			return;
+		}
 		float[] matrixValues = new float[9];
 		mMatrix.getValues(matrixValues);
 		float scaleX = matrixValues[Matrix.MSCALE_X];
@@ -486,6 +491,10 @@ public class ImageViewer extends ImageView {
 	 * @deprecated
 	 */
 	private float[] isSelectionOut(float dX, float dY) {
+		float[] result = new float[]{dX, dY};
+		if(source == null) {
+			return result;
+		}
 		float[] matrixValues = new float[9];
 		mMatrix.getValues(matrixValues);
 		float scaleX = matrixValues[Matrix.MSCALE_X];
@@ -501,7 +510,7 @@ public class ImageViewer extends ImageView {
 		float right = left + source.getWidth() * scaleX;
 		float bottom = top + source.getHeight() * scaleY;
 
-		float[] result = new float[]{dX, dY};
+
 		if(left > selection.left || right < selection.right) {
 			result[0] = 0;
 		}
@@ -616,6 +625,9 @@ public class ImageViewer extends ImageView {
 	 * @return 返回剪裁后的图片
 	 */
 	public Bitmap clipBitmap(boolean isScale){
+		if(source == null) {
+			return null;
+		}
 		Bitmap result = Bitmap.createBitmap(selection.width(), selection.height(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(result);
 		mMatrix.postTranslate(-selection.left, -selection.top);
@@ -644,7 +656,7 @@ public class ImageViewer extends ImageView {
 
 	@Override
 	protected void onDetachedFromWindow() {
-//		source = null;
+		source = null;
 		super.onDetachedFromWindow();
 	}
 

@@ -63,10 +63,9 @@ public class ImageLoaderUtils {
      * @return ImageLoader的配置
      */
     public static ImageLoaderConfiguration getImageLoaderConfiguration(Context context, DisplayImageOptions options) {
-        int[] screenSize = ScreenTools.getScreenPixel(context);
-        int maxMemory = ((int) Runtime.getRuntime().maxMemory())/1024/1024/8;
+        int maxMemory = ((int) Runtime.getRuntime().maxMemory())/1024/1024/10;
         return new ImageLoaderConfiguration.Builder(context)
-                .memoryCacheExtraOptions(screenSize[0], screenSize[1]) // max width, max height，即保存的每个缓存文件的最大长宽
+                .memoryCacheExtraOptions(8000, 8000) // max width, max height，即保存的每个缓存文件的最大长宽
                 .threadPoolSize(3)//线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()

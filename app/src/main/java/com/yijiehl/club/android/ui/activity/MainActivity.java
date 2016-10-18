@@ -71,7 +71,7 @@ public class MainActivity extends BmActivity {
         HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
-        mViewPager.setOffscreenPageLimit(cachePagers);
+//        mViewPager.setOffscreenPageLimit(cachePagers);
     }
 
     @Override

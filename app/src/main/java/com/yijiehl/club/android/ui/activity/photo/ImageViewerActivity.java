@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.uuzz.android.ui.view.ImageViewer;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
@@ -30,8 +29,6 @@ public class ImageViewerActivity extends BmActivity {
 
     private boolean isHide;
 
-    @ViewInject(R.id.iv_detail_show)
-    private ImageViewer ivShow;
     @ViewInject(R.id.rl_photo_bottom)
     private View mBottomContainer;
     @ViewInject(R.id.pager)

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
@@ -71,7 +71,7 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
         if(getItemViewType(position) == 0) {
-            ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position), holder.photo);
+            Glide.with(mContext).load("file:///" + mDatas.get(position)).into(holder.photo);
         }
         return convertView;
     }

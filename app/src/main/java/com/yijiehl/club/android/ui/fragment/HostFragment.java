@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
@@ -204,12 +205,13 @@ public class HostFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // DONE: 谌珂 2016/10/15 替换为从数据库取数据
+        long t = System.currentTimeMillis();
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
 
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_zhaopian_bg, mPhotoImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_chengzhang_bg, mGrowUpImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_wenda_bg2, mQuestionImageBackground);
-        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.shouye_huodong_bg, mActivityImageBackground);
+        Glide.with(this).load(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
+        Glide.with(this).load(R.drawable.shouye_chengzhang_bg).into(mGrowUpImageBackground);
+        Glide.with(this).load(R.drawable.shouye_wenda_bg2).into(mQuestionImageBackground);
+        Glide.with(this).load(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
     }
 
     /**
@@ -225,21 +227,21 @@ public class HostFragment extends BaseHostFragment {
         if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2()), mClubLogo);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2())).into(mClubLogo);
         }
 
         //会所长logo 活动模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogoInfoActivity);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
-            ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1()), mClubLogoInfoQuestion);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoQuestion);
         }
 
         mMainDataEntitys = JSON.parseArray(info.getMainDataList(), UserInfo.MainDataEntity.class);
@@ -275,39 +277,39 @@ public class HostFragment extends BaseHostFragment {
                 case IMAGECOVER:
                     //用户照片
                     if (TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.test_main_image, mMainPicture);
+                        Glide.with(this).load(R.drawable.test_main_image).into(mMainPicture);
                     } else {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mMainPicture);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mMainPicture);
                     }
                     break;
                 case ACTIVITYCOVER:
                     //活动照片
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mActivityImageBackground);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mActivityImageBackground);
                     }
                     break;
                 case ALBUMCOVER:
                     //照片背景
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImageBackground);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImageBackground);
                     }
                     break;
                 case ALBUMITEM1:
                     //照片1
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage1);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage1);
                     }
                     break;
                 case ALBUMITEM2:
                     //照片2
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage2);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage2);
                     }
                     break;
                 case ALBUMITEM3:
                     //照片3
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()), mPhotoImage3);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
                     }
                     break;
             }

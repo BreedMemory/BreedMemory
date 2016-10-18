@@ -59,7 +59,7 @@
                 app:outside_border_thickness="10dip"
                 app:outside_border_distance="0dip"
                 app:outside_border_color="#33ffffff"
-                android:src="@drawable/test_main_image"/>
+                tools:src="@drawable/test_main_image"/>
 
             <ImageView
                 android:id="@+id/im_arc_up"
@@ -187,7 +187,7 @@
                 android:id="@+id/im_logo_info_activity"
                 android:layout_width="wrap_content"
                 android:maxWidth="125dip"
-                android:layout_height="25dip"
+                android:layout_height="27dip"
                 android:scaleType="fitStart"
                 android:src="@drawable/club_logo_info"
                 android:layout_alignTop="@+id/im_collect_activity"

@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.uuzz.android.R;
 
 /**
@@ -117,7 +118,12 @@ public class CircleImageView extends ImageView {
         if (drawable.getClass() == NinePatchDrawable.class) {
             return;
         }
-        Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap b;
+        if(drawable instanceof BitmapDrawable) {
+            b = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            b = ((GlideBitmapDrawable)drawable.getCurrent()).getBitmap();
+        }
         Bitmap bitmap = b.copy(Config.ARGB_8888, true);
         if (defaultWidth == 0) {
             defaultWidth = getWidth();

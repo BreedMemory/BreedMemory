@@ -6,14 +6,11 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
@@ -80,7 +77,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter {
 
             }
         });*/
-        ImageLoader.getInstance().displayImage(data.get(position).getIconInfo1(),holder.ivContent);
+        Glide.with(mContext).load(data.get(position).getIconInfo1()).into(holder.ivContent);
         return convertView;
     }
 

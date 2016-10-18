@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -99,7 +99,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements
                 break;
             case TYPE_2:
                 if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
-                    ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position - 1), holder.ivPhoto);
+                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).into(holder.ivPhoto);
                     holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
                 }
 
