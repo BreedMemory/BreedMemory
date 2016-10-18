@@ -49,6 +49,7 @@ public class ImageViewerActivity extends BmActivity {
         isNative=getIntent().getBooleanExtra(NATIVE, false);
         ImageViewerAdapter adapter = new ImageViewerAdapter(this, urls, isNative);
         mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(adapter);
 
 //        ivShow.setOnClickListener(new View.OnClickListener() {
 //            @Override

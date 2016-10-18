@@ -49,7 +49,6 @@ import java.util.List;
  */
 @ContentView(R.layout.activity_upload_photo_activity)
 public class UploadPhotoActivity extends BmActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    public static final int UPLOAD_PHOTO_ACTIVITY_REQUEST = 111;
 
     public static final String PATH = "PATH";
     public static final String TASK = "TASK";
@@ -68,7 +67,10 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
     /** 已选中的标签 */
     private List<String> mSelectedTabs = new LinkedList<>();
     /** 来自上传图片请求的时间戳，用于坚挺着返回匹配任务 */
+    @SaveInstance
     private long mTaskId;
+    /** 图片适配器 */
+    UploadImageAdapter mAdapter;
 
     @Override
     protected String getHeadTitle() {
@@ -84,9 +86,9 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
         if(mTaskId == 0) {
             mTaskId = getIntent().getLongExtra(TASK, 0);
         }
-        UploadImageAdapter adapter = new UploadImageAdapter(this);
-        adapter.setDatas(mFilePaths);
-        mPhotoContainer.setAdapter(adapter);
+        mAdapter = new UploadImageAdapter(this);
+        mAdapter.setDatas(mFilePaths);
+        mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
 
         // TODO: 谌珂 2016/10/15 查询标签 ，成功后填充标签
@@ -95,13 +97,22 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK) {
+            return;
+        }
         //从编辑标签页面带回来的标签
-        if(requestCode == UPLOAD_PHOTO_ACTIVITY_REQUEST && resultCode == Activity.RESULT_OK) {
-            if(mTabs == null) {
-                mTabs = new ArrayList<>();
-            }
-            mTabs.add(data.getCharSequenceExtra(EditTabActivity.TAB).toString());
-            fillTabs();
+        switch (requestCode) {
+            case EditTabActivity.ADD_EDIT:
+                if(mTabs == null) {
+                    mTabs = new ArrayList<>();
+                }
+                mTabs.add(data.getCharSequenceExtra(EditTabActivity.TAB).toString());
+                fillTabs();
+                break;
+            case PhotoPickerActivity.PHOTO_PICKER_ACTIVITY:
+                mFilePaths = data.getStringArrayListExtra(PATH);
+                mAdapter.setDatas(mFilePaths);
+                break;
         }
     }
 
@@ -189,7 +200,8 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
         TextView tv = (TextView) v;
         String text = tv.getText().toString();
         if(TextUtils.equals(text, getString(R.string.add_tab))) {  //点击了添加标签
-            ActivitySvc.startImagePicker(this, mFilePaths, mTaskId);
+            Intent intent = new Intent(this, EditTabActivity.class);
+            startActivityForResult(intent, EditTabActivity.ADD_EDIT);
             finish();
             return;
         }
@@ -207,8 +219,8 @@ public class UploadPhotoActivity extends BmActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(mFilePaths != null && position == mFilePaths.size()) {
-            ActivitySvc.startImagePicker(this, mFilePaths, mTaskId);
-            finish();
+            ActivitySvc.startImagePicker(this, mFilePaths);
         }
     }
+
 }

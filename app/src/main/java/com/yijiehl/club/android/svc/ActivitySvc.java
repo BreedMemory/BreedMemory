@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android.svc;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -156,11 +158,10 @@ public class ActivitySvc {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      */
-    public static void startImagePicker(Context context, ArrayList<String> path, long taskId) {
-        Intent intent = new Intent(context, PhotoPickerActivity.class);
-        intent.putExtra(UploadPhotoActivity.TASK, taskId);
+    public static void startImagePicker(Activity activity, ArrayList<String> path) {
+        Intent intent = new Intent(activity, PhotoPickerActivity.class);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
-        context.startActivity(intent);
+        activity.startActivityForResult(intent, PhotoPickerActivity.PHOTO_PICKER_ACTIVITY);
     }
 
     /**
@@ -168,9 +169,21 @@ public class ActivitySvc {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      */
-    public static void startUploadPhoto(Context context, ArrayList<String> path) {
+    public static void startImagePicker(Fragment fragment, ArrayList<String> path) {
+        Intent intent = new Intent(fragment.getActivity(), PhotoPickerActivity.class);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        fragment.startActivityForResult(intent, PhotoPickerActivity.PHOTO_PICKER_ACTIVITY);
+    }
+
+    /**
+     * 描 述：启动照片上传<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     */
+    public static void startUploadPhoto(Context context, ArrayList<String> path, long taskId) {
         Intent intent = new Intent(context, UploadPhotoActivity.class);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        intent.putExtra(UploadPhotoActivity.TASK, taskId);
         context.startActivity(intent);
     }
 }

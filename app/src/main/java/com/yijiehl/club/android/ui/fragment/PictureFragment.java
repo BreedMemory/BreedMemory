@@ -5,6 +5,7 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -31,6 +32,8 @@ import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
@@ -200,8 +203,21 @@ public class PictureFragment extends BaseHostFragment {
     @OnClick({R.id.click_uploading, R.id.iv_uploading})
     private void noDataUpLoading() {
         // DONE: 2016/9/26
-        mTaskId = System.currentTimeMillis();
-        ActivitySvc.startImagePicker(getActivity(), null, mTaskId);
+        ActivitySvc.startImagePicker(this, null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            //获取选择的图片
+            ArrayList<String> paths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
+            if(paths == null || paths.size() == 0) {   //选择的图片为空终止
+                return;
+            }
+            mTaskId = System.currentTimeMillis();
+            ActivitySvc.startUploadPhoto(getActivity(), paths, mTaskId);
+        }
     }
 
     @OnClick(R.id.tv_person)

@@ -8,6 +8,7 @@ package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ import java.util.List;
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-public class ImageViewerAdapter extends PagerAdapter {
+public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
     public ImageViewerAdapter(Context context, List<String> paths, boolean isNative) {
         this.mContext = context;
@@ -65,20 +66,24 @@ public class ImageViewerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-//        if(object == null) {
-//            return;
-//        }
-//        container.removeView((View) object);
-//        views.addLast((ImageViewer) object);
+        if(object == null) {
+            return;
+        }
+        container.removeView((View) object);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageViewer view;
-        if(views.size() == 0) {
+        ImageViewer view = null;
+        for (ImageViewer lImageViewer : views) {
+            if(lImageViewer.getParent() == null) {
+                view = lImageViewer;
+                break;
+            }
+        }
+        if(view == null) {
             view = (ImageViewer) LayoutInflater.from(mContext).inflate(R.layout.item_image_viewer_layout, null);
-        } else {
-            view = views.removeFirst();
+            views.add(view);
         }
         if(isNative) {
             ImageLoader.getInstance().displayImage("file:///" + paths.get(position), view);
@@ -88,5 +93,22 @@ public class ImageViewerAdapter extends PagerAdapter {
         view.reset();
         container.addView(view);
         return view;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        for (ImageViewer lImageViewer : views) {
+            lImageViewer.reset();
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

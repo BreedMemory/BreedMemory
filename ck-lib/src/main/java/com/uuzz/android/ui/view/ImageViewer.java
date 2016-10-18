@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -155,14 +156,15 @@ public class ImageViewer extends ImageView {
 		try {
 			source = ((BitmapDrawable)getDrawable()).getBitmap();
 		} catch (Exception e) {
+			super.onDraw(canvas);
 			return;
 		}
 		if(!isTouchEvent) {
 			mMatrix.reset();
-			float offsetWidth = Math.abs(source.getWidth()-getWidth())/(float)getWidth();
-			float offsetHeight = Math.abs(source.getHeight()-getHeight())/(float)getHeight();
-			if(offsetHeight > offsetWidth) {
-				if(fillType) {
+			float offsetWidth = (source.getWidth()-getWidth())/(float)getWidth();
+			float offsetHeight = (source.getHeight()-getHeight())/(float)getHeight();
+			if(Math.abs(offsetHeight) > Math.abs(offsetWidth)) {
+				if((fillType && offsetHeight < 0) || (!fillType && offsetHeight >= 0)) {
 					mScale = (float)getHeight()/source.getHeight();
 				} else {
 					mScale = (float)source.getHeight()/getHeight();
@@ -170,7 +172,7 @@ public class ImageViewer extends ImageView {
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(-(source.getWidth()*mScale - getWidth())/2, 0);
 			} else {
-				if(fillType) {
+				if((fillType && offsetWidth < 0) || (!fillType && offsetWidth >= 0)) {
 					mScale = (float)getWidth()/source.getWidth();
 				} else {
 					mScale = (float)source.getWidth()/getWidth();
@@ -180,7 +182,7 @@ public class ImageViewer extends ImageView {
 			}
 
 		}
-
+		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
 	}
@@ -305,6 +307,7 @@ public class ImageViewer extends ImageView {
 							mHandler.removeMessages(ON_CLICK);
 							clear();
 							autoScaleBitmap(perMoveX, perMoveY);
+							adjustBitmap();
 						}
 					}
 					//计算一次原始距离
@@ -662,6 +665,8 @@ public class ImageViewer extends ImageView {
 
 	public void reset() {
 		isTouchEvent = false;
+		mMatrix.reset();
+		invalidate();
 	}
 
 	/**

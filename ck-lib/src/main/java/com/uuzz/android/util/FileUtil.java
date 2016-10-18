@@ -1,14 +1,20 @@
 package com.uuzz.android.util;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.uuzz.android.util.log.Logger;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -214,5 +220,43 @@ public class FileUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 描 述：根据图片路径解析出图片名<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+	 * @param path 图片路径
+	 * @return 图片名
+	 */
+	public static String formatImageName(String path) {
+		int index = path.lastIndexOf("/");
+		return path.substring(index + 1, path.length() - 1);
+	}
+
+	/**
+	 * 描 述：插入图片到系统相册<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+	 * @param context 上下文
+	 * @param path 图片路径
+     */
+	public static void insertImageIntoGallery(Context context, String path) {
+		try {
+			MediaStore.Images.Media.insertImage(context.getContentResolver(),
+					path, String.valueOf(formatImageName(path)),
+					"孕育迹忆");
+		} catch (FileNotFoundException e) {
+			Log.d("FileUtils", "Insert image into system gallery error.", e);
+		}
+	}
+
+	/**
+	 * 描 述：通知系统相册扫描新图片<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+	 */
+	public static void notificationScanFile(Context context, String path) {
+		context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
 	}
 }

@@ -18,7 +18,6 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.MediaStoreHelper;
 import com.yijiehl.club.android.entity.Photo;
 import com.yijiehl.club.android.entity.PhotoDirectory;
-import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.PhotoGridItemAdapter;
 
@@ -38,6 +37,7 @@ import java.util.List;
 @ContentView(R.layout.activity_photo_picker)
 public class PhotoPickerActivity extends BmActivity {
     public static final int TAKE_PHOTO = 555;
+    public static final int PHOTO_PICKER_ACTIVITY = 551;
 
     /**
      * 图片列表
@@ -59,8 +59,9 @@ public class PhotoPickerActivity extends BmActivity {
      */
     /*@ViewInject(R.id.tv_photo_num)
     private TextView photoNum;*/
-
+    /** 图片适配器 */
     private PhotoGridItemAdapter photoGridItemAdapter;
+    /** 拍照保存图片路径 */
     private String takePhotoPath;
 
     //private List<PhotoDirectory> photoDirectories;//相册集合
@@ -78,10 +79,8 @@ public class PhotoPickerActivity extends BmActivity {
         ArrayList<String> paths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
         if(paths != null && paths.size() > 0) {    //其他Activity传过来的已选择的图片路径
             photoGridItemAdapter.setmSelectedPhoto(paths);
-        } else {
-            /**获取手机中的照片*/
-            getPhotos();
         }
+        getPhotos();
         photoGrid.setAdapter(photoGridItemAdapter);
         photoGrid.setOnItemClickListener(photoGridItemAdapter);
         photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
@@ -117,7 +116,7 @@ public class PhotoPickerActivity extends BmActivity {
     private class OpenCamera implements Runnable {
         @Override
         public void run() {
-            takePhotoPath = FileUtil.getRootFilePath() + System.currentTimeMillis();
+            takePhotoPath = FileUtil.getRootFilePath() + System.currentTimeMillis() + ".png";
             File fos=null;
             try {
                 fos = new File(takePhotoPath);
@@ -138,9 +137,13 @@ public class PhotoPickerActivity extends BmActivity {
         switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    ArrayList<String> paths = new ArrayList<>();
-                    paths.add(takePhotoPath);
-                    ActivitySvc.startUploadPhoto(this, paths);
+                    FileUtil.insertImageIntoGallery(this, takePhotoPath);
+                    if (!photoGridItemAdapter.getmSelectedPhoto().contains(takePhotoPath)) {
+                        photoGridItemAdapter.getmSelectedPhoto().add(takePhotoPath);
+                    }
+                    Intent intent = new Intent();
+                    intent.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
+                    setResult(RESULT_OK, intent);
                     finish();
                 } else if (resultCode == RESULT_CANCELED) {
                     logger.d("Take photos canceled.");
@@ -197,8 +200,9 @@ public class PhotoPickerActivity extends BmActivity {
     @OnClick(R.id.btn_ok)
     private void btnSure() {
         // DONE: 2016/9/29 需要完善页面的跳转，以及finish本activity
-        ActivitySvc.startUploadPhoto(this, photoGridItemAdapter.getmSelectedPhoto());
+        Intent intent = new Intent();
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
+        setResult(RESULT_OK, intent);
         finish();
     }
-
 }
