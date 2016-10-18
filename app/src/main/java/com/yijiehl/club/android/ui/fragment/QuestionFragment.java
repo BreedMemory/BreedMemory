@@ -145,43 +145,55 @@ public class QuestionFragment extends BaseHostFragment {
 
     @OnClick(R.id.btn_my_question)
     private void myQuestion() {
-        startActivity(new Intent(getActivity(), QuestionListActivity.class));
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","my");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_mother_zone)
     private void motherZone() {
-
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","mother");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_baby_zone)
     private void babyZone() {
-        if (!isBabyShow) {
+        /*if (!isBabyShow) {
             babyContextList.setVisibility(View.GONE);
             isBabyShow = true;
         } else {
             babyContextList.setVisibility(View.VISIBLE);
             isBabyShow = false;
-        }
+        }*/
     }
 
     @OnClick(R.id.layout_zero_month)
     private void zeroMonth() {
-        startActivity(new Intent(getActivity(), QuestionListActivity.class));
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","0_3month");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_three_months)
     private void threeMonth() {
-        startActivity(new Intent(getActivity(), QuestionListActivity.class));
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","3_12month");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_one_year)
     private void oneYear() {
-        startActivity(new Intent(getActivity(), QuestionListActivity.class));
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","12_18month");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_one_half_years)
     private void oneHalfYear() {
-        startActivity(new Intent(getActivity(), QuestionListActivity.class));
+        Intent intent=new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra("type","18-36month");
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_ask)
