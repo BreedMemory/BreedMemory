@@ -57,7 +57,7 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
 
     @Override
     public int getCount() {
-        return super.getCount() + 1;
+        return super.getCount() + getViewTypeCount() - 1;
     }
 
     @Override

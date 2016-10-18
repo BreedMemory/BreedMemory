@@ -61,19 +61,10 @@ public class ImageViewer extends ImageView {
 	Matrix mMatrix;
 	// 需要编辑的原图片
 	private Bitmap source;
-	// 编辑后的图片
-	private Bitmap bitmap = null;
-	// 记录图片是否是横向填充
-	private boolean isHorizontal;
 	//判断是否是ontouch事件
 	private boolean isTouchEvent;
 	//画笔
 	Paint paint = new Paint();
-	Path path = new Path();
-	PathEffect effects = new DashPathEffect(new float[]{5,5,5,5},1);
-	//绘制图片的起始坐标
-	private int bitmapX;
-	private int bitmapY;
 	//单手指按下时坐标
 	private float downX;
 	private float downY;
@@ -87,8 +78,6 @@ public class ImageViewer extends ImageView {
 	//选区代表的矩形区域
 	Rect selection = new Rect();
 	//控件宽高
-	private int viewWidth;
-	private int viewHeight;
 	//单根手指按下时的动作标记，与MOVE_SELECTION、CHANGE_SELECTION、MOVE_BITMAP联合使用
 	private int moveAction;
 	//选区半径（不包含线宽引起的误差）
@@ -246,6 +235,7 @@ public class ImageViewer extends ImageView {
 			scale = 4/matrixValues[Matrix.MSCALE_X];
 		}
 		mMatrix.postScale(scale, scale, px, py);
+		setImageMatrix(mMatrix);
 	}
 
 
@@ -530,7 +520,7 @@ public class ImageViewer extends ImageView {
 	 * @param dY y偏移量
 	 */
 	private void moveSelection(float dX, float dY) {
-		if(selection.left+dX >= 0 && selection.top+dY >= 0 && selection.right+dX <= viewWidth && selection.bottom+dY <= viewHeight){
+		if(selection.left+dX >= 0 && selection.top+dY >= 0 && selection.right+dX <= getWidth() && selection.bottom+dY <= getHeight()){
 			selection.left = (int) (selection.left+dX);
 			selection.top = (int) (selection.top+dY);
 			selection.right = (int) (selection.right+dX);
@@ -548,8 +538,8 @@ public class ImageViewer extends ImageView {
 		if(selection.right - selection.left > Math.abs(2d) && selection.bottom - selection.top > Math.abs(2d)){
 			selection.left = (int) ((selection.left-d >= 0) ? selection.left-d : 0);
 			selection.top = (int) ((selection.top-d >= 0) ? selection.top-d : 0);
-			selection.bottom = (int) ((selection.bottom+d <= viewHeight) ? selection.bottom+d : viewHeight);
-			selection.right = (int) ((selection.right+d <= viewWidth) ? selection.right+d : viewWidth);
+			selection.bottom = (int) ((selection.bottom+d <= getHeight()) ? selection.bottom+d : getHeight());
+			selection.right = (int) ((selection.right+d <= getWidth()) ? selection.right+d : getWidth());
 			isTouchEvent = true;
 			logger.d("selection is "+selection.toString());
 			invalidate();
@@ -621,41 +611,6 @@ public class ImageViewer extends ImageView {
 		logger.d("midPoint:x="+point.x+",y="+point.y);
     	return point;
 	}
-	
-	/**
-	 * 获取截取后的图片
-	 * @param isScale 为true时返回的图片像素与选区像素一致，为false时将返回原图片中截取部分，为保证图片不失真尽量使用false
-	 * @return 返回剪裁后的图片
-	 */
-	public Bitmap clipBitmap(boolean isScale){
-		if(source == null) {
-			return null;
-		}
-		Bitmap result = Bitmap.createBitmap(selection.width(), selection.height(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(result);
-		mMatrix.postTranslate(-selection.left, -selection.top);
-		canvas.drawBitmap(source, mMatrix, null);
-
-		if(!isScale){
-			//把图片缩放到原来大小
-			float[] matrixValues = new float[9];
-			mMatrix.getValues(matrixValues);
-			float scaleX = matrixValues[Matrix.MSCALE_X];
-			float scaleY = matrixValues[Matrix.MSCALE_Y];
-			bitmap = Bitmap.createBitmap((int)(selection.width()/scaleX), (int)(selection.height()/scaleY), Config.ARGB_8888);
-
-			Canvas scaleCanvas = new Canvas(bitmap);
-			mMatrix.reset();
-			mMatrix.setScale(1/scaleX, 1/scaleY);
-			scaleCanvas.drawBitmap(result, mMatrix, null);
-			result.recycle();
-		}else{
-			bitmap = result;
-		}
-//		isCut = true;
-//		invalidate();
-		return bitmap;
-	}
 
 	@Override
 	protected void onDetachedFromWindow() {
@@ -666,6 +621,7 @@ public class ImageViewer extends ImageView {
 	public void reset() {
 		isTouchEvent = false;
 		mMatrix.reset();
+		isPointerUp = false;
 		invalidate();
 	}
 
