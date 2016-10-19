@@ -200,11 +200,13 @@ public class PictureFragment extends BaseHostFragment {
                         } else {
                             upLoading.setVisibility(View.VISIBLE);
                         }
+                        mPicturePersonAdapter.notifyDataSetChanged();
                         break;
                     case R.id.rb_club:
                         mListView.setAdapter(mPictureClubAdapter);
                         noData.setVisibility(View.GONE);
                         upLoading.setVisibility(View.GONE);
+                        mPictureClubAdapter.notifyDataSetChanged();
                         break;
                 }
             }
@@ -249,14 +251,13 @@ public class PictureFragment extends BaseHostFragment {
                 ResSearchPhotos data = (ResSearchPhotos) pResponse;
 
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    if (isRefresh) {
-                        if (data.getResultList() == null || data.getResultList().size() == 0) {
-                            upLoading.setVisibility(View.VISIBLE);
-                        } else {
-                            upLoading.setVisibility(View.GONE);
-                            mPicturePersonAdapter.setData(data.getResultList());
-                        }
+                    if (data.getResultList() == null || data.getResultList().size() == 0) {
+                        upLoading.setVisibility(View.GONE);
+                    } else {
+                        upLoading.setVisibility(View.VISIBLE);
+
                     }
+                    mPicturePersonAdapter.setData(data.getResultList());
                 } else {
                     mPicturePersonAdapter.addData(data.getResultList());
                 }

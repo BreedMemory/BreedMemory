@@ -44,7 +44,7 @@ public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tvClubTitle.setText(mDatas.get(position).getDataNum());
+        holder.tvClubTitle.setText(mDatas.get(position).getDataName());
         holder.ivClubPicNum.setText(mDatas.get(position).getDataDesc());
         holder.tvClubPivTime.setText(TimeUtil.getTime(mDatas.get(position).getCreateTime(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
 

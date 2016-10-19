@@ -71,6 +71,9 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
      * @param photos 新未分组数据
      */
     public void setData(List<PhotoInfo> photos) {
+        if(photos == null || photos.size() == 0) {
+            return;
+        }
         mDatas = new ArrayList<>();
         mDatas.addAll(arrangePhoto(photos));
         refresh();
@@ -94,6 +97,9 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
      * @param photos 新未分组数据
      */
     public void addData(List<PhotoInfo> photos) {
+        if(photos == null || photos.size() == 0) {
+            return;
+        }
         LinkedList<List<PhotoInfo>> temp = arrangePhoto(photos);
         if (getCount() == 0) {
             mDatas = temp;

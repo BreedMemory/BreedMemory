@@ -101,7 +101,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
                 break;
             case TYPE_2:
                 if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
-                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).dontAnimate().placeholder(R.drawable.bg_border_corner_all_activity).into(holder.ivPhoto);
+                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivPhoto);
                     holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
                     holder.ivPhotoPick.setTag(R.id.pick_picture_tag, mDatas.get(position - 1));
                     holder.ivPhoto.setOnClickListener(mListener);
