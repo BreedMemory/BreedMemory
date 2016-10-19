@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/layout_title"
+        <RadioGroup
+            android:id="@+id/rg_title"
             android:layout_width="match_parent"
             android:layout_height="30dip"
             android:layout_centerHorizontal="true"
@@ -19,33 +19,36 @@
             android:layout_marginLeft="32dip"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_person"
+            <RadioButton
+                android:id="@+id/rb_person"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/growup_title_left_pink"
+                android:background="@drawable/health_selector_mother_touchable"
                 android:gravity="center"
-                android:text="个人"
-                android:textColor="@color/white"
+                android:button="@null"
+                android:text="@string/personal"
+                android:checked="true"
+                android:textColor="@drawable/health_selector_text_color"
                 android:textSize="14dip" />
 
-            <TextView
-                android:id="@+id/tv_club"
+            <RadioButton
+                android:id="@+id/rb_club"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/growup_title_right_white"
+                android:button="@null"
+                android:background="@drawable/health_selector_baby_touchable"
                 android:gravity="center"
-                android:text="会所"
-                android:textColor="@color/colorPrimary"
+                android:text="@string/club"
+                android:textColor="@drawable/health_selector_text_color"
                 android:textSize="14dip" />
 
-        </LinearLayout>
+        </RadioGroup>
 
         <ImageView
             android:id="@+id/iv_uploading"
-            android:layout_below="@id/layout_title"
+            android:layout_below="@id/rg_title"
             android:layout_width="48dip"
             android:layout_height="40dip"
             android:src="@drawable/uploading_small"
@@ -57,14 +60,11 @@
             android:layout_below="@id/iv_uploading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
             android:divider="@null"
             android:fadingEdge="none"
             android:focusable="true"
             android:clickable="true"
-            android:background="@drawable/bg_item_white_touchable"
             android:listSelector="@drawable/bg_item_white_touchable"
             android:scrollbarStyle="outsideOverlay" />
         <LinearLayout

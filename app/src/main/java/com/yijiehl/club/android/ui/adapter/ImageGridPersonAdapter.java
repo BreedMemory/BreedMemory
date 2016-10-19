@@ -29,55 +29,25 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class ImageGridPersonAdapter extends BaseListViewAdapter {
-
-    private List<PhotoInfo> data;
-
-    public ImageGridPersonAdapter(Context mContext) {
-        super(mContext);
-    }
+public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
     public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
         super(mContext);
-        this.data = data;
-        mDatas=data;
+        mDatas= data;
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_picture_grid_person, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
-            // convertView = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
-        // TODO: 2016/9/16 给个人相册缩略图
-        /*ImageLoader.getInstance().displayImage(data.get(position).getIconInfo1(), holder.ivContent, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });*/
-        Glide.with(mContext).load(data.get(position).getIconInfo1()).into(holder.ivContent);
+        Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         return convertView;
     }
 

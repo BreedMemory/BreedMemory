@@ -117,7 +117,8 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return mListView.getFirstVisiblePosition() == 0 && mListView.getChildAt(0).getTop() == 0;
+                View v = mListView.getChildAt(0);
+                return v == null || mListView.getFirstVisiblePosition() == 0 && v.getTop() == 0;
             }
 
             @Override

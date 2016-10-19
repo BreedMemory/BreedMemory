@@ -10,11 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
@@ -25,9 +26,15 @@ import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
-import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.entity.UploadPictureMessage;
+import com.yijiehl.club.android.network.request.search.ReqSearchAlbum;
+import com.yijiehl.club.android.network.request.search.ReqSearchPersonalPhoto;
+import com.yijiehl.club.android.network.response.ResSearchPhotos;
+import com.yijiehl.club.android.network.response.RespSearchAlbums;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -38,10 +45,7 @@ import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Observable;
 
 /**
@@ -57,15 +61,10 @@ import java.util.Observable;
 @ContentView(R.layout.fragment_picture)
 public class PictureFragment extends BaseHostFragment {
     /**
-     * 个人照片
+     * 标题选择
      */
-    @ViewInject(R.id.tv_person)
-    private TextView mPerson;
-    /**
-     * 会所照片
-     */
-    @ViewInject(R.id.tv_club)
-    private TextView mClub;
+    @ViewInject(R.id.rg_title)
+    private RadioGroup mTitle;
     /**
      * 无照片上传图标
      */
@@ -88,11 +87,13 @@ public class PictureFragment extends BaseHostFragment {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
-    private List<PhotoInfo> dataPhoto;//个人照片数据,服务器返回的
-    private List<List<PhotoInfo>> dataPhotoList;//个人照片数据源
-    private List<AlbumInfo> dataAlbum;//会所相册照片数据源
+    /** 会所照片适配器 */
+    private PictureClubAdapter mPictureClubAdapter;
+    /** 个人照片适配器 */
+    private PicturePersonAdapter mPicturePersonAdapter;
+
     /** 请求权限成功后回调 */
-    private StartTask mStartTask = new StartTask();
+    private ReadMediaTask mReadMediaTask = new ReadMediaTask();
     private long mTaskId;
 
     @Nullable
@@ -133,77 +134,81 @@ public class PictureFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         UploadPictureSvc.getInstance().addObserver(this);
-        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mStartTask);
-    }
-
-    /**
-     * 描 述：请求权限成功后回调<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
-     */
-    private class StartTask implements Runnable {
-
-        @Override
-        public void run() {
-            dataPhoto = new ArrayList<>();
-            dataAlbum =new ArrayList<>();
-            // TODO: 2016/9/14 首先获取数据再设置自己的设配器
-            //首先联网获取List<PhotoInfo> dataPhoto ;//个人照片数据,服务器返回的
-
-            addPersonFakeData();
-
-            if (dataPhoto.size() == 0) {
-                upLoading.setVisibility(View.INVISIBLE);
-            } else {
-                upLoading.setVisibility(View.VISIBLE);
+        obtainPersonalPhoto(true);
+        obtainAlbumPhoto(true);
+        //初始化适配器
+        mPictureClubAdapter = new PictureClubAdapter(getActivity());
+        mPicturePersonAdapter = new PicturePersonAdapter(getActivity());
+        //初始化列表
+        mListView.setAdapter(mPicturePersonAdapter);
+        mListView.setEmptyView(noData);
+        //设置上拉回调
+        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                // DONE: 2016/9/6 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
+                switch (mTitle.getCheckedRadioButtonId()) {
+                    case R.id.rb_person:
+                        obtainPersonalPhoto(false);
+                        break;
+                    case R.id.rb_club:
+                        // DONE: 谌珂 2016/10/19 请求会所相册
+                        obtainAlbumPhoto(false);
+                        break;
+                }
+            }
+        });
+        //设置点击回调
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO: 2016/10/3 需要查看相册的详细照片
+                Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
+            }
+        });
+        //设置下拉回调
+        mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                View v = mListView.getChildAt(0);
+                return v == null || mListView.getFirstVisiblePosition() == 0 && v.getTop() == 0;
             }
 
-            dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
-            PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
-            mListView.setAdapter(picturePersonAdapter);
-
-            mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
-
-                @Override
-                public void onLoadMore() {
-                    // TODO: 2016/9/6 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
-                    mListView.loadComplete();
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                switch (mTitle.getCheckedRadioButtonId()) {
+                    case R.id.rb_person:
+                        obtainPersonalPhoto(true);
+                        break;
+                    case R.id.rb_club:
+                        // DONE: 谌珂 2016/10/19 请求会所相册
+                        obtainAlbumPhoto(true);
+                        break;
                 }
-            });
-            mListView.setEmptyView(noData);
-
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO: 2016/10/3 需要查看相册的详细照片
-                    Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
+            }
+        });
+        //切换数据
+        mTitle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_person:
+                        mListView.setAdapter(mPicturePersonAdapter);
+                        mListView.setEmptyView(noData);
+                        if (mPicturePersonAdapter.getCount() == 0) {
+                            upLoading.setVisibility(View.GONE);
+                        } else {
+                            upLoading.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case R.id.rb_club:
+                        mListView.setAdapter(mPictureClubAdapter);
+                        noData.setVisibility(View.GONE);
+                        upLoading.setVisibility(View.GONE);
+                        break;
                 }
-            });
-            mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
-
-                @Override
-                public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                    return false;
-                }
-
-                @Override
-                public void onRefreshBegin(PtrFrameLayout frame) {
-                    mPtrFrameLayout.refreshComplete();
-                }
-            });
-        }
-    }
-
-    @OnClick({R.id.click_uploading, R.id.iv_uploading})
-    private void noDataUpLoading() {
-        // DONE: 2016/9/26
-        ActivitySvc.startImagePicker(this, null);
+            }
+        });
     }
 
     @Override
@@ -220,154 +225,124 @@ public class PictureFragment extends BaseHostFragment {
         }
     }
 
-    @OnClick(R.id.tv_person)
-    private void choosePerson() {
-        // TODO: 2016/9/14 需要数据源切换
-        addPersonFakeData();
-        if (dataPhoto.size() == 0) {
-            upLoading.setVisibility(View.INVISIBLE);
-        } else {
-            upLoading.setVisibility(View.VISIBLE);
-        }
-
-        dataPhotoList = getList((ArrayList<PhotoInfo>) dataPhoto);
-        PicturePersonAdapter picturePersonAdapter = new PicturePersonAdapter(getActivity(), dataPhotoList);
-        mListView.setAdapter(picturePersonAdapter);
-
-        mPerson.setTextColor(getResources().getColor(R.color.white));
-        mPerson.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_pink));
-        mClub.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mClub.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_white));
-    }
-
-    @OnClick(R.id.tv_club)
-    private void chooseClub() {
-        // TODO: 2016/9/14 需要数据源切换
-        upLoading.setVisibility(View.GONE);
-        addClubFakeData();
-        PictureClubAdapter pictureClubAdapter=new PictureClubAdapter(getActivity(),dataAlbum);
-        mListView.setAdapter(pictureClubAdapter);
-
-        mPerson.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mPerson.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_left_white));
-        mClub.setTextColor(getResources().getColor(R.color.white));
-        mClub.setBackgroundDrawable(getResources().getDrawable(R.drawable.growup_title_right_pink));
+    /**
+     * 描 述：获取个人相片<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     * @param isRefresh 是否是刷新任务
+     */
+    private void obtainPersonalPhoto(boolean isRefresh) {
+        obtainPersonalPhoto(isRefresh, null);
     }
 
     /**
-     * 描 述：根据服务器返回的数据，获取list的数据源<br/>
-     * 作 者：张志新<br/>
-     * 历 史: (1.0.0) 张志新 2016/9/16 <br/>
-     *
-     * @param photoList 要排序的集合
-     * @return List<List<PhotoInfo>>代表返回的数据源
+     * 描 述：获取个人相片<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     * @param isRefresh 是否是刷新任务
+     * @param keyWord 搜索关键词，如果此参数不为空则忽略isRefresh
      */
-    //按照时间日期分类，前提保证先按照绝对的时间顺序排序一次（服务器返回的是最近时间排好的，如果不是，自己根据createDay遍历一遍）
-    private List<List<PhotoInfo>> getList(ArrayList<PhotoInfo> photoList) {
+    private void obtainPersonalPhoto(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchPersonalPhoto(getActivity(), keyWord, (isRefresh||!TextUtils.isEmpty(keyWord))?0:mPicturePersonAdapter.getAllCount()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                ResSearchPhotos data = (ResSearchPhotos) pResponse;
 
-        ArrayList<PhotoInfo> templist = photoList;
-        List<List<PhotoInfo>> lists = new ArrayList<List<PhotoInfo>>();
-        String tempTime = "";
-        while (templist.size() > 0) {
-            PhotoInfo bean = templist.get(0);
-            //String time = String.valueOf(getTime(bean.getCreateDay()));
-            //String time=getTime(bean.getCreateDay());
-            String time = bean.getCreateDay();
-            if (!time.equals(tempTime)) {
-                List<PhotoInfo> list = new ArrayList<PhotoInfo>();
-                list.add(bean);
-                lists.add(list);
-            } else {
-                lists.get(lists.size() - 1).add(bean);
+                if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
+                    if (isRefresh) {
+                        if (data.getResultList() == null || data.getResultList().size() == 0) {
+                            upLoading.setVisibility(View.VISIBLE);
+                        } else {
+                            upLoading.setVisibility(View.GONE);
+                            mPicturePersonAdapter.setData(data.getResultList());
+                        }
+                    }
+                } else {
+                    mPicturePersonAdapter.addData(data.getResultList());
+                }
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
             }
-            tempTime = time;
-            templist.remove(bean);
-        }
-        return lists;
-    }
 
-    public String getTime(String time) {
-        Date date = new Date(Long.parseLong(time));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String d = format.format(date);
-        return d;
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        });
     }
 
     /**
-     * 临时添加个人假数据的方法
+     * 描 述：获取个人相片<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     * @param isRefresh 是否是刷新任务
      */
-    private void addPersonFakeData() {
-        for (int i = 0; i < 1; i++) {
-            addData();
-        }
-        for (int i = 0; i < 1; i++) {
-            addData();
-        }
+    private void obtainAlbumPhoto(boolean isRefresh) {
+        obtainAlbumPhoto(isRefresh, null);
     }
 
     /**
-     * 临时添加会所假数据的方法
+     * 描 述：获取个人相片<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     * @param isRefresh 是否是刷新任务
+     * @param keyWord 搜索关键词，如果此参数不为空则忽略isRefresh
      */
-    private void addClubFakeData() {
-        for (int i = 0; i < 2; i++) {
-            AlbumInfo albumInfo1 = new AlbumInfo();
-            albumInfo1.setDataNum("24");
-            albumInfo1.setCreateTime("2016-10-02");
-            albumInfo1.setDataDesc("相册1");
-            albumInfo1.setIconInfo1("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
-            dataAlbum.add(albumInfo1);
-            AlbumInfo albumInfo2 = new AlbumInfo();
-            albumInfo2.setDataNum("36");
-            albumInfo2.setCreateTime("2016-10-03");
-            albumInfo2.setDataDesc("相册2");
-            albumInfo2.setIconInfo1("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
-            dataAlbum.add(albumInfo2);
-            AlbumInfo albumInfo3 = new AlbumInfo();
-            albumInfo3.setDataNum("12");
-            albumInfo3.setCreateTime("2016-10-10");
-            albumInfo3.setDataDesc("相册2");
-            albumInfo3.setIconInfo1("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
-            dataAlbum.add(albumInfo3);
-        }
+    private void obtainAlbumPhoto(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchAlbum(getActivity(), keyWord, (isRefresh||!TextUtils.isEmpty(keyWord))?0:mPictureClubAdapter.getCount()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchAlbums data = (RespSearchAlbums) pResponse;
+
+                if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
+                    mPictureClubAdapter.setDatas(data.getResultList());
+                } else {
+                    mPictureClubAdapter.addDatas(data.getResultList());
+                }
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        });
     }
 
-    /**添加假数据；临时*/
-    private void addData(){
-        PhotoInfo photoInfo = new PhotoInfo();
-        photoInfo.setIconInfo1("http://imgx.xiawu.com/xzimg/i4/i7/T1UW9VXi4sXXa4zfs__105950.jpg");
-        photoInfo.setAlbumId("kb");
-        photoInfo.setAlbumName("逗你玩");
-        photoInfo.setCreateDay("2016-10-03");
-        PhotoInfo photoInfo1 = new PhotoInfo();
-        photoInfo1.setIconInfo1("http://i2.s2.dpfile.com/pc/9f9d763bdeea2976024a3b0abced9788(700x700)/thumb.jpg");
-        photoInfo1.setAlbumId("kb");
-        photoInfo1.setAlbumName("逗你玩");
-        photoInfo1.setCreateDay("2016-10-03");
-        PhotoInfo photoInfo2 = new PhotoInfo();
-        photoInfo2.setIconInfo1("http://www.vnbaby.cn/uploadfile/2013/0121/20130121093919299.jpg");
-        photoInfo2.setAlbumId("kb");
-        photoInfo2.setAlbumName("逗你玩");
-        photoInfo2.setCreateDay("2016-10-03");
-        PhotoInfo photoInfo3 = new PhotoInfo();
-        photoInfo3.setIconInfo1("http://pn.680.com/news/2012-05/2012051910421844_.jpg");
-        photoInfo3.setAlbumId("kb");
-        photoInfo3.setAlbumName("逗你玩");
-        photoInfo3.setCreateDay("2016-10-03");
-        dataPhoto.add(photoInfo);
-        dataPhoto.add(photoInfo1);
-        dataPhoto.add(photoInfo2);
-        dataPhoto.add(photoInfo3);
+    @OnClick({R.id.click_uploading, R.id.iv_uploading})
+    private void noDataUpLoading() {
+        // DONE: 2016/9/26
+        ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
+    }
+
+    /**
+     * 描 述：请求权限成功后打开图片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    private class ReadMediaTask implements Runnable {
+        @Override
+        public void run() {
+            ActivitySvc.startImagePicker(PictureFragment.this, null);
+        }
     }
 
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         Message msg = (Message) data;
-        if (UploadPictureSvc.UPLOAD_COMPLETE == msg.what) {
+        UploadPictureMessage lUploadPictureMessage = (UploadPictureMessage) msg.obj;
+        if (UploadPictureSvc.UPLOAD_COMPLETE == msg.what && mTaskId == lUploadPictureMessage.getTimestamp()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: 谌珂 2016/10/16 重新拉接口获取图片
+                    // DONE: 谌珂 2016/10/16 重新拉接口获取图片
+                    obtainPersonalPhoto(false);
                     Toaster.showShortToast(getActivity(), "上传完成");
                 }
             });

@@ -22,6 +22,7 @@ import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.activity.user.LoginActivity;
@@ -149,7 +150,7 @@ public class ActivitySvc {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
      */
-    public static String createWebUrl( String path) {
+    public static String createWebUrl(String path) {
         return Common.SERVICE_URL + path;
     }
 
@@ -157,6 +158,8 @@ public class ActivitySvc {
      * 描 述：启动照片选择<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param activity Activity
+     * @param path 图片路径集合
      */
     public static void startImagePicker(Activity activity, ArrayList<String> path) {
         Intent intent = new Intent(activity, PhotoPickerActivity.class);
@@ -168,6 +171,8 @@ public class ActivitySvc {
      * 描 述：启动照片选择<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param fragment Fragment
+     * @param path 图片路径集合
      */
     public static void startImagePicker(Fragment fragment, ArrayList<String> path) {
         Intent intent = new Intent(fragment.getActivity(), PhotoPickerActivity.class);
@@ -179,11 +184,31 @@ public class ActivitySvc {
      * 描 述：启动照片上传<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     * @param path 图片路径集合
      */
     public static void startUploadPhoto(Context context, ArrayList<String> path, long taskId) {
         Intent intent = new Intent(context, UploadPhotoActivity.class);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         intent.putExtra(UploadPhotoActivity.TASK, taskId);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 描 述：启动图片预览<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     * @param path 图片路径集合
+     * @param isNative 是否是本地图片
+     */
+    public static void startImageViewer(Context context, ArrayList<String> path, boolean isNative) {
+        if (path == null || path.size() == 0) {
+            return;
+        }
+        Intent intent = new Intent(context, ImageViewerActivity.class);
+        intent.putExtra(ImageViewerActivity.NATIVE, false);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         context.startActivity(intent);
     }
 }

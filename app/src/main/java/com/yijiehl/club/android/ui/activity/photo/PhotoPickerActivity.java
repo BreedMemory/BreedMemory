@@ -18,6 +18,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.MediaStoreHelper;
 import com.yijiehl.club.android.entity.Photo;
 import com.yijiehl.club.android.entity.PhotoDirectory;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.PhotoGridItemAdapter;
 
@@ -82,7 +83,6 @@ public class PhotoPickerActivity extends BmActivity {
         }
         getPhotos();
         photoGrid.setAdapter(photoGridItemAdapter);
-        photoGrid.setOnItemClickListener(photoGridItemAdapter);
         photoGridItemAdapter.setOnPhotoSelectedListener(new PhotoGridItemAdapter.OnPhotoSelectedListener() {
             @Override
             public void photoClick(List<String> number) {
@@ -191,10 +191,7 @@ public class PhotoPickerActivity extends BmActivity {
 
     @OnClick(R.id.tv_prview)
     private void prView() {
-        Intent i =new Intent(PhotoPickerActivity.this, ImageViewerActivity.class);
-        i.putExtra(ImageViewerActivity.NATIVE, true);
-        i.putStringArrayListExtra(UploadPhotoActivity.PATH, photoGridItemAdapter.getmSelectedPhoto());
-        startActivity(i);
+        ActivitySvc.startImageViewer(PhotoPickerActivity.this, photoGridItemAdapter.getmSelectedPhoto(), true);
     }
 
     @OnClick(R.id.btn_ok)

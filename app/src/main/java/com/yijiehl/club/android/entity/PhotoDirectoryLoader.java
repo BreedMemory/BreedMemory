@@ -29,7 +29,7 @@ public class PhotoDirectoryLoader extends android.content.CursorLoader {
         super(context);
 
         setProjection(IMAGE_PROJECTION);
-        setUri(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        setUri(MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon().appendQueryParameter("limit", "300").build());
         setSortOrder(MediaStore.Images.Media.DATE_ADDED + " DESC");
 
         setSelection(MIME_TYPE + "=? or " + MIME_TYPE + "=?");

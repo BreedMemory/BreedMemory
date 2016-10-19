@@ -7,6 +7,8 @@ package com.yijiehl.club.android.network.response.innerentity;/**
  * Created by asus on 2016/9/14.
  */
 
+import com.yijiehl.club.android.network.response.base.RespBaseSearchResult;
+
 /**
  * 项目名称：孕育迹忆 <br/>
  * 类  名: PhotoInfo <br/>
@@ -17,16 +19,24 @@ package com.yijiehl.club.android.network.response.innerentity;/**
  *
  * @author 张志新 <br/>
  */
-public class PhotoInfo {
+public class PhotoInfo extends RespBaseSearchResult {
 
     /**
      * 数据标签
      */
     private String dataLabel;
     /**
+     * 数据编码
+     */
+    private String dataCode;
+    /**
+     * 相片数量,相册里有多少张相片
+     */
+    private int dataNum;
+    /**
      * 所在相册ID
      */
-    private String albumId;
+    private long albumId;
     /**
      * 所在相册名称
      */
@@ -46,20 +56,15 @@ public class PhotoInfo {
     /**
      * 创建时间,长整型时间
      */
-    private String createTime;
-
-    public String getCreateDay() {
-        return createDay;
-    }
-
-    public void setCreateDay(String createDay) {
-        this.createDay = createDay;
-    }
-
+    private long createTime;
     /**
-     * 创建对应的日期值(天),形如 20160916、20160917 等，可用于按日期分类
+     * 创建对应的日期值(天) 形如 20160916、20160917 等，可用于按日期分类
      */
-    private String createDay;
+    private int createDay;
+    /**
+     * 更新时间/修改时间 可为空，可用于判断该相片是否修改过
+     */
+    private long updateTime;
     /**
      * 数据描述,描述
      */
@@ -73,11 +78,27 @@ public class PhotoInfo {
         this.dataLabel = dataLabel;
     }
 
-    public String getAlbumId() {
+    public String getDataCode() {
+        return dataCode;
+    }
+
+    public void setDataCode(String dataCode) {
+        this.dataCode = dataCode;
+    }
+
+    public int getDataNum() {
+        return dataNum;
+    }
+
+    public void setDataNum(int dataNum) {
+        this.dataNum = dataNum;
+    }
+
+    public long getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(String albumId) {
+    public void setAlbumId(long albumId) {
         this.albumId = albumId;
     }
 
@@ -113,19 +134,35 @@ public class PhotoInfo {
         this.iconInfo1 = iconInfo1;
     }
 
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getCreateDay() {
+        return createDay;
+    }
+
+    public void setCreateDay(int createDay) {
+        this.createDay = createDay;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public String getDataDesc() {
         return dataDesc;
     }
 
     public void setDataDesc(String dataDesc) {
         this.dataDesc = dataDesc;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 }

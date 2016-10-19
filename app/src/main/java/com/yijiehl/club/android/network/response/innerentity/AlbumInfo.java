@@ -28,11 +28,11 @@ public class AlbumInfo extends RespBaseSearchResult {
     /**
      * 相片数量,相册里有多少张相片
      */
-    private String dataNum;
+    private int dataNum;
     /**
      * 查看次数
      */
-    private String viewNum;
+    private int viewNum;
     /**
      * 图片URL,可为空，可能挑取相册中某一张相片
      */
@@ -44,12 +44,15 @@ public class AlbumInfo extends RespBaseSearchResult {
     /**
      * 创建时间,长整型时间
      */
-    private String createTime;
+    private long createTime;
+    /**
+     * 更新时间/修改时间
+     */
+    private long updateTime;
     /**
      * 数据描述,描述
      */
     private String dataDesc;
-
 
     public String getDataLabel() {
         return dataLabel;
@@ -59,19 +62,19 @@ public class AlbumInfo extends RespBaseSearchResult {
         this.dataLabel = dataLabel;
     }
 
-    public String getDataNum() {
+    public int getDataNum() {
         return dataNum;
     }
 
-    public void setDataNum(String dataNum) {
+    public void setDataNum(int dataNum) {
         this.dataNum = dataNum;
     }
 
-    public String getViewNum() {
+    public int getViewNum() {
         return viewNum;
     }
 
-    public void setViewNum(String viewNum) {
+    public void setViewNum(int viewNum) {
         this.viewNum = viewNum;
     }
 
@@ -91,12 +94,20 @@ public class AlbumInfo extends RespBaseSearchResult {
         this.iconInfo1 = iconInfo1;
     }
 
-    public String getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getDataDesc() {
@@ -106,5 +117,4 @@ public class AlbumInfo extends RespBaseSearchResult {
     public void setDataDesc(String dataDesc) {
         this.dataDesc = dataDesc;
     }
-
 }

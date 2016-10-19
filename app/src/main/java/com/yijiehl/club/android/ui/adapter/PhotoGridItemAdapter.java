@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -14,6 +13,7 @@ import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements AdapterView.OnItemClickListener {
+public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
 
     /**
      * 用户选择的图片，存储为图片的完整路径
@@ -42,6 +42,8 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements
     final int TYPE_1 = 0;
     final int TYPE_2 = 1;
     final int VIEW_TYPE = 2;
+
+    private MyClickListener mListener = new MyClickListener();
 
 
     public ArrayList<String> getmSelectedPhoto() {
@@ -99,16 +101,19 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements
                 break;
             case TYPE_2:
                 if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
-                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).into(holder.ivPhoto);
+                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).dontAnimate().placeholder(R.drawable.bg_border_corner_all_activity).into(holder.ivPhoto);
                     holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
+                    holder.ivPhotoPick.setTag(R.id.pick_picture_tag, mDatas.get(position - 1));
+                    holder.ivPhoto.setOnClickListener(mListener);
+                    holder.ivPhotoPick.setOnClickListener(mListener);
                 }
 
                 /**已经选好的照片，显示出选择的效果*/
                 if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
-                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_selected);
+                    Glide.with(mContext).load(R.drawable.picture_selected).dontAnimate().into(holder.ivPhotoPick);
                     holder.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
-                    holder.ivPhotoPick.setBackgroundResource(R.drawable.picture_unselected);
+                    Glide.with(mContext).load(R.drawable.picture_unselected).dontAnimate().into(holder.ivPhotoPick);
                     holder.ivPhoto.setColorFilter(null);
                 }
                 break;
@@ -118,23 +123,38 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> implements
         return convertView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position == 0 && onPhotoSelectedListener != null) {
-            onPhotoSelectedListener.takePhoto();
-        } else {
-            position--;
-            //已经选择了该照片
-            if (mSelectedPhoto.contains(mDatas.get(position))) {
-                mSelectedPhoto.remove(mDatas.get(position));
-            } else if(mSelectedPhoto.size() >= MAX_COUNT) {//没有选择该照片
-                Toaster.showShortToast(mContext, R.string.upload_count_must_less_than_9);
-            } else {
-                mSelectedPhoto.add(mDatas.get(position));
-            }
-            notifyDataSetChanged();
-            if(onPhotoSelectedListener != null) {
-                onPhotoSelectedListener.photoClick(mSelectedPhoto);
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int position;
+            switch (v.getId()) {
+                case R.id.iv_item_photo:
+                    position = (int) v.getTag(R.id.pick_picture_content) - 1;
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(mDatas.get(position));
+                    ActivitySvc.startImageViewer(mContext, list, true);
+                    break;
+                case R.id.iv_item_pick:
+                    position = (int) v.getTag(R.id.pick_picture_tag) - 1;
+                    //已经选择了该照片
+                    if (mSelectedPhoto.contains(mDatas.get(position))) {
+                        mSelectedPhoto.remove(mDatas.get(position));
+                    } else if(mSelectedPhoto.size() >= MAX_COUNT) {//没有选择该照片
+                        Toaster.showShortToast(mContext, R.string.upload_count_must_less_than_9);
+                    } else {
+                        mSelectedPhoto.add(mDatas.get(position));
+                    }
+                    notifyDataSetChanged();
+                    if(onPhotoSelectedListener != null) {
+                        onPhotoSelectedListener.photoClick(mSelectedPhoto);
+                    }
+                    break;
+                default:
+                    if (onPhotoSelectedListener != null) {
+                        onPhotoSelectedListener.takePhoto();
+                    }
+                    break;
             }
         }
     }
