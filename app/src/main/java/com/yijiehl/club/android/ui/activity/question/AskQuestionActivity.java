@@ -1,23 +1,17 @@
 package com.yijiehl.club.android.ui.activity.question;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.adapter.UploadImageAdapter;
@@ -66,7 +60,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     protected String getHeadTitle() {
         return getString(R.string.ask_question);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

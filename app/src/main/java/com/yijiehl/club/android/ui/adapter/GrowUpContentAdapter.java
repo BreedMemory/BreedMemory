@@ -11,10 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
@@ -41,6 +47,8 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
     private List<Article> allData = new ArrayList<>();
     private List<Article> healthData;
     private List<Article> educationData;
+
+    private MyClickListener listener = new MyClickListener();
 
     public GrowUpContentAdapter(Context mContext, int mode) {
         super(mContext);
@@ -151,25 +159,53 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
             // convertView = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
+        if(mDatas.get(position).isCollected()) {
+            holder.ivheart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        } else {
+            holder.ivheart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+        }
         holder.tvtitle.setText(mDatas.get(position).getDataName());
         holder.tvcontext.setText(mDatas.get(position).getDataSummary());
-        holder.ivshare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2016/10/2
-                Toaster.showShortToast(mContext,"您已收藏");
-            }
-        });
-        holder.ivheart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2016/10/2
-                Toaster.showShortToast(mContext,"您已分享");
-            }
-        });
+        holder.ivshare.setTag(R.id.share, position);
+        holder.ivheart.setTag(R.id.collect, position);
+        holder.ivshare.setOnClickListener(listener);
+        holder.ivheart.setOnClickListener(listener);
 
         Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getImageInfo())).into(holder.ivPic);
         return convertView;
+    }
+
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            final int position;
+            switch (v.getId()) {
+                case R.id.iv_item_heart:
+                    position = (int) v.getTag(R.id.collect);
+                    Article artivle = mDatas.get(position);
+                    if(artivle.isCollected()) {
+                        return;
+                    }
+                    CollectArticle req = new CollectArticle(artivle.getDataName(),
+                            artivle.getDataLable(),
+                            artivle.getImageInfo(),
+                            artivle.getDataShowUrl(),
+                            artivle.getDataSummary());
+                    NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            mDatas.get(position).setCollected(true);
+                            Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
+                        }
+                    });
+                    break;
+                case R.id.iv_item_share:
+                    // TODO: 2016/10/2
+                    Toaster.showShortToast(mContext,"您已分享");
+                    break;
+            }
+        }
     }
 
     @Override
@@ -189,9 +225,9 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         @ViewInject(R.id.iv_item_pic)
         ImageView ivPic;
         @ViewInject(R.id.iv_item_heart)
-        ImageView ivheart;
+        IconTextView ivheart;
         @ViewInject(R.id.iv_item_share)
-        ImageView ivshare;
+        IconTextView ivshare;
         @ViewInject(R.id.tv_item_title)
         TextView tvtitle;
         @ViewInject(R.id.tv_item_content)

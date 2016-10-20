@@ -3,6 +3,9 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,7 +40,7 @@ import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.fragment_growup)
-public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnCheckedChangeListener {
+public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnCheckedChangeListener, TextWatcher {
 
     @ViewInject(R.id.layout_title)
     private RadioGroup mTitle;
@@ -103,7 +106,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
         mGrowUpContentAdapter = new GrowUpContentAdapter(getActivity(), getMode());
         obtainData(true);
         mListView.setAdapter(mGrowUpContentAdapter);
-
+        mSearch.addTextChangedListener(this);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
@@ -129,7 +132,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             }
         });
 
-        // TODO: 2016/9/9 成长文章item单击事件
+        // DONE: 2016/9/9 成长文章item单击事件
         mListView.setOnItemClickListener(mGrowUpContentAdapter);
 
         mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -153,16 +156,27 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
      * @param isRefresh 是否是完全刷新
      */
     private void obtainData(boolean isRefresh) {
+        obtainData(isRefresh, null);
+    }
+
+    /**
+     * 描 述：获取数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     * @param isRefresh 是否是完全刷新
+     * @param keyWord 搜索关键词
+     */
+    private void obtainData(boolean isRefresh, String keyWord) {
         switch (getMode()) {
             case GrowUpContentAdapter.EDUCATION_DATA:
-                obtainEducationArticle(isRefresh);
+                obtainEducationArticle(isRefresh, keyWord);
                 break;
             case GrowUpContentAdapter.HEALTH_DATA:
-                obtainHealthArticle(isRefresh);
+                obtainHealthArticle(isRefresh, keyWord);
                 break;
             default:
-                obtainEducationArticle(isRefresh);
-                obtainHealthArticle(isRefresh);
+                obtainEducationArticle(isRefresh, keyWord);
+                obtainHealthArticle(isRefresh, keyWord);
                 break;
         }
     }
@@ -173,8 +187,8 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
      * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
      * @param isRefresh 是否是完全刷新
      */
-    private void obtainEducationArticle(final boolean isRefresh) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchEducationArticle(getActivity(), isRefresh?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size()), new AbstractCallBack(getActivity()) {
+    private void obtainEducationArticle(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchEducationArticle(getActivity(), (isRefresh||!TextUtils.isEmpty(keyWord))?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size(), keyWord), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
@@ -201,8 +215,8 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
      * 作 者：谌珂<br/>
      * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
      */
-    private void obtainHealthArticle(final boolean isRefresh) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchHealthArticle(getActivity(), isRefresh?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size()), new AbstractCallBack(getActivity()) {
+    private void obtainHealthArticle(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchHealthArticle(getActivity(), (isRefresh||!TextUtils.isEmpty(keyWord))?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.EDUCATION_DATA).size(), keyWord), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
@@ -253,5 +267,20 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
                 mGrowUpContentAdapter.setMode(GrowUpContentAdapter.EDUCATION_DATA);
                 break;
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        obtainData(true, s.toString());
     }
 }

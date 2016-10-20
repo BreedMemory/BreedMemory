@@ -14,6 +14,16 @@ import com.yijiehl.club.android.network.response.base.RespBaseSearchResult;
  */
 public class Article extends RespBaseSearchResult {
 
+    private boolean isCollected;
+
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public void setCollected(boolean collected) {
+        isCollected = collected;
+    }
+
     /**
      * 数据编码,该值可用于修改和查看详情
      */

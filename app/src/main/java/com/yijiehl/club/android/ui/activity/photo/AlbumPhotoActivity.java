@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -25,7 +26,6 @@ import com.yijiehl.club.android.network.response.ResSearchPhotos;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.ImageGridAlbumAdapter;
-import com.yijiehl.club.android.ui.view.NoScrollGridView;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class AlbumPhotoActivity extends BmActivity {
     @ViewInject(R.id.tv_show_time)
     TextView showTime;
     @ViewInject(R.id.person_gridview)
-    NoScrollGridView gridView;
+    GridView gridView;
 
     @SaveInstance
     private String mDataId;

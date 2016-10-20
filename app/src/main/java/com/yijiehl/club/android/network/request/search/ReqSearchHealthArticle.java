@@ -24,10 +24,11 @@ public class ReqSearchHealthArticle extends ReqBaseSearch {
      * 历 史: (1.0.0) 张志新 2016/9/14 <br/>
      * @param context 上下文 查询全部的文章
      */
-    public ReqSearchHealthArticle(Context context, int start) {
+    public ReqSearchHealthArticle(Context context, int start, String key) {
         super(context);
         this.start = start;
         this.dataClfy = "health";
+        setKeyword(key);
     }
 
     @Override

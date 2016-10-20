@@ -3,4 +3,6 @@
     <item type="id" name="pick_picture_content" />
     <item type="id" name="pick_picture_tag" />
     <item type="id" name="picture_position" />
+    <item type="id" name="collect" />
+    <item type="id" name="share" />
 </resources>

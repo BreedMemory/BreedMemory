@@ -37,7 +37,7 @@ public class ImageGridAlbumAdapter extends BaseListViewAdapter<PhotoInfo> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_picture_grid_person, null);
+            convertView = View.inflate(mContext, R.layout.item_picture_grid_album, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
