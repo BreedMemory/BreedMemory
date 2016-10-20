@@ -6,7 +6,6 @@
 package com.yijiehl.club.android.network.request.search;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
@@ -22,9 +21,8 @@ import com.yijiehl.club.android.network.response.ResSearchPhotos;
  * @author 张志新 <br/>
  */
 public class ReqSearchAlbumPhoto extends ReqBaseSearch {
-    public ReqSearchAlbumPhoto(Context context, @Nullable String key, String dataId) {
+    public ReqSearchAlbumPhoto(Context context, String dataId) {
         super(context);
-        setKeyword(key);
         this.dataId = dataId;
         this.dataClfy = "album";
     }

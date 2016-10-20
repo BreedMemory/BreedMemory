@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 
 import com.uuzz.android.R;
 import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.database.DataBasesUtil;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 
@@ -110,7 +111,7 @@ public class CacheDataDAO extends AbstractDAO<CacheDataEntity> {
                 }
 
                 Message msg = Message.obtain();
-                msg.what = CACHE_DATA;
+                msg.what = ObservableTag.CACHE_DATA;
                 msg.obj = data;
                 setChanged();
                 notifyObservers(msg);

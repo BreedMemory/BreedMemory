@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 
 import com.uuzz.android.ui.fragment.CkFragment;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 
@@ -51,7 +52,7 @@ public class BmFragment extends CkFragment implements Observer {
         if(observable instanceof CacheDataDAO) {
             final Message msg = (Message) data;
             switch (msg.what) {
-                case CacheDataDAO.CACHE_DATA:                           //数据缓存被成功取到
+                case ObservableTag.CACHE_DATA:                           //数据缓存被成功取到
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

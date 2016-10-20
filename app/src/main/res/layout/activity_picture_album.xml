@@ -11,15 +11,6 @@
         android:layout_height="wrap_content"
         android:text="8月15日" />
 
-    <ImageView
-        android:id="@+id/iv_show_uploading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dip"
-        android:layout_toRightOf="@+id/tv_show_time"
-        android:src="@drawable/uploading_small"
-        android:visibility="gone"/>
-
     <TextView
         android:id="@+id/tv_show_address"
         android:layout_width="wrap_content"
@@ -27,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:text="北京市" />
 
-    <com.yijiehl.club.android.ui.view.NoScrollGridView
+    <GridView
         android:id="@+id/person_gridview"
         android:layout_marginBottom="@dimen/primary_List_margin"
         android:layout_width="match_parent"
@@ -35,7 +26,6 @@
         android:layout_below="@+id/iv_show_uploading"
         android:numColumns="3"
         android:verticalSpacing="10dp"
-        android:layout_marginTop="19dip">
+        android:layout_marginTop="19dip" />
 
-    </com.yijiehl.club.android.ui.view.NoScrollGridView>
 </RelativeLayout>

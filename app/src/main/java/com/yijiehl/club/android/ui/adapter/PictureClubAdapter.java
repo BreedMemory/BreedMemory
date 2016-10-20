@@ -6,8 +6,10 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
+import com.yijiehl.club.android.ui.activity.photo.AlbumPhotoActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -28,7 +31,7 @@ import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
  * 修改时间：2016/9/13 <br/>
  * @author 张志新 <br/>
  */
-public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> {
+public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> implements AdapterView.OnItemClickListener {
 
     public PictureClubAdapter(Context mContext) {
         super(mContext);
@@ -50,6 +53,14 @@ public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> {
 
         Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivClubPic);
         return convertView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(mContext, AlbumPhotoActivity.class);
+        intent.putExtra(AlbumPhotoActivity.DATA_ID, mDatas.get(position).getDataId());
+        intent.putExtra(AlbumPhotoActivity.TIME, TimeUtil.getTime(mDatas.get(position).getCreateTime(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
+        mContext.startActivity(intent);
     }
 
     class ViewHolder{

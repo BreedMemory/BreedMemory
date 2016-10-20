@@ -22,6 +22,7 @@ import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.FileUtil;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -138,7 +139,7 @@ public class PictureFragment extends BaseHostFragment {
         obtainAlbumPhoto(true);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
-        mPicturePersonAdapter = new PicturePersonAdapter(getActivity());
+        mPicturePersonAdapter = new PicturePersonAdapter(this);
         //初始化列表
         mListView.setAdapter(mPicturePersonAdapter);
         mListView.setEmptyView(noData);
@@ -193,6 +194,7 @@ public class PictureFragment extends BaseHostFragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_person:
+                        mListView.setOnItemClickListener(null);
                         mListView.setAdapter(mPicturePersonAdapter);
                         mListView.setEmptyView(noData);
                         if (mPicturePersonAdapter.getCount() == 0) {
@@ -203,6 +205,7 @@ public class PictureFragment extends BaseHostFragment {
                         mPicturePersonAdapter.notifyDataSetChanged();
                         break;
                     case R.id.rb_club:
+                        mListView.setOnItemClickListener(mPictureClubAdapter);
                         mListView.setAdapter(mPictureClubAdapter);
                         noData.setVisibility(View.GONE);
                         upLoading.setVisibility(View.GONE);
@@ -316,7 +319,7 @@ public class PictureFragment extends BaseHostFragment {
     }
 
     @OnClick({R.id.click_uploading, R.id.iv_uploading})
-    private void noDataUpLoading() {
+    public void upload() {
         // DONE: 2016/9/26
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
     }
@@ -337,8 +340,11 @@ public class PictureFragment extends BaseHostFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         Message msg = (Message) data;
+        if (ObservableTag.UPLOAD_COMPLETE != msg.what) {
+            return;
+        }
         UploadPictureMessage lUploadPictureMessage = (UploadPictureMessage) msg.obj;
-        if (UploadPictureSvc.UPLOAD_COMPLETE == msg.what && mTaskId == lUploadPictureMessage.getTimestamp()) {
+        if (mTaskId == lUploadPictureMessage.getTimestamp()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

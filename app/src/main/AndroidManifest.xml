@@ -144,8 +144,12 @@
         <activity android:name=".ui.activity.EditTabActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
-        <!-- 编辑标签 -->
+        <!-- 上传图片 -->
         <activity android:name=".ui.activity.photo.UploadPhotoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 群组照片 -->
+        <activity android:name=".ui.activity.photo.AlbumPhotoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
     </application>

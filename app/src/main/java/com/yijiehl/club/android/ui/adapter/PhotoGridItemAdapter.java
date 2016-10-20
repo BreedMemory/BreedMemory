@@ -1,7 +1,6 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -100,16 +99,15 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
             case TYPE_1:
                 break;
             case TYPE_2:
-                if(!TextUtils.equals(mDatas.get(position - 1), (CharSequence) holder.ivPhoto.getTag(R.id.pick_picture_content))){
-                    Glide.with(mContext).load("file:///" + mDatas.get(position - 1)).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivPhoto);
-                    holder.ivPhoto.setTag(R.id.pick_picture_content, mDatas.get(position - 1));
-                    holder.ivPhotoPick.setTag(R.id.pick_picture_tag, mDatas.get(position - 1));
-                    holder.ivPhoto.setOnClickListener(mListener);
-                    holder.ivPhotoPick.setOnClickListener(mListener);
-                }
+                position--;
+                Glide.with(mContext).load("file:///" + mDatas.get(position)).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivPhoto);
+                holder.ivPhoto.setTag(R.id.pick_picture_content, position);
+                holder.ivPhotoPick.setTag(R.id.pick_picture_tag, position);
+                holder.ivPhoto.setOnClickListener(mListener);
+                holder.ivPhotoPick.setOnClickListener(mListener);
 
                 /**已经选好的照片，显示出选择的效果*/
-                if (mSelectedPhoto.contains(mDatas.get(position - 1))) {
+                if (mSelectedPhoto.contains(mDatas.get(position))) {
                     Glide.with(mContext).load(R.drawable.picture_selected).dontAnimate().into(holder.ivPhotoPick);
                     holder.ivPhoto.setColorFilter(R.color.colorPrimary);
                 } else {
@@ -130,13 +128,13 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
             int position;
             switch (v.getId()) {
                 case R.id.iv_item_photo:
-                    position = (int) v.getTag(R.id.pick_picture_content) - 1;
+                    position = (int) v.getTag(R.id.pick_picture_content);
                     ArrayList<String> list = new ArrayList<>();
                     list.add(mDatas.get(position));
                     ActivitySvc.startImageViewer(mContext, list, true);
                     break;
                 case R.id.iv_item_pick:
-                    position = (int) v.getTag(R.id.pick_picture_tag) - 1;
+                    position = (int) v.getTag(R.id.pick_picture_tag);
                     //已经选择了该照片
                     if (mSelectedPhoto.contains(mDatas.get(position))) {
                         mSelectedPhoto.remove(mDatas.get(position));

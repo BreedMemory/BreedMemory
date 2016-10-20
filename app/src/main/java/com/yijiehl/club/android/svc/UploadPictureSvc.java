@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.net.NetHelper;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
@@ -34,12 +35,6 @@ import java.util.Observer;
  * 版    本：1.0.0<br/>
  */
 public class UploadPictureSvc extends Observable implements Observer {
-    /** 上传图片成功的消息 */
-    public static final int UPLOAD_SUCCESS = 0;
-    /** 上传图片失败的消息 */
-    public static final int UPLOAD_FAILED = 1;
-    /** 上传图片完成的消息，可能既包含成功也包含失败，主要针对一组图片的上传 */
-    public static final int UPLOAD_COMPLETE = 2;
 
     /** 用于记录分组上传的组标记和上传个数 */
     private HashMap<Long, Integer> groupCountPair = new HashMap<>();
@@ -64,7 +59,7 @@ public class UploadPictureSvc extends Observable implements Observer {
     }
 
     /**
-     * 描 述：上传单张图片，成功后发送{@link #UPLOAD_SUCCESS}，上传失败发送{@link #UPLOAD_FAILED}，附带{@link UploadPictureMessage}<br/>
+     * 描 述：上传单张图片，成功后发送{@link com.uuzz.android.util.ObservableTag#UPLOAD_SUCCESS}，上传失败发送{@link com.uuzz.android.util.ObservableTag#UPLOAD_FAILED}，附带{@link UploadPictureMessage}<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      * @param context 上下文
@@ -91,14 +86,14 @@ public class UploadPictureSvc extends Observable implements Observer {
                         throw new Exception("Get relative code failed!");
                     }
                     Message msg = Message.obtain();
-                    msg.what = UPLOAD_SUCCESS;
+                    msg.what = ObservableTag.UPLOAD_SUCCESS;
                     msg.obj = new UploadPictureMessage(path, baseResponse.getReturnMsg().getResultCode(), timestamp);
                     setChanged();
                     notifyObservers(msg);
                 } catch (Exception e) {
                     // DONE: 谌珂 2016/10/16 发送上传失败消息
                     Message msg = Message.obtain();
-                    msg.what = UPLOAD_FAILED;
+                    msg.what = ObservableTag.UPLOAD_FAILED;
                     msg.obj = new UploadPictureMessage(path, null, timestamp);;
                     setChanged();
                     notifyObservers(msg);
@@ -108,7 +103,7 @@ public class UploadPictureSvc extends Observable implements Observer {
     }
 
     /**
-     * 描 述：上传单张图片，成功后发送{@link #UPLOAD_SUCCESS}，上传失败发送{@link #UPLOAD_FAILED}，附带{@link UploadPictureMessage}</><br/>
+     * 描 述：上传单张图片，成功后发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_SUCCESS}，上传失败发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_FAILED}，附带{@link UploadPictureMessage}</><br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      * @param context 上下文
@@ -121,7 +116,7 @@ public class UploadPictureSvc extends Observable implements Observer {
     }
 
     /**
-     * 描 述：上传多张图片，所有图片上传任务完成后发送{@link #UPLOAD_COMPLETE}，附带任务时间戳,其中可能包含失败，也可能包含成功<br/>
+     * 描 述：上传多张图片，所有图片上传任务完成后发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_COMPLETE}，附带任务时间戳,其中可能包含失败，也可能包含成功<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      * @param context 上下文
@@ -145,13 +140,13 @@ public class UploadPictureSvc extends Observable implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         Message msg = (Message) data;
-        if(msg.what == UPLOAD_COMPLETE) {          //不接受上传完成消息
+        if(msg.what == ObservableTag.UPLOAD_COMPLETE) {          //不接受上传完成消息
             return;
         }
         UploadPictureMessage result = (UploadPictureMessage) msg.obj;
         if(isComplete(result.getTimestamp())) {
             msg = Message.obtain();
-            msg.what = UPLOAD_COMPLETE;
+            msg.what = ObservableTag.UPLOAD_COMPLETE;
             msg.obj = result.getTimestamp();
             setChanged();
             notifyObservers(msg);

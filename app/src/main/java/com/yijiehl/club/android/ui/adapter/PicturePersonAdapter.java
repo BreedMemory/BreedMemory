@@ -5,7 +5,6 @@
  */
 package com.yijiehl.club.android.ui.adapter;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +18,7 @@ import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.fragment.PictureFragment;
 import com.yijiehl.club.android.ui.view.NoScrollGridView;
 
 import java.util.ArrayList;
@@ -37,9 +37,12 @@ import java.util.List;
  */
 public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
-    public PicturePersonAdapter(Context mContext) {
-        super(mContext);
+    public PicturePersonAdapter(PictureFragment mFragment) {
+        super(mFragment.getActivity());
+        this.mFragment = mFragment;
     }
+
+    private PictureFragment mFragment;
 
     private StartImageViewer mStartImageViewer = new StartImageViewer();
 
@@ -163,10 +166,15 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            int groupPosition = (int) parent.getTag(R.id.picture_position);
-            ArrayList<String> list = new ArrayList<>();
-            list.add(mDatas.get(groupPosition).get(position).getImageInfo());
-            ActivitySvc.startImageViewer(mContext, list, false);
+
+            if(position == parent.getAdapter().getCount()-1) {
+                mFragment.upload();
+            } else {
+                int groupPosition = (int) parent.getTag(R.id.picture_position);
+                ArrayList<String> list = new ArrayList<>();
+                list.add(mDatas.get(groupPosition).get(position).getImageInfo());
+                ActivitySvc.startImageViewer(mContext, list, false);
+            }
         }
     }
 

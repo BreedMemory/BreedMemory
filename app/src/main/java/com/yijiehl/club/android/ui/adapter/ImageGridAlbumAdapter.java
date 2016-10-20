@@ -12,13 +12,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
-import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
-
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -30,16 +27,10 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
+public class ImageGridAlbumAdapter extends BaseListViewAdapter<PhotoInfo> {
 
-    @Override
-    public int getCount() {
-        return super.getCount() + 1;
-    }
-
-    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
+    public ImageGridAlbumAdapter(Context mContext) {
         super(mContext);
-        mDatas= data;
     }
 
     @Override
@@ -52,14 +43,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(position == getCount() - 1) {
-            holder.add.setVisibility(View.VISIBLE);
-            holder.ivContent.setVisibility(View.GONE);
-        } else{
-            holder.add.setVisibility(View.GONE);
-            holder.ivContent.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).placeholder(R.drawable.bg_loading).into(holder.ivContent);
-        }
+        Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         return convertView;
     }
 
@@ -70,7 +54,5 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
         @ViewInject(R.id.iv_content)
         ImageView ivContent;
-        @ViewInject(R.id.icv_add)
-        IconTextView add;
     }
 }

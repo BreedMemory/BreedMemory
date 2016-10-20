@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.activity.CkActivity;
 import com.uuzz.android.ui.view.IconTextView;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.yijiehl.club.android.R;
@@ -95,7 +96,7 @@ public abstract class BmActivity extends CkActivity implements Observer {
         if(observable instanceof CacheDataDAO) {
             Message msg = Message.obtain();
             switch (msg.what) {
-                case CacheDataDAO.CACHE_DATA:                               //数据缓存被成功取到
+                case ObservableTag.CACHE_DATA:                               //数据缓存被成功取到
                     onReceiveCacheData((CacheDataEntity) msg.obj);
                     break;
             }
