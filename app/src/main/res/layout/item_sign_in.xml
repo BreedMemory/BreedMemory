@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/primary_margin"
+        android:layout_marginTop="19dip"
+        android:text="周一"
+        android:textColor="#4a4a4a"
+        android:textSize="24dip" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33dip"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_toRightOf="@+id/tv_week"
+        android:text="2016-10-19"
+        android:textColor="#4a4a4a"
+        android:textSize="18dip" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date"
+        android:layout_marginLeft="33dip"
+        android:layout_marginTop="10dip"
+        android:layout_toRightOf="@+id/tv_week"
+        android:text="10:00"
+        android:textColor="@color/textColorLight"
+        android:textSize="18dip" />
+
+    <TextView
+        android:id="@+id/tv_sign_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date"
+        android:layout_marginLeft="@dimen/primary_List_margin"
+        android:layout_marginTop="10dip"
+        android:layout_toRightOf="@+id/tv_time"
+        android:text="签到成功"
+        android:textColor="@color/textColorLight"
+        android:textSize="18dip" />
+</RelativeLayout>

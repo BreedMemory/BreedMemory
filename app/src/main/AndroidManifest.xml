@@ -139,6 +139,7 @@
         <!-- 提问页面 -->
         <activity android:name=".ui.activity.question.AskQuestionActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <!-- 编辑标签 -->
         <activity android:name=".ui.activity.EditTabActivity"
@@ -150,6 +151,10 @@
             android:screenOrientation="portrait"/>
         <!-- 群组照片 -->
         <activity android:name=".ui.activity.photo.AlbumPhotoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 签到页面 -->
+        <activity android:name=".ui.activity.user.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
     </application>

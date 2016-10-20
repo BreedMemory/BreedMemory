@@ -237,7 +237,7 @@
             android:layout_marginRight="@dimen/primary_margin"
             android:background="#e1e1e1" />
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/layout_photo_manage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -248,7 +248,7 @@
                 android:layout_marginTop="@dimen/primary_List_margin"
                 android:layout_marginBottom="@dimen/primary_List_margin"
                 android:text="@string/photo_manage" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <View
             android:layout_width="match_parent"

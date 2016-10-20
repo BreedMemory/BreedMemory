@@ -62,10 +62,10 @@ public class MineActivity extends BmActivity {
 
     }
 
-    @OnClick(R.id.layout_photo_manage)
+  /*  @OnClick(R.id.layout_photo_manage)
     private void photoManege() {
 
-    }
+    }*/
 
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
@@ -89,5 +89,10 @@ public class MineActivity extends BmActivity {
     @OnClick({R.id.iv_my_money_pic, R.id.tv_show_my_money, R.id.textView})
     private void toGasStation() {
         startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
+    }
+
+    @OnClick({R.id.iv_my_sign,R.id.tv_show_my_sign,R.id.textView4})
+    private void toSignIn(){
+        startActivity(new Intent(this,SignInActivity.class));
     }
 }

@@ -73,24 +73,25 @@ public class QuestionListActivity extends BmActivity {
         for (int i = 0; i < 6; i++) {
             data.add("小孩子应该多久吃一次奶粉");
         }*/
-        String type=getIntent().getStringExtra("type");
+        String type = getIntent().getStringExtra("type");
         NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                RespSearchQuestion respSearchQuestion=(RespSearchQuestion)pResponse;
-                data=respSearchQuestion.getResultList();
+                RespSearchQuestion respSearchQuestion = (RespSearchQuestion) pResponse;
+                data = respSearchQuestion.getResultList();
+
+                QuestionListAdapter questionListAdapter = new QuestionListAdapter(QuestionListActivity.this, data);
+                mListView.setAdapter(questionListAdapter);
             }
         });
 
-        QuestionListAdapter questionListAdapter = new QuestionListAdapter(this, data);
-        mListView.setAdapter(questionListAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 2016/10/4 暂时跳转文章详情页面。。。
-                Intent intent=new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
-                intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+                Intent intent = new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
+                intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
                 startActivity(intent);
             }
         });
@@ -112,6 +113,6 @@ public class QuestionListActivity extends BmActivity {
     @OnClick(R.id.layout_search)
     private void searchQuestion() {
         // TODO: 2016/10/4 需要完善搜索页面再跳转
-        Toaster.showShortToast(this,"此搜索功能暂未实现");
+        Toaster.showShortToast(this, "此搜索功能暂未实现");
     }
 }

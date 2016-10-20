@@ -9,6 +9,7 @@
         android:layout_height="101dip"
         android:layout_marginTop="15dip"
         android:layout_marginBottom="13dip"
+        android:scaleType="center"
         android:background="@drawable/item_image_corners"
         android:src="@mipmap/ic_launcher" />
 
@@ -19,7 +20,8 @@
         android:layout_marginTop="15dip"
         android:layout_toRightOf="@+id/iv_item_pic"
         android:layout_marginLeft="14dip"
-        android:layout_marginRight="15dip"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textSize="18dip"
         android:text="标题" />
 
