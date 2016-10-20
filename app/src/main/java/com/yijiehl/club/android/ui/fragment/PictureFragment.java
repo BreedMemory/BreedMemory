@@ -12,7 +12,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -67,10 +66,20 @@ public class PictureFragment extends BaseHostFragment {
     @ViewInject(R.id.rg_title)
     private RadioGroup mTitle;
     /**
-     * 无照片上传图标
+     * 无照片上传容器
      */
     @ViewInject(R.id.click_uploading)
     private LinearLayout noData;
+    /**
+     * 无照片上传图标
+     */
+    @ViewInject(R.id.im_no_data)
+    private View noDataImageView;
+    /**
+     * 无照片上传文字
+     */
+    @ViewInject(R.id.tv_no_data)
+    private View noDataTextView;
     /**
      * 有照片上传图标
      */
@@ -159,14 +168,6 @@ public class PictureFragment extends BaseHostFragment {
                 }
             }
         });
-        //设置点击回调
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 2016/10/3 需要查看相册的详细照片
-                Toaster.showShortToast(getActivity(),"会所相册查看暂未实现");
-            }
-        });
         //设置下拉回调
         mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -197,6 +198,8 @@ public class PictureFragment extends BaseHostFragment {
                         mListView.setOnItemClickListener(null);
                         mListView.setAdapter(mPicturePersonAdapter);
                         mListView.setEmptyView(noData);
+                        noDataImageView.setVisibility(View.VISIBLE);
+                        noDataTextView.setVisibility(View.VISIBLE);
                         if (mPicturePersonAdapter.getCount() == 0) {
                             upLoading.setVisibility(View.GONE);
                         } else {
@@ -207,7 +210,8 @@ public class PictureFragment extends BaseHostFragment {
                     case R.id.rb_club:
                         mListView.setOnItemClickListener(mPictureClubAdapter);
                         mListView.setAdapter(mPictureClubAdapter);
-                        noData.setVisibility(View.GONE);
+                        noDataImageView.setVisibility(View.GONE);
+                        noDataTextView.setVisibility(View.GONE);
                         upLoading.setVisibility(View.GONE);
                         mPictureClubAdapter.notifyDataSetChanged();
                         break;

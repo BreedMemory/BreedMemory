@@ -75,11 +75,13 @@
             android:layout_centerInParent="true"
             android:visibility="gone">
             <ImageView
+                android:id="@+id/im_no_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/uploading_small"/>
             <TextView
+                android:id="@+id/tv_no_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"

@@ -33,14 +33,14 @@ public abstract class Collect extends BaseDataEntity {
 
     @Override
     protected String getDataModle() {
-        return "favorite_item_my";
+        return "ext_favorite_item_my";
     }
 
     protected abstract String getDataType();
 
     @Override
     protected OperateType getOperateType() {
-        return OperateType.CANCEL;
+        return OperateType.CREATE;
     }
 
     public void setDataType(String dataType) {

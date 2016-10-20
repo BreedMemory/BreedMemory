@@ -196,6 +196,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                         @Override
                         public void onSuccess(AbstractResponse pResponse) {
                             mDatas.get(position).setCollected(true);
+                            refresh();
                             Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
                         }
                     });
