@@ -13,13 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
+import com.yijiehl.club.android.network.response.innerentity.Article;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -29,30 +36,16 @@ import java.util.ArrayList;
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-public class ActivitysAdapter extends BaseListViewAdapter<ActivitysAdapter.Entity> {
-    public ActivitysAdapter(Context mContext) {
+public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> {
+
+    public ActivitysAdapter(Context mContext,List<ActivityInfo> data) {
         super(mContext);
-        mDatas = new ArrayList<>();
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
-        mDatas.add(new Entity());
+        this.mDatas=data;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Entity temp = mDatas.get(position);
+        ActivityInfo temp = mDatas.get(position);
         ViewHolder holder;
         if(convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_activitys, null);
@@ -61,61 +54,14 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivitysAdapter.Entit
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageLoader.getInstance().displayImage(temp.getUrl(), holder.ivPic);
-        holder.tvtitle.setText(temp.getTitle());
-        holder.tvArea.setText(temp.getArea());
-        holder.tvPlace.setText(temp.getPlace());
-        holder.tvTime.setText(temp.getTime());
+        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.ivPic);
+        holder.tvtitle.setText(temp.getDataName());
+        holder.tvContent.setText(temp.getDataSummary());
+        holder.tvPlace.setText(temp.getAddrInfo());
+        holder.tvTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(temp.getStartTime())));
         return convertView;
     }
 
-    public static class Entity {
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getPlace() {
-            return place;
-        }
-
-        public void setPlace(String place) {
-            this.place = place;
-        }
-
-        public String getArea() {
-            return area;
-        }
-
-        public void setArea(String area) {
-            this.area = area;
-        }
-
-        String url = "http://pic17.nipic.com/20111119/7718434_152058893000_2.jpg";
-        String time = "2016年9月9日 10:30 am";
-        String title = "音乐聆听";
-        String place = "爱玛家月子中心";
-        String area = "北京市";
-    }
 
     class ViewHolder {
         public ViewHolder(View v) {
@@ -126,11 +72,11 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivitysAdapter.Entit
         ImageView ivPic;
         @ViewInject(R.id.tv_item_title)
         TextView tvtitle;
-        @ViewInject(R.id.tv_item_time_content)
-        TextView tvTime;
-        @ViewInject(R.id.tv_item_place_content)
+        @ViewInject(R.id.tv_item_content)
+        TextView tvContent;
+        @ViewInject(R.id.tv_item_place)
         TextView tvPlace;
-        @ViewInject(R.id.tv_item_area_content)
-        TextView tvArea;
+        @ViewInject(R.id.tv_item_time)
+        TextView tvTime;
     }
 }

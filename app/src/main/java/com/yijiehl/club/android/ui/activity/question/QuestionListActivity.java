@@ -97,7 +97,7 @@ public class QuestionListActivity extends BmActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 2016/10/4 暂时跳转文章详情页面。。。
+                // DONE: 2016/10/4 暂时跳转文章详情页面。。。
                 Intent intent = new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
                 //intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
                 intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));

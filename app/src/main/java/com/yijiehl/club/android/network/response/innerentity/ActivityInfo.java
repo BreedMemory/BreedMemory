@@ -48,6 +48,26 @@ public class ActivityInfo extends RespBaseSearchResult {
     private long createTime;
     /** 状态 0未开始/初始 2进行中 1已完成 -1已取消  */
     private String dataStatus;
+    /**地址信息,可为空，对于线上活动地点不一定有*/
+    private String addrInfo;
+    /**数据摘要/概述*/
+    private String dataSummary;
+
+    public String getDataSummary() {
+        return dataSummary;
+    }
+
+    public void setDataSummary(String dataSummary) {
+        this.dataSummary = dataSummary;
+    }
+
+    public String getAddrInfo() {
+        return addrInfo;
+    }
+
+    public void setAddrInfo(String addrInfo) {
+        this.addrInfo = addrInfo;
+    }
 
     public String getDataCode() {
         return dataCode;

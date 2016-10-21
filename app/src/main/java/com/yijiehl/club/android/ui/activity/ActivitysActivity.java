@@ -20,8 +20,17 @@ import com.uuzz.android.ui.view.ptr.PtrHandler;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
+import com.yijiehl.club.android.network.response.RespSearchActivitys;
+import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
+
+import java.util.List;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -56,6 +65,8 @@ public class ActivitysActivity extends BmActivity {
 
     private ActivitysAdapter mAdapter;
 
+    private List<ActivityInfo> data;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.activity);
@@ -76,6 +87,16 @@ public class ActivitysActivity extends BmActivity {
                 }
             }
         });
+
+        NetHelper.getDataFromNet(this, new ReqSearchActivitys(this, false), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchActivitys respSearchActivitys=(RespSearchActivitys)pResponse;
+                 data=respSearchActivitys.getResultList();
+                mAdapter = new ActivitysAdapter(ActivitysActivity.this,data);
+                mListView.setAdapter(mAdapter);
+            }
+        }, false);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
@@ -98,14 +119,11 @@ public class ActivitysActivity extends BmActivity {
                 mPtrFrameLayout.refreshComplete();
             }
         });
-
-        mAdapter = new ActivitysAdapter(this);
-        mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(ActivitysActivity.this,ArticalDetailActivity.class);
-                intent.putExtra("url","http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
+                intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
                 startActivity(intent);
             }
         });

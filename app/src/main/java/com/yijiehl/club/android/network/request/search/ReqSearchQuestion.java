@@ -39,8 +39,4 @@ public class ReqSearchQuestion extends ReqBaseSearch {
         return RespSearchQuestion.class;
     }
 
-    @Override
-    public boolean isGet() {
-        return true;
-    }
 }
