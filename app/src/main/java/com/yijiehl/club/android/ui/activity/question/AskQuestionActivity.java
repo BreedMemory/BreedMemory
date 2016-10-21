@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -16,8 +17,12 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
+import com.yijiehl.club.android.network.request.ReqQuiz;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
@@ -59,7 +64,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
      * 图片文件路径
      */
     @SaveInstance
-    private ArrayList<String> mFilePaths=new ArrayList<>();
+    private ArrayList<String> mFilePaths;
     /**
      * 来自上传图片请求的时间戳，用于监听着返回匹配任务
      */
@@ -68,6 +73,9 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     /** 请求权限成功后回调 */
     private ReadMediaTask mReadMediaTask = new ReadMediaTask();
+
+    /**标识是否带有文件*/
+    private boolean hasFile;
 
 
     @Override
@@ -99,6 +107,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
             if(mFilePaths == null || mFilePaths.size() == 0) {   //选择的图片为空终止
                 return;
             }
+            hasFile=true;
             mTaskId = System.currentTimeMillis();
             UploadPictureSvc.getInstance().addObserver(this);
             UploadPictureSvc
@@ -164,7 +173,16 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     @OnClick(R.id.btn_release)
     private void release() {
-
         // TODO: 谌珂 2016/10/21 请求接口提问
+        if(TextUtils.isEmpty(mAskContent.getText().toString())||mFilePaths.size()==0){
+            Toaster.showShortToast(this,"请填写提问内容");
+            return;
+        }
+        NetHelper.getDataFromNet(this, new ReqQuiz(this, mAskContent.getText().toString(), true, hasFile), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+
+            }
+        }, false);
     }
 }

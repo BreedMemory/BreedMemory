@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout
     android:id="@+id/load_more_list_view_ptr_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,3 +64,33 @@
     </LinearLayout>
 
 </com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_ask"
+        android:layout_width="54dip"
+        android:layout_height="52dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="34dip"
+        android:layout_marginRight="13dip">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_circle_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/ask_question"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无问题"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

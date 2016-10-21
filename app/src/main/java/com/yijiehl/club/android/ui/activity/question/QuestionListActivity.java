@@ -2,9 +2,11 @@ package com.yijiehl.club.android.ui.activity.question;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
@@ -18,9 +20,11 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
@@ -58,11 +62,15 @@ public class QuestionListActivity extends BmActivity {
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
 
+
+    @ViewInject(R.id.tv_empty)
+    private TextView mEmpty;
+
     private List<Answer> data;
 
     @Override
     protected String getHeadTitle() {
-        return getString(R.string.question_list);
+        return getIntent().getStringExtra("type").equals("my")?"我的问题":getString(R.string.question_list);
     }
 
     @Override
@@ -84,14 +92,16 @@ public class QuestionListActivity extends BmActivity {
                 mListView.setAdapter(questionListAdapter);
             }
         });
-
+        mListView.setEmptyView(mEmpty);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 2016/10/4 暂时跳转文章详情页面。。。
                 Intent intent = new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
-                intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+                //intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+                intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
+                Log.d("===",ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
                 startActivity(intent);
             }
         });
@@ -114,5 +124,10 @@ public class QuestionListActivity extends BmActivity {
     private void searchQuestion() {
         // TODO: 2016/10/4 需要完善搜索页面再跳转
         Toaster.showShortToast(this, "此搜索功能暂未实现");
+    }
+
+    @OnClick(R.id.layout_ask)
+    private void ask(){
+        startActivity(new Intent(this, AskQuestionActivity.class));
     }
 }

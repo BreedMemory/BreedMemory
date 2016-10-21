@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_question_list_time"
             android:layout_marginLeft="7dip"
-            android:textSize="14dip"
-            android:text="已回复"/>
+            android:textSize="14dip" />
 
         <ImageView
             android:id="@+id/iv_question_list_heart"
