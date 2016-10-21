@@ -83,11 +83,17 @@ public class UploadPictureSvc extends Observable implements Observer {
                     UploadPicture upload = new UploadPicture(new File(path), tabs);
                     ReqBaseDataProc proc = new ReqBaseDataProc(context, upload);
                     BaseResponse baseResponse = (BaseResponse) NetHelper.getDataFromNet(context, proc, false);
+                    if(baseResponse.isNeedLogin()) {
+                        ActivitySvc.startLoginActivity(context);
+                    }
                     if (!baseResponse.getReturnMsg().isSuccess()) {
                         throw new Exception("Get relative code failed!");
                     }
                     ReqUploadFile uploadFile = new ReqUploadFile(context, uploadType, file, baseResponse.getReturnMsg().getResultCode());
                     baseResponse = (BaseResponse) NetHelper.getDataFromNet(context, uploadFile, false);
+                    if(baseResponse.isNeedLogin()) {
+                        ActivitySvc.startLoginActivity(context);
+                    }
                     if (!baseResponse.getReturnMsg().isSuccess()) {
                         throw new Exception("Get relative code failed!");
                     }
@@ -101,7 +107,6 @@ public class UploadPictureSvc extends Observable implements Observer {
                     Message msg = Message.obtain();
                     msg.what = ObservableTag.UPLOAD_FAILED;
                     msg.obj = new UploadPictureMessage(path, null, timestamp);
-                    ;
                     setChanged();
                     notifyObservers(msg);
                 }
@@ -152,6 +157,9 @@ public class UploadPictureSvc extends Observable implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         Message msg = (Message) data;
+        if(observable != instance){
+            return;
+        }
         if (msg.what == ObservableTag.UPLOAD_COMPLETE) {          //不接受上传完成消息
             return;
         }
@@ -159,7 +167,7 @@ public class UploadPictureSvc extends Observable implements Observer {
         if (isComplete(result.getTimestamp())) {
             msg = Message.obtain();
             msg.what = ObservableTag.UPLOAD_COMPLETE;
-            msg.obj = result.getTimestamp();
+            msg.obj = result;
             setChanged();
             notifyObservers(msg);
         }

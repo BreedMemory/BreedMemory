@@ -207,7 +207,7 @@ public class ActivitySvc {
             return;
         }
         Intent intent = new Intent(context, ImageViewerActivity.class);
-        intent.putExtra(ImageViewerActivity.NATIVE, false);
+        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         context.startActivity(intent);
     }

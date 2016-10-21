@@ -122,4 +122,7 @@
     <string name="personal">个人</string>
     <string name="sign_in">签到</string>
     <string name="collect_success">收藏成功</string>
+    <string name="upload_failed">上传失败</string>
+    <string name="uploading_picture">图片上传中!</string>
+    <string name="upload_complete">上传完成</string>
 </resources>

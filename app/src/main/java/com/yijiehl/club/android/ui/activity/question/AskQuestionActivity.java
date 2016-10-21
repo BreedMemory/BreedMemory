@@ -3,16 +3,21 @@ package com.yijiehl.club.android.ui.activity.question;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import com.uuzz.android.util.FileUtil;
+import com.uuzz.android.util.ObservableTag;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.entity.UploadPictureMessage;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
@@ -22,6 +27,7 @@ import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.adapter.UploadImageAdapter;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -60,6 +66,9 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @SaveInstance
     private long mTaskId;
 
+    /** 请求权限成功后回调 */
+    private ReadMediaTask mReadMediaTask = new ReadMediaTask();
+
 
     @Override
     protected String getHeadTitle() {
@@ -69,7 +78,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UploadPictureSvc.getInstance().addObserver(this);
         mFilePaths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
 
         if (mTaskId == 0) {
@@ -91,31 +99,72 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
             if(mFilePaths == null || mFilePaths.size() == 0) {   //选择的图片为空终止
                 return;
             }
-            mAdapter.setDatas(mFilePaths);
             mTaskId = System.currentTimeMillis();
+            UploadPictureSvc.getInstance().addObserver(this);
+            UploadPictureSvc
+                    .getInstance()
+                    .uploadMultiplePicture(getApplicationContext(),
+                            ReqUploadFile.UploadType.CRM_PHOTO_DETAIL,
+                            mAskContent.getText().toString(),
+                            mFilePaths,
+                            mTaskId);
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if(observable != UploadPictureSvc.getInstance()) {
+            return;
+        }
+        Message msg = (Message) data;
+        final UploadPictureMessage lUploadPictureMessage = (UploadPictureMessage) msg.obj;
+        switch (msg.what) {
+            case ObservableTag.UPLOAD_SUCCESS:
+                mAdapter.addData(lUploadPictureMessage.getUrl());
+                break;
+            case ObservableTag.UPLOAD_FAILED:
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShortToast(AskQuestionActivity.this, lUploadPictureMessage.getNativePath() + getString(R.string.upload_failed));
+                    }
+                });
+                break;
+            case ObservableTag.UPLOAD_COMPLETE:
+                UploadPictureSvc.getInstance().deleteObserver(this);
+                mTaskId = 0;
+                break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ActivitySvc.startImagePicker(this, mFilePaths);
+        if(mAdapter.getItemViewType(position) != UploadImageAdapter.TYPE_ADD) {
+            return;
+        }
+        if(mTaskId != 0) {
+            Toaster.showShortToast(this, getString(R.string.uploading_picture));
+            return;
+        }
+        checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
+    }
+
+    /**
+     * 描 述：请求权限成功后打开图片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    private class ReadMediaTask implements Runnable {
+        @Override
+        public void run() {
+            ActivitySvc.startImagePicker(AskQuestionActivity.this, null);
+        }
     }
 
     @OnClick(R.id.btn_release)
     private void release() {
-        UploadPictureSvc
-                .getInstance()
-                .uploadMultiplePicture(getApplicationContext(),
-                        ReqUploadFile.UploadType.KB_QUESTION_MAIN,
-                        mAskContent.getText().toString(),
-                        mFilePaths,
-                        mTaskId);
-        finish();
-    }
 
-    @Override
-    public void onDestroy() {
-        UploadPictureSvc.getInstance().deleteObserver(this);
-        super.onDestroy();
+        // TODO: 谌珂 2016/10/21 请求接口提问
     }
 }

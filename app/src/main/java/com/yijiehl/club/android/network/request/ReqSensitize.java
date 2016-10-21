@@ -11,7 +11,7 @@ import android.content.Context;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractTask;
 import com.yijiehl.club.android.network.request.base.ReqBase;
-import com.yijiehl.club.android.network.response.RespLogin;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
 /**
@@ -41,6 +41,6 @@ public class ReqSensitize extends ReqBase {
 
     @Override
     public Class<? extends AbstractResponse> getResponseClass() {
-        return RespLogin.class;
+        return RespSensitize.class;
     }
 }

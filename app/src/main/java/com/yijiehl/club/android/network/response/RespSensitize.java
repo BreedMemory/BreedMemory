@@ -20,7 +20,7 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
  * 修改时间：2016/9/7 <br/>
  * @author 谌珂 <br/>
  */
-public class RespLogin extends BaseResponse {
+public class RespSensitize extends BaseResponse {
     /** 非空, 用于唯一标识一个用户/客户, 不会改变，客户端可以以这个编码创建用户/客户文件夹等来保存用户/客户本地信息。*/
     private String uccode;
     /** 非空, 用于唯一标识一个用户/客户 */
@@ -142,6 +142,6 @@ public class RespLogin extends BaseResponse {
 
     @Override
     public boolean isNeedLogin() {
-        return false;
+        return true;
     }
 }

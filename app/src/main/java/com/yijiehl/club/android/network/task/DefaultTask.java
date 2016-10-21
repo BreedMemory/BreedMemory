@@ -64,13 +64,15 @@ public class DefaultTask extends AbstractTask {
             closeLoadingCom();
             return;
         }
-        if(responseData.getReturnMsg() != null &&!responseData.getReturnMsg().isSuccess()) {
+        if(responseData.isNeedLogin()) {
+            ActivitySvc.startLoginActivity(mContext);
+            closeLoadingCom();
+            return;
+        }
+        if(responseData.getReturnMsg() != null && !responseData.getReturnMsg().isSuccess()) {
             logger.e(responseData.getReturnMsg().getEnMessage());
             if(mListener != null) {
                 mListener.onFailed(responseData.getReturnMsg().getMessage());
-            }
-            if(responseData.isNeedLogin()) {
-                ActivitySvc.startLoginActivity(mContext);
             }
             closeLoadingCom();
             return;

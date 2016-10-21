@@ -344,7 +344,7 @@ public class PictureFragment extends BaseHostFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         Message msg = (Message) data;
-        if (ObservableTag.UPLOAD_COMPLETE != msg.what) {
+        if (observable != UploadPictureSvc.getInstance() || ObservableTag.UPLOAD_COMPLETE != msg.what) {
             return;
         }
         UploadPictureMessage lUploadPictureMessage = (UploadPictureMessage) msg.obj;
@@ -354,7 +354,7 @@ public class PictureFragment extends BaseHostFragment {
                 public void run() {
                     // DONE: 谌珂 2016/10/16 重新拉接口获取图片
                     obtainPersonalPhoto(false);
-                    Toaster.showShortToast(getActivity(), "上传完成");
+                    Toaster.showShortToast(getActivity(), getString(R.string.upload_complete));
                 }
             });
         }

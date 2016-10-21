@@ -16,6 +16,7 @@ import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -26,6 +27,10 @@ import com.yijiehl.club.android.R;
  * 版    本：1.0.0<br/>
  */
 public class UploadImageAdapter extends BaseListViewAdapter<String> {
+
+    public static final int TYPE_ADD = 1;
+    public static final int TYPE_PHOTO = 0;
+
     public UploadImageAdapter(Context mContext) {
         super(mContext);
     }
@@ -33,14 +38,14 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
     @Override
     public int getItemViewType(int position) {
         if(mDatas == null || (position == mDatas.size() && mDatas.size() < 9)) {
-            return 1;
+            return TYPE_ADD;
         } else {
-            return 0;
+            return TYPE_PHOTO;
         }
     }
 
     public int getItemViewRes(int position) {
-        if(getItemViewType(position) == 1) {
+        if(getItemViewType(position) == TYPE_ADD) {
             return R.layout.item_add_photo_layout;
         } else {
             return R.layout.item_photo_layout;
@@ -70,8 +75,8 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(getItemViewType(position) == 0) {
-            Glide.with(mContext).load("file:///" + mDatas.get(position)).into(holder.photo);
+        if(getItemViewType(position) == TYPE_PHOTO) {
+            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position))).into(holder.photo);
         }
         return convertView;
     }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,22 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
         } else {
             mDatas.addAll(datas);
         }
+        refresh();
+    }
+
+    /**
+     * 描 述：添加新数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/8/19 <br/>
+     */
+    public void addData(T data) {
+        if(data == null) {
+            return;
+        }
+        if(mDatas == null) {
+            mDatas = new ArrayList<>();
+        }
+        mDatas.add(data);
         refresh();
     }
 
