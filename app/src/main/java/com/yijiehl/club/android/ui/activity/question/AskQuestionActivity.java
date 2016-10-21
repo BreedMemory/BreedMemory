@@ -1,5 +1,7 @@
 package com.yijiehl.club.android.ui.activity.question;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,8 +13,11 @@ import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.adapter.UploadImageAdapter;
 
@@ -48,7 +53,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
      * 图片文件路径
      */
     @SaveInstance
-    private ArrayList<String> mFilePaths;
+    private ArrayList<String> mFilePaths=new ArrayList<>();
     /**
      * 来自上传图片请求的时间戳，用于监听着返回匹配任务
      */
@@ -64,7 +69,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        UploadPictureSvc.getInstance().addObserver(this);
         mFilePaths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
 
         if (mTaskId == 0) {
@@ -78,13 +83,39 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            //获取选择的图片
+            mFilePaths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
+            if(mFilePaths == null || mFilePaths.size() == 0) {   //选择的图片为空终止
+                return;
+            }
+            mAdapter.setDatas(mFilePaths);
+            mTaskId = System.currentTimeMillis();
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ActivitySvc.startImagePicker(this, mFilePaths);
     }
 
     @OnClick(R.id.btn_release)
     private void release() {
+        UploadPictureSvc
+                .getInstance()
+                .uploadMultiplePicture(getApplicationContext(),
+                        ReqUploadFile.UploadType.KB_QUESTION_MAIN,
+                        mAskContent.getText().toString(),
+                        mFilePaths,
+                        mTaskId);
+        finish();
+    }
 
-
+    @Override
+    public void onDestroy() {
+        UploadPictureSvc.getInstance().deleteObserver(this);
+        super.onDestroy();
     }
 }
