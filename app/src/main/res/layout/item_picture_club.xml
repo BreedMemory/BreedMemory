@@ -12,6 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_club_pic"
+            android:scaleType="centerCrop"
             android:layout_width="101dip"
             android:layout_height="101dip" />
 

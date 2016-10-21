@@ -17,6 +17,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         } else{
             holder.add.setVisibility(View.GONE);
             holder.ivContent.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).placeholder(R.drawable.bg_loading).into(holder.ivContent);
+            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         }
         return convertView;
     }

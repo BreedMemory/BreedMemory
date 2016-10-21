@@ -20,6 +20,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.AlbumInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.photo.AlbumPhotoActivity;
 
 /**
@@ -51,7 +52,7 @@ public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> implement
         holder.ivClubPicNum.setText(mDatas.get(position).getDataDesc());
         holder.tvClubPivTime.setText(TimeUtil.getTime(mDatas.get(position).getCreateTime(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
 
-        Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivClubPic);
+        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivClubPic);
         return convertView;
     }
 

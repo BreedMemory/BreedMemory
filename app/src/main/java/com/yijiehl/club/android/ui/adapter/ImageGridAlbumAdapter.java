@@ -16,6 +16,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -43,7 +44,7 @@ public class ImageGridAlbumAdapter extends BaseListViewAdapter<PhotoInfo> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(mContext).load(mDatas.get(position).getIconInfo1()).placeholder(R.drawable.bg_loading).into(holder.ivContent);
+        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         return convertView;
     }
 
