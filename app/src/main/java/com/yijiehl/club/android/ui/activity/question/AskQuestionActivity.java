@@ -3,7 +3,6 @@ package com.yijiehl.club.android.ui.activity.question;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 
 import com.uuzz.android.util.FileUtil;
-import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -21,9 +19,10 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.entity.UploadPictureMessage;
-import com.yijiehl.club.android.network.request.ReqQuiz;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.ReqCreateQuestion;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -32,7 +31,6 @@ import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.adapter.UploadImageAdapter;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -61,11 +59,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
      */
     UploadImageAdapter mAdapter;
     /**
-     * 图片文件路径
-     */
-    @SaveInstance
-    private ArrayList<String> mFilePaths;
-    /**
      * 来自上传图片请求的时间戳，用于监听着返回匹配任务
      */
     @SaveInstance
@@ -73,10 +66,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     /** 请求权限成功后回调 */
     private ReadMediaTask mReadMediaTask = new ReadMediaTask();
-
-    /**标识是否带有文件*/
-    private boolean hasFile;
-
 
     @Override
     protected String getHeadTitle() {
@@ -86,13 +75,11 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFilePaths = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
 
         if (mTaskId == 0) {
             mTaskId = getIntent().getLongExtra(UploadPhotoActivity.TASK, 0);
         }
-        mAdapter = new UploadImageAdapter(this, UploadImageAdapter.MODE_REMOTE);
-        mAdapter.setDatas(mFilePaths);
+        mAdapter = new UploadImageAdapter(this);
         mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
 
@@ -103,47 +90,12 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
             //获取选择的图片
-            mFilePaths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
-            if(mFilePaths == null || mFilePaths.size() == 0) {   //选择的图片为空终止
+            ArrayList<String> filePaths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
+            if(filePaths == null || filePaths.size() == 0) {   //选择的图片为空终止
                 return;
             }
-            hasFile=true;
+            mAdapter.addDatas(filePaths);
             mTaskId = System.currentTimeMillis();
-            UploadPictureSvc.getInstance().addObserver(this);
-            UploadPictureSvc
-                    .getInstance()
-                    .uploadMultiplePicture(getApplicationContext(),
-                            ReqUploadFile.UploadType.CRM_PHOTO_DETAIL,
-                            mAskContent.getText().toString(),
-                            mFilePaths,
-                            mTaskId);
-        }
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        super.update(observable, data);
-        if(observable != UploadPictureSvc.getInstance()) {
-            return;
-        }
-        Message msg = (Message) data;
-        final UploadPictureMessage lUploadPictureMessage = (UploadPictureMessage) msg.obj;
-        switch (msg.what) {
-            case ObservableTag.UPLOAD_SUCCESS:
-                mAdapter.addData(lUploadPictureMessage.getUrl());
-                break;
-            case ObservableTag.UPLOAD_FAILED:
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toaster.showShortToast(AskQuestionActivity.this, lUploadPictureMessage.getNativePath() + getString(R.string.upload_failed));
-                    }
-                });
-                break;
-            case ObservableTag.UPLOAD_COMPLETE:
-                UploadPictureSvc.getInstance().deleteObserver(this);
-                mTaskId = 0;
-                break;
         }
     }
 
@@ -173,14 +125,26 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     @OnClick(R.id.btn_release)
     private void release() {
-        // TODO: 谌珂 2016/10/21 请求接口提问
-        if(TextUtils.isEmpty(mAskContent.getText().toString())||mFilePaths.size()==0){
+        // DONE: 谌珂 2016/10/21 请求接口提问
+        if(TextUtils.isEmpty(mAskContent.getText().toString())){
             Toaster.showShortToast(this,"请填写提问内容");
             return;
         }
-        NetHelper.getDataFromNet(this, new ReqQuiz(this, mAskContent.getText().toString(), true, hasFile), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new ReqCreateQuestion(mAskContent.getText().toString(), mAdapter.getCount() > 1)), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
+                if(mAdapter.getCount() > 1) {
+                    BaseResponse data = (BaseResponse) pResponse;
+                    UploadPictureSvc
+                            .getInstance()
+                            .uploadMultiplePicture(getApplicationContext(),
+                                    ReqUploadFile.UploadType.CRM_PHOTO_DETAIL,
+                                    mAskContent.getText().toString(),
+                                    mAdapter.getDatas(),
+                                    System.currentTimeMillis(),
+                                    data.getReturnMsg().getResultCode());
+                }
+                finish();
 
             }
         }, false);

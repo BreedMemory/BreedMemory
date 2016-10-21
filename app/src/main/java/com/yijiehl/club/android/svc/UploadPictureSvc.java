@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.net.NetHelper;
@@ -74,7 +75,7 @@ public class UploadPictureSvc extends Observable implements Observer {
      * @param path       本地图片路径
      * @param timestamp  主要用于组上传中标记是哪个组的任务
      */
-    public void uploadSinglePicture(final @NonNull Context context, final @NonNull ReqUploadFile.UploadType uploadType, final @Nullable String tabs, final @NonNull String path, final long timestamp) {
+    public void uploadSinglePicture(final @NonNull Context context, final @NonNull ReqUploadFile.UploadType uploadType, final @Nullable String tabs, final @NonNull String path, final long timestamp, final @Nullable String relateCode) {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
@@ -82,14 +83,22 @@ public class UploadPictureSvc extends Observable implements Observer {
                     File file = new File(path);
                     UploadPicture upload = new UploadPicture(new File(path), tabs);
                     ReqBaseDataProc proc = new ReqBaseDataProc(context, upload);
-                    BaseResponse baseResponse = (BaseResponse) NetHelper.getDataFromNet(context, proc, false);
-                    if(baseResponse.isNeedLogin()) {
-                        ActivitySvc.startLoginActivity(context);
+                    BaseResponse baseResponse;
+                    String code;
+                    if(TextUtils.isEmpty(relateCode)) {
+                        baseResponse = (BaseResponse) NetHelper.getDataFromNet(context, proc, false);
+                        if(baseResponse.isNeedLogin()) {
+                            ActivitySvc.startLoginActivity(context);
+                            return;
+                        }
+                        if (!baseResponse.getReturnMsg().isSuccess()) {
+                            throw new Exception("Get relative code failed!");
+                        }
+                        code = baseResponse.getReturnMsg().getResultCode();
+                    } else {
+                        code = relateCode;
                     }
-                    if (!baseResponse.getReturnMsg().isSuccess()) {
-                        throw new Exception("Get relative code failed!");
-                    }
-                    ReqUploadFile uploadFile = new ReqUploadFile(context, uploadType, file, baseResponse.getReturnMsg().getResultCode());
+                    ReqUploadFile uploadFile = new ReqUploadFile(context, uploadType, file, code);
                     baseResponse = (BaseResponse) NetHelper.getDataFromNet(context, uploadFile, false);
                     if(baseResponse.isNeedLogin()) {
                         ActivitySvc.startLoginActivity(context);
@@ -123,9 +132,46 @@ public class UploadPictureSvc extends Observable implements Observer {
      * @param uploadType 上传类型
      * @param tabs       上传标签，多个标签用逗号隔开
      * @param path       本地图片路径
+     * @param relateCode 关联id
+     */
+    public void uploadSinglePicture(@NonNull Context context, @NonNull ReqUploadFile.UploadType uploadType, @Nullable String tabs, @NonNull String path, @Nullable String relateCode) {
+        uploadSinglePicture(context, uploadType, tabs, path, 0, relateCode);
+    }
+
+    /**
+     * 描 述：上传单张图片，成功后发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_SUCCESS}，上传失败发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_FAILED}，附带{@link UploadPictureMessage}</><br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     *
+     * @param context    上下文
+     * @param uploadType 上传类型
+     * @param tabs       上传标签，多个标签用逗号隔开
+     * @param path       本地图片路径
      */
     public void uploadSinglePicture(@NonNull Context context, @NonNull ReqUploadFile.UploadType uploadType, @Nullable String tabs, @NonNull String path) {
-        uploadSinglePicture(context, uploadType, tabs, path, 0);
+        uploadSinglePicture(context, uploadType, tabs, path, 0, null);
+    }
+
+    /**
+     * 描 述：上传多张图片，所有图片上传任务完成后发送{@link com.uuzz.android.util.ObservableTag##UPLOAD_COMPLETE}，附带任务时间戳,其中可能包含失败，也可能包含成功<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     *
+     * @param context    上下文
+     * @param uploadType 上传类型
+     * @param tabs       上传标签，多个标签用逗号隔开
+     * @param paths      本地图片路径
+     * @param timestamp  用于组上传中标记是哪个组的任务
+     * @param relateCode 关联id
+     */
+    public void uploadMultiplePicture(@NonNull Context context, @NonNull ReqUploadFile.UploadType uploadType, @Nullable String tabs, @NonNull List<String> paths, long timestamp, @Nullable String relateCode) {
+        if (paths.size() == 0 || paths.isEmpty()) {
+            return;
+        }
+        groupCountPair.put(timestamp, paths.size());
+        for (String path : paths) {
+            uploadSinglePicture(context, uploadType, tabs, path, timestamp, relateCode);
+        }
     }
 
     /**
@@ -140,13 +186,7 @@ public class UploadPictureSvc extends Observable implements Observer {
      * @param timestamp  用于组上传中标记是哪个组的任务
      */
     public void uploadMultiplePicture(@NonNull Context context, @NonNull ReqUploadFile.UploadType uploadType, @Nullable String tabs, @NonNull List<String> paths, long timestamp) {
-        if (paths.size() == 0 || paths.isEmpty()) {
-            return;
-        }
-        groupCountPair.put(timestamp, paths.size());
-        for (String path : paths) {
-            uploadSinglePicture(context, uploadType, tabs, path, timestamp);
-        }
+        uploadMultiplePicture(context, uploadType, tabs, paths, timestamp, null);
     }
 
     /**
