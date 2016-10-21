@@ -151,7 +151,7 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
      */
     public static String createWebUrl(String path) {
-        return Common.SERVICE_URL + path;
+        return "http://" + Common.SERVICE_URL + path;
     }
 
     /**

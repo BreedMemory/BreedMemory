@@ -139,9 +139,4 @@ public class RespSensitize extends BaseResponse {
             return INIT;
         }
     }
-
-    @Override
-    public boolean isNeedLogin() {
-        return true;
-    }
 }

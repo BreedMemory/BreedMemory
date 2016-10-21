@@ -30,9 +30,17 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
 
     public static final int TYPE_ADD = 1;
     public static final int TYPE_PHOTO = 0;
+    public static final int MODE_NATIVE = 3;
+    public static final int MODE_REMOTE = 4;
+
+    private int mode = MODE_NATIVE;
 
     public UploadImageAdapter(Context mContext) {
         super(mContext);
+    }
+    public UploadImageAdapter(Context mContext, int mode) {
+        super(mContext);
+        this.mode = mode;
     }
 
     @Override
@@ -76,7 +84,13 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
         if(getItemViewType(position) == TYPE_PHOTO) {
-            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position))).into(holder.photo);
+            String uri;
+            if (mode == MODE_REMOTE) {
+                uri = ActivitySvc.createResourceUrl(mContext, mDatas.get(position));
+            } else {
+                uri = "file:///" + mDatas.get(position);
+            }
+            Glide.with(mContext).load(uri).into(holder.photo);
         }
         return convertView;
     }

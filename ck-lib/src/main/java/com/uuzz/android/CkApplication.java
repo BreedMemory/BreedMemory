@@ -37,8 +37,8 @@ public class CkApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new UEHandler(this));
 
         //初始化ImageLoader配置
-        // XXX: 谌珂 2016/9/18 替换默认图片资源 更换图片加载器
-        ImageLoaderConfiguration config = ImageLoaderUtils.getImageLoaderConfiguration(this, ImageLoaderUtils.getDisplayImageOptions(android.R.mipmap.sym_def_app_icon));
+        // DONE: 谌珂 2016/9/18 替换默认图片资源 更换图片加载器
+        ImageLoaderConfiguration config = ImageLoaderUtils.getImageLoaderConfiguration(this, ImageLoaderUtils.getDisplayImageOptions(R.drawable.bg_loading));
         ImageLoader.getInstance().init(config);
     }
 }

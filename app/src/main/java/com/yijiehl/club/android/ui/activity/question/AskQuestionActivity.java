@@ -83,7 +83,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         if (mTaskId == 0) {
             mTaskId = getIntent().getLongExtra(UploadPhotoActivity.TASK, 0);
         }
-        mAdapter = new UploadImageAdapter(this);
+        mAdapter = new UploadImageAdapter(this, UploadImageAdapter.MODE_REMOTE);
         mAdapter.setDatas(mFilePaths);
         mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
