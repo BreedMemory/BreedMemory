@@ -8,18 +8,17 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.uuzz.android.R;
 
 /**
@@ -118,12 +117,7 @@ public class CircleImageView extends ImageView {
         if (drawable.getClass() == NinePatchDrawable.class) {
             return;
         }
-        Bitmap b;
-        if(drawable instanceof BitmapDrawable) {
-            b = ((BitmapDrawable) drawable).getBitmap();
-        } else {
-            b = ((GlideBitmapDrawable)drawable.getCurrent()).getBitmap();
-        }
+        Bitmap b = drawableToBitmap(drawable);
         Bitmap bitmap = b.copy(Config.ARGB_8888, true);
         if (defaultWidth == 0) {
             defaultWidth = getWidth();
@@ -176,8 +170,24 @@ public class CircleImageView extends ImageView {
         canvas.drawBitmap(roundBitmap, null, mDrawArea, null);
 
 	}
-	
-	/**
+
+    /**
+     * 描 述：drawable转bitmap<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/24 <br/>
+     */
+    private Bitmap drawableToBitmap(Drawable drawable) {
+        int width = drawable.getIntrinsicWidth();// 取drawable的长宽
+        int height = drawable.getIntrinsicHeight();
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?Bitmap.Config.ARGB_8888:Bitmap.Config.RGB_565;// 取drawable的颜色格式
+        Bitmap bitmap = Bitmap.createBitmap((width == -1)?getWidth():width, (height == -1)?getHeight():height, config);// 建立对应bitmap
+        Canvas canvas = new Canvas(bitmap);// 建立对应bitmap的画布
+        drawable.setBounds(0, 0, width, height);
+        drawable.draw(canvas);// 把drawable内容画到画布中
+        return bitmap;
+    }
+
+    /**
      * 获取裁剪后的圆形图片
      *
      * @param radius

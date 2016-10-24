@@ -1,100 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
+    android:background="#f7fbff"
+    android:paddingTop="@dimen/primary_List_margin"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_marginTop="18dip"
-        android:background="#eeeeee" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/white">
+    <LinearLayout
+        android:id="@+id/ll_ship_container"
+        style="@style/add_relation_item_container">
 
         <TextView
             android:id="@+id/tv_relatives_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:text="关系"
-            android:textSize="23dip" />
+            android:text="@string/relation"
+            style="@style/add_relation_item_text" />
 
-        <EditText
-            android:id="@+id/et_relatives_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:layout_toRightOf="@+id/tv_relatives_show"
-            android:background="@null" />
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_relatives_input"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#eeeeee" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/white">
+    <LinearLayout
+        android:id="@+id/ll_name_container"
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_ship_container"
+        style="@style/add_relation_item_container">
 
         <TextView
             android:id="@+id/tv_name_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:text="姓名"
-            android:textSize="23dip" />
+            style="@style/add_relation_item_text"
+            android:text="@string/name"/>
 
         <EditText
             android:id="@+id/et_name_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:layout_toRightOf="@+id/tv_name_show"
-            android:background="@null" />
-    </RelativeLayout>
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#eeeeee" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/white">
+    <LinearLayout
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_name_container"
+        style="@style/add_relation_item_container">
 
         <TextView
             android:id="@+id/tv_phone_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:text="手机"
-            android:textSize="23dip" />
+            style="@style/add_relation_item_text"
+            android:text="@string/phone" />
 
         <EditText
             android:id="@+id/et_phone_input"
+            android:inputType="phone"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ship_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="18dip"
-            android:layout_toRightOf="@+id/tv_phone_show"
-            android:background="@null" />
-    </RelativeLayout>
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_choose_commit"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_text_size"
+                android:text="@string/choose" />
+        </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#eeeeee" />
-</LinearLayout>
+        <com.yijiehl.club.android.ui.view.NumberPickerView
+            android:id="@+id/npv_relation_ship"
+            android:layout_width="match_parent"
+            android:layout_height="100dip"
+            app:maxValue="1"
+            app:minValue="0"
+            app:numberColorNormal="@color/textColorPrimary"
+            app:numberColorSelected="@color/colorPrimary"
+            app:numberTextSize="@dimen/primary_text_size"
+            app:drawLeftLine="true"
+            app:numberPageSize="3"/>
+    </LinearLayout>
+
+</RelativeLayout>

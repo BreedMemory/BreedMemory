@@ -54,6 +54,7 @@
     <string name="icon_host">&#xe60d;</string>
     <string name="icon_health">&#xe60e;</string>
     <string name="icon_save">&#xe60f;</string>
+    <string name="icon_triangle">&#xe602;</string>
 
 
     <string name="shared_preference_main">main_shared_preference</string>

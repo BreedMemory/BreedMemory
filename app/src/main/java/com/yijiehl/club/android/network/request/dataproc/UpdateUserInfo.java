@@ -54,6 +54,8 @@ public class UpdateUserInfo extends BaseDataEntity {
     private String orgId;
     /** 数据格式采用标准的日期串，母婴行业一般填写的是小孩出生日期或预产期，形如 2008-08-08，对应的格式串为 yyyy-MM-dd */
     private String birthdate;
+    /** 地址信息 */
+    private String areaInfo;
     /** 录入时用户/客户能进行自我描述或需求描述，一般500个字以内 */
     private String dataDesc;
 
@@ -143,6 +145,14 @@ public class UpdateUserInfo extends BaseDataEntity {
 
     public void setDataDesc(String dataDesc) {
         this.dataDesc = dataDesc;
+    }
+
+    public String getAreaInfo() {
+        return areaInfo;
+    }
+
+    public void setAreaInfo(String areaInfo) {
+        this.areaInfo = areaInfo;
     }
 
     @Override

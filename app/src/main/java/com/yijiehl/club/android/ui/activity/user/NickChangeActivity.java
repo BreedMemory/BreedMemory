@@ -25,7 +25,6 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
-import com.yijiehl.club.android.network.request.base.Sex;
 import com.yijiehl.club.android.network.request.dataproc.UpdateUserInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
@@ -57,8 +56,6 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
         return getString(R.string.nickname);
     }
 
-    // TODO: 2016/9/18 标题栏的取消和保存功能还没有实现
-
     @Override
     protected void configHeadRightView() {
         mRightBtn = new IconTextView(this);
@@ -67,8 +64,9 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.save));
+        mRightBtn.setModle(IconTextView.MODULE_TEXT);
 
-        mRightBtn.setOnClickListener(this);
+        mHeadRightContainer.setOnClickListener(this);
     }
 
     @Override
@@ -79,7 +77,7 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
         } else {
             imageView.setVisibility(View.GONE);
         }
-        mUserInfo= (UserInfo) getIntent().getSerializableExtra("user");
+        mUserInfo= (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
     }
 
     @OnClick(R.id.iv_cancel_newnick)
@@ -92,16 +90,19 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(TextUtils.isEmpty(editText.getText().toString())){
-            Toaster.showShortToast(NickChangeActivity.this,"请输入要保存的内容");
+            Toaster.showShortToast(NickChangeActivity.this, getString(R.string.please_input_content));
             return;
         }
-        mUserInfo.setShortName(editText.getText().toString());
         final UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        info.setShortName(editText.getText().toString());
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(NickChangeActivity.this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setShortName(info.getShortName());
                 ActivitySvc.saveUserInfoNative(NickChangeActivity.this, mUserInfo);
+                Intent intent = new Intent();
+                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

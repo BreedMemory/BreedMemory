@@ -9,10 +9,8 @@ package com.yijiehl.club.android.ui.activity.user;/**
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -40,12 +38,6 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
 @ContentView(R.layout.activity_sex_change)
 public class SexChangeActivity extends BmActivity {
 
-    @ViewInject(R.id.layout_choose_male)
-    private RelativeLayout layoutMale;
-
-    @ViewInject(R.id.layout_choose_female)
-    private RelativeLayout layoutFemale;
-
     @ViewInject(R.id.iv_male_show)
     private ImageView maleShow;
 
@@ -62,43 +54,42 @@ public class SexChangeActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean isMale=getIntent().getBooleanExtra("isMale",true);
-        mUserInfo= (UserInfo) getIntent().getSerializableExtra("user");
-        if(isMale){
-            maleShow.setVisibility(View.VISIBLE);
-        }else{
-            femaleShow.setVisibility(View.VISIBLE);
+        mUserInfo= (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
+        switch (Sex.setValue(mUserInfo.getGenderCode())) {
+            case MALE:
+                maleShow.setVisibility(View.VISIBLE);
+                break;
+            case FEMALE:
+                femaleShow.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
 
-    @OnClick(R.id.layout_choose_male)
-    private void chooseMale(){
+    @OnClick({R.id.layout_choose_male, R.id.layout_choose_female})
+    private void chooseMale(View v){
+        final String genderCode;
+        switch (v.getId()) {
+            case R.id.layout_choose_male:
+                genderCode = Sex.MALE.getName();
+                break;
+            default:
+                genderCode = Sex.FEMALE.getName();
+                break;
+        }
         femaleShow.setVisibility(View.GONE);
         maleShow.setVisibility(View.VISIBLE);
         UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        info.setGenderCode(genderCode);
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                mUserInfo.setGenderCode(Sex.MALE.getName());
+                mUserInfo.setGenderCode(genderCode);
                 ActivitySvc.saveUserInfoNative(SexChangeActivity.this, mUserInfo);
-                startActivity(new Intent(SexChangeActivity.this,PersonalInfoActivity.class));
-            }
-        });
-    }
-
-    @OnClick(R.id.layout_choose_female)
-    private void chooseFemale(){
-        maleShow.setVisibility(View.GONE);
-        femaleShow.setVisibility(View.VISIBLE);
-        UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
-        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                mUserInfo.setGenderCode(Sex.FEMALE.getName());
-                ActivitySvc.saveUserInfoNative(SexChangeActivity.this, mUserInfo);
+                Intent intent = new Intent();
+                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
+                setResult(RESULT_OK, intent);
                 finish();
-                startActivity(new Intent(SexChangeActivity.this,PersonalInfoActivity.class));
             }
         });
     }

@@ -285,4 +285,34 @@
         <item name="android:layout_marginTop">20dip</item>
     </style>
 
+    <style name="add_relation_item_container">
+        <item name="android:paddingLeft">@dimen/primary_margin</item>
+        <item name="android:paddingRight">@dimen/primary_margin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="add_relation_item_text">
+        <item name="android:paddingTop">@dimen/primary_List_margin</item>
+        <item name="android:paddingBottom">@dimen/primary_List_margin</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+    </style>
+
+    <style name="add_relate_item_edittext">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="android:layout_marginLeft">18dip</item>
+        <item name="android:layout_toRightOf">@+id/tv_relatives_show</item>
+        <item name="android:background">@null</item>
+    </style>
+
 </resources>

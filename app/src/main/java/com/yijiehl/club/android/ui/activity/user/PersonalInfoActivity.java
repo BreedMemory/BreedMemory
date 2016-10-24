@@ -8,27 +8,36 @@ package com.yijiehl.club.android.ui.activity.user;/**
  */
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
+import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.entity.UploadPictureMessage;
+import com.yijiehl.club.android.network.request.base.Sex;
+import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.activity.photo.PhoneNumChangeActivity;
+import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
+import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
+
+import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -42,6 +51,10 @@ import com.yijiehl.club.android.ui.activity.photo.PhoneNumChangeActivity;
  */
 @ContentView(R.layout.activity_personal_info)
 public class PersonalInfoActivity extends BmActivity {
+
+    public static final String USER_INFO = "USER_INFO";
+
+    public static final int EDIT_USER_INFO = 0;
 
     /**
      * 昵称
@@ -71,9 +84,14 @@ public class PersonalInfoActivity extends BmActivity {
     /**头像*/
     @ViewInject(R.id.iv_persion_head_pic)
     private ImageView mHeadPic;
+    /**头像*/
+    @ViewInject(R.id.tv_club_phone)
+    private TextView mCustomerPhone;
 
+    @SaveInstance
     private UserInfo userInfo;
-    private boolean isMale;
+
+    private long mTaskId;
 
 
     @Override
@@ -97,6 +115,7 @@ public class PersonalInfoActivity extends BmActivity {
             fillInfoList(JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class));
         }
     }
+
     /**
      * 描 述：填充个人信息列表<br/>
      * 作 者：张志新<br/>
@@ -104,28 +123,38 @@ public class PersonalInfoActivity extends BmActivity {
      */
     private void fillInfoList(UserInfo info) {
         userInfo=info;
+        Glide.with(this).load(ActivitySvc.createResourceUrl(this, userInfo.getImageInfo())).dontAnimate().placeholder(R.drawable.bg_loading).into(mHeadPic);
         mName.setText(info.getAcctName());
         mNick.setText(info.getShortName());
         mAddress.setText(info.getAreaInfo());
-        String sex=info.getGenderCode();
-        if(!TextUtils.isEmpty(sex)&&sex.equals("m")){
-            mSex.setText("男");
-            isMale=true;
-        }else{
-            mSex.setText("女");
-            isMale=false;
+        mCustomerPhone.setText(info.getCustServicePhone());
+        switch (Sex.setValue(info.getGenderCode())) {
+            case MALE:
+                mSex.setText(R.string.male);
+                break;
+            case FEMALE:
+                mSex.setText(R.string.female);
+                break;
         }
     }
 
-    // TODO: 2016/9/11 张志新  此处需要根据需求再写跳转；没有传值 也没有返回值；
     @OnClick(R.id.layout_update_headpic)
     private void upDateHeadPic() {
-        Toaster.showShortToast(this, "暂未实现");
+        if(mTaskId != 0) {
+            Toaster.showShortToast(this, R.string.uploading_picture);
+            return;
+        }
+        ActivitySvc.startImagePicker(this, null);
     }
 
     @OnClick(R.id.layout_update_nickname)
     private void upDateNickName() {
-        startActivity(new Intent(PersonalInfoActivity.this, NickChangeActivity.class));
+        if(userInfo == null) {
+            return;
+        }
+        Intent intent = new Intent(PersonalInfoActivity.this, NickChangeActivity.class);
+        intent.putExtra(USER_INFO, userInfo);
+        startActivityForResult(intent, EDIT_USER_INFO);
     }
 
     @OnClick(R.id.layout_update_name)
@@ -135,10 +164,12 @@ public class PersonalInfoActivity extends BmActivity {
 
     @OnClick(R.id.layout_update_sex)
     private void upDateSex() {
+        if(userInfo == null) {
+            return;
+        }
         Intent intent=new Intent(PersonalInfoActivity.this, SexChangeActivity.class);
-        intent.putExtra("user",userInfo);
-        intent.putExtra("isMale",isMale);
-        startActivity(intent);
+        intent.putExtra(USER_INFO, userInfo);
+        startActivityForResult(intent, EDIT_USER_INFO);
     }
 
     @OnClick(R.id.layout_update_phonenum)
@@ -148,21 +179,81 @@ public class PersonalInfoActivity extends BmActivity {
 
     @OnClick(R.id.layout_update_address)
     private void upDatePhoneAddress() {
-        startActivity(new Intent(PersonalInfoActivity.this, AddressChangeActivity.class));
+        if(userInfo == null) {
+            return;
+        }
+        Intent intent=new Intent(PersonalInfoActivity.this, AddressChangeActivity.class);
+        intent.putExtra(USER_INFO, userInfo);
+        startActivityForResult(intent, EDIT_USER_INFO);
     }
 
     @OnClick(R.id.layout_update_relaccount)
     private void upDatePhoneRelAccount() {
-        startActivity(new Intent(PersonalInfoActivity.this, AddRelativesAccount.class));
+        startActivity(new Intent(PersonalInfoActivity.this, RelateListActivity.class));
     }
 
     @OnClick(R.id.tv_club_phone)
     private void callClub() {
-        // TODO: 2016/10/9 拨打会所联系电话功能；相应的权限未加以及未获取
-        Intent intent=new Intent();
-        intent.setAction(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + "01066616662"));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        ActivitySvc.call(this, userInfo.getCustServicePhone());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case EDIT_USER_INFO:
+                fillInfoList((UserInfo) data.getSerializableExtra(USER_INFO));
+                break;
+            case PhotoPickerActivity.PHOTO_PICKER_ACTIVITY:
+                //获取选择的图片
+                ArrayList<String> paths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
+                if(paths == null || paths.size() == 0) {   //选择的图片为空终止
+                    return;
+                }
+                mTaskId = System.currentTimeMillis();
+                UploadPictureSvc.getInstance().addObserver(this);
+                UploadPictureSvc.getInstance().uploadSinglePicture(this,
+                        ReqUploadFile.UploadType.CUSTOMER_PORTRAIT,
+                        null,
+                        paths.get(0),
+                        mTaskId,
+                        null);
+                break;
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if(observable != UploadPictureSvc.getInstance()) {
+            return;
+        }
+        observable.deleteObserver(this);
+        mTaskId = 0;
+        Message msg = (Message) data;
+        switch (msg.what) {
+            case ObservableTag.UPLOAD_SUCCESS:
+                UploadPictureMessage pic = (UploadPictureMessage) msg.obj;
+                userInfo.setImageInfo(pic.getUrl());
+                ActivitySvc.saveUserInfoNative(this, userInfo);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fillInfoList(userInfo);
+                    }
+                });
+                break;
+            case ObservableTag.UPLOAD_FAILED:
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShortToast(PersonalInfoActivity.this, R.string.upload_failed);
+                    }
+                });
+                break;
+        }
     }
 }

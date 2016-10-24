@@ -127,4 +127,10 @@
     <string name="upload_complete">上传完成</string>
     <string name="my_medicine">我的疫苗</string>
     <string name="save">保存</string>
+    <string name="please_input_content">请输入要保存的内容</string>
+    <string name="add_relate_account">添加亲友账户</string>
+    <string name="couple">夫妻</string>
+    <string name="kith">亲友</string>
+    <string name="relation">关系</string>
+    <string name="phone">电话</string>
 </resources>

@@ -73,6 +73,10 @@ public class UserInfo implements Serializable {
     private String mainDataList;
     /**地址信息,通讯地址等*/
     private String areaInfo;
+    /**会所电话*/
+    private String custServicePhone;
+    /**会所首页*/
+    private String custServiceUrl;
 
     public String getAreaInfo() {
         return areaInfo;
@@ -364,5 +368,21 @@ public class UserInfo implements Serializable {
 
     public void setIconInfo2(String iconInfo2) {
         this.iconInfo2 = iconInfo2;
+    }
+
+    public String getCustServicePhone() {
+        return custServicePhone;
+    }
+
+    public void setCustServicePhone(String custServicePhone) {
+        this.custServicePhone = custServicePhone;
+    }
+
+    public String getCustServiceUrl() {
+        return custServiceUrl;
+    }
+
+    public void setCustServiceUrl(String custServiceUrl) {
+        this.custServiceUrl = custServiceUrl;
     }
 }

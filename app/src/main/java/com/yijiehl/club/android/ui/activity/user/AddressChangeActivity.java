@@ -67,23 +67,26 @@ public class AddressChangeActivity extends BmActivity implements OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserInfo = (UserInfo) getIntent().getSerializableExtra("user");
+        mUserInfo = (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
     }
 
     @Override
     public void onClick(View v) {
         if (TextUtils.isEmpty(editText.getText().toString())) {
-            Toaster.showShortToast(AddressChangeActivity.this, "请输入要保存的内容");
+            Toaster.showShortToast(AddressChangeActivity.this, getString(R.string.please_input_content));
             return;
         }
         UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        info.setAreaInfo(editText.getText().toString());
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(AddressChangeActivity.this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setAreaInfo(editText.getText().toString());
                 ActivitySvc.saveUserInfoNative(AddressChangeActivity.this, mUserInfo);
-                // TODO: 2016/10/23 此处为了回去就是最新数据，暂时写的跳转，需想谌珂 性别，昵称处一样
-                startActivity(new Intent(AddressChangeActivity.this, PersonalInfoActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

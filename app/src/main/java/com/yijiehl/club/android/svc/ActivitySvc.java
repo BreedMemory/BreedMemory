@@ -6,15 +6,20 @@
  */
 package com.yijiehl.club.android.svc;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.activity.CkActivity;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.yijiehl.club.android.R;
@@ -161,7 +166,7 @@ public class ActivitySvc {
      * @param activity Activity
      * @param path 图片路径集合
      */
-    public static void startImagePicker(Activity activity, ArrayList<String> path) {
+    public static void startImagePicker(Activity activity, @Nullable ArrayList<String> path) {
         Intent intent = new Intent(activity, PhotoPickerActivity.class);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         activity.startActivityForResult(intent, PhotoPickerActivity.PHOTO_PICKER_ACTIVITY);
@@ -174,7 +179,7 @@ public class ActivitySvc {
      * @param fragment Fragment
      * @param path 图片路径集合
      */
-    public static void startImagePicker(Fragment fragment, ArrayList<String> path) {
+    public static void startImagePicker(Fragment fragment, @Nullable ArrayList<String> path) {
         Intent intent = new Intent(fragment.getActivity(), PhotoPickerActivity.class);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         fragment.startActivityForResult(intent, PhotoPickerActivity.PHOTO_PICKER_ACTIVITY);
@@ -210,5 +215,40 @@ public class ActivitySvc {
         intent.putExtra(ImageViewerActivity.NATIVE, isNative);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         context.startActivity(intent);
+    }
+
+    /**
+     * 描 述：拨打客服电话<br/>
+     * 作者：谌珂<br/>
+     * 历 史: (版本) 谌珂 2016/1/14 注释 <br/>
+     * @param activity CkActivity
+     * @param tel 电话号码
+     */
+    public static void call(CkActivity activity, String tel) {
+        activity.checkPromissions(new String[]{Manifest.permission.CALL_PHONE}, new CallCustomer(activity, tel));
+    }
+
+    /**
+     * 描 述：拨打电话<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (版本) 谌珂 2016/7/13 注释 <br/>
+     */
+    private static class CallCustomer implements Runnable {
+        private CkActivity activity;
+        private String tel;
+
+        public CallCustomer(CkActivity activity, String tel) {
+            this.activity = activity;
+            this.tel = tel;
+        }
+
+        @Override
+        public void run() {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            activity.startActivity(intent);
+        }
     }
 }

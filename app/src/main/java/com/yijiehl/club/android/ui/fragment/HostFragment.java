@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
@@ -40,6 +39,7 @@ import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -166,6 +166,12 @@ public class HostFragment extends BaseHostFragment {
      * 首页附加数据
      */
     private List<UserInfo.MainDataEntity> mMainDataEntitys;
+    /**
+     * 用户信息
+     */
+    private UserInfo mUserInfo;
+
+    private HashMap<UserInfo.MainDataType, String> mUrls = new HashMap<>();
 
     @Nullable
     @Override
@@ -220,6 +226,7 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
      */
     private void fillActivity(UserInfo info) {
+        mUserInfo = info;
         //提示语
         makeUpTip(info.getWelcomeInfo());
 
@@ -255,6 +262,7 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/10/15 <br/>
      */
     private void fillExtraInfo() {
+        mUrls.clear();
         for (UserInfo.MainDataEntity entity: mMainDataEntitys) {
             switch (UserInfo.MainDataType.setValue(entity.getType())) {
                 case HEALTHINFO:
@@ -264,12 +272,15 @@ public class HostFragment extends BaseHostFragment {
                 case RECOMMACTIVITY:
                     mActivityName.setText(entity.getName());
                     mActivityTime.setText(entity.getDesc());
+                    mUrls.put(UserInfo.MainDataType.RECOMMACTIVITY, ActivitySvc.createWebUrl(entity.getValue()));
                     break;
                 case RECOMMQUESTION:
                     mQuestion.setText(entity.getName());
+                    mUrls.put(UserInfo.MainDataType.RECOMMQUESTION, ActivitySvc.createWebUrl(entity.getValue()));
                     break;
                 case RECOMMGROWUP:
                     mGrowUpTitle.setText(entity.getName());
+                    mUrls.put(UserInfo.MainDataType.RECOMMGROWUP, ActivitySvc.createWebUrl(entity.getValue()));
                     break;
                 case ACCTAMOUNT:
                     mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), entity.getValue())));
@@ -311,6 +322,11 @@ public class HostFragment extends BaseHostFragment {
                     if(!TextUtils.isEmpty(entity.getValue())) {
                         Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
                     }
+                    break;
+                case CUSTSERVICEPHONE:
+                    //保存会所电话
+                    mUserInfo.setCustServicePhone(entity.getValue());
+                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
             }
         }
@@ -462,25 +478,25 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick(R.id.tv_activity_name)
     private void toDetailActivitys() {
-        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=activity_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, mUrls.get(UserInfo.MainDataType.RECOMMACTIVITY));
         startActivity(intent);
     }
 
     @OnClick(R.id.tv_question_name)
     private void toAnswerQue() {
-        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, mUrls.get(UserInfo.MainDataType.RECOMMQUESTION));
         startActivity(intent);
     }
 
     @OnClick(R.id.tv_grow_up_title)
     private void toDetailGrow(){
-        // TODO: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
+        // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         Intent intent = new Intent(getActivity(), ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_growup_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL,mUrls.get(UserInfo.MainDataType.RECOMMGROWUP));
         startActivity(intent);
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})

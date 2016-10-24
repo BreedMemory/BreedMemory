@@ -7,16 +7,24 @@ package com.yijiehl.club.android.ui.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
+import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqLogout;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -34,6 +42,16 @@ import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
  */
 @ContentView(R.layout.activity_mine)
 public class MineActivity extends BmActivity {
+
+    @ViewInject(R.id.tv_show_myname)
+    private TextView mName;
+    @ViewInject(R.id.tv_shownickname)
+    private TextView mNickname;
+    @ViewInject(R.id.iv_my_head_pic)
+    private ImageView mHead;
+
+    private UserInfo mUserInfo;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.mine);
@@ -47,8 +65,17 @@ public class MineActivity extends BmActivity {
                 getString(R.string.shared_preference_user_info));
     }
 
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(this, mUserInfo.getImageInfo())).dontAnimate().into(mHead);
+            mName.setText(mUserInfo.getAcctName());
+            mNickname.setText(mUserInfo.getShortName());
+        }
+    }
 
-    // TODO: 2016/9/11 此处需要根据需求再写跳转。。。
+
     @OnClick(R.id.layout_mine_info)
     private void personInfo() {
         startActivity(new Intent(MineActivity.this, PersonalInfoActivity.class));
@@ -82,7 +109,7 @@ public class MineActivity extends BmActivity {
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
         Intent intent = new Intent(this, ClubIntroductionActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mUserInfo.getCustServiceUrl()));
         startActivity(intent);
     }
 

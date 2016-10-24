@@ -27,12 +27,11 @@
                 android:layout_centerVertical="true"
                 android:text="@string/headpic" />
 
-            <ImageView
+            <com.uuzz.android.ui.view.CircleImageView
                 android:id="@+id/iv_persion_head_pic"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/temp_head_pic" />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <View
@@ -209,7 +208,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dip"
-            android:text="010-66616662"
             android:textColor="#f07aac" />
     </LinearLayout>
 

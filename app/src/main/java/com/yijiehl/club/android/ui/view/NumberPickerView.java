@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -181,7 +182,7 @@ public class NumberPickerView extends View {
             int y = (mItemRect.top + mItemRect.bottom - textHeight) /2;
             String content;
             if(mTextExtras == null) {
-                content = mSelector[itemIndex] + mTextExtra;
+                content = mSelector[itemIndex] + (TextUtils.isEmpty(mTextExtra)?"":mTextExtra);
             } else {
                 content = mTextExtras.get(itemIndex);
             }
