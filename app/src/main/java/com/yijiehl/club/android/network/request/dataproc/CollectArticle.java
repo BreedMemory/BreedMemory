@@ -26,7 +26,7 @@ public class CollectArticle extends Collect {
     }
 
     @Override
-    protected String getDataType() {
+    protected String initDataType() {
         return "article";
     }
 }

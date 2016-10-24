@@ -9,6 +9,8 @@
         android:id="@+id/tv_show_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#4a4a4a"
+        android:textSize="18dip"
         android:text="8月15日" />
 
     <TextView
@@ -16,7 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="北京市" />
+        android:textColor="#4a4a4a"
+        android:textSize="18dip"/>
 
     <GridView
         android:id="@+id/person_gridview"
@@ -26,6 +29,6 @@
         android:layout_below="@+id/iv_show_uploading"
         android:numColumns="3"
         android:verticalSpacing="10dp"
-        android:layout_marginTop="19dip" />
+        android:layout_marginTop="28dip" />
 
 </RelativeLayout>

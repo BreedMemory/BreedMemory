@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android.network.request.dataproc;
 
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+
 /**
  * 项目名称：孕育迹忆 <br/>
  * 类  名: UpdateUserInfo <br/>
@@ -22,6 +24,14 @@ public class UpdateUserInfo extends BaseDataEntity {
         this.mobileNum = mobileNum;
         this.orgId = orgId;
         this.birthdate = birthdate;
+    }
+
+    public UpdateUserInfo(UserInfo userInfo) {
+        this.dataName = userInfo.getAcctName();
+        this.genderCode = userInfo.getGenderCode();
+        this.mobileNum = userInfo.getMobileNum();
+        this.orgId = userInfo.getOrgId();
+        this.birthdate = userInfo.getBirthday();
     }
 
     /** 姓名等 */

@@ -19,7 +19,7 @@ package com.yijiehl.club.android.network.request.dataproc;
 public abstract class Collect extends BaseDataEntity {
 
     /** 必填, 相片照片photo 一般图片image 活动activity 知识knowledge 问答question 通用文章article  */
-    protected String dataType = getDataType();
+    protected String dataType = initDataType();
     /** 比如文章的名称  */
     protected String dataName;
     /** 可为空，多个标签以空格分开  */
@@ -36,7 +36,7 @@ public abstract class Collect extends BaseDataEntity {
         return "ext_favorite_item_my";
     }
 
-    protected abstract String getDataType();
+    protected abstract String initDataType();
 
     @Override
     protected OperateType getOperateType() {
@@ -47,6 +47,9 @@ public abstract class Collect extends BaseDataEntity {
         this.dataType = dataType;
     }
 
+    public String getDataType() {
+        return dataType;
+    }
     public String getDataName() {
         return dataName;
     }

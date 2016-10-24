@@ -28,6 +28,7 @@
                 android:text="@string/headpic" />
 
             <ImageView
+                android:id="@+id/iv_persion_head_pic"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:layout_alignParentRight="true"
@@ -56,10 +57,10 @@
                 android:text="@string/nickname" />
 
             <TextView
+                android:id="@+id/tv_persion_nick"
                 style="@style/tv_personal_info_item_right_text"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="zhoulingan" />
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
 
         <View
@@ -81,10 +82,10 @@
                 android:text="@string/name" />
 
             <TextView
+                android:id="@+id/tv_persion_name"
                 style="@style/tv_personal_info_item_right_text"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="周玲安" />
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <View
@@ -109,10 +110,10 @@
                 android:text="@string/sex" />
 
             <TextView
+                android:id="@+id/tv_persion_sex"
                 style="@style/tv_personal_info_item_right_text"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="女" />
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <View
@@ -137,10 +138,10 @@
                 android:text="@string/phone_number" />
 
             <TextView
+                android:id="@+id/tv_persion_phone"
                 style="@style/tv_personal_info_item_right_text"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="18711111111" />
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <View
@@ -165,10 +166,10 @@
                 android:text="@string/address" />
 
             <TextView
+                android:id="@+id/tv_persion_address"
                 style="@style/tv_personal_info_item_right_text"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="河北省秦皇岛市" />
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
 
         <View

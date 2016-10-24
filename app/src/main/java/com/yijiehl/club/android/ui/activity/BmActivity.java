@@ -94,7 +94,7 @@ public abstract class BmActivity extends CkActivity implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         if(observable instanceof CacheDataDAO) {
-            Message msg = Message.obtain();
+            Message msg = (Message) data;
             switch (msg.what) {
                 case ObservableTag.CACHE_DATA:                               //数据缓存被成功取到
                     onReceiveCacheData((CacheDataEntity) msg.obj);

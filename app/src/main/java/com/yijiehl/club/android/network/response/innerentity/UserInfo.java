@@ -71,6 +71,16 @@ public class UserInfo implements Serializable {
     private String birthday;
     /** 首页信息 */
     private String mainDataList;
+    /**地址信息,通讯地址等*/
+    private String areaInfo;
+
+    public String getAreaInfo() {
+        return areaInfo;
+    }
+
+    public void setAreaInfo(String areaInfo) {
+        this.areaInfo = areaInfo;
+    }
 
     public enum MainDataType {
         HEALTHINFO(0, "healthInfo"),

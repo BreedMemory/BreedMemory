@@ -24,8 +24,7 @@
         android:id="@+id/tv_show_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="北京市" />
+        android:layout_alignParentRight="true"/>
 
     <com.yijiehl.club.android.ui.view.NoScrollGridView
         android:id="@+id/person_gridview"
@@ -35,7 +34,7 @@
         android:layout_below="@+id/iv_show_uploading"
         android:numColumns="3"
         android:verticalSpacing="10dp"
-        android:layout_marginTop="19dip">
+        android:layout_marginTop="28dip">
 
     </com.yijiehl.club.android.ui.view.NoScrollGridView>
 </RelativeLayout>

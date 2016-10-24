@@ -205,8 +205,8 @@ public class HostFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // DONE: 谌珂 2016/10/15 替换为从数据库取数据
-        long t = System.currentTimeMillis();
-        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(),
+                R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
 
         Glide.with(this).load(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
         Glide.with(this).load(R.drawable.shouye_chengzhang_bg).into(mGrowUpImageBackground);

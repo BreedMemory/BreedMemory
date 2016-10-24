@@ -7,6 +7,7 @@ package com.yijiehl.club.android.ui.activity.user;/**
  * Created by asus on 2016/9/18.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,7 +17,15 @@ import android.widget.RelativeLayout;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.base.Sex;
+import com.yijiehl.club.android.network.request.dataproc.UpdateUserInfo;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
@@ -43,6 +52,7 @@ public class SexChangeActivity extends BmActivity {
     @ViewInject(R.id.iv_female_show)
     private ImageView femaleShow;
 
+    private UserInfo mUserInfo;
 
     @Override
     protected String getHeadTitle() {
@@ -52,8 +62,9 @@ public class SexChangeActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String sex=getIntent().getStringExtra("sex");
-        if(TextUtils.isEmpty(sex)||sex.equals("male")){
+        boolean isMale=getIntent().getBooleanExtra("isMale",true);
+        mUserInfo= (UserInfo) getIntent().getSerializableExtra("user");
+        if(isMale){
             maleShow.setVisibility(View.VISIBLE);
         }else{
             femaleShow.setVisibility(View.VISIBLE);
@@ -65,17 +76,30 @@ public class SexChangeActivity extends BmActivity {
     private void chooseMale(){
         femaleShow.setVisibility(View.GONE);
         maleShow.setVisibility(View.VISIBLE);
-        // TODO: 2016/9/18 需要返回性别
-        //setResult();
-        finish();
+        UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mUserInfo.setGenderCode(Sex.MALE.getName());
+                ActivitySvc.saveUserInfoNative(SexChangeActivity.this, mUserInfo);
+                startActivity(new Intent(SexChangeActivity.this,PersonalInfoActivity.class));
+            }
+        });
     }
 
     @OnClick(R.id.layout_choose_female)
     private void chooseFemale(){
         maleShow.setVisibility(View.GONE);
         femaleShow.setVisibility(View.VISIBLE);
-        // TODO: 2016/9/18 需要返回性别
-        //setResult();
-        finish();
+        UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mUserInfo.setGenderCode(Sex.FEMALE.getName());
+                ActivitySvc.saveUserInfoNative(SexChangeActivity.this, mUserInfo);
+                finish();
+                startActivity(new Intent(SexChangeActivity.this,PersonalInfoActivity.class));
+            }
+        });
     }
 }

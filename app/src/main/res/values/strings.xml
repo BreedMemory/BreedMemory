@@ -19,7 +19,7 @@
     <string name="name">姓名</string>
     <string name="male">男</string>
     <string name="female">女</string>
-    <string name="club">选择会所</string>
+    <string name="club">会所</string>
     <string name="choose">选择</string>
     <string name="next">下一步</string>
     <string name="choose_bron_time">选择预产期</string>
@@ -125,4 +125,6 @@
     <string name="upload_failed">上传失败</string>
     <string name="uploading_picture">图片上传中!</string>
     <string name="upload_complete">上传完成</string>
+    <string name="my_medicine">我的疫苗</string>
+    <string name="save">保存</string>
 </resources>

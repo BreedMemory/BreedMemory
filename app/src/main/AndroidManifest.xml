@@ -157,5 +157,21 @@
         <activity android:name=".ui.activity.user.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
+        <!-- 会所介绍页面 -->
+        <activity android:name=".ui.activity.user.ClubIntroductionActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 我的消息页面 -->
+        <activity android:name=".ui.activity.user.MyMessageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 我的疫苗 -->
+        <activity android:name=".ui.activity.user.MyMedicineActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- 我的收藏 -->
+        <activity android:name=".ui.activity.user.MyCellectActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
