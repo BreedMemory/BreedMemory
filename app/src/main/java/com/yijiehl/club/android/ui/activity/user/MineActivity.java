@@ -109,7 +109,7 @@ public class MineActivity extends BmActivity {
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
         Intent intent = new Intent(this, ClubIntroductionActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mUserInfo.getCustServiceUrl()));
+        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mUserInfo.getCustServiceUrl(this)));
         startActivity(intent);
     }
 

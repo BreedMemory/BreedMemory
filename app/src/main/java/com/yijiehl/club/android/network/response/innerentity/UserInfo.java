@@ -6,7 +6,10 @@
  */
 package com.yijiehl.club.android.network.response.innerentity;
 
+import android.content.Context;
 import android.text.TextUtils;
+
+import com.yijiehl.club.android.common.Common;
 
 import java.io.Serializable;
 
@@ -75,8 +78,6 @@ public class UserInfo implements Serializable {
     private String areaInfo;
     /**会所电话*/
     private String custServicePhone;
-    /**会所首页*/
-    private String custServiceUrl;
 
     public String getAreaInfo() {
         return areaInfo;
@@ -378,11 +379,7 @@ public class UserInfo implements Serializable {
         this.custServicePhone = custServicePhone;
     }
 
-    public String getCustServiceUrl() {
-        return custServiceUrl;
-    }
-
-    public void setCustServiceUrl(String custServiceUrl) {
-        this.custServiceUrl = custServiceUrl;
+    public String getCustServiceUrl(Context context) {
+        return "http://" +Common.SERVICE_URL + "showpgclfybiz.htm?clfy=crm_org_main&bd=showdetail&dd="+orgId;
     }
 }

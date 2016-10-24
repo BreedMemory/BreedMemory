@@ -412,9 +412,9 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick({R.id.im_club_logo,R.id.im_logo_info_activity,R.id.im_logo_info_question})
     private void startWebView() {
-        // TODO: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
+        // DONE: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
         Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_main&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL, mUserInfo.getCustServiceUrl(getActivity()));
         startActivity(intent);
     }
 
