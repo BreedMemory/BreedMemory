@@ -379,7 +379,21 @@ public class UserInfo implements Serializable {
         this.custServicePhone = custServicePhone;
     }
 
+    /**
+     * 描 述：返回会所链接<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/24 <br/>
+     */
     public String getCustServiceUrl(Context context) {
         return "http://" +Common.SERVICE_URL + "showpgclfybiz.htm?clfy=crm_org_main&bd=showdetail&dd="+orgId;
+    }
+
+    /**
+     * 描 述：返回月子餐链接<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/24 <br/>
+     */
+    public String getFoodUrl(Context context) {
+        return "http://" +Common.SERVICE_URL + "showpgclfybiz.htm?clfy=org_month_meals&bd=showdetail&dd="+orgId;
     }
 }

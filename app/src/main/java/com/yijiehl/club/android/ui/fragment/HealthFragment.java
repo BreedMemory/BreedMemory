@@ -9,20 +9,29 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.alibaba.fastjson.JSON;
+import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.response.RespSearchHealthData;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
-import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
+
+import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -56,6 +65,13 @@ public class HealthFragment extends BaseHostFragment {
     /** 婴儿统计图容器 */
     @ViewInject(R.id.form_baby)
     private View mFormBaby;
+
+    /** 用户基本数据 */
+    private UserInfo mUserInfo;
+    /** 母亲当天数据 */
+    private RespSearchHealthData mMotherData;
+    /** 宝宝当天数据 */
+    private List<RespSearchHealthData> mBabyDatas;
 
     @Nullable
     @Override
@@ -112,6 +128,21 @@ public class HealthFragment extends BaseHostFragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
+
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+        }
+    }
+
     @OnClick({R.id.im_more, R.id.tv_more})
     private void showForm() {
         mFormContainer.setVisibility(View.VISIBLE);
@@ -160,8 +191,11 @@ public class HealthFragment extends BaseHostFragment {
 
     @OnClick(R.id.ll_food)
     private void startFood() {
+        if(mUserInfo == null) {
+            return;
+        }
         Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=org_month_meals&dd=XXXXXXXXX&bd=showdetail");
+        intent.putExtra(ArticalDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);
     }
 

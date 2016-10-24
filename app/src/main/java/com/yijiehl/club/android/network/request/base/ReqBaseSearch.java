@@ -157,4 +157,44 @@ public abstract class ReqBaseSearch extends ReqBase {
     public boolean isGet() {
         return false;
     }
+
+
+    /**
+     * 描 述：统计数据的对象<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/24 <br/>
+     */
+    public enum StatisticalTarget {
+        BODY_WEIGHT(0, "body_weight"),
+        BODY_TEMPERATURE(1, "body_temperature"),
+        BODY_HEIGHT(2, "boby_height"),
+        HEAD_PERIMETER(2, "head_perimeter"),
+        CHEST_PERIMETER(2, "chest_perimeter");
+
+        private int value;
+        private String name;
+
+        StatisticalTarget(int value, String name) {
+            this.value = value;
+            this.name = name;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static StatisticalTarget setValue(String name) {
+            StatisticalTarget[] arr$ = values();
+            for (StatisticalTarget c : arr$) {
+                if (TextUtils.equals(c.getName(), name)) {
+                    return c;
+                }
+            }
+            return BODY_WEIGHT;
+        }
+    }
 }
