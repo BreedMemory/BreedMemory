@@ -52,7 +52,7 @@ public class HealthInfoActivity extends BmActivity {
                         mDataMother.setVisibility(View.VISIBLE);
                         mDataBaby.setVisibility(View.GONE);
                         break;
-                    case R.id.rb_baby:
+                    case R.id.rb_baby0:
                         mDataMother.setVisibility(View.GONE);
                         mDataBaby.setVisibility(View.VISIBLE);
                         break;

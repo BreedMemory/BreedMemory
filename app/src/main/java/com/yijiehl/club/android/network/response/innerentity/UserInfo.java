@@ -10,8 +10,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.yijiehl.club.android.common.Common;
+import com.yijiehl.club.android.network.response.RespLogin;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -79,6 +81,10 @@ public class UserInfo implements Serializable {
     /**会所电话*/
     private String custServicePhone;
 
+    private RespLogin.AccountStatus status;
+
+    private List<MainDataEntity> childrenInfo;
+
     public String getAreaInfo() {
         return areaInfo;
     }
@@ -129,6 +135,15 @@ public class UserInfo implements Serializable {
     }
 
     public static class MainDataEntity {
+        public MainDataEntity() {
+        }
+
+        public MainDataEntity(String desc, String name, String value) {
+            this.desc = desc;
+            this.name = name;
+            this.value = value;
+        }
+
         private String type;
         private String desc;
         private String name;
@@ -377,6 +392,22 @@ public class UserInfo implements Serializable {
 
     public void setCustServicePhone(String custServicePhone) {
         this.custServicePhone = custServicePhone;
+    }
+
+    public List<MainDataEntity> getChildrenInfo() {
+        return childrenInfo;
+    }
+
+    public void setChildrenInfo(List<MainDataEntity> childrenInfo) {
+        this.childrenInfo = childrenInfo;
+    }
+
+    public RespLogin.AccountStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RespLogin.AccountStatus status) {
+        this.status = status;
     }
 
     /**

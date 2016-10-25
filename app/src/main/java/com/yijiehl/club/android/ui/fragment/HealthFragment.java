@@ -6,32 +6,21 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.RadioGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
-import com.uuzz.android.util.ioc.annotation.OnClick;
-import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.ui.activity.ActivitysActivity;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.health.HealthInfoActivity;
-import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
-
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -44,34 +33,9 @@ import java.util.List;
  */
 @ContentView(R.layout.fragment_health_layout)
 public class HealthFragment extends BaseHostFragment {
-    /** 显示更多的图标 */
-    @ViewInject(R.id.im_more)
-    private View mMore;
-    /** 显示更多的文字 */
-    @ViewInject(R.id.tv_more)
-    private View mIcMore;
-    /** 图表的大容器 */
-    @ViewInject(R.id.ll_form_container)
-    private View mFormContainer;
-    /** 图表选择器 */
-    @ViewInject(R.id.rg_selector)
-    private RadioGroup mFormSelector;
-    /** 图表小容器 */
-    @ViewInject(R.id.fl_form_container)
-    private FrameLayout mFormFrameLayout;
-    /** 母亲统计图容器 */
-    @ViewInject(R.id.form_mother)
-    private View mFormMother;
-    /** 婴儿统计图容器 */
-    @ViewInject(R.id.form_baby)
-    private View mFormBaby;
 
     /** 用户基本数据 */
     private UserInfo mUserInfo;
-    /** 母亲当天数据 */
-    private RespSearchHealthData mMotherData;
-    /** 宝宝当天数据 */
-    private List<RespSearchHealthData> mBabyDatas;
 
     @Nullable
     @Override
@@ -88,6 +52,7 @@ public class HealthFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
+        // TODO: 谌珂 2016/10/25 根据用户状态转换
         return null;
     }
 
@@ -99,6 +64,7 @@ public class HealthFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
+        // TODO: 谌珂 2016/10/25 根据用户状态转换
         return false;
     }
 
@@ -108,99 +74,44 @@ public class HealthFragment extends BaseHostFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_mother:
-                        mFormMother.setVisibility(View.VISIBLE);
-                        mFormBaby.setVisibility(View.GONE);
-                        break;
-                    case R.id.rb_baby:
-                        mFormMother.setVisibility(View.GONE);
-                        mFormBaby.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        });
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
                 getString(R.string.shared_preference_user_info));
-
     }
 
     @Override
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+            adaptView();
         }
     }
 
-    @OnClick({R.id.im_more, R.id.tv_more})
-    private void showForm() {
-        mFormContainer.setVisibility(View.VISIBLE);
-        mMore.setVisibility(View.GONE);
-        mIcMore.setVisibility(View.GONE);
-    }
-
-    @OnClick(R.id.tv_retract)
-    private void hideForm() {
-        mFormContainer.setVisibility(View.GONE);
-        mMore.setVisibility(View.VISIBLE);
-        mIcMore.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick({R.id.mother_extra_data,
-            R.id.form_mother_temperature,
-            R.id.form_mother_weight,
-            R.id.baby_extra_data,
-            R.id.form_baby_height,
-            R.id.form_baby_chest,
-            R.id.form_baby_head,
-            R.id.form_baby_weight})
-    private void startHealthData(View v) {
-        Intent intent = new Intent(getActivity(), HealthInfoActivity.class);
-        switch (v.getId()) {
-            case R.id.mother_extra_data:
-            case R.id.form_mother_temperature:
-            case R.id.form_mother_weight:
-                intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_mother);
+    /**
+     * 描 述：根据婴儿数据适配视图<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/25 <br/>
+     */
+    private void adaptView() {
+        HealthInfoFragment fragment;
+        switch (mUserInfo.getStatus()) {
+            case SERVICE_IN:
+                // DONE: 谌珂 2016/10/25 显示入住中页面
+                fragment = new ServiceInFragment();
                 break;
-            case R.id.baby_extra_data:
-            case R.id.form_baby_height:
-            case R.id.form_baby_chest:
-            case R.id.form_baby_head:
-            case R.id.form_baby_weight:
-                intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_baby);
+            case SERVICE_AFTER:
+                // DONE: 谌珂 2016/10/25 显示出所后页面
+                fragment = new ServiceAfterFragment();
+                break;
+            default:
+                // DONE: 谌珂 2016/10/25 显示入所前页面
+                fragment = new ServiceBeforeFragment();
                 break;
         }
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.ll_activity)
-    private void startActivitys() {
-        startActivity(new Intent(getActivity(), ActivitysActivity.class));
-    }
-
-    @OnClick(R.id.ll_food)
-    private void startFood() {
-        if(mUserInfo == null) {
-            return;
-        }
-        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.ll_knowledge)
-    private void startKnowledge(){
-        startActivity(new Intent(getActivity(), KnowledgeActivity.class));
+        fragment.setmUserInfo(mUserInfo);
+        FragmentTransaction lFragmentTransaction = getFragmentManager().beginTransaction();
+        lFragmentTransaction.add(R.id.fl_fragment_container, fragment);
+        lFragmentTransaction.commitAllowingStateLoss();
     }
 }
