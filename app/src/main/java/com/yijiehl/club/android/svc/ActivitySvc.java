@@ -73,7 +73,6 @@ public class ActivitySvc {
     public static void loginSuccess(Context context, RespLogin data) {
         switch (data.getAccountStatus()) {
             case INIT:
-            case GENERAL:
                 // DONE: 谌珂 2016/9/7 跳转到完善信息页面
                 Intent intent = new Intent(context, SupplementInfoActivity.class);
                 intent.putExtra(UserInfo.class.getName(), data.getCfgParams());
