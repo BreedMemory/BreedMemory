@@ -49,7 +49,7 @@ public class PictureClubAdapter extends BaseListViewAdapter<AlbumInfo> implement
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tvClubTitle.setText(mDatas.get(position).getDataName());
-        holder.ivClubPicNum.setText(mDatas.get(position).getDataDesc());
+        holder.ivClubPicNum.setText(String.valueOf(mDatas.get(position).getDataNum()));
         holder.tvClubPivTime.setText(TimeUtil.getTime(mDatas.get(position).getCreateTime(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
 
         Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).dontAnimate().placeholder(R.drawable.bg_loading).into(holder.ivClubPic);

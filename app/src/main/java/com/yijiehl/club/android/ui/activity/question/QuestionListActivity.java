@@ -77,10 +77,6 @@ public class QuestionListActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*List<String> data = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            data.add("小孩子应该多久吃一次奶粉");
-        }*/
         String type = getIntent().getStringExtra("type");
         NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type), new AbstractCallBack(this) {
             @Override
@@ -99,7 +95,6 @@ public class QuestionListActivity extends BmActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // DONE: 2016/10/4 暂时跳转文章详情页面。。。
                 Intent intent = new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
-                //intent.putExtra(ArticalDetailActivity.URL, "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail");
                 intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
                 Log.d("===",ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
                 startActivity(intent);

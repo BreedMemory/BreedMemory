@@ -47,16 +47,24 @@
             android:layout_marginLeft="7dip"
             android:textSize="14dip" />
 
-        <ImageView
+        <com.uuzz.android.ui.view.IconTextView
             android:id="@+id/iv_question_list_heart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/icon_collect"
+            android:textSize="24dip"
+            android:textColor="@color/textColorHint"
+            android:gravity="center"
             android:layout_toLeftOf="@+id/iv_question_list_share"
             android:layout_marginRight="35dip"
             android:src="@drawable/item_heart"/>
-        <ImageView
+        <com.uuzz.android.ui.view.IconTextView
             android:id="@+id/iv_question_list_share"
             android:layout_alignParentRight="true"
+            android:text="@string/icon_share"
+            android:textSize="20dip"
+            android:textColor="@color/textColorHint"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/item_share"/>
