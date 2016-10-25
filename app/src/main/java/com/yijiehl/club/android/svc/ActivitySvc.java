@@ -105,7 +105,9 @@ public class ActivitySvc {
             editor.putString(context.getString(R.string.shared_preference_user_id), phoneNumber);
         }
         editor.commit();
-        saveUserInfoNative(context, data.getCfgParams());
+        UserInfo userInfo = data.getCfgParams();
+        userInfo.setStatus(data.getAccountStatus());
+        saveUserInfoNative(context, userInfo);
     }
 
     /**

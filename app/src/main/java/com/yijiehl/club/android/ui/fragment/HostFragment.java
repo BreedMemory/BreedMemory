@@ -39,6 +39,7 @@ import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -327,6 +328,29 @@ public class HostFragment extends BaseHostFragment {
                     //保存会所电话
                     mUserInfo.setCustServicePhone(entity.getValue());
                     ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
+                    break;
+                case CHILDINFO:
+                    //保存会所电话
+                    if(TextUtils.isEmpty(entity.getValue())) {
+                        break;
+                    }
+                    if(mUserInfo.getChildrenInfo() == null) {
+                        mUserInfo.setChildrenInfo(new ArrayList<UserInfo.MainDataEntity>());
+                    }
+                    String names[] = entity.getName().split(",");
+                    String values[] = entity.getName().split(",");
+                    String descs[] = entity.getName().split(",");
+                    for (int i = 0; i < values.length; i++) {
+                        String name = null;
+                        String desc = null;
+                        if(i < names.length) {
+                            name = names[i];
+                        }
+                        if(i < descs.length) {
+                            desc = descs[i];
+                        }
+                        mUserInfo.getChildrenInfo().add(new UserInfo.MainDataEntity(desc, name, values[i]));
+                    }
                     break;
             }
         }
