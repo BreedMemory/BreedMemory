@@ -8,10 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +47,7 @@ public class QuestionListAdapter extends BaseListViewAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         if(convertView==null){
             convertView=View.inflate(mContext,R.layout.item_question_list,null);
@@ -58,8 +64,16 @@ public class QuestionListAdapter extends BaseListViewAdapter {
         holder.questionHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016/10/4 此处事件需要完善
-                Toaster.showShortToast(mContext,"您已收藏");
+                // DONE: 2016/10/4 此处事件需要完善
+                CollectQuestion req=new CollectQuestion(data.get(position).getDataContent(),null,
+                        data.get(position).getImageInfo(),data.get(position).getDataShowUrl(),data.get(position).getReplyInfo());
+                NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        refresh();
+                        Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
+                    }
+                });
             }
         });
         holder.questionShare.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +99,8 @@ public class QuestionListAdapter extends BaseListViewAdapter {
         @ViewInject(R.id.tv_question_list_answer)
         TextView questionAnswer;
         @ViewInject(R.id.iv_question_list_heart)
-        ImageView questionHeart;
+        IconTextView questionHeart;
         @ViewInject(R.id.iv_question_list_share)
-        ImageView questionShare;
+        IconTextView questionShare;
     }
 }

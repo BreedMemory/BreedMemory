@@ -31,6 +31,7 @@
                 android:id="@+id/iv_persion_head_pic"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
+                android:layout_marginRight="3dip"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
 

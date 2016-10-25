@@ -24,11 +24,15 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
 @ContentView(R.layout.activity_knowledge)
 public class KnowledgeActivity extends BmActivity {
 
+    public static final String PREG = "pregnancy";
+    public static final String NEW = "newborn";
+    public static final String LITTLE = "littlebaby";
+    public static final String TYPE = "type";
     /**产后下拉内容展示*/
-    @ViewInject(R.id.layout_after_child_birth_context)
-    private LinearLayout afterBirthContent;
+  //  @ViewInject(R.id.layout_after_child_birth_context)
+    //private LinearLayout afterBirthContent;
 
-    private boolean isAfterShow;
+    //private boolean isAfterShow;
 
     @Override
     protected String getHeadTitle() {
@@ -48,27 +52,33 @@ public class KnowledgeActivity extends BmActivity {
 
     @OnClick(R.id.layout_confinement)
     private void confinementInKnowledge(){
-        startActivity(new Intent(this,KnowledgeListActivity.class));
+        Intent intent=new Intent(this,KnowledgeListActivity.class);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.NEW);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_confinement_after)
     private void confinementAfterInKnowledge(){
-        startActivity(new Intent(this,KnowledgeListActivity.class));
+        Intent intent=new Intent(this,KnowledgeListActivity.class);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.LITTLE);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_pregnancy)
     private void pregnancy(){
-        Toaster.showShortToast(this,"暂未实现");
+        Intent intent=new Intent(this,KnowledgeListActivity.class);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.PREG);
+        startActivity(intent);
     }
 
-    @OnClick(R.id.layout_after_child_birth)
+    /*@OnClick(R.id.layout_after_child_birth)
     private void afterChildBirth(){
-        if (!isAfterShow) {
+        *//*if (!isAfterShow) {
             afterBirthContent.setVisibility(View.GONE);
             isAfterShow = true;
         } else {
             afterBirthContent.setVisibility(View.VISIBLE);
             isAfterShow = false;
-        }
-    }
+        }*//*
+    }*/
 }

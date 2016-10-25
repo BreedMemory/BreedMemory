@@ -98,7 +98,7 @@ public class MineActivity extends BmActivity {
 
     @OnClick(R.id.layout_my_collect)
     private void myCellect() {
-        startActivity(new Intent(this, MyMedicineActivity.class));
+        startActivity(new Intent(this, MyCellectActivity.class));
     }
 
   /*  @OnClick(R.id.layout_photo_manage)
