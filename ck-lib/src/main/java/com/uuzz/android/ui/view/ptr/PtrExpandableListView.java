@@ -49,8 +49,7 @@ public class PtrExpandableListView extends ExpandableListView {
      * 历 史: (版本) 谌珂 2016/1/28 注释 <br/>
      */
     private void init(Context context) {
-        LayoutInflater lLayoutInflater = LayoutInflater.from(context);
-        mFootView = lLayoutInflater.inflate(R.layout.foot_load_more, null);
+        mFootView = LayoutInflater.from(context).inflate(R.layout.foot_load_more, null);
         lFootContent = (TextView) mFootView.findViewById(R.id.tv_content);
         lFootContent.setText(getContext().getString(R.string.load_more));
         addFooterView(mFootView);

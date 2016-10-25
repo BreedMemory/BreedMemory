@@ -57,10 +57,9 @@ public class MineActivity extends BmActivity {
         return getString(R.string.mine);
     }
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
                 getString(R.string.shared_preference_user_info));
     }
@@ -109,7 +108,7 @@ public class MineActivity extends BmActivity {
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
         Intent intent = new Intent(this, ClubIntroductionActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mUserInfo.getCustServiceUrl(this)));
+        intent.putExtra(ArticalDetailActivity.URL, mUserInfo.getCustServiceUrl(this));
         startActivity(intent);
     }
 

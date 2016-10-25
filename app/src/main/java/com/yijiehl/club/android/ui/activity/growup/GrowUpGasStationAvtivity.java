@@ -25,7 +25,7 @@ public class GrowUpGasStationAvtivity extends BmActivity {
     }
 
     @OnClick({R.id.layout_new_left,R.id.layout_new_right})
-    private void lookDetailNew(){
+    private void lookDetailNew() {
         // TODO: 2016/10/10 此处的url是临时的；
         Intent intent=new Intent(this,ArticalDetailActivity.class);
         intent.putExtra(ArticalDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_gift_milk_powder&dd=XXXXXXXXX&bd=showdetail");

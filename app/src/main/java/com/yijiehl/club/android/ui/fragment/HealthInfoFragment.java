@@ -7,7 +7,11 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import com.yijiehl.club.android.network.response.RespSearchHealthData;
+import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+
+import java.util.List;
 
 /**
  * 项目名称：手机在线 <br/>
@@ -22,6 +26,23 @@ public class HealthInfoFragment extends BmFragment {
 
     /** 用户数据 */
     protected UserInfo mUserInfo;
+
+    /** 母亲当天数据 */
+    protected RespSearchHealthData mMotherData;
+    /** 宝宝当天数据 */
+    protected List<RespSearchHealthData> mBabyDatas;
+    /** 母亲当天体温数据 */
+    protected RespSearchHealthDataList mMotherDataListTemperature;
+    /** 母亲当天体重数据 */
+    protected RespSearchHealthDataList mMotherDataListWeight;
+    /** 母亲当天体温数据 */
+    protected RespSearchHealthDataList mMotherDataListChest;
+    /** 母亲当天体重数据 */
+    protected RespSearchHealthDataList mMotherDataListWaist;
+    /** 母亲当天体重数据 */
+    protected RespSearchHealthDataList mMotherDataListHip;
+    /** 宝宝当天数据 */
+    protected List<RespSearchHealthDataList> mBabyDataList;
 
     public void setmUserInfo(UserInfo mUserInfo) {
         this.mUserInfo = mUserInfo;

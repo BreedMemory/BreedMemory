@@ -9,7 +9,9 @@ package com.yijiehl.club.android.ui.activity.user;/**
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,7 +43,7 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_nickname_change)
-public class NickChangeActivity extends BmActivity implements View.OnClickListener{
+public class NickChangeActivity extends BmActivity implements View.OnClickListener {
 
     @ViewInject(R.id.et_nickname_change)
     private EditText editText;
@@ -72,12 +74,31 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!TextUtils.isEmpty(editText.getText())) {
-            imageView.setVisibility(View.VISIBLE);
-        } else {
-            imageView.setVisibility(View.GONE);
-        }
-        mUserInfo= (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
+
+        mUserInfo = (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
+
+        /**设置文本输入变化监听 */
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @OnClick(R.id.iv_cancel_newnick)
@@ -89,7 +110,7 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if(TextUtils.isEmpty(editText.getText().toString())){
+        if (TextUtils.isEmpty(editText.getText().toString())) {
             Toaster.showShortToast(NickChangeActivity.this, getString(R.string.please_input_content));
             return;
         }
@@ -100,9 +121,6 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setShortName(info.getShortName());
                 ActivitySvc.saveUserInfoNative(NickChangeActivity.this, mUserInfo);
-                Intent intent = new Intent();
-                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
-                setResult(RESULT_OK, intent);
                 finish();
             }
         });

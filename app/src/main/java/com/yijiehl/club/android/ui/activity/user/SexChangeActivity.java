@@ -86,9 +86,6 @@ public class SexChangeActivity extends BmActivity {
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setGenderCode(genderCode);
                 ActivitySvc.saveUserInfoNative(SexChangeActivity.this, mUserInfo);
-                Intent intent = new Intent();
-                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
-                setResult(RESULT_OK, intent);
                 finish();
             }
         });

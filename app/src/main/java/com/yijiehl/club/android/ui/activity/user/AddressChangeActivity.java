@@ -83,9 +83,6 @@ public class AddressChangeActivity extends BmActivity implements OnClickListener
             public void onSuccess(AbstractResponse pResponse) {
                 mUserInfo.setAreaInfo(editText.getText().toString());
                 ActivitySvc.saveUserInfoNative(AddressChangeActivity.this, mUserInfo);
-                Intent intent = new Intent();
-                intent.putExtra(PersonalInfoActivity.USER_INFO, mUserInfo);
-                setResult(RESULT_OK, intent);
                 finish();
             }
         });

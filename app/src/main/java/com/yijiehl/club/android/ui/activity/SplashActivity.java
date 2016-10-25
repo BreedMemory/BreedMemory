@@ -19,6 +19,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqSensitize;
 import com.yijiehl.club.android.network.response.RespLogin;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.user.LoginActivity;
 
@@ -59,7 +60,7 @@ public class SplashActivity extends BmActivity {
         NetHelper.getDataFromNet(this, new ReqSensitize(this), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                RespLogin data = (RespLogin) pResponse;
+                RespSensitize data = (RespSensitize) pResponse;
                 ActivitySvc.loginSuccess(SplashActivity.this, data);
                 ActivitySvc.saveClientInfoNative(SplashActivity.this, data, null);
                 finish();

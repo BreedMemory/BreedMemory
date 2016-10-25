@@ -37,6 +37,7 @@
             android:layout_marginLeft="5dip"
             android:layout_toLeftOf="@+id/et_nickname_change"
             android:layout_marginRight="7dip"
+            android:visibility="gone"
             android:src="@drawable/cancel_et_content" />
     </RelativeLayout>
 

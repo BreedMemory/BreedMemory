@@ -22,24 +22,24 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
  */
 public class RespLogin extends BaseResponse {
     /** 非空, 用于唯一标识一个用户/客户, 不会改变，客户端可以以这个编码创建用户/客户文件夹等来保存用户/客户本地信息。*/
-    private String uccode;
+    protected String uccode;
     /** 非空, 用于唯一标识一个用户/客户 */
-    private String ucid;
+    protected String ucid;
     /** 非空, 登录会话编码, 每次登录都会不一样, 用于标识整个会话, 后面所有与服务器通讯都要带上它， 一个三十位左右的唯一串 */
-    private String secode;
+    protected String secode;
     /** 当前账号状态编码，不同的状态可以查询数据的权限不一样，操作也可能不同，详细见下面说明
      * init 初始状态，该状态下需要进入录入基本信息界面
      * general 一般账号，普通账号，已录入基本信息但可能还不准备使用会所等相关的服务
      * service_before 服务前，比如入住前，准备或有意向使用服务
      * service_in 服务中，比如入住中，正在使用服务
      * service_after 服务后，比如入住后，已经使用过服务了 */
-    private String acctStatus;
+    protected String acctStatus;
     /** 可为空，消息收发服务器地址，可能与平台不是同一台服务器，形如 http://msg.yoursite.com/ ，值为空时取登录的URL前缀 */
-    private String msgUrl;
+    protected String msgUrl;
     /** 可为空，一般用于图片、文件等资源的操作与访问，如下面的文件上传、下载接口，值由服务端动态提供 */
-    private String resourceUrl;
+    protected String resourceUrl;
     /** 返回客户端的配置信息，这里面有些信息需要保存在本地，登录或会话检查后再同步更新 */
-    private UserInfo cfgParams;
+    protected UserInfo cfgParams;
 
     public String getUccode() {
         return uccode;
@@ -111,10 +111,12 @@ public class RespLogin extends BaseResponse {
         GENERAL(1, "general"),
         SERVICE_BEFORE(2, "service_before"),
         SERVICE_IN(3, "service_in"),
-        SERVICE_AFTER(4, "service_after");
+        SERVICE_AFTER(4, "service_after"),
+        GENERAL_BEFORE(5, "general_before"),
+        GENERAL_AFTER(6, "general_after");
 
-        private int value = 0;
-        private String name = "";
+        protected int value = 0;
+        protected String name = "";
 
         AccountStatus(int value, String name) {
             this.value = value;

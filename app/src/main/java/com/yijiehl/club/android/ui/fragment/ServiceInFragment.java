@@ -17,13 +17,21 @@ import android.widget.RadioGroup;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
+import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
+import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
+import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -59,14 +67,28 @@ public class ServiceInFragment extends HealthInfoFragment {
     @ViewInject(R.id.form_baby)
     private View mFormBaby;
 
-    /** 母亲当天数据 */
-    private RespSearchHealthData mMotherData;
-    /** 宝宝当天数据 */
-    private List<RespSearchHealthData> mBabyDatas;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherData = (RespSearchHealthData) pResponse;
+            }
+        });
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_TEMPERATURE), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListTemperature = (RespSearchHealthDataList) pResponse;
+            }
+        });
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_WEIGHT), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListWeight = (RespSearchHealthDataList) pResponse;
+            }
+        });
 
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -87,6 +109,20 @@ public class ServiceInFragment extends HealthInfoFragment {
             }
         });
     }
+
+//    protected void getDataList(ReqBaseSearch.StatisticalTarget target, final String fildName) {
+//        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), target), new AbstractCallBack(getActivity()) {
+//            @Override
+//            public void onSuccess(AbstractResponse pResponse) {
+//                try {
+//                    Field declaredField = ServiceInFragment.class.getDeclaredField(fildName);
+//                    declaredField.set(ServiceInFragment.this, pResponse);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     @OnClick({R.id.im_more, R.id.tv_more})
     private void showForm() {

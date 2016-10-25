@@ -101,14 +101,19 @@ public class PersonalInfoActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
-                getString(R.string.shared_preference_user_info));
-
         String phone = ContextUtils.getSharedString(this, R.string.shared_preference_user_id);
         if (!TextUtils.isEmpty(phone)) {
             mPhone.setText(phone);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
+    }
+
     @Override
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
@@ -154,7 +159,7 @@ public class PersonalInfoActivity extends BmActivity {
         }
         Intent intent = new Intent(PersonalInfoActivity.this, NickChangeActivity.class);
         intent.putExtra(USER_INFO, userInfo);
-        startActivityForResult(intent, EDIT_USER_INFO);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_update_name)
@@ -169,7 +174,7 @@ public class PersonalInfoActivity extends BmActivity {
         }
         Intent intent=new Intent(PersonalInfoActivity.this, SexChangeActivity.class);
         intent.putExtra(USER_INFO, userInfo);
-        startActivityForResult(intent, EDIT_USER_INFO);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_update_phonenum)
@@ -184,7 +189,7 @@ public class PersonalInfoActivity extends BmActivity {
         }
         Intent intent=new Intent(PersonalInfoActivity.this, AddressChangeActivity.class);
         intent.putExtra(USER_INFO, userInfo);
-        startActivityForResult(intent, EDIT_USER_INFO);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_update_relaccount)
