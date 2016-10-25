@@ -36,6 +36,7 @@ public class HealthFragment extends BaseHostFragment {
 
     /** 用户基本数据 */
     private UserInfo mUserInfo;
+    private HealthInfoFragment fragment;
 
     @Nullable
     @Override
@@ -74,10 +75,12 @@ public class HealthFragment extends BaseHostFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
-                getString(R.string.shared_preference_user_info));
+    public void onShow() {
+        super.onShow();
+        if(mUserInfo == null) {
+            CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                    getString(R.string.shared_preference_user_info));
+        }
     }
 
     @Override
@@ -94,21 +97,25 @@ public class HealthFragment extends BaseHostFragment {
      * 历 史: (1.7.3) 谌珂 2016/10/25 <br/>
      */
     private void adaptView() {
-        HealthInfoFragment fragment;
-        switch (mUserInfo.getStatus()) {
-            case SERVICE_IN:
-                // DONE: 谌珂 2016/10/25 显示入住中页面
-                fragment = new ServiceInFragment();
-                break;
-            case SERVICE_AFTER:
-                // DONE: 谌珂 2016/10/25 显示出所后页面
-                fragment = new ServiceAfterFragment();
-                break;
-            default:
-                // DONE: 谌珂 2016/10/25 显示入所前页面
-                fragment = new ServiceBeforeFragment();
-                break;
+        if(fragment != null) {
+            return;
         }
+        // TODO: 谌珂 2016/10/26 测试代码
+//        switch (mUserInfo.getStatus()) {
+//            case SERVICE_IN:
+//                // DONE: 谌珂 2016/10/25 显示入住中页面
+//                fragment = new ServiceInFragment();
+//                break;
+//            case SERVICE_AFTER:
+//                // DONE: 谌珂 2016/10/25 显示出所后页面
+//                fragment = new ServiceAfterFragment();
+//                break;
+//            default:
+//                // DONE: 谌珂 2016/10/25 显示入所前页面
+//                fragment = new ServiceBeforeFragment();
+//                break;
+//        }
+        fragment = new ServiceInFragment();
         fragment.setmUserInfo(mUserInfo);
         FragmentTransaction lFragmentTransaction = getFragmentManager().beginTransaction();
         lFragmentTransaction.add(R.id.fl_fragment_container, fragment);

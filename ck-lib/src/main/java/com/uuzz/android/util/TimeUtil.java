@@ -318,6 +318,54 @@ public class TimeUtil {
         return c.get(Calendar.DAY_OF_WEEK);
     }
 
+    /**
+     * 根据一个日期，返回是星期几的字符串
+     * @param timestamp
+     * @return
+     */
+    public static int getWeek(long timestamp) {
+        // 再转换为时间
+        Date date;
+        date = new Date(timestamp);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        // int hour=c.get(Calendar.DAY_OF_WEEK);
+        // hour中存的就是星期几了，其范围 1~7
+        // 1=星期日 7=星期六，其他类推
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+
+    public static String getWeekStr(long timestamp){
+        String str;
+        switch (TimeUtil.getWeek(timestamp)) {
+            case 1:
+                str = "周日";
+                break;
+            case 2:
+                str = "周一";
+                break;
+            case 3:
+                str = "周二";
+                break;
+            case 4:
+                str = "周三";
+                break;
+            case 5:
+                str = "周四";
+                break;
+            case 6:
+                str = "周五";
+                break;
+            case 7:
+                str = "周六";
+                break;
+            default:
+                str = "";
+                break;
+        }
+        return str;
+    }
+
     public static String getWeekStr(String sdate){
         String str;
         switch (TimeUtil.getWeek(sdate)) {

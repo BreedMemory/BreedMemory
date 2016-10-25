@@ -290,7 +290,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dip"
         android:orientation="horizontal">
-        <LinearLayout style="@style/health_info_container">
+        <LinearLayout
+            android:id="@+id/ll_baby_food"
+            style="@style/health_info_container">
             <ImageView
                 android:src="@drawable/ic_health_food"
                 style="@style/health_info_icon" />
@@ -298,7 +300,9 @@
                 android:text="@string/food"
                 style="@style/health_info_title" />
         </LinearLayout>
-        <LinearLayout style="@style/health_info_container"
+        <LinearLayout
+            android:id="@+id/ll_baby_excretion"
+            style="@style/health_info_container"
             android:layout_marginLeft="22dip"
             android:layout_marginRight="22dip">
             <ImageView
@@ -308,7 +312,9 @@
                 android:text="@string/excretion"
                 style="@style/health_info_title" />
         </LinearLayout>
-        <LinearLayout style="@style/health_info_container">
+        <LinearLayout
+            android:id="@+id/ll_baby_physiology"
+            style="@style/health_info_container">
             <ImageView
                 android:src="@drawable/ic_physiology"
                 style="@style/health_info_icon" />

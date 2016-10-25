@@ -151,7 +151,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dip"
         android:orientation="horizontal">
-        <LinearLayout style="@style/health_info_container">
+        <LinearLayout
+            android:id="@+id/ll_mother_blood_sugar"
+            style="@style/health_info_container">
             <ImageView
                 android:src="@drawable/ic_blood_sugar"
                 style="@style/health_info_icon" />
@@ -159,7 +161,9 @@
                 android:text="@string/blood_sugar"
                 style="@style/health_info_title" />
         </LinearLayout>
-        <LinearLayout style="@style/health_info_container"
+        <LinearLayout
+            android:id="@+id/ll_mother_blood_pressure"
+            style="@style/health_info_container"
             android:layout_marginLeft="22dip"
             android:layout_marginRight="22dip">
             <ImageView
@@ -169,7 +173,9 @@
                 android:text="@string/blood_pressure"
                 style="@style/health_info_title" />
         </LinearLayout>
-        <LinearLayout style="@style/health_info_container">
+        <LinearLayout
+            android:id="@+id/ll_mother_sleep"
+            style="@style/health_info_container">
             <ImageView
                 android:src="@drawable/ic_sleep"
                 style="@style/health_info_icon" />

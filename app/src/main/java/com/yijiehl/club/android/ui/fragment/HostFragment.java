@@ -330,16 +330,18 @@ public class HostFragment extends BaseHostFragment {
                     ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
                 case CHILDINFO:
-                    //保存会所电话
+                    //保存宝宝信息
                     if(TextUtils.isEmpty(entity.getValue())) {
                         break;
                     }
                     if(mUserInfo.getChildrenInfo() == null) {
                         mUserInfo.setChildrenInfo(new ArrayList<UserInfo.MainDataEntity>());
+                    } else {
+                        mUserInfo.getChildrenInfo().clear();
                     }
                     String names[] = entity.getName().split(",");
-                    String values[] = entity.getName().split(",");
-                    String descs[] = entity.getName().split(",");
+                    String values[] = entity.getValue().split(",");
+                    String descs[] = entity.getDesc().split(",");
                     for (int i = 0; i < values.length; i++) {
                         String name = null;
                         String desc = null;
@@ -351,6 +353,7 @@ public class HostFragment extends BaseHostFragment {
                         }
                         mUserInfo.getChildrenInfo().add(new UserInfo.MainDataEntity(desc, name, values[i]));
                     }
+                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
             }
         }

@@ -17,6 +17,7 @@
             android:text="@string/weight"/>
         <View style="@style/health_data_item_divider" />
         <TextView
+            android:id="@+id/tv_mother_weight"
             android:text="58.00kg"
             style="@style/health_data_item_data" />
     </RelativeLayout>
@@ -26,6 +27,7 @@
             android:text="@string/temperature"/>
         <View style="@style/health_data_item_divider" />
         <TextView
+            android:id="@+id/tv_mother_temperature"
             android:text="37℃"
             style="@style/health_data_item_data" />
     </RelativeLayout>
@@ -35,6 +37,7 @@
             style="@style/health_data_title"
             android:text="@string/blood_sugar"/>
         <TextView
+            android:id="@+id/tv_mother_blood_sugar"
             android:text="@string/normal"
             style="@style/health_data_state_item_data" />
     </RelativeLayout>
@@ -44,6 +47,7 @@
             style="@style/health_data_title"
             android:text="@string/blood_pressure"/>
         <TextView
+            android:id="@+id/tv_mother_blood_pressure"
             android:text="@string/normal"
             style="@style/health_data_state_item_data" />
     </RelativeLayout>
@@ -51,15 +55,10 @@
     <RelativeLayout
         style="@style/health_data_state_item_container">
         <TextView
-            android:text="妈妈现在血压一切正常。"
-            style="@style/health_data_state_item_data_desc" />
-    </RelativeLayout>
-    <RelativeLayout
-        style="@style/health_data_state_item_container">
-        <TextView
             style="@style/health_data_title"
             android:text="@string/sleep"/>
         <TextView
+            android:id="@+id/tv_mother_sleep"
             android:text="@string/well"
             style="@style/health_data_state_item_data" />
     </RelativeLayout>
@@ -72,6 +71,7 @@
     <RelativeLayout
         style="@style/health_data_state_item_container">
         <TextView
+            android:id="@+id/tv_mother_info"
             android:text="妈妈的睡眠良好。"
             style="@style/health_data_state_item_data_desc" />
     </RelativeLayout>

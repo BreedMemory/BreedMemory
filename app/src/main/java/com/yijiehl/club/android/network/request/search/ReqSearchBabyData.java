@@ -23,13 +23,15 @@ import com.yijiehl.club.android.network.response.RespSearchHealthData;
  * @author 谌珂 <br/>
  */
 public class ReqSearchBabyData extends ReqBaseSearch {
-    public ReqSearchBabyData(Context context) {
+    public ReqSearchBabyData(Context context, String id) {
         super(context);
+        this.dataId = id;
     }
 
-    public ReqSearchBabyData(Context context, String time) {
+    public ReqSearchBabyData(Context context, String time, String id) {
         super(context);
         this.startTime = time;
+        this.dataId = id;
     }
 
     @Override

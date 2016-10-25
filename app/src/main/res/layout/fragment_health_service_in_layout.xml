@@ -87,7 +87,7 @@
             android:id="@+id/ll_form_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="vertical">
             <RadioGroup
                 android:id="@+id/rg_selector"
@@ -117,6 +117,7 @@
                     android:background="@drawable/grow_up_selector_middle_touchable"
                     android:gravity="center"
                     android:text="@string/baby"
+                    android:visibility="gone"
                     android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
                 <RadioButton
@@ -127,6 +128,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/grow_up_selector_middle_touchable"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:text="@string/baby"
                     android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
@@ -138,6 +140,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/grow_up_selector_middle_touchable"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:text="@string/baby"
                     android:textColor="@drawable/health_selector_text_color"
                     android:textSize="14dip" />
