@@ -8,16 +8,10 @@ package com.yijiehl.club.android.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -27,13 +21,12 @@ import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
-import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.user.MineActivity;
+import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.question.QuestionListActivity;
+import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -86,9 +79,8 @@ public class QuestionFragment extends BaseHostFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    public void onResume() {
+        super.onResume();
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
                 getString(R.string.shared_preference_user_info));
     }
