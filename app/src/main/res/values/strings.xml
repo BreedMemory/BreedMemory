@@ -75,7 +75,7 @@
     <string name="blood_sugar">血糖</string>
     <string name="blood_pressure">血压</string>
     <string name="sleep">睡眠</string>
-    <string name="excretion">排泄</string>
+    <string name="excretion">大小便情况</string>
     <string name="physiology">生理性</string>
     <string name="sunday">日</string>
     <string name="born">出生</string>
@@ -133,4 +133,7 @@
     <string name="kith">亲友</string>
     <string name="relation">关系</string>
     <string name="phone">电话</string>
+    <string name="waist">腰围</string>
+    <string name="hips">臀围</string>
+    <string name="illness_history">病历记录</string>
 </resources>

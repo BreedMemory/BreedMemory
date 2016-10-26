@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/primary_margin"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginTop="0dip"
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/weight"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_weight_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_weight_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_triangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_weight_form_container"
+            android:layout_below="@id/ll_weight_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:id="@+id/form_baby_weight"
+                android:src="@drawable/temp_weight_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <!--  身高  -->
+    <RelativeLayout
+        android:visibility="gone"
+        style="@style/form_container">
+
+        <TextView
+            android:text="@string/height"
+            style="@style/form_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_height_grit"
+            style="@style/form_mode_selector">
+            <TextView
+                android:id="@+id/tv_height_grit"
+                android:text="@string/day_tian"
+                style="@style/form_grit" />
+            <ImageView
+                android:src="@drawable/ic_triangle"
+                style="@style/trangle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_height_form_container"
+            android:layout_below="@id/ll_height_grit"
+            style="@style/form_main_container">
+
+            <TextView
+                android:text="9月"
+                style="@style/form_month" />
+            <ImageView
+                android:id="@+id/form_baby_height"
+                android:src="@drawable/temp_height_form"
+                style="@style/form" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_marginTop="30dip"
+        android:layout_marginBottom="15dip"
+        android:text="@string/illness_history"
+        style="@style/form_title" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/text_space"
+        android:paddingBottom="@dimen/text_space"
+        android:background="@drawable/bg_corner_gray" />
+
+</LinearLayout>

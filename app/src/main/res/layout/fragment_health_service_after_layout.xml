@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content">
                 <include
                     android:id="@+id/form_mother"
-                    layout="@layout/fragment_form_mother_in_layout" />
+                    layout="@layout/fragment_form_mother_after_layout" />
                 <include
                     android:id="@+id/form_baby"
                     android:visibility="gone"

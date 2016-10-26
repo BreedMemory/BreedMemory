@@ -17,6 +17,6 @@ import com.yijiehl.club.android.R;
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-@ContentView(R.layout.fragment_form_mother_layout)
+@ContentView(R.layout.fragment_form_mother_in_layout)
 public class MotherFormFragment extends BmFragment {
 }

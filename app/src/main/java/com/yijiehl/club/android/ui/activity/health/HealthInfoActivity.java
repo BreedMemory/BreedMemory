@@ -25,8 +25,10 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
+import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.view.TimePicker;
@@ -69,6 +71,43 @@ public class HealthInfoActivity extends BmActivity {
     /** 妈妈基本信息 */
     @ViewInject(R.id.tv_mother_info)
     private TextView mMotherInfo;
+
+
+    /** 宝宝生日 */
+    @ViewInject(R.id.tv_baby_birthday)
+    private TextView mBabyBirthday;
+    /** 宝宝体重 */
+    @ViewInject(R.id.tv_baby_weight)
+    private TextView mBabyWeight;
+    /** 宝宝头围 */
+    @ViewInject(R.id.tv_baby_head)
+    private TextView mBabyHead;
+    /** 宝宝胸围 */
+    @ViewInject(R.id.tv_baby_chest)
+    private TextView mBabyChest;
+    /** 宝宝身高 */
+    @ViewInject(R.id.tv_baby_height)
+    private TextView mBabyHeight;
+    /** 宝宝食物种类 */
+    @ViewInject(R.id.tv_foot_kind)
+    private TextView mBabyFoodKind;
+    /** 宝宝食量 */
+    @ViewInject(R.id.tv_foot_count)
+    private TextView mBabyFoodCount;
+    /** 宝宝排泄 */
+    @ViewInject(R.id.tv_excretion)
+    private TextView mBabyExcretion;
+    /** 宝宝黄恒 */
+    @ViewInject(R.id.tv_yellow)
+    private TextView mBabyYellow;
+    /** 宝宝湿疹 */
+    @ViewInject(R.id.tv_wet)
+    private TextView mBabyWet;
+    /** 宝宝红臀 */
+    @ViewInject(R.id.tv_red)
+    private TextView mBabyRed;
+
+            ;
     /** 时间选择容器 */
     @ViewInject(R.id.ll_time_picker_container)
     private View mPickerContainer;
@@ -105,6 +144,7 @@ public class HealthInfoActivity extends BmActivity {
                         if(mMotherTask != null) {
                             mMotherTask.cancel(true);
                         }
+                        mMotherTask = getMotherData();
                         mDataMother.setVisibility(View.VISIBLE);
                         mDataBaby.setVisibility(View.GONE);
                         break;
@@ -114,6 +154,10 @@ public class HealthInfoActivity extends BmActivity {
                     case R.id.rb_baby3:
                         mDataMother.setVisibility(View.GONE);
                         mDataBaby.setVisibility(View.VISIBLE);
+                        if(mBabyTask != null) {
+                            mBabyTask.cancel(true);
+                        }
+                        mBabyTask = getBabyData((String) group.findViewById(checkedId).getTag(checkedId));
                         break;
                 }
             }
@@ -127,6 +171,14 @@ public class HealthInfoActivity extends BmActivity {
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+            //计算应当显示的宝宝视图按钮
+            if(mUserInfo.getChildrenInfo() != null) {
+                for (int i = 0; i < mUserInfo.getChildrenInfo().size(); i++) {
+                    View v = mFormSelector.getChildAt(4-i);
+                    v.setVisibility(View.VISIBLE);
+                    v.setTag(v.getId(), mUserInfo.getChildrenInfo().get(i).getValue());
+                }
+            }
         }
     }
 
@@ -151,6 +203,31 @@ public class HealthInfoActivity extends BmActivity {
     }
 
     /**
+     * 描 述：获取母亲某一天数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
+     */
+    private AsyncTask getBabyData(String babyId) {
+        return NetHelper.getDataFromNet(this, new ReqSearchBabyData(this, mTime, babyId), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);
+                mBabyBirthday.setText(lData.getBirthdate());
+                mBabyWeight.setText(lData.getStatValue01());
+                mBabyHead.setText(lData.getStatValue11());
+                mBabyChest.setText(lData.getStatValue10());
+                mBabyHeight.setText(lData.getStatValue03());
+                mBabyFoodKind.setText(transformString(lData.getStatValue20()));
+                mBabyFoodCount.setText(transformString(lData.getStatValue21()));
+                mBabyExcretion.setText("大便" + transformString(lData.getStatValue25()) + "，小便" + transformString(lData.getStatValue26()));
+                mBabyYellow.setText(transformString(lData.getStatValue30()));
+                mBabyWet.setText(transformString(lData.getStatValue31()));
+                mBabyRed.setText(transformString(lData.getStatValue32()));
+            }
+        });
+    }
+
+    /**
      * 描 述：构建时间<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
@@ -166,6 +243,8 @@ public class HealthInfoActivity extends BmActivity {
         switch (value) {
             case "normal":
                 return "正常";
+            case "abnormal":
+                return "不正常";
             case "higher":
                 return "偏高";
             case "lower":
@@ -178,6 +257,14 @@ public class HealthInfoActivity extends BmActivity {
                 return "一般";
             case "poorer":
                 return "较差";
+            case "breast_milk":
+                return "母乳";
+            case "powdered_milk":
+                return "奶粉";
+            case "have":
+                return "有";
+            case "not":
+                return "无";
             default:
                 return value;
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -10,22 +11,26 @@
         style="@style/health_data_title" />
     <View style="@style/health_data_divider" />
 
-    <RelativeLayout style="@style/health_data_item_container">
+    <RelativeLayout
+        style="@style/health_data_item_container">
         <TextView
             style="@style/health_data_title"
             android:text="@string/born"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="2016年8月8日"
+            android:id="@+id/tv_baby_birthday"
+            tools:text="2016年8月8日"
             style="@style/health_data_item_data" />
     </RelativeLayout>
-    <RelativeLayout style="@style/health_data_item_container">
+    <RelativeLayout
+        style="@style/health_data_item_container">
         <TextView
             style="@style/health_data_title"
             android:text="@string/weight"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="8.5kg"
+            android:id="@+id/tv_baby_weight"
+            tools:text="8.5kg"
             style="@style/health_data_item_data" />
     </RelativeLayout>
     <RelativeLayout
@@ -35,7 +40,8 @@
             android:text="@string/head_size"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="41.6cm"
+            android:id="@+id/tv_baby_head"
+            tools:text="41.6cm"
             style="@style/health_data_item_data" />
     </RelativeLayout>
     <RelativeLayout
@@ -45,7 +51,8 @@
             android:text="@string/chest"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="46.3cm"
+            android:id="@+id/tv_baby_chest"
+            tools:text="46.3cm"
             style="@style/health_data_item_data" />
     </RelativeLayout>
     <RelativeLayout
@@ -55,7 +62,8 @@
             android:text="@string/height"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="75.6cm"
+            android:id="@+id/tv_baby_height"
+            tools:text="75.6cm"
             style="@style/health_data_item_data" />
     </RelativeLayout>
 
@@ -69,41 +77,32 @@
             style="@style/health_data_title"
             android:text="@string/eat"/>
         <TextView
-            android:text="母乳"
+            android:id="@+id/tv_foot_kind"
+            tools:text="母乳"
             style="@style/health_data_state_item_data" />
         <TextView
-            android:text="较少"
+            android:id="@+id/tv_foot_count"
+            tools:text="较少"
             style="@style/health_data_state_item_data"
             android:layout_marginLeft="150dip"/>
-    </RelativeLayout>
-    <RelativeLayout
-        style="@style/health_data_state_item_container">
-        <TextView
-            style="@style/health_data_title"
-            android:text="@string/drinked"/>
-        <TextView
-            android:text="900ml"
-            style="@style/health_data_state_item_data" />
-    </RelativeLayout>
-    <RelativeLayout
-        style="@style/health_data_state_item_container">
-        <TextView
-            android:text="宝宝现在喝水正常。"
-            style="@style/health_data_state_item_data_desc" />
     </RelativeLayout>
 
     <TextView
         android:text="@string/excretion"
         style="@style/health_data_title_margin" />
     <View style="@style/health_data_divider" />
+
     <RelativeLayout style="@style/health_data_item_container">
         <TextView
             style="@style/health_data_title"
             android:text="@string/excretion"/>
-        <View style="@style/health_data_item_divider" />
+        <View style="@style/health_data_item_divider"
+            android:layout_marginLeft="110dip"/>
         <TextView
-            android:text="排泄情况正常"
-            style="@style/health_data_item_data" />
+            android:id="@+id/tv_excretion"
+            tools:text="大便正常，小便不正常"
+            style="@style/health_data_item_data"
+            android:layout_marginLeft="125dip"/>
     </RelativeLayout>
 
     <TextView
@@ -116,14 +115,16 @@
             android:text="@string/aurigo"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="10"
+            android:id="@+id/tv_yellow"
+            tools:text="10"
             style="@style/health_data_item_data" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:text="(标准值1-10)"/>
+            android:visibility="gone"
+            tools:text="(标准值1-10)"/>
     </RelativeLayout>
     <RelativeLayout style="@style/health_data_item_container">
         <TextView
@@ -131,7 +132,8 @@
             android:text="@string/eczema"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="无"
+            android:id="@+id/tv_wet"
+            tools:text="无"
             style="@style/health_data_item_data" />
     </RelativeLayout>
     <RelativeLayout style="@style/health_data_item_container">
@@ -140,7 +142,8 @@
             android:text="@string/red_buttock"/>
         <View style="@style/health_data_item_divider" />
         <TextView
-            android:text="无"
+            android:id="@+id/tv_red"
+            tools:text="无"
             style="@style/health_data_item_data" />
     </RelativeLayout>
 </LinearLayout>

@@ -87,8 +87,8 @@
                             android:layout_weight="1"
                             android:background="@drawable/grow_up_selector_middle_touchable"
                             android:gravity="center"
-                            android:visibility="gone"
                             android:text="@string/baby"
+                            android:visibility="gone"
                             android:textColor="@drawable/health_selector_text_color"
                             android:textSize="14dip" />
                         <RadioButton
@@ -99,8 +99,8 @@
                             android:layout_weight="1"
                             android:background="@drawable/grow_up_selector_middle_touchable"
                             android:gravity="center"
-                            android:visibility="gone"
                             android:text="@string/baby"
+                            android:visibility="gone"
                             android:textColor="@drawable/health_selector_text_color"
                             android:textSize="14dip" />
                         <RadioButton
