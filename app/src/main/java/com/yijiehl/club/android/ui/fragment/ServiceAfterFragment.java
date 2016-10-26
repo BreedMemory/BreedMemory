@@ -7,15 +7,17 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
@@ -26,6 +28,10 @@ import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
+import com.yijiehl.club.android.network.response.innerentity.HealthData;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
+import com.yijiehl.club.android.ui.adapter.IllnessHistoryAdapter;
 
 /**
  * 项目名称：手机在线 <br/>
@@ -62,10 +68,19 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     /** 婴儿统计图容器 */
     @ViewInject(R.id.form_baby)
     private View mFormBaby;
+    /** 婴儿统计图容器 */
+    @ViewInject(R.id.tv_illness_title)
+    private TextView mBabyIllnessHistoryTitle;
+    /** 婴儿统计图容器 */
+    @ViewInject(R.id.lv_listview)
+    private ListView mBabyIllnessHistory;
+    private IllnessHistoryAdapter mIllnessAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mIllnessAdapter = new IllnessHistoryAdapter(getActivity());
+        mBabyIllnessHistory.setAdapter(mIllnessAdapter);
 
         NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
             @Override
@@ -89,6 +104,8 @@ public class ServiceAfterFragment extends HealthInfoFragment {
 
         getBabyData();
 
+        // TODO: 谌珂 2016/10/26 请求接口查询病例
+
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -110,9 +127,66 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         });
 
         //计算应当显示的宝宝视图按钮
-        if(mUserInfo.getChildrenInfo() != null) {
+        if (mUserInfo.getChildrenInfo() != null) {
             for (int i = 0; i < mUserInfo.getChildrenInfo().size(); i++) {
-                mFormSelector.getChildAt(4-i).setVisibility(View.VISIBLE);
+                mFormSelector.getChildAt(4 - i).setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private void fillBabyData(int id) {
+        HealthData data = null;
+        switch (id) {
+            case R.id.rb_baby0:
+                if(mBabyDatas.size() > 0) {
+                    data = mBabyDatas.get(0).getResultList().get(0);
+                }
+                break;
+            case R.id.rb_baby1:
+                if(mBabyDatas.size() > 1) {
+                    data = mBabyDatas.get(1).getResultList().get(0);
+                }
+                break;
+            case R.id.rb_baby2:
+                if(mBabyDatas.size() > 2) {
+                    data = mBabyDatas.get(2).getResultList().get(0);
+                }
+                break;
+            case R.id.rb_baby3:
+                if(mBabyDatas.size() > 3) {
+                    data = mBabyDatas.get(3).getResultList().get(0);
+                }
+                break;
+        }
+        if(data == null) {
+            return;
+        }
+
+    }
+
+    @OnClick({R.id.im_more, R.id.tv_more})
+    private void showForm() {
+        mFormContainer.setVisibility(View.VISIBLE);
+        mMore.setVisibility(View.GONE);
+        mIcMore.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.tv_retract)
+    private void hideForm() {
+        mFormContainer.setVisibility(View.GONE);
+        mMore.setVisibility(View.VISIBLE);
+        mIcMore.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick({R.id.form_mother_chest,
+            R.id.form_mother_weight,
+            R.id.form_mother_waist,
+            R.id.form_mother_hips,
+            R.id.form_baby_height,
+            R.id.form_baby_weight})
+    private void startHealthData() {
+        Intent intent = new Intent(getActivity(), HealthInfoAfterActivity.class);
+        intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());
+        startActivity(intent);
+    }
 }

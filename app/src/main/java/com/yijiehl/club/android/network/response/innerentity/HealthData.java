@@ -64,7 +64,7 @@ public class HealthData extends RespBaseSearchResult {
     private String statValue35;
     private String statValue36;
     private String statValue37;
-    private String fileFlag;
+    private int fileFlag;
 
     public String getRelateCode() {
         return relateCode;
@@ -426,11 +426,11 @@ public class HealthData extends RespBaseSearchResult {
         this.statValue37 = statValue37;
     }
 
-    public String getFileFlag() {
+    public int getFileFlag() {
         return fileFlag;
     }
 
-    public void setFileFlag(String fileFlag) {
+    public void setFileFlag(int fileFlag) {
         this.fileFlag = fileFlag;
     }
 }

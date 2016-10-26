@@ -60,6 +60,18 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
     }
 
     /**
+     * 描 述：清空所有信息<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/27 <br/>
+     */
+    public void clear() {
+        if(mDatas != null) {
+            mDatas.clear();
+        }
+        refresh();
+    }
+
+    /**
      * 描 述：如果Context是Activity的实例主线程刷新列表，否则不刷新<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/8/19 <br/>

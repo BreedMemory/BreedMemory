@@ -1,25 +1,17 @@
 package com.yijiehl.club.android.ui.activity.question;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
-import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.Toaster;
-import com.uuzz.android.util.database.dao.CacheDataDAO;
-import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -29,10 +21,9 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
-import com.yijiehl.club.android.network.request.dataproc.ReqCreateQuestion;
+import com.yijiehl.club.android.network.request.dataproc.CreateQuestion;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.base.BaseResponse;
-import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -150,7 +141,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
             Toaster.showShortToast(this, "请填写提问内容");
         }
 
-        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new ReqCreateQuestion(mAskContent.getText().toString(), mAdapter.getCount() > 1)), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new CreateQuestion(mAskContent.getText().toString(), mAdapter.getCount() > 1)), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 if (mAdapter.getCount() > 1) {

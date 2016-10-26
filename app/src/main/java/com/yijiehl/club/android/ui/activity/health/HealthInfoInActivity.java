@@ -1,6 +1,6 @@
 /**
  * 项目名称：手机大管家
- * 文件名称: HealthInfoActivity.java
+ * 文件名称: HealthInfoInActivity.java
  * Created by 谌珂 on 2016/10/4.
  * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
@@ -35,14 +35,14 @@ import com.yijiehl.club.android.ui.view.TimePicker;
 
 /**
  * 项目名称：手机大管家<br/>
- * 类  名: HealthInfoActivity<br/>
+ * 类  名: HealthInfoInActivity<br/>
  * 类描述: <br/>
  * @author 谌珂 <br/>
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-@ContentView(R.layout.activity_health_data_frame)
-public class HealthInfoActivity extends BmActivity {
+@ContentView(R.layout.activity_health_data_in_frame)
+public class HealthInfoInActivity extends BmActivity {
     public static final String ROLE = "role";
 
     /** 图表选择器 */
@@ -188,10 +188,14 @@ public class HealthInfoActivity extends BmActivity {
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
     private AsyncTask getMotherData() {
+        clearMotherData();
         return NetHelper.getDataFromNet(this, new ReqSearchMotherData(this, mTime), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchHealthData lData = (RespSearchHealthData) pResponse;
+                if(lData.getResultList() == null || lData.getResultList().size() == 0) {
+                    return;
+                }
                 mMotherWeight.setText(lData.getResultList().get(0).getStatValue01());
                 mMotherTemperature.setText(lData.getResultList().get(0).getStatValue02());
                 mMotherBloodSugar.setText(transformString(lData.getResultList().get(0).getStatValue05()));
@@ -203,14 +207,32 @@ public class HealthInfoActivity extends BmActivity {
     }
 
     /**
+     * 描 述：清除母亲健康数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/27 <br/>
+     */
+    private void clearMotherData() {
+        mMotherWeight.setText(null);
+        mMotherTemperature.setText(null);
+        mMotherBloodSugar.setText(null);
+        mMotherBloodPressure.setText(null);
+        mMotherSleep.setText(null);
+        mMotherInfo.setText(null);
+    }
+
+    /**
      * 描 述：获取母亲某一天数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
     private AsyncTask getBabyData(String babyId) {
+        clearBabyData();
         return NetHelper.getDataFromNet(this, new ReqSearchBabyData(this, mTime, babyId), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
+                if(((RespSearchHealthData) pResponse).getResultList() == null || ((RespSearchHealthData) pResponse).getResultList().size() == 0) {
+                    return;
+                }
                 HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);
                 mBabyBirthday.setText(lData.getBirthdate());
                 mBabyWeight.setText(lData.getStatValue01());
@@ -225,6 +247,20 @@ public class HealthInfoActivity extends BmActivity {
                 mBabyRed.setText(transformString(lData.getStatValue32()));
             }
         });
+    }
+
+    private void clearBabyData() {
+        mBabyBirthday.setText(null);
+        mBabyWeight.setText(null);
+        mBabyHead.setText(null);
+        mBabyChest.setText(null);
+        mBabyHeight.setText(null);
+        mBabyFoodKind.setText(null);
+        mBabyFoodCount.setText(null);
+        mBabyExcretion.setText(null);
+        mBabyYellow.setText(null);
+        mBabyWet.setText(null);
+        mBabyRed.setText(null);
     }
 
     /**

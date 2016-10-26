@@ -165,7 +165,7 @@
                 <include
                     android:id="@+id/form_baby"
                     android:visibility="gone"
-                    layout="@layout/fragment_form_baby_in_layout"/>
+                    layout="@layout/fragment_form_baby_after_layout"/>
             </FrameLayout>
             <TextView
                 android:id="@+id/tv_retract"

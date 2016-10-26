@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="50dip"
+    android:orientation="vertical">
+    <TextView
+        android:text="产后康复"
+        style="@style/health_data_title" />
+    <View style="@style/health_data_divider" />
+
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/chest"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_mother_chest"
+            android:hint="请输入胸围cm"
+            style="@style/health_data_item_editor" />
+    </RelativeLayout>
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/waist"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_mother_waist"
+            android:hint="请输入腰围cm"
+            style="@style/health_data_item_editor" />
+    </RelativeLayout>
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/hips"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_mother_hips"
+            android:hint="请输入臀围cm"
+            style="@style/health_data_item_editor" />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/health_data_item_container"
+        android:layout_marginTop="30dip">
+        <TextView
+            style="@style/health_data_title"
+            android:layout_centerVertical="true"
+            android:text="@string/weight"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_mother_weight"
+            android:hint="请输入体重kg至两位小数"
+            style="@style/health_data_item_editor"
+            android:inputType="numberDecimal"/>
+    </RelativeLayout>
+
+</LinearLayout>

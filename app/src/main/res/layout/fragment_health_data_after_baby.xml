@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="50dip"
+    android:orientation="vertical">
+    <TextView
+        android:text="发育指标"
+        style="@style/health_data_title" />
+    <View style="@style/health_data_divider" />
+
+    <RelativeLayout
+        style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/height"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_baby_height"
+            android:hint="请输入身高cm"
+            style="@style/health_data_item_editor"/>
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/weight"/>
+        <View style="@style/health_data_item_divider" />
+        <EditText
+            android:id="@+id/et_baby_weight"
+            android:hint="请输入体重cm"
+            style="@style/health_data_item_editor" />
+    </RelativeLayout>
+
+    <TextView
+        android:text="宝宝病例记录"
+        style="@style/health_data_title_margin" />
+    <View style="@style/health_data_divider" />
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/illness_name"/>
+        <View style="@style/health_data_item_divider"
+            android:layout_marginLeft="120dip"/>
+        <EditText
+            android:id="@+id/et_illness_name"
+            android:hint="@string/input_illness"
+            style="@style/health_data_item_editor"
+            android:layout_marginLeft="130dip"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_choose_ill_time"
+        style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="生病开始日期"/>
+        <View style="@style/health_data_item_divider"
+            android:layout_marginLeft="120dip"/>
+        <TextView
+            android:id="@+id/tv_date"
+            tools:text="2010-10-10"
+            style="@style/health_data_item_data"
+            android:layout_marginLeft="130dip"/>
+        <com.uuzz.android.ui.view.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/icon_calendar"/>
+    </RelativeLayout>
+    <RelativeLayout style="@style/health_data_item_container">
+        <TextView
+            style="@style/health_data_title"
+            android:text="@string/illness_name"/>
+        <View style="@style/health_data_item_divider"
+            android:layout_marginLeft="120dip"/>
+        <EditText
+            android:id="@+id/et_illness_day"
+            android:hint="记录天数"
+            style="@style/health_data_item_editor"
+            android:layout_marginLeft="130dip"/>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/health_data_title"
+        android:layout_marginLeft="@dimen/primary_List_margin"
+        android:layout_marginTop="@dimen/primary_List_margin"
+        android:text="@string/illness_record"/>
+    <View style="@style/health_data_divider"
+        android:background="@color/grayDark"/>
+    <com.yijiehl.club.android.ui.view.NoScrollGridView
+        android:id="@+id/gv_photos"
+        android:layout_marginTop="@dimen/primary_List_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/primary_List_margin"
+        android:verticalSpacing="@dimen/primary_List_margin"/>
+</LinearLayout>

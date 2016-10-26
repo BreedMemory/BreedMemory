@@ -2,7 +2,7 @@ package com.yijiehl.club.android.network.request.dataproc;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: ReqCreateQuestion <br/>
+ * 类  名: CreateQuestion <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
@@ -10,9 +10,9 @@ package com.yijiehl.club.android.network.request.dataproc;
  *
  * @author 张志新 <br/>
  */
-public class ReqCreateQuestion extends BaseDataEntity {
+public class CreateQuestion extends BaseDataEntity {
 
-    public ReqCreateQuestion(String dataContent, boolean hasFile) {
+    public CreateQuestion(String dataContent, boolean hasFile) {
         this.dataContent = dataContent;
         this.fileFlag = hasFile ? 1 : 0;
     }

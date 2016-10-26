@@ -31,7 +31,7 @@ import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
-import com.yijiehl.club.android.ui.activity.health.HealthInfoActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 
 /**
@@ -225,22 +225,9 @@ public class ServiceInFragment extends HealthInfoFragment {
             R.id.form_baby_chest,
             R.id.form_baby_head,
             R.id.form_baby_weight})
-    private void startHealthData(View v) {
-        Intent intent = new Intent(getActivity(), HealthInfoActivity.class);
-        switch (v.getId()) {
-            case R.id.mother_extra_data:
-            case R.id.form_mother_temperature:
-            case R.id.form_mother_weight:
-                intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_mother);
-                break;
-            case R.id.baby_extra_data:
-            case R.id.form_baby_height:
-            case R.id.form_baby_chest:
-            case R.id.form_baby_head:
-            case R.id.form_baby_weight:
-                intent.putExtra(HealthInfoActivity.ROLE, R.id.rb_baby0);
-                break;
-        }
+    private void startHealthData() {
+        Intent intent = new Intent(getActivity(), HealthInfoInActivity.class);
+        intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());
         startActivity(intent);
     }
 

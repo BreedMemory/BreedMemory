@@ -45,7 +45,6 @@
 
     <!--  身高  -->
     <RelativeLayout
-        android:visibility="gone"
         style="@style/form_container">
 
         <TextView
@@ -83,11 +82,15 @@
 
 
     <TextView
+        android:id="@+id/tv_illness_title"
+        android:visibility="gone"
         android:layout_marginTop="30dip"
         android:layout_marginBottom="15dip"
         android:text="@string/illness_history"
         style="@style/form_title" />
     <ListView
+        android:id="@+id/lv_listview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/text_space"

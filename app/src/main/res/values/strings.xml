@@ -136,4 +136,9 @@
     <string name="waist">腰围</string>
     <string name="hips">臀围</string>
     <string name="illness_history">病历记录</string>
+    <string name="save_data_failed">保存数据失败</string>
+    <string name="save_data_success">保存数据成功</string>
+    <string name="illness_name">疾病名称</string>
+    <string name="input_illness">输入疾病</string>
+    <string name="illness_record">病例报告</string>
 </resources>

@@ -35,6 +35,10 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
 
     private int mode = MODE_NATIVE;
 
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
     public UploadImageAdapter(Context mContext) {
         super(mContext);
     }
@@ -45,11 +49,17 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
 
     @Override
     public int getItemViewType(int position) {
-        if(mDatas == null || (position == mDatas.size() && mDatas.size() < 9)) {
-            return TYPE_ADD;
-        } else {
-            return TYPE_PHOTO;
+        switch (mode) {
+            case MODE_NATIVE:
+                if(mDatas == null || (position == mDatas.size() && mDatas.size() < 9)) {
+                    return TYPE_ADD;
+                } else {
+                    return TYPE_PHOTO;
+                }
+            default:
+                return TYPE_PHOTO;
         }
+
     }
 
     public int getItemViewRes(int position) {
@@ -62,15 +72,26 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
 
     @Override
     public int getViewTypeCount() {
-        if(mDatas != null && mDatas.size() >= 9){
-            return 1;
+        switch (mode) {
+            case MODE_NATIVE:
+                if (mDatas != null && mDatas.size() >= 9) {
+                    return 1;
+                }
+                return 2;
+            default:
+                return 1;
         }
-        return 2;
     }
 
     @Override
     public int getCount() {
-        return super.getCount() + getViewTypeCount() - 1;
+        switch (mode) {
+            case MODE_NATIVE:
+                return super.getCount() + getViewTypeCount() - 1;
+            default:
+                return super.getCount();
+        }
+
     }
 
     @Override
