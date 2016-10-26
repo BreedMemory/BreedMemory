@@ -44,7 +44,7 @@ public class KnowledgeActivity extends BmActivity {
         super.onCreate(savedInstanceState);
     }
 
-    // TODO: 2016/10/6 此页面的所有的方法都需要完善单击事件；暂时跳转预览页面。。。
+    // DONE: 2016/10/6 此页面的所有的方法都需要完善单击事件；暂时跳转预览页面。。。
     @OnClick(R.id.layout_search)
     private void search(){
         Toaster.showShortToast(this,"此搜索功能暂未实现");

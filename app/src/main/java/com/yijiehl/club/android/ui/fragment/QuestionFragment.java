@@ -6,20 +6,30 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
@@ -37,65 +47,9 @@ import com.yijiehl.club.android.ui.activity.question.QuestionListActivity;
  */
 @ContentView(R.layout.fragment_question)
 public class QuestionFragment extends BaseHostFragment {
-    /**
-     * 搜索框
-     */
-    @ViewInject(R.id.layout_search)
-    private RelativeLayout mSearch;
-    /**
-     * 我的问题
-     */
-    @ViewInject(R.id.btn_my_question)
-    private Button mButton;
-    /**
-     * 母亲专区
-     */
-    @ViewInject(R.id.layout_mother_zone)
-    private RelativeLayout motherZone;
-    /**
-     * 婴儿专区
-     */
-    @ViewInject(R.id.layout_baby_zone)
-    private RelativeLayout babyZone;
-    /**
-     * 母亲专区指示图标
-     */
-    @ViewInject(R.id.iv_mother_question_show)
-    private ImageView ivMotherShow;
-    /**
-     * 婴儿专区指示图标
-     */
-    @ViewInject(R.id.iv_baby_question_show)
-    private ImageView ivBabyShow;
-    // TODO: 2016/10/4 后期需要添加母亲下拉展示内容及详细选项
-    /**
-     * 婴儿下拉展示内容
-     */
-    @ViewInject(R.id.layout_baby_zone_context)
-    private LinearLayout babyContextList;
-    /**
-     * 0-3个月
-     */
-    @ViewInject(R.id.layout_zero_month)
-    private LinearLayout zeroMonth;
-    /**
-     * 3个月-1岁
-     */
-    @ViewInject(R.id.layout_three_months)
-    private LinearLayout threeMonth;
-    /**
-     * 1岁-1岁半
-     */
-    @ViewInject(R.id.layout_one_year)
-    private LinearLayout oneYear;
-    /**
-     * 1岁半-3岁
-     */
-    @ViewInject(R.id.layout_one_half_years)
-    private LinearLayout oneHalfYears;
 
-    private boolean isBabyShow;
-
+    private UserInfo mUserInfo;
+    private AlertDialog alertDialog;
 
     @Nullable
     @Override
@@ -134,9 +88,17 @@ public class QuestionFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
     }
 
-    // TODO: 2016/10/4 此页面的所有的方法都需要完善单击事件；暂时跳转预览页面。。。
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+        }
+    }
 
     @OnClick(R.id.layout_search)
     private void search(){
@@ -198,6 +160,15 @@ public class QuestionFragment extends BaseHostFragment {
 
     @OnClick(R.id.layout_ask)
     private void ask(){
+        if(mUserInfo.getStatus().getName().indexOf("general")<0){
+            View mAlertLayout= LayoutInflater.from(getActivity()).inflate(R.layout.can_not_ask_dialog, null);
+            TextView tvPhone= (TextView) mAlertLayout.findViewById(R.id.tv_dialog_phone);
+            if(!TextUtils.isEmpty(mUserInfo.getCustServicePhone())){
+                tvPhone.setText(mUserInfo.getCustServicePhone());
+            }
+            alertDialog=new AlertDialog.Builder(getActivity()).setView(mAlertLayout).show();
+            return;
+       }
         startActivity(new Intent(getActivity(), AskQuestionActivity.class));
     }
 }

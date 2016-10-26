@@ -1,16 +1,25 @@
 package com.yijiehl.club.android.ui.activity.question;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -23,6 +32,7 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.ReqCreateQuestion;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.base.BaseResponse;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -54,6 +64,12 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
      */
     @ViewInject(R.id.gv_photo_container)
     private GridView mPhotoContainer;
+
+    /**
+     * 警示框手机号
+     */
+    @ViewInject(R.id.tv_dialog_phone)
+    private TextView mPhone;
     /**
      * 图片适配器
      */
@@ -64,8 +80,11 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @SaveInstance
     private long mTaskId;
 
-    /** 请求权限成功后回调 */
+    /**
+     * 请求权限成功后回调
+     */
     private ReadMediaTask mReadMediaTask = new ReadMediaTask();
+
 
     @Override
     protected String getHeadTitle() {
@@ -76,22 +95,22 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (mTaskId == 0) {
             mTaskId = getIntent().getLongExtra(UploadPhotoActivity.TASK, 0);
         }
         mAdapter = new UploadImageAdapter(this);
         mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
             //获取选择的图片
             ArrayList<String> filePaths = data.getStringArrayListExtra(UploadPhotoActivity.PATH);
-            if(filePaths == null || filePaths.size() == 0) {   //选择的图片为空终止
+            if (filePaths == null || filePaths.size() == 0) {   //选择的图片为空终止
                 return;
             }
             mAdapter.addDatas(filePaths);
@@ -99,12 +118,13 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         }
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(mAdapter.getItemViewType(position) != UploadImageAdapter.TYPE_ADD) {
+        if (mAdapter.getItemViewType(position) != UploadImageAdapter.TYPE_ADD) {
             return;
         }
-        if(mTaskId != 0) {
+        if (mTaskId != 0) {
             Toaster.showShortToast(this, getString(R.string.uploading_picture));
             return;
         }
@@ -126,14 +146,14 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @OnClick(R.id.btn_release)
     private void release() {
         // DONE: 谌珂 2016/10/21 请求接口提问
-        if(TextUtils.isEmpty(mAskContent.getText().toString())){
-            Toaster.showShortToast(this,"请填写提问内容");
-            return;
+        if (TextUtils.isEmpty(mAskContent.getText().toString())) {
+            Toaster.showShortToast(this, "请填写提问内容");
         }
+
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new ReqCreateQuestion(mAskContent.getText().toString(), mAdapter.getCount() > 1)), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                if(mAdapter.getCount() > 1) {
+                if (mAdapter.getCount() > 1) {
                     BaseResponse data = (BaseResponse) pResponse;
                     UploadPictureSvc
                             .getInstance()

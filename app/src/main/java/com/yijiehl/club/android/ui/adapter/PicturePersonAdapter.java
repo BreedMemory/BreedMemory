@@ -146,7 +146,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
             // convertView = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
-        // TODO: 2016/9/16 需要给个人相册设置时间和低点
+        // DONE: 2016/9/16 需要给个人相册设置时间和低点
 
         holder.showTime.setText(TimeUtil.getTime(mDatas.get(position).get(0).getCreateTime(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
 //        holder.showAddress.setText("北京");
