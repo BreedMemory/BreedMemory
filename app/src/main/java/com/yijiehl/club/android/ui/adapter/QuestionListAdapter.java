@@ -1,9 +1,12 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +22,8 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
+import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,14 +41,10 @@ import java.util.logging.SimpleFormatter;
  *
  * @author 张志新 <br/>
  */
-public class QuestionListAdapter extends BaseListViewAdapter {
+public class QuestionListAdapter extends BaseListViewAdapter <Answer>implements AdapterView.OnItemClickListener{
 
-    private List<Answer> data;
-
-    public QuestionListAdapter(Context mContext, List<Answer> data) {
+    public QuestionListAdapter(Context mContext) {
         super(mContext);
-        this.data = data;
-        mDatas = data;
     }
 
     @Override
@@ -56,17 +57,17 @@ public class QuestionListAdapter extends BaseListViewAdapter {
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.questionTitle.setText(data.get(position).getDataContent());
-        holder.questionContent.setText(data.get(position).getReplyInfo());
+        holder.questionTitle.setText(mDatas.get(position).getDataContent());
+        holder.questionContent.setText(mDatas.get(position).getReplyInfo());
         //holder.questionTime.setText(DateUtils.formatDateTime(mContext,data.get(position).getCreateTime(),0));
-        holder.questionTime.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(data.get(position).getCreateTime())));
+        holder.questionTime.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(mDatas.get(position).getCreateTime())));
         //holder.questionAnswer.setText((data.get(position).getEplyFlag()==0?"未回复":"回复"));
         holder.questionHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // DONE: 2016/10/4 此处事件需要完善
-                CollectQuestion req=new CollectQuestion(data.get(position).getDataContent(),null,
-                        data.get(position).getImageInfo(),data.get(position).getDataShowUrl(),data.get(position).getReplyInfo());
+                CollectQuestion req=new CollectQuestion(mDatas.get(position).getDataContent(),null,
+                        mDatas.get(position).getImageInfo(),mDatas.get(position).getDataShowUrl(),mDatas.get(position).getReplyInfo());
                 NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
@@ -84,6 +85,16 @@ public class QuestionListAdapter extends BaseListViewAdapter {
             }
         });
         return convertView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
+            return;
+        }
+        Intent intent=new Intent(mContext, ArticalDetailActivity.class);
+        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+        mContext.startActivity(intent);
     }
 
     class ViewHolder {

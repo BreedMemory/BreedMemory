@@ -131,7 +131,7 @@ public class MineActivity extends BmActivity {
         finish();
     }
 
-    @OnClick({R.id.iv_my_money_pic, R.id.tv_show_my_money, R.id.textView})
+    @OnClick(R.id.layout_gas)
     private void toGasStation() {
         switch (mUserInfo.getStatus()){
             case GENERAL_BEFORE:
@@ -146,7 +146,7 @@ public class MineActivity extends BmActivity {
         }
     }
 
-    @OnClick({R.id.iv_my_sign, R.id.tv_show_my_sign, R.id.textView4})
+    @OnClick(R.id.layout_sign)
     private void toSignIn() {
         startActivity(new Intent(this, SignInActivity.class));
     }

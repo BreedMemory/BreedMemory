@@ -18,14 +18,16 @@ import com.yijiehl.club.android.network.response.RespSearchQuestion;
  */
 public class ReqSearchQuestion extends ReqBaseSearch {
 
-    public ReqSearchQuestion(Context context) {
+
+    public ReqSearchQuestion(Context context,String key){
         super(context);
+        setKeyword(key);
     }
-
-
-    public ReqSearchQuestion(Context context, String type) {
+    public ReqSearchQuestion(Context context, String type,String key,int start) {
         super(context);
         this.dataClfy = type;
+        setKeyword(key);
+        this.start = start;
     }
 
 

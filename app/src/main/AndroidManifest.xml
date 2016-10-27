@@ -192,6 +192,7 @@
         <!-- 搜索问答列表 -->
         <activity android:name=".ui.activity.question.SearchQuestionActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>
