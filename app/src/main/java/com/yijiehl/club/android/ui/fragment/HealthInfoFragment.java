@@ -36,7 +36,7 @@ import java.util.List;
  * 修改时间：2016/10/25 <br/>
  * @author 谌珂 <br/>
  */
-public class HealthInfoFragment extends BmFragment {
+public abstract class HealthInfoFragment extends BmFragment {
 
     /** 用户数据 */
     protected UserInfo mUserInfo;
@@ -182,5 +182,7 @@ public class HealthInfoFragment extends BmFragment {
     protected void onUserInfoAvailable() {
 
     }
+
+    public abstract int getCheckId();
 
 }

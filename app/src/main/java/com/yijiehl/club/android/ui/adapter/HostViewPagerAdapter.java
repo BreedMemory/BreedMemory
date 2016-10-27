@@ -65,7 +65,6 @@ public class HostViewPagerAdapter extends FragmentPagerAdapter implements ViewPa
 
     @Override
     public void onPageSelected(int position) {
-        fragments.get(position).onShow();
         mActivity.setFootFocus(position);
     }
 

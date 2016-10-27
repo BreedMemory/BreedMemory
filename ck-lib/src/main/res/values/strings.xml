@@ -57,6 +57,7 @@
     <string name="icon_triangle">&#xe602;</string>
     <string name="icon_next">&#xe610;</string>
     <string name="icon_calendar">&#xe608;</string>
+    <string name="icon_gas_station">&#xe611;</string>
 
 
     <string name="shared_preference_main">main_shared_preference</string>

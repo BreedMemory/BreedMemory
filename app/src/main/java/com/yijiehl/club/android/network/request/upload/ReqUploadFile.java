@@ -115,7 +115,8 @@ public class ReqUploadFile extends ReqBase {
         CRM_PHOTO_DETAIL(1, "crm_photo_detail"),
         USER_PORTRAIT(2, "user_portrait"),
         CUSTOMER_PORTRAIT(3, "customer_portrait"),
-        STAT_DATA(4, "stat_data");
+        STAT_DATA(4, "stat_data"),
+        CRM_HLDATA_ITEM_MY(4, "crm_hldata_item_my");
 
 
         private int value;

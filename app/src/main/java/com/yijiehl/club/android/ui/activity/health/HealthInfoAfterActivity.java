@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
+import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
@@ -32,19 +34,26 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.entity.UploadPictureMessage;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.AddBabyHealthData;
 import com.yijiehl.club.android.network.request.dataproc.AddMotherHealthData;
+import com.yijiehl.club.android.network.request.dataproc.BabyHealthData;
+import com.yijiehl.club.android.network.request.dataproc.EditBabyHealthData;
 import com.yijiehl.club.android.network.request.dataproc.EditMotherHealthData;
 import com.yijiehl.club.android.network.request.dataproc.MotherHealthData;
 import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
 import com.yijiehl.club.android.network.request.search.ReqSearchExtraFile;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
+import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.RespSearchExtraFile;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
+import com.yijiehl.club.android.network.response.base.BaseResponse;
 import com.yijiehl.club.android.network.response.innerentity.ExtraFile;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
@@ -53,6 +62,7 @@ import com.yijiehl.club.android.ui.view.TimePicker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -180,16 +190,59 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                     case R.id.rb_baby1:
                     case R.id.rb_baby2:
                     case R.id.rb_baby3:
-                        // TODO: 谌珂 2016/10/26 保存输入的信息
+                        if(mTaskId != 0) {
+                            Toaster.showShortToast(HealthInfoAfterActivity.this, R.string.uploading_picture);
+                        }
+                        // TODO: 谌珂 2016/10/26 接口文档没有传宝宝id的字段  等待添加
                         if(mBabyTask != null) {
                             mBabyTask.cancel(true);
                         }
+                        BabyHealthData babyRequest;
                         if(mBabyHealthData == null) {
-
+                            babyRequest = new AddBabyHealthData(mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
+                        } else {
+                            babyRequest = new EditBabyHealthData(mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
                         }
+                        NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
+                                new ReqBaseDataProc(HealthInfoAfterActivity.this, babyRequest),
+                                new AbstractCallBack(HealthInfoAfterActivity.this) {
+                                    @Override
+                                    public void onSuccess(AbstractResponse pResponse) {
+                                        getMotherData();
+                                        mTaskId = System.currentTimeMillis();
+                                        UploadPictureSvc.getInstance().addObserver(HealthInfoAfterActivity.this);
+                                        UploadPictureSvc.getInstance().uploadMultiplePicture(HealthInfoAfterActivity.this, ReqUploadFile.UploadType.CRM_HLDATA_ITEM_MY, null, mUploadImageAdapter.getDatas(), mTaskId, ((BaseResponse)pResponse).getReturnMsg().getResultCode());
+                                    }
+
+                                    @Override
+                                    public void onFailed(String msg) {
+                                        super.onFailed(msg);
+                                        Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_failed));
+                                    }
+                                });
                 }
             }
         });
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        Message msg = (Message) data;
+        if(observable != UploadPictureSvc.getInstance()){
+            return;
+        }
+        UploadPictureMessage result = (UploadPictureMessage) msg.obj;
+        if (mTaskId == result.getTimestamp() && msg.what == ObservableTag.UPLOAD_COMPLETE) {
+            UploadPictureSvc.getInstance().deleteObserver(this);
+            mTaskId = 0;
+            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
+            if(mBabyTask != null) {
+                mBabyTask.cancel(true);
+            }
+            mBabyTask = getBabyData((String) mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId()));
+        }
+
     }
 
     @Override

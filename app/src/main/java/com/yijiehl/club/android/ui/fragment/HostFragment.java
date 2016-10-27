@@ -34,7 +34,6 @@ import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
@@ -189,7 +188,12 @@ public class HostFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivitySvc.startGasStation(getActivity());
+            }
+        };
     }
 
     @Override
@@ -200,7 +204,8 @@ public class HostFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-        return false;
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_gas_station);
+        return true;
     }
 
     @Override
@@ -528,7 +533,7 @@ public class HostFragment extends BaseHostFragment {
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
     private void toGasStation(){
-        startActivity(new Intent(getActivity(), GrowUpGasStationAvtivity.class));
+        ActivitySvc.startGasStation(getActivity());
     }
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){

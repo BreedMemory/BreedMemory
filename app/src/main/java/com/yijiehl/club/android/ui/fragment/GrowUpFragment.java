@@ -25,6 +25,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchEducationArticle;
 import com.yijiehl.club.android.network.request.search.ReqSearchHealthArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
@@ -80,7 +81,12 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivitySvc.startGasStation(getActivity());
+            }
+        };
     }
 
     @Override
@@ -91,7 +97,8 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
     @Override
     protected boolean isRightBtnVisible() {
-        return false;
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_gas_station);
+        return true;
     }
 
     @Override

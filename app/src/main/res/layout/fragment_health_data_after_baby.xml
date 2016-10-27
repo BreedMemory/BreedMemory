@@ -48,6 +48,7 @@
             android:id="@+id/et_illness_name"
             android:hint="@string/input_illness"
             style="@style/health_data_item_editor"
+            android:inputType="text"
             android:layout_marginLeft="130dip"/>
     </RelativeLayout>
     <RelativeLayout
@@ -73,7 +74,7 @@
     <RelativeLayout style="@style/health_data_item_container">
         <TextView
             style="@style/health_data_title"
-            android:text="@string/illness_name"/>
+            android:text="生病天数"/>
         <View style="@style/health_data_item_divider"
             android:layout_marginLeft="120dip"/>
         <EditText
