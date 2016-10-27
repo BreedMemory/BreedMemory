@@ -49,11 +49,11 @@ public class SignInActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
             public void onLoadMore() {
-                // TODO: 2016/9/7 分页请求网络并刷新数据，网络请求结束后关闭加载动画 mListView.loadComplete();
                 mListView.loadComplete();
             }
         });

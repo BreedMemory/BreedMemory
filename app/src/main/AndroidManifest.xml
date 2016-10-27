@@ -136,6 +136,10 @@
         <activity android:name=".ui.activity.growup.GrowUpGasStationAvtivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
+        <!-- 成长加油站页面 -->
+        <activity android:name=".ui.activity.growup.NotSignUpGasStationActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
         <!-- 提问页面 -->
         <activity android:name=".ui.activity.question.AskQuestionActivity"
             android:configChanges="keyboardHidden|orientation"

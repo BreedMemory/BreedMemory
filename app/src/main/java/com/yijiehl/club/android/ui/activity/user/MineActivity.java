@@ -29,6 +29,7 @@ import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
+import com.yijiehl.club.android.ui.activity.growup.NotSignUpGasStationActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -68,7 +69,11 @@ public class MineActivity extends BmActivity {
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
-            Glide.with(this).load(ActivitySvc.createResourceUrl(this, mUserInfo.getImageInfo())).dontAnimate().into(mHead);
+            if(TextUtils.isEmpty(mUserInfo.getImageInfo())){
+                Glide.with(this).load(R.drawable.test_main_image).into(mHead);
+            }else{
+                Glide.with(this).load(ActivitySvc.createResourceUrl(this, mUserInfo.getImageInfo())).dontAnimate().into(mHead);
+            }
             mName.setText(mUserInfo.getAcctName());
             mNickname.setText(mUserInfo.getShortName());
         }
@@ -131,8 +136,9 @@ public class MineActivity extends BmActivity {
         switch (mUserInfo.getStatus()){
             case GENERAL_BEFORE:
             case GENERAL_AFTER:
-                // TODO: 2016/10/27 暂时没有未签约用户的成长加油站页面
-                startActivity(new Intent(this,GrowUpGasStationAvtivity.class));
+                Intent intent=new Intent(this,NotSignUpGasStationActivity.class);
+                intent.putExtra(ArticalDetailActivity.URL,NotSignUpGasStationActivity.NOT_SIGN_URL);
+                startActivity(intent);
                 break;
             default:
                 startActivity(new Intent(this, GrowUpGasStationAvtivity.class));

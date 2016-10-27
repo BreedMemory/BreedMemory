@@ -1,18 +1,25 @@
 package com.yijiehl.club.android.ui.activity.question;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -24,6 +31,7 @@ import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -74,7 +82,8 @@ public class QuestionListActivity extends BmActivity {
     private TextView mEmpty;
 
     private List<Answer> data;
-
+    private UserInfo mUserInfo;
+    private AlertDialog alertDialog;
     @Override
     protected String getHeadTitle() {
         return getIntent().getStringExtra(QuestionListActivity.TYPE).equals(QuestionListActivity.MY) ? "我的问题" : getString(R.string.question_list);
@@ -83,6 +92,9 @@ public class QuestionListActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
 
         String type = getIntent().getStringExtra(QuestionListActivity.TYPE);
         NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type), new AbstractCallBack(this) {
@@ -122,6 +134,13 @@ public class QuestionListActivity extends BmActivity {
 
     }
 
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+        }
+    }
+
     @OnClick(R.id.layout_search)
     private void searchQuestion() {
         // TODO: 2016/10/4 需要完善搜索页面再跳转
@@ -130,6 +149,19 @@ public class QuestionListActivity extends BmActivity {
 
     @OnClick(R.id.layout_ask)
     private void ask() {
-        startActivity(new Intent(this, AskQuestionActivity.class));
+        switch (mUserInfo.getStatus()) {
+            case GENERAL_BEFORE:
+            case GENERAL_AFTER:
+                View mAlertLayout = LayoutInflater.from(this).inflate(R.layout.can_not_ask_dialog, null);
+                TextView tvPhone = (TextView) mAlertLayout.findViewById(R.id.tv_dialog_phone);
+                if (!TextUtils.isEmpty(mUserInfo.getCustServicePhone())) {
+                    tvPhone.setText(mUserInfo.getCustServicePhone());
+                }
+                alertDialog = new AlertDialog.Builder(this).setView(mAlertLayout).show();
+                break;
+            default:
+                startActivity(new Intent(this, AskQuestionActivity.class));
+                break;
+        }
     }
 }

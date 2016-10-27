@@ -19,8 +19,10 @@ import com.yijiehl.club.android.network.response.RespSearchCollect;
  */
 public class ReqSearchCollect extends ReqBaseSearch{
 
-    public ReqSearchCollect(Context context) {
+    public ReqSearchCollect(Context context, String key, int start) {
         super(context);
+        setKeyword(key);
+        this.start = start;
     }
 
     @Override
