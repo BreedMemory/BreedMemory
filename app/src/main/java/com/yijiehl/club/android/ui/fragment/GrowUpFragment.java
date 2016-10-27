@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrHandler;
@@ -65,6 +66,9 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
     private GrowUpContentAdapter mGrowUpContentAdapter;
 
+    private boolean isHealthNoMore;
+    private boolean isEducateNoMore;
+
     @Nullable
     @Override
     protected View.OnClickListener getLeftBtnClickListener() {
@@ -77,14 +81,13 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
         };
     }
 
-
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivitySvc.startGasStation(getActivity());
+                ActivitySvc.startGasStation(getActivity(), null);
             }
         };
     }
@@ -97,6 +100,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
     @Override
     protected boolean isRightBtnVisible() {
+        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_ICON);
         ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_gas_station);
         return true;
     }
@@ -157,6 +161,25 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     }
 
     /**
+     * 描 述：判断是否可以加载更多<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/28 <br/>
+     */
+    private void awardLoadMore() {
+        switch (mTitle.getCheckedRadioButtonId()) {
+            case R.id.gb_all:
+                mListView.lockLoad(isHealthNoMore && isEducateNoMore);
+                break;
+            case R.id.gb_health:
+                mListView.lockLoad(isHealthNoMore);
+                break;
+            case R.id.gb_education:
+                mListView.lockLoad(isEducateNoMore);
+                break;
+        }
+    }
+
+    /**
      * 描 述：获取数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
@@ -174,6 +197,9 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
      * @param keyWord 搜索关键词
      */
     private void obtainData(boolean isRefresh, String keyWord) {
+        if(isRefresh) {
+            mGrowUpContentAdapter.clear();
+        }
         switch (getMode()) {
             case GrowUpContentAdapter.EDUCATION_DATA:
                 obtainEducationArticle(isRefresh, keyWord);
@@ -200,12 +226,16 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
-                    mGrowUpContentAdapter.clear();
+                    isEducateNoMore = true;
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
                 }
+                if(respSearchArticle.getResultList().size() < 10) {
+                    isEducateNoMore = true;
+                }
                 mListView.loadComplete();
+                awardLoadMore();
                 mPtrFrameLayout.refreshComplete();
             }
 
@@ -229,12 +259,17 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
+                    isHealthNoMore = false;
                     mGrowUpContentAdapter.clear();
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
                 }
+                if(respSearchArticle.getResultList().size() < 10) {
+                    isHealthNoMore = true;
+                }
                 mListView.loadComplete();
+                awardLoadMore();
                 mPtrFrameLayout.refreshComplete();
             }
 
@@ -276,6 +311,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
                 mGrowUpContentAdapter.setMode(GrowUpContentAdapter.EDUCATION_DATA);
                 break;
         }
+        awardLoadMore();
     }
 
     @Override

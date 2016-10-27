@@ -141,4 +141,5 @@
     <string name="illness_name">疾病名称</string>
     <string name="input_illness">输入疾病</string>
     <string name="illness_record">病例报告</string>
+    <string name="select">选择</string>
 </resources>

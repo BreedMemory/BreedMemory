@@ -36,6 +36,12 @@ public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPage
         this.paths = paths;
         this.isNative = isNative;
     }
+    private View.OnClickListener mListener;
+
+    public void setListener(View.OnClickListener mListener) {
+        this.mListener = mListener;
+    }
+
     private Context mContext;
     /** view集合 */
     private LinkedList<ImageViewer> views = new LinkedList<>();
@@ -86,6 +92,7 @@ public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPage
             view = (ImageViewer) LayoutInflater.from(mContext).inflate(R.layout.item_image_viewer_layout, null);
             views.add(view);
         }
+        view.setOnClickListener(mListener);
         if(isNative) {
             ImageLoader.getInstance().displayImage("file:///" + paths.get(position), view);
         } else {

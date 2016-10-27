@@ -3,6 +3,7 @@ package com.yijiehl.club.android.ui.activity.photo;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -45,25 +46,27 @@ public class ImageViewerActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mContentView.getLayoutParams();
+        lp.addRule(RelativeLayout.BELOW, 0);
         urls = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
         isNative=getIntent().getBooleanExtra(NATIVE, false);
         ImageViewerAdapter adapter = new ImageViewerAdapter(this, urls, isNative);
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(adapter);
 
-//        ivShow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isHide) {
-//                    mHeader.setVisibility(View.VISIBLE);
-//                    mBottomContainer.setVisibility(View.VISIBLE);
-//                    isHide = false;
-//                } else {
-//                    mHeader.setVisibility(View.GONE);
-//                    mBottomContainer.setVisibility(View.GONE);
-//                    isHide = true;
-//                }
-//            }
-//        });
+        adapter.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isHide) {
+                    mHeader.setVisibility(View.VISIBLE);
+                    mBottomContainer.setVisibility(View.VISIBLE);
+                    isHide = false;
+                } else {
+                    mHeader.setVisibility(View.GONE);
+                    mBottomContainer.setVisibility(View.GONE);
+                    isHide = true;
+                }
+            }
+        });
     }
 }

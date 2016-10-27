@@ -366,7 +366,7 @@
                 android:layout_width="66dip"
                 android:layout_height="60dip"
                 android:scaleType="fitStart"
-                android:src="@drawable/gas_station"
+                android:src="@drawable/ico_gasstationm"
                 android:layout_marginLeft="50dip"
                 android:layout_marginTop="14dip"
                 android:layout_below="@id/tv_grow_up_title"/>

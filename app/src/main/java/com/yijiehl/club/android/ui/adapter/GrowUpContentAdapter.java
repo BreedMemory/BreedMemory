@@ -97,9 +97,16 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
             default:
                 break;
         }
-        allData.clear();
         allData.addAll(datas);
         refresh();
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        if(allData != null) {
+            allData.clear();
+        }
     }
 
     public List<Article> getDatas(int mode) {

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.view.CircleImageView;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ScreenTools;
 import com.uuzz.android.util.Toaster;
@@ -191,7 +192,7 @@ public class HostFragment extends BaseHostFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivitySvc.startGasStation(getActivity());
+                ActivitySvc.startGasStation(getActivity(), mUserInfo);
             }
         };
     }
@@ -204,6 +205,7 @@ public class HostFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
+        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_ICON);
         ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_gas_station);
         return true;
     }
@@ -533,7 +535,7 @@ public class HostFragment extends BaseHostFragment {
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
     private void toGasStation(){
-        ActivitySvc.startGasStation(getActivity());
+        ActivitySvc.startGasStation(getActivity(), mUserInfo);
     }
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){

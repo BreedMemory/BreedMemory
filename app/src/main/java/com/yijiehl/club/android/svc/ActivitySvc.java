@@ -26,8 +26,10 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
+import com.yijiehl.club.android.ui.activity.growup.NotSignUpGasStationActivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
@@ -225,8 +227,22 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
      * @param context 上下文
      */
-    public static void startGasStation(Context context) {
-        context.startActivity(new Intent(context, GrowUpGasStationAvtivity.class));
+    public static void startGasStation(Context context, @Nullable UserInfo userInfo) {
+        if(userInfo == null) {
+            userInfo = JSON.parseObject(CacheDataDAO.getInstance(null).getCacheData(ContextUtils.getSharedString(context, R.string.shared_preference_user_id),
+                    context.getString(R.string.shared_preference_user_info)).getmData(), UserInfo.class);
+        }
+        switch (userInfo.getStatus()){
+            case GENERAL_BEFORE:
+            case GENERAL_AFTER:
+                Intent intent=new Intent(context,NotSignUpGasStationActivity.class);
+                intent.putExtra(ArticalDetailActivity.URL,NotSignUpGasStationActivity.NOT_SIGN_URL);
+                context.startActivity(intent);
+                break;
+            default:
+                context.startActivity(new Intent(context, GrowUpGasStationAvtivity.class));
+                break;
+        }
     }
 
     /**

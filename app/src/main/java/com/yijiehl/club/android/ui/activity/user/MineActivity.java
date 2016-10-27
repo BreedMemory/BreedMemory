@@ -6,7 +6,6 @@
 package com.yijiehl.club.android.ui.activity.user;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +27,6 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
-import com.yijiehl.club.android.ui.activity.growup.NotSignUpGasStationActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -133,17 +130,7 @@ public class MineActivity extends BmActivity {
 
     @OnClick(R.id.layout_gas)
     private void toGasStation() {
-        switch (mUserInfo.getStatus()){
-            case GENERAL_BEFORE:
-            case GENERAL_AFTER:
-                Intent intent=new Intent(this,NotSignUpGasStationActivity.class);
-                intent.putExtra(ArticalDetailActivity.URL,NotSignUpGasStationActivity.NOT_SIGN_URL);
-                startActivity(intent);
-                break;
-            default:
-                startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
-                break;
-        }
+        ActivitySvc.startGasStation(this, mUserInfo);
     }
 
     @OnClick(R.id.layout_sign)

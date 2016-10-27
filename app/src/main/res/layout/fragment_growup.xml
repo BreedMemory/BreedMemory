@@ -120,7 +120,6 @@
             android:id="@+id/lv_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_item_white_touchable"
             android:clickable="true"
             android:divider="#e1e1e1"
             android:dividerHeight="1dip"
