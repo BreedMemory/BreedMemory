@@ -44,6 +44,13 @@ import java.util.List;
 @ContentView(R.layout.activity_question_list)
 public class QuestionListActivity extends BmActivity {
 
+    public static final String TYPE = "type";
+    public static final String MY = "my";
+    public static final String MOTHER = "mother";
+    public static final String MONTH0 = "0_3month";
+    public static final String MONTH3 = "3_12month";
+    public static final String MONTH12 = "12_18month";
+    public static final String MONTH18 = "18-36month";
     /**
      * 搜索栏
      */
@@ -70,14 +77,14 @@ public class QuestionListActivity extends BmActivity {
 
     @Override
     protected String getHeadTitle() {
-        return getIntent().getStringExtra("type").equals("my")?"我的问题":getString(R.string.question_list);
+        return getIntent().getStringExtra(QuestionListActivity.TYPE).equals(QuestionListActivity.MY) ? "我的问题" : getString(R.string.question_list);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String type = getIntent().getStringExtra("type");
+        String type = getIntent().getStringExtra(QuestionListActivity.TYPE);
         NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
@@ -96,7 +103,7 @@ public class QuestionListActivity extends BmActivity {
                 // DONE: 2016/10/4 暂时跳转文章详情页面。。。
                 Intent intent = new Intent(QuestionListActivity.this, ArticalDetailActivity.class);
                 intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
-                Log.d("===",ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
+                Log.d("===", ActivitySvc.createWebUrl(data.get(position).getDataShowUrl()));
                 startActivity(intent);
             }
         });
@@ -122,7 +129,7 @@ public class QuestionListActivity extends BmActivity {
     }
 
     @OnClick(R.id.layout_ask)
-    private void ask(){
+    private void ask() {
         startActivity(new Intent(this, AskQuestionActivity.class));
     }
 }

@@ -128,7 +128,16 @@ public class MineActivity extends BmActivity {
 
     @OnClick({R.id.iv_my_money_pic, R.id.tv_show_my_money, R.id.textView})
     private void toGasStation() {
-        startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
+        switch (mUserInfo.getStatus()){
+            case GENERAL_BEFORE:
+            case GENERAL_AFTER:
+                // TODO: 2016/10/27 暂时没有未签约用户的成长加油站页面
+                startActivity(new Intent(this,GrowUpGasStationAvtivity.class));
+                break;
+            default:
+                startActivity(new Intent(this, GrowUpGasStationAvtivity.class));
+                break;
+        }
     }
 
     @OnClick({R.id.iv_my_sign, R.id.tv_show_my_sign, R.id.textView4})
