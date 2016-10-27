@@ -27,6 +27,7 @@ import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
@@ -216,6 +217,16 @@ public class ActivitySvc {
         intent.putExtra(ImageViewerActivity.NATIVE, isNative);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         context.startActivity(intent);
+    }
+
+    /**
+     * 描 述：启动加油站<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     */
+    public static void startGasStation(Context context) {
+        context.startActivity(new Intent(context, GrowUpGasStationAvtivity.class));
     }
 
     /**

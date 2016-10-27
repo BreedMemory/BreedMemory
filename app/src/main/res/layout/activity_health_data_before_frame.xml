@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f7fbff"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_choose_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/primary_margin"
+                    android:paddingRight="@dimen/primary_margin"
+                    android:paddingTop="@dimen/primary_List_margin"
+                    android:paddingBottom="@dimen/primary_List_margin">
+                    <com.uuzz.android.ui.view.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_return"
+                        android:textSize="20dip"/>
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/primary_text_size"
+                        android:textColor="@color/textColorPrimary"
+                        android:layout_centerInParent="true"
+                        tools:text="2014年"/>
+                    <com.uuzz.android.ui.view.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/icon_next"
+                        android:textSize="20dip"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/primary_List_margin"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <RadioGroup
+                        android:id="@+id/rg_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="31dip"
+                        android:layout_marginRight="31dip"
+                        android:layout_marginBottom="@dimen/primary_margin"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rb_mother"
+                            android:layout_width="0dip"
+                            android:layout_height="30dip"
+                            android:layout_weight="1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:checked="true"
+                            android:textColor="@color/white"
+                            android:background="@drawable/health_before_selector_mother"
+                            android:text="母亲"/>
+                    </RadioGroup>
+                    <FrameLayout
+                        android:id="@+id/fl_form_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/primary_margin"
+                        android:paddingRight="@dimen/primary_margin">
+                        <include
+                            android:id="@+id/data_mother"
+                            layout="@layout/fragment_health_data_after_mother" />
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_time_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="334dip"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_choose_commit"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_text_size"
+                android:text="@string/choose" />
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_choose_ill_date_commit"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_text_size"
+                android:text="@string/choose" />
+        </LinearLayout>
+
+        <com.yijiehl.club.android.ui.view.TimePicker
+            android:id="@+id/tp_choose_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>

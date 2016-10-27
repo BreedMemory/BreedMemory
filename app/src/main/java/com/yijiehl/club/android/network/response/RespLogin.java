@@ -108,7 +108,6 @@ public class RespLogin extends BaseResponse {
      */
     public enum AccountStatus {
         INIT(0, "init"),
-        GENERAL(1, "general"),
         SERVICE_BEFORE(2, "service_before"),
         SERVICE_IN(3, "service_in"),
         SERVICE_AFTER(4, "service_after"),

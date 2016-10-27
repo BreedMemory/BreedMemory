@@ -156,6 +156,11 @@ public class ServiceInFragment extends HealthInfoFragment {
         }
     }
 
+    @Override
+    public int getCheckId() {
+        return 0;
+    }
+
     private void fillBabyData(int id) {
         HealthData data = null;
         switch (id) {

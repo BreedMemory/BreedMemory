@@ -185,6 +185,10 @@
         <activity android:name=".ui.activity.health.HealthInfoAfterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
+        <!-- 进会所前健康页面详情 -->
+        <activity android:name=".ui.activity.health.HealthInfoBeforeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
         <!-- 搜索问答列表 -->
         <activity android:name=".ui.activity.question.SearchQuestionActivity"
             android:configChanges="keyboardHidden|orientation"

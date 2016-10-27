@@ -20,6 +20,8 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 /**
@@ -53,7 +55,7 @@ public class HealthFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        // TODO: 谌珂 2016/10/25 根据用户状态转换
+        // DONE: 谌珂 2016/10/25 根据用户状态转换
         return null;
     }
 
@@ -65,7 +67,7 @@ public class HealthFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-        // TODO: 谌珂 2016/10/25 根据用户状态转换
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_save);
         return false;
     }
 
@@ -75,9 +77,9 @@ public class HealthFragment extends BaseHostFragment {
     }
 
     @Override
-    public void onShow() {
-        super.onShow();
-        if(mUserInfo == null) {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(mUserInfo == null && isVisibleToUser) {
             CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
                     getString(R.string.shared_preference_user_info));
         }
@@ -88,6 +90,38 @@ public class HealthFragment extends BaseHostFragment {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
             adaptView();
+
+            MainActivity activity = (MainActivity) getActivity();
+            switch (mUserInfo.getStatus()) {
+                case GENERAL_BEFORE:
+                case SERVICE_BEFORE:
+                case GENERAL_AFTER:
+                case SERVICE_AFTER:
+                    activity.getmHeadRightContainer().setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    activity.getmHeadRightContainer().setVisibility(View.GONE);
+                    break;
+            }
+            activity.getmHeadRightContainer().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent;
+                    switch (mUserInfo.getStatus()) {
+                        case GENERAL_BEFORE:
+                        case SERVICE_BEFORE:
+                            intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
+                            startActivity(intent);
+                            break;
+                        case GENERAL_AFTER:
+                        case SERVICE_AFTER:
+                            intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
+                            intent.putExtra(HealthInfoInActivity.ROLE, fragment.getCheckId());
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            });
         }
     }
 
@@ -100,22 +134,21 @@ public class HealthFragment extends BaseHostFragment {
         if(fragment != null) {
             return;
         }
-        // TODO: 谌珂 2016/10/26 测试代码
-//        switch (mUserInfo.getStatus()) {
-//            case SERVICE_IN:
-//                // DONE: 谌珂 2016/10/25 显示入住中页面
-//                fragment = new ServiceInFragment();
-//                break;
-//            case SERVICE_AFTER:
-//                // DONE: 谌珂 2016/10/25 显示出所后页面
-//                fragment = new ServiceAfterFragment();
-//                break;
-//            default:
-//                // DONE: 谌珂 2016/10/25 显示入所前页面
-//                fragment = new ServiceBeforeFragment();
-//                break;
-//        }
-        fragment = new ServiceAfterFragment();
+        // DONE: 谌珂 2016/10/26 测试代码
+        switch (mUserInfo.getStatus()) {
+            case SERVICE_IN:
+                // DONE: 谌珂 2016/10/25 显示入住中页面
+                fragment = new ServiceInFragment();
+                break;
+            case SERVICE_AFTER:
+                // DONE: 谌珂 2016/10/25 显示出所后页面
+                fragment = new ServiceAfterFragment();
+                break;
+            default:
+                // DONE: 谌珂 2016/10/25 显示入所前页面
+                fragment = new ServiceBeforeFragment();
+                break;
+        }
         FragmentTransaction lFragmentTransaction = getFragmentManager().beginTransaction();
         lFragmentTransaction.add(R.id.fl_fragment_container, fragment);
         lFragmentTransaction.commitAllowingStateLoss();

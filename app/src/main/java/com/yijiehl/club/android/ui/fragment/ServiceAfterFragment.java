@@ -29,8 +29,11 @@ import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
+import com.yijiehl.club.android.ui.activity.ActivitysActivity;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
+import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 import com.yijiehl.club.android.ui.adapter.IllnessHistoryAdapter;
 
 /**
@@ -195,5 +198,30 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         Intent intent = new Intent(getActivity(), HealthInfoAfterActivity.class);
         intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());
         startActivity(intent);
+    }
+
+    @Override
+    public int getCheckId() {
+        return mFormSelector.getCheckedRadioButtonId();
+    }
+
+    @OnClick(R.id.ll_activity)
+    private void startActivitys() {
+        startActivity(new Intent(getActivity(), ActivitysActivity.class));
+    }
+
+    @OnClick(R.id.ll_food)
+    private void startFood() {
+        if(mUserInfo == null) {
+            return;
+        }
+        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
+        intent.putExtra(ArticalDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.ll_knowledge)
+    private void startKnowledge(){
+        startActivity(new Intent(getActivity(), KnowledgeActivity.class));
     }
 }
