@@ -35,6 +35,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.AddMotherHealthData;
 import com.yijiehl.club.android.network.request.dataproc.EditMotherHealthData;
+import com.yijiehl.club.android.network.request.dataproc.MotherHealthData;
 import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
 import com.yijiehl.club.android.network.request.search.ReqSearchExtraFile;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
@@ -152,39 +153,28 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                         if(mMotherTask != null) {
                             mMotherTask.cancel(true);
                         }
+                        MotherHealthData request;
                         if(mMotherHealthData == null) {
-                            NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
-                                    new ReqBaseDataProc(HealthInfoAfterActivity.this, new AddMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString())),
-                                    new AbstractCallBack(HealthInfoAfterActivity.this) {
-                                        @Override
-                                        public void onSuccess(AbstractResponse pResponse) {
-                                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
-                                            getMotherData();
-                                        }
-
-                                        @Override
-                                        public void onFailed(String msg) {
-                                            super.onFailed(msg);
-                                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_failed));
-                                        }
-                                    });
+                            request = new AddMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
                         } else {
-                            NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
-                                    new ReqBaseDataProc(HealthInfoAfterActivity.this, new EditMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString())),
-                                    new AbstractCallBack(HealthInfoAfterActivity.this) {
-                                        @Override
-                                        public void onSuccess(AbstractResponse pResponse) {
-                                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
-                                            getMotherData();
-                                        }
+                            request = new EditMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
 
-                                        @Override
-                                        public void onFailed(String msg) {
-                                            super.onFailed(msg);
-                                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_failed));
-                                        }
-                                    });
                         }
+                        NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
+                                new ReqBaseDataProc(HealthInfoAfterActivity.this, request),
+                                new AbstractCallBack(HealthInfoAfterActivity.this) {
+                                    @Override
+                                    public void onSuccess(AbstractResponse pResponse) {
+                                        Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
+                                        getMotherData();
+                                    }
+
+                                    @Override
+                                    public void onFailed(String msg) {
+                                        super.onFailed(msg);
+                                        Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_failed));
+                                    }
+                                });
                         break;
                     case R.id.rb_baby0:
                     case R.id.rb_baby1:

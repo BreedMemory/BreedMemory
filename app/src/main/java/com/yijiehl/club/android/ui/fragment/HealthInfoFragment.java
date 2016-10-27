@@ -7,9 +7,16 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.text.TextUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
+import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
 import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
@@ -56,10 +63,6 @@ public class HealthInfoFragment extends BmFragment {
     protected List<RespSearchHealthDataList> mBabyDataListHead = new ArrayList<>();
     /** 宝宝胸围数据统计 */
     protected List<RespSearchHealthDataList> mBabyDataListChest = new ArrayList<>();
-
-    public void setmUserInfo(UserInfo mUserInfo) {
-        this.mUserInfo = mUserInfo;
-    }
 
     /**
      * 描 述：获取所有宝宝所有数据<br/>
@@ -152,6 +155,32 @@ public class HealthInfoFragment extends BmFragment {
                 mBabyDataListChest.add(index, (RespSearchHealthDataList)pResponse);
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(mUserInfo == null && isVisibleToUser) {
+            CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                    getString(R.string.shared_preference_user_info));
+        }
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+            onUserInfoAvailable();
+        }
+    }
+
+    /**
+     * 描 述：当UserInfo可用时的回调<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/27 <br/>
+     */
+    protected void onUserInfoAvailable() {
+
     }
 
 }

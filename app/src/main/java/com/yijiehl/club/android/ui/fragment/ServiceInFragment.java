@@ -121,7 +121,7 @@ public class ServiceInFragment extends HealthInfoFragment {
             }
         });
 
-        getBabyData();
+
 
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -142,7 +142,12 @@ public class ServiceInFragment extends HealthInfoFragment {
                 }
             }
         });
+    }
 
+    @Override
+    protected void onUserInfoAvailable() {
+        super.onUserInfoAvailable();
+        getBabyData();
         //计算应当显示的宝宝视图按钮
         if(mUserInfo.getChildrenInfo() != null) {
             for (int i = 0; i < mUserInfo.getChildrenInfo().size(); i++) {

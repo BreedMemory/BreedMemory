@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -26,6 +25,7 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.question.QuestionListActivity;
+import com.yijiehl.club.android.ui.activity.question.SearchQuestionActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 /**
@@ -96,7 +96,7 @@ public class QuestionFragment extends BaseHostFragment {
 
     @OnClick(R.id.layout_search)
     private void search() {
-        Toaster.showShortToast(getActivity(), "此搜索功能暂未实现");
+        startActivity(new Intent(getActivity(), SearchQuestionActivity.class));
     }
 
     @OnClick(R.id.btn_my_question)

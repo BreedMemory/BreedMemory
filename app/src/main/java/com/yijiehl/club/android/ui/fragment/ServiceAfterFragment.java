@@ -102,9 +102,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
             }
         });
 
-        getBabyData();
 
-        // TODO: 谌珂 2016/10/26 请求接口查询病例
 
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -125,6 +123,15 @@ public class ServiceAfterFragment extends HealthInfoFragment {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onUserInfoAvailable() {
+        super.onUserInfoAvailable();
+        getBabyData();
+
+        // TODO: 谌珂 2016/10/26 请求接口查询病例
+
 
         //计算应当显示的宝宝视图按钮
         if (mUserInfo.getChildrenInfo() != null) {

@@ -116,7 +116,6 @@ public class HealthFragment extends BaseHostFragment {
 //                break;
 //        }
         fragment = new ServiceAfterFragment();
-        fragment.setmUserInfo(mUserInfo);
         FragmentTransaction lFragmentTransaction = getFragmentManager().beginTransaction();
         lFragmentTransaction.add(R.id.fl_fragment_container, fragment);
         lFragmentTransaction.commitAllowingStateLoss();

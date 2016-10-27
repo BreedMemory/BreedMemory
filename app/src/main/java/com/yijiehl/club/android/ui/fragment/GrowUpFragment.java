@@ -193,6 +193,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
+                    mGrowUpContentAdapter.clear();
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
@@ -221,6 +222,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
+                    mGrowUpContentAdapter.clear();
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
