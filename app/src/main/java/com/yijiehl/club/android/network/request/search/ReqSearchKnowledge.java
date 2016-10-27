@@ -17,13 +17,12 @@ import com.yijiehl.club.android.network.response.RespSearchArticle;
  * @author 张志新 <br/>
  */
 public class ReqSearchKnowledge extends ReqBaseSearch {
-    public ReqSearchKnowledge(Context context) {
-        super(context);
-    }
 
-    public ReqSearchKnowledge(Context context, String type) {
+    public ReqSearchKnowledge(Context context, String type, String key,int start) {
         super(context);
         this.dataClfy = type;
+        setKeyword(key);
+        this.start = start;
     }
 
     @Override

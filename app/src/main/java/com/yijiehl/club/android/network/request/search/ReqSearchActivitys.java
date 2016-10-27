@@ -29,9 +29,12 @@ public class ReqSearchActivitys extends ReqBaseSearch {
      * @param context 上下文
      * @param isLatest 如果为true只查询最新的一条活动
      */
-    public ReqSearchActivitys(Context context, boolean isLatest) {
+    //Context context, String key, int start
+    public ReqSearchActivitys(Context context, boolean isLatest, String key, int start) {
         super(context);
         this.dataClfy = isLatest?"latest":"";
+        setKeyword(key);
+        this.start = start;
     }
 
     /**

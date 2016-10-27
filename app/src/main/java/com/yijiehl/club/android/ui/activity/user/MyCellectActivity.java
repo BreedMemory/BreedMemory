@@ -73,7 +73,6 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
     private LinearLayout mSearchLogo;
 
     private CollectionAdapter collectionAdapter;
-    private List<Collection> data;
 
     @Override
     protected String getHeadTitle() {
@@ -170,12 +169,6 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
                 mPtrFrameLayout.refreshComplete();
             }
         }, false);
-    }
-
-    @OnClick(R.id.layout_search)
-    private void search() {
-        // TODO: 2016/10/24  搜索的都没有实现
-        Toaster.showShortToast(this, "此搜索功能暂未实现");
     }
 
     @Override
