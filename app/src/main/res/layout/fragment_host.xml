@@ -242,6 +242,7 @@
                 <ImageView
                     android:id="@+id/iv_photo_1"
                     style="@style/host_photo_content"
+                    android:scaleType="center"
                     android:src="@drawable/photo_test"/>
 
                 <ImageView
@@ -249,11 +250,13 @@
                     style="@style/host_photo_content"
                     android:layout_marginRight="@dimen/primary_List_margin"
                     android:layout_marginLeft="@dimen/primary_List_margin"
+                    android:scaleType="center"
                     android:src="@drawable/photo_test"/>
 
                 <ImageView
                     android:id="@+id/iv_photo_3"
                     android:src="@drawable/photo_test"
+                    android:scaleType="center"
                     style="@style/host_photo_content" />
 
             </LinearLayout>

@@ -7,9 +7,12 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,11 +41,10 @@ import java.util.List;
  * 实现的主要功能<br/>
  * 版    本：1.0.0<br/>
  */
-public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> {
+public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> implements AdapterView.OnItemClickListener{
 
-    public ActivitysAdapter(Context mContext,List<ActivityInfo> data) {
+    public ActivitysAdapter(Context mContext) {
         super(mContext);
-        this.mDatas=data;
     }
 
     @Override
@@ -61,6 +64,15 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> {
         holder.tvPlace.setText(temp.getAddrInfo());
         holder.tvTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(temp.getStartTime())));
         return convertView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
+            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
+            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+            mContext.startActivity(intent);
+        }
     }
 
 
