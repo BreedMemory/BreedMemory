@@ -10,7 +10,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -80,10 +79,12 @@ public class QuestionFragment extends BaseHostFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
-                getString(R.string.shared_preference_user_info));
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && mUserInfo == null) {
+            CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                    getString(R.string.shared_preference_user_info));
+        }
     }
 
     @Override
@@ -158,7 +159,7 @@ public class QuestionFragment extends BaseHostFragment {
             case GENERAL_AFTER:
                 View mAlertLayout = LayoutInflater.from(getActivity()).inflate(R.layout.can_not_ask_dialog, null);
                 TextView tvPhone = (TextView) mAlertLayout.findViewById(R.id.tv_dialog_phone);
-                Log.d("====",mUserInfo.getCustServicePhone());
+//                Log.d("====",mUserInfo.getCustServicePhone());
                 if (!TextUtils.isEmpty(mUserInfo.getCustServicePhone())) {
                     tvPhone.setText(mUserInfo.getCustServicePhone());
                 }
