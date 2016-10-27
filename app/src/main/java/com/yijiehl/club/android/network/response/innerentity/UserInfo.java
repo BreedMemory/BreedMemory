@@ -134,7 +134,7 @@ public class UserInfo implements Serializable {
         }
     }
 
-    public static class MainDataEntity {
+    public static class MainDataEntity implements Serializable{
         public MainDataEntity() {
         }
 

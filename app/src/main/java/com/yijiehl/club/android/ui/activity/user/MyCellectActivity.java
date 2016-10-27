@@ -1,8 +1,10 @@
 package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
@@ -49,7 +51,12 @@ public class MyCellectActivity extends BmActivity {
      */
     @ViewInject(R.id.load_more_list_view_ptr_frame)
     protected PtrClassicFrameLayout mPtrFrameLayout;
-
+    /**
+     * 无数据显示
+     */
+    @ViewInject(R.id.tv_sign_no_data)
+    private TextView noData;
+    private CollectionAdapter collectionAdapter;
     private List<Collection> data;
 
     @Override
@@ -60,33 +67,77 @@ public class MyCellectActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化适配器
+        collectionAdapter = new CollectionAdapter(this);
+        obtainSignUp(true);
 
-        NetHelper.getDataFromNet(this, new ReqSearchCollect(this), new AbstractCallBack(this) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                RespSearchCollect respSearchCollect = (RespSearchCollect) pResponse;
-                data = respSearchCollect.getResultList();
-                Log.d("===",data.size()+"");
-                if(data.size()!=0){
-                    CollectionAdapter collectionAdapter=new CollectionAdapter(MyCellectActivity.this,data);
-                    mListView.setAdapter(collectionAdapter);
-                }
-            }
-        }, false);
+        mListView.setAdapter(collectionAdapter);
+        mListView.setEmptyView(noData);
 
-
+        //设置下拉回调
         mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return false;
+                View v = mListView.getChildAt(0);
+                return v == null || mListView.getFirstVisiblePosition() == 0 && v.getTop() == 0;
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                mPtrFrameLayout.refreshComplete();
+                obtainSignUp(true);
             }
         });
+        //设置上拉回调
+        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                obtainSignUp(false);
+            }
+        });
+
+    }
+
+    /**
+     * 描 述：<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/10/27 <br/>
+     *
+     * @param isRefresh 是否是刷新任务
+     */
+    private void obtainSignUp(boolean isRefresh) {
+        obtainSignUp(isRefresh, null);
+    }
+
+    /**
+     * 描 述：<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/10/27 <br/>
+     *
+     * @param isRefresh 是否是刷新任务
+     * @param keyWord   搜索关键词，如果此参数不为空则忽略isRefresh
+     */
+    private void obtainSignUp(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(this, new ReqSearchCollect(this, keyWord, (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : collectionAdapter.getCount()), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchCollect data = (RespSearchCollect) pResponse;
+                if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
+                    collectionAdapter.setDatas(data.getResultList());
+                } else {
+                    collectionAdapter.addDatas(data.getResultList());
+                }
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        }, false);
     }
 
     @OnClick(R.id.layout_search)

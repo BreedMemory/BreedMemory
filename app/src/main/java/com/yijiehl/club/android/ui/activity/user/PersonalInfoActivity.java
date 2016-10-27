@@ -128,7 +128,11 @@ public class PersonalInfoActivity extends BmActivity {
      */
     private void fillInfoList(UserInfo info) {
         userInfo=info;
-        Glide.with(this).load(ActivitySvc.createResourceUrl(this, userInfo.getImageInfo())).dontAnimate().placeholder(R.drawable.bg_loading).into(mHeadPic);
+        if(TextUtils.isEmpty(info.getImageInfo())){
+            Glide.with(this).load(R.drawable.test_main_image).into(mHeadPic);
+        }else{
+            Glide.with(this).load(ActivitySvc.createResourceUrl(this, info.getImageInfo())).dontAnimate().placeholder(R.drawable.bg_loading).into(mHeadPic);
+        }
         mName.setText(info.getAcctName());
         mNick.setText(info.getShortName());
         mAddress.setText(info.getAreaInfo());

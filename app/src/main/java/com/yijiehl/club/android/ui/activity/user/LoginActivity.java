@@ -48,7 +48,7 @@ public class LoginActivity extends BmActivity {
             switch (msg.what) {
                 case Common.TIME_TASK_IDENTIFYING_CODE:
                     int second = (int) msg.obj;
-                    // TODO: 谌珂 2016/9/7 按钮样式及字体颜色变换
+                    // DONE: 谌珂 2016/9/7 按钮样式及字体颜色变换
                     if(second > 0) {          //验证码间隔时间大于零，修改按钮上的读秒并延时一秒再发送任务
                         mSendVerifyCode.setText(String.format(getString(R.string.resend_identifying_code), second));
                         msg = Message.obtain();

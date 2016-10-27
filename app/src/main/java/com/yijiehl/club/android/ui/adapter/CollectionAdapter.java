@@ -33,9 +33,8 @@ import java.util.List;
  */
 public class CollectionAdapter extends BaseListViewAdapter<Collection> implements AdapterView.OnItemClickListener{
 
-    public CollectionAdapter(Context mContext, List<Collection> data) {
+    public CollectionAdapter(Context mContext) {
         super(mContext);
-        mDatas = data;
     }
 
     @Override
@@ -51,7 +50,11 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
         }
         holder.mTitle.setText(temp.getDataType());
         holder.mContent.setText(temp.getDataInfo());
-        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.mIamge);
+        if(TextUtils.isEmpty(temp.getImageInfo())){
+            Glide.with(mContext).load(R.drawable.bg_collect_default).into(holder.mIamge);
+        }else{
+            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.mIamge);
+        }
         return convertView;
     }
 
