@@ -54,4 +54,14 @@
     <declare-styleable name="HorizontalDivLayout">
         <attr name="item_layout" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="LineChatView">
+        <attr name="line_color" format="color|reference"/>                      <!-- 折线颜色 -->
+        <attr name="unselected_point_color" format="color|reference"/>              <!-- 未选中端点颜色 -->
+        <attr name="line_width" format="integer|reference"/>                    <!-- 线宽 -->
+        <attr name="unselected_point_radius" format="integer|reference"/>       <!-- 未选中端点半径 -->
+        <attr name="selected_point_radius" format="integer|reference"/>         <!-- 选中端点半径 -->
+        <attr name="point_count" format="integer|reference"/>                   <!-- 每页端点数 -->
+        <attr name="bessel" format="boolean|reference"/>                        <!-- 是否使用贝塞尔曲线 -->
+    </declare-styleable>
 </resources>
