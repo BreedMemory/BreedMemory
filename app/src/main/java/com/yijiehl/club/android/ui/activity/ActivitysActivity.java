@@ -86,7 +86,7 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
         mAdapter = new ActivitysAdapter(this);
         obtainData(true);
         mListView.setAdapter(mAdapter);
-
+        mListView.setOnItemClickListener(mAdapter);
         //设置下拉回调
         mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
 

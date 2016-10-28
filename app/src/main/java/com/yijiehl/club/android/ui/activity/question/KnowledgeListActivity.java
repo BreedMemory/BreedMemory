@@ -89,6 +89,7 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
         knowledgeListAdapter = new KnowledgeListAdapter(this);
         mListView.setAdapter(knowledgeListAdapter);
         obtainData(true);
+        mListView.setOnItemClickListener(knowledgeListAdapter);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
