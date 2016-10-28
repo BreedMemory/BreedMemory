@@ -8,13 +8,11 @@
     android:focusableInTouchMode="true"
     android:id="@+id/root_layout">
 
-    <include layout="@layout/header_layout" />
-
     <FrameLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
+        android:layout_below="@+id/header"
         android:background="@color/white"
         android:id="@+id/content_view">
 
@@ -26,5 +24,7 @@
             android:visibility="gone"/>
 
     </FrameLayout>
+
+    <include layout="@layout/header_layout" />
 
 </RelativeLayout>

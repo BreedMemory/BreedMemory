@@ -97,6 +97,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
         }
         switch (type) {
             case TYPE_1:
+                holder.layoutTake.setOnClickListener(mListener);
                 break;
             case TYPE_2:
                 position--;

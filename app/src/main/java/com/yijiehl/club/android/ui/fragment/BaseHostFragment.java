@@ -75,6 +75,7 @@ public abstract class BaseHostFragment extends BmFragment {
             visibility = isLeftBtnVisible() ? View.VISIBLE : View.GONE;
             activity.getmHeadLeftContainer().setVisibility(visibility);
             visibility = isRightBtnVisible() ? View.VISIBLE : View.GONE;
+            logger.d("father is " + visibility);
             activity.getmHeadRightContainer().setVisibility(visibility);
         }
     }

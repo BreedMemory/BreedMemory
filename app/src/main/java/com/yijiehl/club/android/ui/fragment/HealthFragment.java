@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
@@ -20,6 +21,7 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
@@ -39,6 +41,7 @@ public class HealthFragment extends BaseHostFragment {
     /** 用户基本数据 */
     private UserInfo mUserInfo;
     private HealthInfoFragment fragment;
+    private volatile boolean isVisible;
 
     @Nullable
     @Override
@@ -67,7 +70,8 @@ public class HealthFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_save);
+        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_ICON);
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.icon_edit);
         return false;
     }
 
@@ -79,9 +83,12 @@ public class HealthFragment extends BaseHostFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
         if(mUserInfo == null && isVisibleToUser) {
             CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
                     getString(R.string.shared_preference_user_info));
+        } else if(mUserInfo != null && isVisibleToUser) {
+            configRightBtn();
         }
     }
 
@@ -90,39 +97,52 @@ public class HealthFragment extends BaseHostFragment {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
             adaptView();
-
-            MainActivity activity = (MainActivity) getActivity();
-            switch (mUserInfo.getStatus()) {
-                case GENERAL_BEFORE:
-                case SERVICE_BEFORE:
-                case GENERAL_AFTER:
-                case SERVICE_AFTER:
-                    activity.getmHeadRightContainer().setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    activity.getmHeadRightContainer().setVisibility(View.GONE);
-                    break;
-            }
-            activity.getmHeadRightContainer().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent;
-                    switch (mUserInfo.getStatus()) {
-                        case GENERAL_BEFORE:
-                        case SERVICE_BEFORE:
-                            intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
-                            startActivity(intent);
-                            break;
-                        case GENERAL_AFTER:
-                        case SERVICE_AFTER:
-                            intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
-                            intent.putExtra(HealthInfoInActivity.ROLE, fragment.getCheckId());
-                            startActivity(intent);
-                            break;
-                    }
-                }
-            });
+            configRightBtn();
         }
+    }
+
+    /**
+     * 描 述：配置右侧按钮<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/28 <br/>
+     */
+    private void configRightBtn() {
+        if(!isVisible) {
+            return;
+        }
+        MainActivity activity = (MainActivity) getActivity();
+        switch (mUserInfo.getStatus()) {
+            case GENERAL_BEFORE:
+            case SERVICE_BEFORE:
+            case GENERAL_AFTER:
+            case SERVICE_AFTER:
+                logger.d("right btn visible,  status is " + mUserInfo.getStatus().getName());
+                activity.getmHeadRightContainer().setVisibility(View.VISIBLE);
+                break;
+            default:
+                logger.d("right btn invisible,  status is " + mUserInfo.getStatus().getName());
+                activity.getmHeadRightContainer().setVisibility(View.GONE);
+                break;
+        }
+        activity.getmHeadRightContainer().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                switch (mUserInfo.getStatus()) {
+                    case GENERAL_BEFORE:
+                    case SERVICE_BEFORE:
+                        intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
+                        startActivity(intent);
+                        break;
+                    case GENERAL_AFTER:
+                    case SERVICE_AFTER:
+                        intent = new Intent(getActivity(), HealthInfoAfterActivity.class);
+                        intent.putExtra(HealthInfoInActivity.ROLE, fragment.getCheckId());
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
     /**
@@ -141,6 +161,7 @@ public class HealthFragment extends BaseHostFragment {
                 fragment = new ServiceInFragment();
                 break;
             case SERVICE_AFTER:
+            case GENERAL_AFTER:
                 // DONE: 谌珂 2016/10/25 显示出所后页面
                 fragment = new ServiceAfterFragment();
                 break;

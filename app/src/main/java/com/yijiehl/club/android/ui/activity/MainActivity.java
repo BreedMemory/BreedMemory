@@ -51,7 +51,7 @@ public class MainActivity extends BmActivity {
     private FootGroupBtn mFootPhotoBtn;
     /** 当前页面的索引 */
     @SaveInstance
-    private int mCurrentPage;
+    public int mCurrentPage;
     /** ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存 */
     private int cachePagers = 4;
     /**第一次回退时间*/

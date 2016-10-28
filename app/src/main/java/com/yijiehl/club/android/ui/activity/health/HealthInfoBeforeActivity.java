@@ -221,4 +221,10 @@ public class HealthInfoBeforeActivity extends BmActivity {
         }
         mMotherTask = getMotherData();
     }
+
+    @OnClick(R.id.rl_choose_time)
+    private void chooseTime() {
+        mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
+        mPickerContainer.setVisibility(View.VISIBLE);
+    }
 }

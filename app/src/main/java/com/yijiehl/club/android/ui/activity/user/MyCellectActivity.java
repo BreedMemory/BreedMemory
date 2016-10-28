@@ -1,9 +1,14 @@
 package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
@@ -37,7 +42,7 @@ import java.util.List;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_my_collect)
-public class MyCellectActivity extends BmActivity {
+public class MyCellectActivity extends BmActivity implements TextWatcher {
 
     /**
      * 收藏列表
@@ -56,8 +61,18 @@ public class MyCellectActivity extends BmActivity {
      */
     @ViewInject(R.id.tv_sign_no_data)
     private TextView noData;
+
+    /**
+     * 搜索框
+     */
+    @ViewInject(R.id.et_search)
+    private EditText mSearch;
+    @ViewInject(R.id.iv_search_show)
+    private ImageView mSearchShow;
+    @ViewInject(R.id.layout_search_logo)
+    private LinearLayout mSearchLogo;
+
     private CollectionAdapter collectionAdapter;
-    private List<Collection> data;
 
     @Override
     protected String getHeadTitle() {
@@ -96,6 +111,21 @@ public class MyCellectActivity extends BmActivity {
             }
         });
 
+        mListView.setOnItemClickListener(collectionAdapter);
+        mSearch.addTextChangedListener(this);
+        mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mSearchLogo.setVisibility(View.GONE);
+                    mSearchShow.setVisibility(View.VISIBLE);
+                } else {
+                    mSearchLogo.setVisibility(View.VISIBLE);
+                    mSearchShow.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
     }
 
     /**
@@ -118,11 +148,12 @@ public class MyCellectActivity extends BmActivity {
      * @param keyWord   搜索关键词，如果此参数不为空则忽略isRefresh
      */
     private void obtainSignUp(final boolean isRefresh, final String keyWord) {
-        NetHelper.getDataFromNet(this, new ReqSearchCollect(this, keyWord, (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : collectionAdapter.getCount()), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqSearchCollect(this, keyWord, (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : collectionAdapter.getDatas().size()), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchCollect data = (RespSearchCollect) pResponse;
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
+                    collectionAdapter.clear();
                     collectionAdapter.setDatas(data.getResultList());
                 } else {
                     collectionAdapter.addDatas(data.getResultList());
@@ -140,9 +171,18 @@ public class MyCellectActivity extends BmActivity {
         }, false);
     }
 
-    @OnClick(R.id.layout_search)
-    private void search() {
-        // TODO: 2016/10/24  搜索的都没有实现
-        Toaster.showShortToast(this, "此搜索功能暂未实现");
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        obtainSignUp(true, s.toString());
     }
 }

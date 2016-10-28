@@ -1,8 +1,11 @@
 package com.yijiehl.club.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +22,8 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.Article;
+import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 
 import java.util.List;
 
@@ -32,12 +37,11 @@ import java.util.List;
  *
  * @author 张志新 <br/>
  */
-public class KnowledgeListAdapter extends BaseListViewAdapter<Article>{
+public class KnowledgeListAdapter extends BaseListViewAdapter<Article>implements AdapterView.OnItemClickListener{
 
 
-    public KnowledgeListAdapter(Context mContext, List<Article> data) {
+    public KnowledgeListAdapter(Context mContext) {
         super(mContext);
-        mDatas = data;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -78,6 +82,15 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article>{
             }
         });
         return convertView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
+            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
+            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+            mContext.startActivity(intent);
+        }
     }
 
 
