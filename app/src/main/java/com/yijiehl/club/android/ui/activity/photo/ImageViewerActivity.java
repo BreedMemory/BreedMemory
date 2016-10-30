@@ -5,9 +5,17 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
+import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.ImageViewerAdapter;
 
@@ -27,6 +35,7 @@ import java.util.ArrayList;
 public class ImageViewerActivity extends BmActivity {
 
     public static final String NATIVE = "Native";
+    public static final String CODES = "CODES";
 
     private boolean isHide;
 
@@ -36,6 +45,7 @@ public class ImageViewerActivity extends BmActivity {
     private ViewPager mViewPager;
 
     private ArrayList<String> urls;
+    private ArrayList<String> codes;
     private boolean isNative = true;
 
     @Override
@@ -49,6 +59,7 @@ public class ImageViewerActivity extends BmActivity {
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mContentView.getLayoutParams();
         lp.addRule(RelativeLayout.BELOW, 0);
         urls = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
+        codes = getIntent().getStringArrayListExtra(CODES);
         isNative=getIntent().getBooleanExtra(NATIVE, false);
         ImageViewerAdapter adapter = new ImageViewerAdapter(this, urls, isNative);
         mViewPager.setAdapter(adapter);
@@ -66,6 +77,52 @@ public class ImageViewerActivity extends BmActivity {
                     mBottomContainer.setVisibility(View.GONE);
                     isHide = true;
                 }
+            }
+        });
+    }
+
+    /**
+     * 描 述：分享<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/31 <br/>
+     */
+    @OnClick(R.id.iv_image_share)
+    private void share() {
+        // TODO: 谌珂 2016/10/31 分享
+    }
+
+    /**
+     * 描 述：收藏<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/31 <br/>
+     */
+    @OnClick(R.id.iv_image_collect)
+    private void collect() {
+        // DONE: 谌珂 2016/10/31 收藏
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new CollectPicture(urls.get(mViewPager.getCurrentItem()))), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                Toaster.showShortToast(ImageViewerActivity.this, R.string.collect_success);
+            }
+        });
+    }
+
+    /**
+     * 描 述：删除<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/31 <br/>
+     */
+    @OnClick(R.id.iv_image_delete)
+    private void delete() {
+        // DONE: 谌珂 2016/10/31 删除
+        if (codes == null || codes.size() == 0) {
+            Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.can_not_delete));
+            return;
+        }
+        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new DeletePicture(codes.get(mViewPager.getCurrentItem()))), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.delete_success));
             }
         });
     }

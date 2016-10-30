@@ -9,11 +9,11 @@ package com.yijiehl.club.android.ui.popupwindow;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.ui.view.NoScrollListView;
+import com.uuzz.android.util.ScreenTools;
 
 /**
  * 项目名称：手机在线 <br/>
@@ -46,11 +46,12 @@ public class MenuPopupWindow extends PopupWindow {
             mListView.setOnItemClickListener(adapter);
         }
         setContentView(mListView);
-        setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        setFocusable(true);
+        setWidth(ScreenTools.dip2px(context, 170));
+        setHeight(ScreenTools.dip2px(context, 130));
+//        setFocusable(true);
         setBackgroundDrawable(new BitmapDrawable());
         setOutsideTouchable(true);
+//        setTouchable(true);
         update();
     }
 

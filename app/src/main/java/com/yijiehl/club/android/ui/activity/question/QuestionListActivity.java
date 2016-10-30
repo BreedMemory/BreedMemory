@@ -31,6 +31,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
 
@@ -228,4 +229,13 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         obtainData(true, s.toString());
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
+            questionListAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+        }
+    }
+
 }

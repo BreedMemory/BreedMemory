@@ -1,5 +1,7 @@
 package com.yijiehl.club.android.ui.activity.question;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchKnowledge;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.KnowledgeListAdapter;
 
@@ -171,5 +174,13 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         obtainData(true, s.toString());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            knowledgeListAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+        }
     }
 }

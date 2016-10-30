@@ -7,6 +7,7 @@
  */
 package com.yijiehl.club.android.ui.activity.question;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
 
@@ -105,6 +107,14 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         if(!TextUtils.isEmpty(s.toString())){
             obtainData(s.toString());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
+            questionListAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
         }
     }
 }

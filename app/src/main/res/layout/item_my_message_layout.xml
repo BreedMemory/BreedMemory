@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="75dip"
+android:background="@color/white">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="15dip"
+        android:textSize="18dip"
+        android:textColor="@color/textColorPrimary"
+        android:text="问答"/>
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:textColor="@color/textColorLight"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="43dip"
+        android:text="您的问题，有新的答案。"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dip"
+        android:layout_marginRight="15dip"
+        android:textColor="@color/colorPrimary"
+        android:text="08-24  10:30"/>
+</RelativeLayout>

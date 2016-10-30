@@ -160,6 +160,9 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
      */
     public static String createWebUrl(String path) {
+        if(path.startsWith("/")) {
+            path = path.substring(1, path.length());
+        }
         return "http://" + Common.SERVICE_URL + path;
     }
 
@@ -222,6 +225,25 @@ public class ActivitySvc {
     }
 
     /**
+     * 描 述：启动图片预览<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     * @param path 图片路径集合
+     * @param isNative 是否是本地图片
+     */
+    public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, boolean isNative) {
+        if (path == null || path.size() == 0) {
+            return;
+        }
+        Intent intent = new Intent(context, ImageViewerActivity.class);
+        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
+        context.startActivity(intent);
+    }
+
+    /**
      * 描 述：启动加油站<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
@@ -278,5 +300,109 @@ public class ActivitySvc {
             }
             activity.startActivity(intent);
         }
+    }
+
+    /**
+     * 描 述：开启web浏览页面<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/30 <br/>
+     * @param context 上下文
+     * @param isShareOrCollect 是否需要分享
+     * @param url 文章url，不能为空
+     * @param name 名称，非分享模式可以为空
+     * @param label 标签，非分享模式可以为空
+     * @param imageInfo 图片url，非分享模式可以为空
+     * @param dataSummery 简介，非分享模式可以为空
+     */
+    public static void startArticle(Activity context, boolean isShareOrCollect, String url, String name, String label, String imageInfo, String dataSummery) {
+        if (!url.startsWith("http")) {
+            url = ActivitySvc.createWebUrl(url);
+        }
+        Intent intent = new Intent(context, ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, url);
+        intent.putExtra(ArticleDetailActivity.NAME, name);
+        intent.putExtra(ArticleDetailActivity.LABEL, label);
+        intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
+        intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
+        intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        context.startActivityForResult(intent, ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY);
+    }
+
+    /**
+     * 描 述：开启web浏览页面<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/30 <br/>
+     * @param context 上下文
+     * @param isShareOrCollect 是否需要分享
+     * @param url 文章url，不能为空
+     * @param name 名称，非分享模式可以为空
+     * @param label 标签，非分享模式可以为空
+     * @param imageInfo 图片url，非分享模式可以为空
+     * @param dataSummery 简介，非分享模式可以为空
+     */
+    public static void startArticle(Activity context, boolean isShareOrCollect, String url, String name, String label, String imageInfo, String dataSummery, boolean isQuestion) {
+        if (!url.startsWith("http")) {
+            url = ActivitySvc.createWebUrl(url);
+        }
+        Intent intent = new Intent(context, ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, url);
+        intent.putExtra(ArticleDetailActivity.NAME, name);
+        intent.putExtra(ArticleDetailActivity.LABEL, label);
+        intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
+        intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
+        intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        intent.putExtra(ArticleDetailActivity.TYPE, isQuestion);
+        context.startActivityForResult(intent, ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY);
+    }
+
+    /**
+     * 描 述：开启web浏览页面<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/30 <br/>
+     * @param context 上下文
+     * @param isShareOrCollect 是否需要分享
+     * @param url 文章url，不能为空
+     * @param name 名称，非分享模式可以为空
+     * @param label 标签，非分享模式可以为空
+     * @param imageInfo 图片url，非分享模式可以为空
+     * @param dataSummery 简介，非分享模式可以为空
+     */
+    public static void startArticle(Fragment context, boolean isShareOrCollect, String url, String name, String label, String imageInfo, String dataSummery) {
+        if(!url.startsWith("http")) {
+            url = ActivitySvc.createWebUrl(url);
+        }
+        Intent intent=new Intent(context.getActivity(),ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, url);
+        intent.putExtra(ArticleDetailActivity.NAME, name);
+        intent.putExtra(ArticleDetailActivity.LABEL, label);
+        intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
+        intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
+        intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        context.startActivityForResult(intent, ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY);
+    }
+
+    /**
+     * 描 述：开启web浏览页面<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/30 <br/>
+     * @param context 上下文
+     * @param isShareOrCollect 是否需要分享
+     * @param url 文章url，不能为空
+     * @param name 名称，非分享模式可以为空
+     * @param label 标签，非分享模式可以为空
+     * @param imageInfo 图片url，非分享模式可以为空
+     * @param dataSummery 简介，非分享模式可以为空
+     */
+    public static void startArticle(Context context, boolean isShareOrCollect, String url, String name, String label, String imageInfo, String dataSummery) {
+        if(!url.startsWith("http")) {
+            url = ActivitySvc.createWebUrl(url);
+        }
+        Intent intent=new Intent(context,ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, url);
+        intent.putExtra(ArticleDetailActivity.NAME, name);
+        intent.putExtra(ArticleDetailActivity.LABEL, label);
+        intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
+        intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
+        intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
     }
 }

@@ -33,7 +33,6 @@ import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
-import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
@@ -441,9 +440,9 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_club_logo,R.id.im_logo_info_activity,R.id.im_logo_info_question})
     private void startWebView() {
         // DONE: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
-        Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL, mUserInfo.getCustServiceUrl(getActivity()));
-        startActivity(intent);
+        ActivitySvc.startArticle(this, false,
+                mUserInfo.getCustServiceUrl(getActivity()),
+                null, null, null, null);
     }
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
@@ -507,25 +506,25 @@ public class HostFragment extends BaseHostFragment {
     @OnClick(R.id.tv_activity_name)
     private void toDetailActivitys() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
-        Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL, mUrls.get(UserInfo.MainDataType.RECOMMACTIVITY));
-        startActivity(intent);
+        ActivitySvc.startArticle(this, true,
+                mUrls.get(UserInfo.MainDataType.RECOMMACTIVITY),
+                mActivityName.getText().toString(), null, null, null);
     }
 
     @OnClick(R.id.tv_question_name)
     private void toAnswerQue() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
-        Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL, mUrls.get(UserInfo.MainDataType.RECOMMQUESTION));
-        startActivity(intent);
+        ActivitySvc.startArticle(this, true,
+                mUrls.get(UserInfo.MainDataType.RECOMMQUESTION),
+                mQuestion.getText().toString(), null, null, null);
     }
 
     @OnClick(R.id.tv_grow_up_title)
     private void toDetailGrow(){
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
-        Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL,mUrls.get(UserInfo.MainDataType.RECOMMGROWUP));
-        startActivity(intent);
+        ActivitySvc.startArticle(this, true,
+                mUrls.get(UserInfo.MainDataType.RECOMMGROWUP),
+                mGrowUpTitle.getText().toString(), null, null, null);
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
     private void toGasStation(){

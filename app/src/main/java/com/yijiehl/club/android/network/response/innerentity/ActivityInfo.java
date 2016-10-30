@@ -52,6 +52,16 @@ public class ActivityInfo extends RespBaseSearchResult {
     private String addrInfo;
     /**数据摘要/概述*/
     private String dataSummary;
+    /**是否已经收藏*/
+    private boolean isCollected;
+
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public void setCollected(boolean collected) {
+        isCollected = collected;
+    }
 
     public String getDataSummary() {
         return dataSummary;

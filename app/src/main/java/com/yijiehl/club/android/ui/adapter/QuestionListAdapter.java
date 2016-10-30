@@ -1,7 +1,7 @@
 package com.yijiehl.club.android.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,21 +56,26 @@ public class QuestionListAdapter extends BaseListViewAdapter <Answer>implements 
         //holder.questionTime.setText(DateUtils.formatDateTime(mContext,data.get(position).getCreateTime(),0));
         holder.questionTime.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(mDatas.get(position).getCreateTime())));
         //holder.questionAnswer.setText((data.get(position).getEplyFlag()==0?"未回复":"回复"));
-        holder.questionHeart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // DONE: 2016/10/4 此处事件需要完善
-                CollectQuestion req=new CollectQuestion(mDatas.get(position).getDataContent(),null,
-                        mDatas.get(position).getImageInfo(),mDatas.get(position).getDataShowUrl(),mDatas.get(position).getReplyInfo());
-                NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
-                    @Override
-                    public void onSuccess(AbstractResponse pResponse) {
-                        refresh();
-                        Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
-                    }
-                });
-            }
-        });
+        if(mDatas.get(position).isCollected()) {
+            holder.questionHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        } else {
+            holder.questionHeart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+            holder.questionHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // DONE: 2016/10/4 此处事件需要完善
+                    CollectQuestion req=new CollectQuestion(mDatas.get(position).getDataContent(),null,
+                            mDatas.get(position).getImageInfo(),mDatas.get(position).getDataShowUrl(),mDatas.get(position).getReplyInfo());
+                    NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            refresh();
+                            Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
+                        }
+                    });
+                }
+            });
+        }
         holder.questionShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +91,12 @@ public class QuestionListAdapter extends BaseListViewAdapter <Answer>implements 
         if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
             return;
         }
-        Intent intent=new Intent(mContext, ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
-        mContext.startActivity(intent);
+        ActivitySvc.startArticle((Activity) mContext, true,
+                ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),
+                mDatas.get(position).getDataContent(),
+                mDatas.get(position).getDataDesc(),
+                mDatas.get(position).getImageInfo(),
+                mDatas.get(position).getReplyInfo());
     }
 
     class ViewHolder {
@@ -108,5 +115,15 @@ public class QuestionListAdapter extends BaseListViewAdapter <Answer>implements 
         IconTextView questionHeart;
         @ViewInject(R.id.iv_question_list_share)
         IconTextView questionShare;
+    }
+
+    public void setCollected(String url) {
+        for (Answer answer : mDatas) {
+            if(url.endsWith(answer.getDataShowUrl())) {
+                answer.setCollected(true);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

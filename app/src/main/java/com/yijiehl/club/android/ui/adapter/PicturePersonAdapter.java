@@ -172,8 +172,12 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
             } else {
                 int groupPosition = (int) parent.getTag(R.id.picture_position);
                 ArrayList<String> list = new ArrayList<>();
-                list.add(mDatas.get(groupPosition).get(position).getImageInfo());
-                ActivitySvc.startImageViewer(mContext, list, false);
+                ArrayList<String> codes = new ArrayList<>();
+                for (int i = 0; i < mDatas.get(groupPosition).size(); i++) {
+                    list.add(mDatas.get(groupPosition).get(i).getImageInfo());
+                    codes.add(mDatas.get(groupPosition).get(i).getDataCode());
+                }
+                ActivitySvc.startImageViewer(mContext, list, codes, false);
             }
         }
     }

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
-import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
@@ -133,17 +132,18 @@ public class PictureFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
-        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
-        if(mTitle == null) {
-            return true;
-        }
-        switch (mTitle.getCheckedRadioButtonId()) {
-            case R.id.rb_person:
-                return true;
-            default:
-                return false;
-        }
+//        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+//        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+//        if(mTitle == null) {
+//            return true;
+//        }
+//        switch (mTitle.getCheckedRadioButtonId()) {
+//            case R.id.rb_person:
+//                return true;
+//            default:
+//                return false;
+//        }
+        return false;
     }
 
     @Override
