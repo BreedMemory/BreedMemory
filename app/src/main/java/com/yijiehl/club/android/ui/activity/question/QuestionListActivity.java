@@ -32,20 +32,12 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
-import com.yijiehl.club.android.network.request.search.ReqSearchCollect;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
-import com.yijiehl.club.android.network.response.RespSearchCollect;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
-import com.yijiehl.club.android.network.response.innerentity.Answer;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
 
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -98,6 +90,7 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
 
     private QuestionListAdapter questionListAdapter;
     private String type;
+    private boolean isNoMore;
 
     @Override
     protected String getHeadTitle() {
@@ -185,18 +178,26 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
      * @param keyWord   搜索关键词，如果此参数不为空则忽略isRefresh
      */
     private void obtainData(final boolean isRefresh, final String keyWord) {
+        /*if(isRefresh){
+            questionListAdapter.clear();
+        }*/
         NetHelper.getDataFromNet(this, new ReqSearchQuestion(this, type, keyWord, (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : questionListAdapter.getCount()), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchQuestion data = (RespSearchQuestion) pResponse;
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {//如果是刷新或者搜索则完全替换数据
-                    questionListAdapter.clear();
+                    isNoMore=true;
+                   // questionListAdapter.clear();
                     questionListAdapter.setDatas(data.getResultList());
                     mEmpty.setVisibility(View.GONE);
                 } else {
                     questionListAdapter.addDatas(data.getResultList());
                 }
+                if(data.getResultList().size()<10){
+                    isNoMore=true;
+                }
                 mListView.loadComplete();
+                mListView.lockLoad(isNoMore);
                 mPtrFrameLayout.refreshComplete();
             }
 

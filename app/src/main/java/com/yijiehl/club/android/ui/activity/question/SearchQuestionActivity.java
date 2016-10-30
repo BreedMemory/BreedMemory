@@ -79,7 +79,6 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchQuestion data = (RespSearchQuestion) pResponse;
-                Log.d("====",data.getResultList().size()+"");
                 questionListAdapter=new QuestionListAdapter(SearchQuestionActivity.this);
                 questionListAdapter.addDatas(data.getResultList());
                 lv.setAdapter(questionListAdapter);

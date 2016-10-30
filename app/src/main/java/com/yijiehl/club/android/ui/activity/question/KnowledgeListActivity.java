@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -76,6 +77,7 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
 
     private String type;
     private KnowledgeListAdapter knowledgeListAdapter;
+    private boolean isNoMore;
 
     @Override
     protected String getHeadTitle() {
@@ -86,10 +88,10 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getIntent().getStringExtra(KnowledgeActivity.TYPE);
+
+        obtainData(true);
         knowledgeListAdapter = new KnowledgeListAdapter(this);
         mListView.setAdapter(knowledgeListAdapter);
-        obtainData(true);
-        mListView.setOnItemClickListener(knowledgeListAdapter);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
@@ -113,6 +115,8 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
                 obtainData(true);
             }
         });
+
+        mListView.setOnItemClickListener(knowledgeListAdapter);
         mSearch.addTextChangedListener(this);
         mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -149,24 +153,31 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
      */
     private void obtainData(final boolean isRefresh, final String keyWord) {
         NetHelper.getDataFromNet(this, new ReqSearchKnowledge(this, type, keyWord,
-                (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : knowledgeListAdapter.getCount()), new AbstractCallBack(this) {
+                (isRefresh || !TextUtils.isEmpty(keyWord)) ? 0 : knowledgeListAdapter.getDatas().size()), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
 
                 RespSearchArticle data = (RespSearchArticle) pResponse;
+                Log.d("===",data.getResultList().size()+"");
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {//如果是刷新或者搜索则完全替换数据
-                    knowledgeListAdapter.clear();
+                    isNoMore=true;
+                    //knowledgeListAdapter.clear();
                     knowledgeListAdapter.setDatas(data.getResultList());
                 } else {
                     knowledgeListAdapter.addDatas(data.getResultList());
                 }
+                if(data.getResultList().size()<10){
+                   isNoMore=true;
+                }
                 mListView.loadComplete();
+                mListView.lockLoad(isNoMore);
                 mPtrFrameLayout.refreshComplete();
             }
 
             @Override
             public void onFailed(String msg) {
                 super.onFailed(msg);
+                Log.d("===","失败");
                 mListView.loadComplete();
                 mPtrFrameLayout.refreshComplete();
             }

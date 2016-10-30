@@ -72,7 +72,7 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
 
     private ActivitysAdapter mAdapter;
 
-    private List<ActivityInfo> data;
+    private boolean isNoMore;
 
     @Override
     protected String getHeadTitle() {
@@ -149,11 +149,23 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchActivitys data = (RespSearchActivitys) pResponse;
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    mAdapter.clear();
+                    isNoMore=true;
+                    //mAdapter.clear();
                     mAdapter.setDatas(data.getResultList());
                 } else {
                     mAdapter.addDatas(data.getResultList());
                 }
+                if(data.getResultList().size()<10){
+                    isNoMore=true;
+                }
+                mListView.loadComplete();
+                mListView.lockLoad(isNoMore);
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
                 mListView.loadComplete();
                 mPtrFrameLayout.refreshComplete();
             }

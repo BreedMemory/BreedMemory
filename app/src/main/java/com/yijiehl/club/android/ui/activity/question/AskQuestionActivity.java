@@ -155,6 +155,10 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
                                     System.currentTimeMillis(),
                                     data.getReturnMsg().getResultCode());
                 }
+                //提问成功，回到我的问题页面
+                Intent intent=new Intent(AskQuestionActivity.this,QuestionListActivity.class);
+                intent.putExtra(QuestionListActivity.TYPE,QuestionListActivity.MY);
+                startActivity(intent);
                 finish();
 
             }

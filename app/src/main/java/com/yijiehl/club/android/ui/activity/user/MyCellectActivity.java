@@ -74,6 +74,8 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
 
     private CollectionAdapter collectionAdapter;
 
+    private boolean isNoMore;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.my_collect);
@@ -153,12 +155,17 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchCollect data = (RespSearchCollect) pResponse;
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    collectionAdapter.clear();
+                    isNoMore=true;
+                   // collectionAdapter.clear();
                     collectionAdapter.setDatas(data.getResultList());
                 } else {
                     collectionAdapter.addDatas(data.getResultList());
                 }
+                if(data.getResultList().size()<10){
+                    isNoMore=true;
+                }
                 mListView.loadComplete();
+                mListView.lockLoad(isNoMore);
                 mPtrFrameLayout.refreshComplete();
             }
 
