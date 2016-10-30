@@ -25,7 +25,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqLogout;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
@@ -110,7 +110,7 @@ public class MineActivity extends BmActivity {
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
         Intent intent = new Intent(this, ClubIntroductionActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, mUserInfo.getCustServiceUrl(this));
+        intent.putExtra(ArticleDetailActivity.URL, mUserInfo.getCustServiceUrl(this));
         startActivity(intent);
     }
 

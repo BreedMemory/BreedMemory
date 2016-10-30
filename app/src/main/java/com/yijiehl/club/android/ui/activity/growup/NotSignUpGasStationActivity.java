@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
@@ -41,7 +41,7 @@ public class NotSignUpGasStationActivity extends BmActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String url = getIntent().getStringExtra(ArticalDetailActivity.URL);
+        String url = getIntent().getStringExtra(ArticleDetailActivity.URL);
         if (TextUtils.isEmpty(url)) {
             webView.setVisibility(View.GONE);
             return;

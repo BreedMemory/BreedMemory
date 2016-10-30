@@ -25,11 +25,13 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.ReqSensitize;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.base.Sex;
 import com.yijiehl.club.android.network.request.dataproc.UpdateUserInfo;
 import com.yijiehl.club.android.network.request.search.ReqSearchClub;
 import com.yijiehl.club.android.network.response.RespSearchClubs;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.response.innerentity.ClubInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
@@ -243,14 +245,24 @@ public class SupplementInfoActivity extends BmActivity {
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                mUserInfo.setAcctName(info.getDataName());
-                mUserInfo.setGenderCode(info.getGenderCode());
-                mUserInfo.setOrgId(String.valueOf(info.getOrgId()));
-                mUserInfo.setOrgInfo(mClubIndex == -1 ? "" : mClubInfos.get(mClubIndex).getDataId());
-                mUserInfo.setBirthday(info.getBirthdate());
-                ActivitySvc.saveUserInfoNative(SupplementInfoActivity.this, mUserInfo);
-                ActivitySvc.startMainActivity(SupplementInfoActivity.this);
-                finish();
+//                mUserInfo.setAcctName(info.getDataName());
+//                mUserInfo.setGenderCode(info.getGenderCode());
+//                mUserInfo.setOrgId(String.valueOf(info.getOrgId()));
+//                mUserInfo.setOrgInfo(mClubIndex == -1 ? "" : mClubInfos.get(mClubIndex).getDataId());
+//                mUserInfo.setBirthday(info.getBirthdate());
+//                mUserInfo.setStatus(RespLogin.AccountStatus.GENERAL_BEFORE);
+//                ActivitySvc.saveUserInfoNative(SupplementInfoActivity.this, mUserInfo);
+//                ActivitySvc.startMainActivity(SupplementInfoActivity.this);
+//                finish();
+                NetHelper.getDataFromNet(SupplementInfoActivity.this, new ReqSensitize(SupplementInfoActivity.this), new AbstractCallBack(SupplementInfoActivity.this) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        RespSensitize data = (RespSensitize) pResponse;
+                        ActivitySvc.loginSuccess(SupplementInfoActivity.this, data);
+                        ActivitySvc.saveClientInfoNative(SupplementInfoActivity.this, data, null);
+                        finish();
+                    }
+                }, false);
             }
         });
     }

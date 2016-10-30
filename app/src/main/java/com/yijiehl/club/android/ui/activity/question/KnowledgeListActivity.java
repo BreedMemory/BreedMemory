@@ -1,43 +1,28 @@
 package com.yijiehl.club.android.ui.activity.question;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
-import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
 import com.yijiehl.club.android.network.request.search.ReqSearchKnowledge;
-import com.yijiehl.club.android.network.response.RespSearchActivitys;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
-import com.yijiehl.club.android.network.response.RespSearchQuestion;
-import com.yijiehl.club.android.network.response.innerentity.Article;
-import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
 import com.yijiehl.club.android.ui.adapter.KnowledgeListAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>

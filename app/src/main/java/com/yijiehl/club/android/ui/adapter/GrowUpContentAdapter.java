@@ -23,7 +23,7 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,8 +221,8 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
             return;
         }
-        Intent intent=new Intent(mContext, ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+        Intent intent=new Intent(mContext, ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
         mContext.startActivity(intent);
     }
 

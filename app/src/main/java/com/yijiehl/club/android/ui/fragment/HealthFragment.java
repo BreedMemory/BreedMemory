@@ -96,6 +96,9 @@ public class HealthFragment extends BaseHostFragment {
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
+            if(mUserInfo == null) {
+                return;
+            }
             adaptView();
             configRightBtn();
         }

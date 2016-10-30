@@ -3,11 +3,9 @@ package com.yijiehl.club.android.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
@@ -23,13 +21,10 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Formatter;
-import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -92,8 +87,8 @@ public class QuestionListAdapter extends BaseListViewAdapter <Answer>implements 
         if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
             return;
         }
-        Intent intent=new Intent(mContext, ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+        Intent intent=new Intent(mContext, ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
         mContext.startActivity(intent);
     }
 

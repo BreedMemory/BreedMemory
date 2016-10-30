@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,7 +19,6 @@ import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ContextUtils;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -32,20 +28,11 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
-import com.yijiehl.club.android.network.request.search.ReqSearchCollect;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
-import com.yijiehl.club.android.network.response.RespSearchCollect;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
-import com.yijiehl.club.android.network.response.innerentity.Answer;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
-
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>

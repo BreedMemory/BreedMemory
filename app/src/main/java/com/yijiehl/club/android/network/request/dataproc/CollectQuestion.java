@@ -20,6 +20,6 @@ public class CollectQuestion extends Collect{
     }
     @Override
     protected String initDataType() {
-        return "question ";
+        return "question";
     }
 }

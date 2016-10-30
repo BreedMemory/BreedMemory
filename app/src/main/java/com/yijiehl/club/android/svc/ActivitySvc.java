@@ -26,7 +26,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
 import com.yijiehl.club.android.ui.activity.growup.NotSignUpGasStationActivity;
@@ -236,7 +236,7 @@ public class ActivitySvc {
             case GENERAL_BEFORE:
             case GENERAL_AFTER:
                 Intent intent=new Intent(context,NotSignUpGasStationActivity.class);
-                intent.putExtra(ArticalDetailActivity.URL,NotSignUpGasStationActivity.NOT_SIGN_URL);
+                intent.putExtra(ArticleDetailActivity.URL,NotSignUpGasStationActivity.NOT_SIGN_URL);
                 context.startActivity(intent);
                 break;
             default:

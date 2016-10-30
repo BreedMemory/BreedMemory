@@ -14,12 +14,9 @@ import com.uuzz.android.ui.adapter.BaseListViewAdapter;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.network.response.innerentity.Collection;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
-
-import java.util.List;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -61,8 +58,8 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
-            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
-            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+            Intent intent=new Intent(mContext,ArticleDetailActivity.class);
+            intent.putExtra(ArticleDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
             mContext.startActivity(intent);
         }
     }

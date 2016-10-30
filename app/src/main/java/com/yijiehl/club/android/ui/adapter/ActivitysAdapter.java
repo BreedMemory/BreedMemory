@@ -17,21 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
-import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
-import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -69,8 +64,8 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> implemen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
-            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
-            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
+            Intent intent=new Intent(mContext,ArticleDetailActivity.class);
+            intent.putExtra(ArticleDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
             mContext.startActivity(intent);
         }
     }

@@ -2,13 +2,15 @@ package com.uuzz.android.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class BaseListViewAdapter<T> extends BaseAdapter {
+public abstract class BaseListViewAdapter<T> extends BaseAdapter implements AdapterView.OnItemClickListener {
 
     protected Context mContext;
     protected List<T> mDatas;
@@ -103,5 +105,10 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

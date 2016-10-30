@@ -30,7 +30,7 @@ import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
@@ -88,6 +88,9 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
+                if(mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
+                    return;
+                }
                 mMotherData = (RespSearchHealthData) pResponse;
                 mInfo.setText(mMotherData.getResultList().get(0).getDataInfo1());
             }
@@ -148,30 +151,26 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         HealthData data = null;
         switch (id) {
             case R.id.rb_baby0:
-                if(mBabyDatas.size() > 0) {
+                if(mBabyDatas.size() > 0 && mBabyDatas.get(0).getResultList() != null && mBabyDatas.get(0).getResultList().size() > 0) {
                     data = mBabyDatas.get(0).getResultList().get(0);
                 }
                 break;
             case R.id.rb_baby1:
-                if(mBabyDatas.size() > 1) {
+                if(mBabyDatas.size() > 1 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
                     data = mBabyDatas.get(1).getResultList().get(0);
                 }
                 break;
             case R.id.rb_baby2:
-                if(mBabyDatas.size() > 2) {
+                if(mBabyDatas.size() > 2 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
                     data = mBabyDatas.get(2).getResultList().get(0);
                 }
                 break;
             case R.id.rb_baby3:
-                if(mBabyDatas.size() > 3) {
+                if(mBabyDatas.size() > 3 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
                     data = mBabyDatas.get(3).getResultList().get(0);
                 }
                 break;
         }
-        if(data == null) {
-            return;
-        }
-
     }
 
     @OnClick({R.id.im_more, R.id.tv_more})
@@ -215,8 +214,8 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         if(mUserInfo == null) {
             return;
         }
-        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
+        Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);
     }
 

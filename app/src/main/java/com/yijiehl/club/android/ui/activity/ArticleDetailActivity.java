@@ -4,19 +4,23 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.ui.adapter.MenuAdapter;
+import com.yijiehl.club.android.ui.popupwindow.MenuPopupWindow;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: ArticalDetailActivity <br/>
+ * 类  名: ArticleDetailActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
@@ -25,12 +29,15 @@ import com.yijiehl.club.android.R;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_articaldetail)
-public class ArticalDetailActivity extends BmActivity {
+public class ArticleDetailActivity extends BmActivity {
 
     public static final String URL = "URL";
 
     @ViewInject(R.id.webview_detail)
     private WebView webView;
+
+    private MenuPopupWindow mMenu;
+    private MenuAdapter mAdapter;
 
     @Override
     protected String getHeadTitle() {
@@ -45,6 +52,29 @@ public class ArticalDetailActivity extends BmActivity {
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.icon_add));
+        mHeadRightContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.5f;
+                lp.dimAmount = 0.5f;
+                getWindow().setAttributes(lp);
+                if(mMenu == null) {
+                    mAdapter = new MenuAdapter(ArticleDetailActivity.this);
+                    mMenu = new MenuPopupWindow(ArticleDetailActivity.this, mAdapter);
+                    mMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            WindowManager.LayoutParams lp = getWindow().getAttributes();
+                            lp.alpha = 1f;
+                            lp.dimAmount = 1f;
+                            getWindow().setAttributes(lp);
+                        }
+                    });
+                }
+                mMenu.showAsDropDown(mHeadRightContainer);
+            }
+        });
     }
 
     @Override
@@ -58,6 +88,7 @@ public class ArticalDetailActivity extends BmActivity {
             return;
         }
         webView.loadUrl(url);
+        mAdapter.setUrl(url);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
