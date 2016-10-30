@@ -5,151 +5,180 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/primary_margin"
     android:orientation="vertical">
+    <!-- 体重 -->
     <RelativeLayout
-        android:layout_marginTop="0dip"
-        style="@style/form_container">
+        android:id="@+id/ll_mother_weight_form_container"
+        style="@style/form_main_container">
 
         <TextView
             android:text="@string/weight"
-            style="@style/form_title" />
+            style="@style/form_month" />
 
-        <LinearLayout
-            android:id="@+id/ll_weight_grit"
-            style="@style/form_mode_selector">
-            <TextView
-                android:id="@+id/tv_weight_grit"
-                android:text="@string/day_tian"
-                style="@style/form_grit" />
-            <ImageView
-                android:src="@drawable/ic_triangle"
-                style="@style/trangle" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_mother_value_weight"
+            tools:text="65kg"
+            android:layout_toLeftOf="@+id/v_mother_divider_weight"
+            style="@style/form_value" />
+        <View
+            android:id="@+id/v_mother_divider_weight"
+            style="@style/form_divider" />
+        <TextView
+            android:id="@+id/tv_mother_date_weight"
+            tools:text="10月13日"
+            android:layout_toRightOf="@+id/v_mother_divider_weight"
+            style="@style/form_date" />
 
-        <LinearLayout
-            android:id="@+id/ll_weight_form_container"
-            android:layout_below="@id/ll_weight_grit"
-            style="@style/form_main_container">
-
-            <TextView
-                android:text="9月"
-                style="@style/form_month" />
-            <ImageView
-                android:id="@+id/form_mother_weight"
-                android:src="@drawable/temp_weight_form"
-                style="@style/form" />
-
-        </LinearLayout>
+        <RadioGroup
+            android:id="@+id/rg_mother_selector_weight"
+            style="@style/form_date_selector">
+            <RadioButton
+                android:id="@+id/rb_mother_weight_date_week"
+                android:text="@string/week"
+                android:checked="true"
+                style="@style/form_date_item" />
+            <RadioButton
+                android:id="@+id/rb_mother_weight_date_month"
+                android:text="@string/month"
+                style="@style/form_date_item"/>
+        </RadioGroup>
+        
+        <com.uuzz.android.ui.view.LineChatView
+            android:id="@+id/lcv_mother_weight"
+            android:background="#aadea0"
+            style="@style/chat" />
 
     </RelativeLayout>
 
+
 <!--  胸围  -->
     <RelativeLayout
-        style="@style/form_container">
+        android:id="@+id/ll_mother_chest_form_container"
+        style="@style/form_main_container">
 
         <TextView
             android:text="@string/chest"
-            style="@style/form_title" />
+            style="@style/form_month" />
 
-        <LinearLayout
-            android:id="@+id/ll_chest_grit"
-            style="@style/form_mode_selector">
-            <TextView
-                android:id="@+id/tv_chest_grit"
-                android:text="@string/day_tian"
-                style="@style/form_grit" />
-            <ImageView
-                android:src="@drawable/ic_triangle"
-                style="@style/trangle" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_mother_value_chest"
+            tools:text="65kg"
+            android:layout_toLeftOf="@+id/tv_mother_date_chest"
+            style="@style/form_value" />
+        <View
+            android:id="@+id/v_mother_divider_chest"
+            style="@style/form_divider" />
+        <TextView
+            android:id="@+id/tv_mother_date_chest"
+            tools:text="10月13日"
+            android:layout_toRightOf="@+id/v_mother_divider_chest"
+            style="@style/form_date" />
 
-        <LinearLayout
-            android:id="@+id/ll_chest_form_container"
-            android:layout_below="@id/ll_chest_grit"
-            style="@style/form_main_container">
+        <RadioGroup
+            android:id="@+id/rg_mother_selector_chest"
+            style="@style/form_date_selector">
+            <RadioButton
+                android:id="@+id/rb_mother_chest_date_week"
+                android:text="@string/week"
+                android:checked="true"
+                style="@style/form_date_item" />
+            <RadioButton
+                android:id="@+id/rb_mother_chest_date_month"
+                android:text="@string/month"
+                style="@style/form_date_item"/>
+        </RadioGroup>
 
-            <TextView
-                android:text="9月"
-                style="@style/form_month" />
-            <ImageView
-                android:id="@+id/form_mother_chest"
-                android:src="@drawable/temp_temperature_form"
-                style="@style/form" />
-
-        </LinearLayout>
+        <com.uuzz.android.ui.view.LineChatView
+            android:id="@+id/lcv_mother_chest"
+            android:background="#8de4c3"
+            style="@style/chat" />
 
     </RelativeLayout>
 
 <!--  腰围  -->
     <RelativeLayout
-        style="@style/form_container">
+        android:id="@+id/ll_mother_waist_form_container"
+        style="@style/form_main_container">
 
         <TextView
             android:text="@string/waist"
-            style="@style/form_title" />
+            style="@style/form_month" />
 
-        <LinearLayout
-            android:id="@+id/ll_waist_grit"
-            style="@style/form_mode_selector">
-            <TextView
-                android:id="@+id/tv_waist_grit"
-                android:text="@string/day_tian"
-                style="@style/form_grit" />
-            <ImageView
-                android:src="@drawable/ic_triangle"
-                style="@style/trangle" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_mother_value_waist"
+            tools:text="65kg"
+            android:layout_toLeftOf="@+id/tv_mother_date_waist"
+            style="@style/form_value" />
+        <View
+            android:id="@+id/v_mother_divider_waist"
+            style="@style/form_divider" />
+        <TextView
+            android:id="@+id/tv_mother_date_waist"
+            tools:text="10月13日"
+            android:layout_toRightOf="@+id/v_mother_divider_waist"
+            style="@style/form_date" />
 
-        <LinearLayout
-            android:id="@+id/ll_waist_form_container"
-            android:layout_below="@id/ll_waist_grit"
-            style="@style/form_main_container">
+        <RadioGroup
+            android:id="@+id/rg_mother_selector_waist"
+            style="@style/form_date_selector">
+            <RadioButton
+                android:id="@+id/rb_mother_waist_date_week"
+                android:text="@string/week"
+                android:checked="true"
+                style="@style/form_date_item" />
+            <RadioButton
+                android:id="@+id/rb_mother_waist_date_month"
+                android:text="@string/month"
+                style="@style/form_date_item"/>
+        </RadioGroup>
 
-            <TextView
-                android:text="9月"
-                style="@style/form_month" />
-            <ImageView
-                android:id="@+id/form_mother_waist"
-                android:src="@drawable/temp_temperature_form"
-                style="@style/form" />
-
-        </LinearLayout>
+        <com.uuzz.android.ui.view.LineChatView
+            android:id="@+id/lcv_mother_waist"
+            android:background="#90dee6"
+            style="@style/chat" />
 
     </RelativeLayout>
 
 <!--  臀围  -->
     <RelativeLayout
-        style="@style/form_container">
+        android:id="@+id/ll_mother_hips_form_container"
+        style="@style/form_main_container">
 
         <TextView
             android:text="@string/hips"
-            style="@style/form_title" />
+            style="@style/form_month" />
 
-        <LinearLayout
-            android:id="@+id/ll_hips_grit"
-            style="@style/form_mode_selector">
-            <TextView
-                android:id="@+id/tv_hips_grit"
-                android:text="@string/day_tian"
-                style="@style/form_grit" />
-            <ImageView
-                android:src="@drawable/ic_triangle"
-                style="@style/trangle" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_mother_value_hips"
+            tools:text="65kg"
+            android:layout_toLeftOf="@+id/tv_mother_date_hips"
+            style="@style/form_value" />
+        <View
+            android:id="@+id/v_mother_divider_hips"
+            style="@style/form_divider" />
+        <TextView
+            android:id="@+id/tv_mother_date_hips"
+            tools:text="10月13日"
+            android:layout_toRightOf="@+id/v_mother_divider_hips"
+            style="@style/form_date" />
 
-        <LinearLayout
-            android:id="@+id/ll_hips_form_container"
-            android:layout_below="@id/ll_hips_grit"
-            style="@style/form_main_container">
+        <RadioGroup
+            android:id="@+id/rg_mother_selector_hips"
+            style="@style/form_date_selector">
+            <RadioButton
+                android:id="@+id/rb_mother_hips_date_week"
+                android:text="@string/week"
+                android:checked="true"
+                style="@style/form_date_item" />
+            <RadioButton
+                android:id="@+id/rb_mother_hips_date_month"
+                android:text="@string/month"
+                style="@style/form_date_item"/>
+        </RadioGroup>
 
-            <TextView
-                android:text="9月"
-                style="@style/form_month" />
-            <ImageView
-                android:id="@+id/form_mother_hips"
-                android:src="@drawable/temp_temperature_form"
-                style="@style/form" />
-
-        </LinearLayout>
+        <com.uuzz.android.ui.view.LineChatView
+            android:id="@+id/lcv_mother_hips"
+            android:background="#9dbbe8"
+            style="@style/chat" />
 
     </RelativeLayout>
 

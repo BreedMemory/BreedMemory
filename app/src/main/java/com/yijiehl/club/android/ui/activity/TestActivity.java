@@ -6,7 +6,11 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.os.Bundle;
+
+import com.uuzz.android.ui.view.LineChatView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 
 
@@ -21,10 +25,17 @@ import com.yijiehl.club.android.R;
  */
 @ContentView(R.layout.activity_test)
 public class TestActivity extends BmActivity {
-
+    @ViewInject(R.id.lcv)
+    private LineChatView view;
 
     @Override
     protected String getHeadTitle() {
         return "测试";
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        view.setValues(new float[]{5, 8,11,18,2,9,4,7,3,7,8,2,4});
     }
 }

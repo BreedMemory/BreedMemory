@@ -164,12 +164,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/second_text_size</item>
         <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:layout_marginLeft">@dimen/primary_margin</item>
+        <item name="android:layout_marginTop">13dip</item>
     </style>
 
     <style name="form">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">100dip</item>
-        <item name="android:layout_marginTop">23dip</item>
+        <item name="android:layout_marginTop">45dip</item>
         <item name="android:layout_marginBottom">50dip</item>
         <item name="android:scaleType">fitXY</item>
     </style>
@@ -319,6 +321,59 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:background">@null</item>
+    </style>
+
+    <style name="form_value">
+        <item name="android:gravity">end</item>
+        <item name="android:textSize">20dip</item>
+        <item name="android:textColor">#f07aac</item>
+        <item name="android:layout_marginTop">13dip</item>
+        <item name="android:layout_marginRight">@dimen/text_space</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="form_divider">
+        <item name="android:layout_width">1dip</item>
+        <item name="android:layout_height">14dip</item>
+        <item name="android:layout_marginTop">18dip</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">#d5d5d5</item>
+    </style>
+
+    <style name="form_date">
+        <item name="android:gravity">end</item>
+        <item name="android:textSize">14dip</item>
+        <item name="android:textColor">#d5d5d5</item>
+        <item name="android:layout_marginTop">18dip</item>
+        <item name="android:layout_marginLeft">@dimen/text_space</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="form_date_selector">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">13dip</item>
+        <item name="android:layout_marginRight">@dimen/primary_margin</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="form_date_item">
+        <item name="android:layout_width">25dip</item>
+        <item name="android:layout_height">25dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14dip</item>
+        <item name="android:textColor">@drawable/date_selector_text_color</item>
+        <item name="android:background">@drawable/health_selector_date_touchable</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="chat">
+        <item name="android:layout_marginTop">45dip</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">130dip</item>
     </style>
 
 </resources>

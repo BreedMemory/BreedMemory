@@ -187,12 +187,12 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.form_mother_chest,
-            R.id.form_mother_weight,
-            R.id.form_mother_waist,
-            R.id.form_mother_hips,
-            R.id.form_baby_height,
-            R.id.form_baby_weight})
+    @OnClick({R.id.lcv_mother_chest,
+            R.id.lcv_mother_weight,
+            R.id.lcv_mother_waist,
+            R.id.lcv_mother_hips,
+            R.id.lcv_baby_height,
+            R.id.lcv_baby_weight})
     private void startHealthData() {
         Intent intent = new Intent(getActivity(), HealthInfoAfterActivity.class);
         intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());

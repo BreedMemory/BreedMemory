@@ -142,4 +142,6 @@
     <string name="input_illness">输入疾病</string>
     <string name="illness_record">病例报告</string>
     <string name="select">选择</string>
+    <string name="week">周</string>
+    <string name="head">头围</string>
 </resources>
