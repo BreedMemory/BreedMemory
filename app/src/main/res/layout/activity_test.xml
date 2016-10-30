@@ -5,8 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yijiehl.club.android.ui.view.TimePicker
+    <com.uuzz.android.ui.view.LineChatView
+        android:id="@+id/lcv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dip"
+        android:paddingTop="50dip"
+        android:paddingBottom="50dp"
+        app:line_color="@color/white"
+        app:selected_point_radius="10dip"
+        app:unselected_point_radius="6dip"
+        app:unselected_point_color="#D8D8D8"
+        android:background="@color/yellow"/>
 
 </LinearLayout>

@@ -228,13 +228,13 @@ public class ServiceInFragment extends HealthInfoFragment {
     }
 
     @OnClick({R.id.mother_extra_data,
-            R.id.form_mother_temperature,
-            R.id.form_mother_weight,
+            R.id.lcv_mother_temperature,
+            R.id.lcv_mother_weight,
             R.id.baby_extra_data,
-            R.id.form_baby_height,
-            R.id.form_baby_chest,
-            R.id.form_baby_head,
-            R.id.form_baby_weight})
+            R.id.lcv_baby_height,
+            R.id.lcv_baby_chest,
+            R.id.lcv_baby_head,
+            R.id.lcv_baby_weight})
     private void startHealthData() {
         Intent intent = new Intent(getActivity(), HealthInfoInActivity.class);
         intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());

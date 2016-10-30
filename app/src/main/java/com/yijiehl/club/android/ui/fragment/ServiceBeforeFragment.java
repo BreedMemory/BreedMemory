@@ -88,10 +88,10 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.form_mother_chest,
-            R.id.form_mother_weight,
-            R.id.form_mother_waist,
-            R.id.form_mother_hips})
+    @OnClick({R.id.lcv_mother_chest,
+            R.id.lcv_mother_weight,
+            R.id.lcv_mother_waist,
+            R.id.lcv_mother_hips})
     private void startHealthData() {
         Intent intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
         startActivity(intent);
