@@ -95,7 +95,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                if(mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
+                if(mMotherData == null || mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
                     return;
                 }
                 mMotherData = (RespSearchHealthData) pResponse;

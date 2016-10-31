@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android;
 
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.uuzz.android.CkApplication;
 
 /**
@@ -22,8 +24,8 @@ public class BmApplication extends CkApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-//        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
-//        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setWeixin("wx4703b3851c791b7c", "ae345ef7c4ee055cdeee5325b6bb767b");
+        PlatformConfig.setQQZone("1105790102", "4SRtowOI3Au1hGWx");
+        UMShareAPI.get(this);
     }
 }

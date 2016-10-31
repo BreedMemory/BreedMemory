@@ -92,7 +92,7 @@ public class HealthInfoBeforeActivity extends BmActivity {
                 if(mMotherHealthData == null) {
                     request = new AddMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
                 } else {
-                    request = new EditMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
+                    request = new EditMotherHealthData(mMotherHealthData.getRelateCode(), mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
 
                 }
                 NetHelper.getDataFromNet(HealthInfoBeforeActivity.this,

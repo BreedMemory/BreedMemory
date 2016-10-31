@@ -38,6 +38,15 @@ public abstract class MotherHealthData extends BaseDataEntity {
     protected String statValue12;
     protected String fileDesc;
     protected String fileFlag;
+    protected String dataCode;
+
+    public String getDataCode() {
+        return dataCode;
+    }
+
+    public void setDataCode(String dataCode) {
+        this.dataCode = dataCode;
+    }
 
     public String getStatTime() {
         return statTime;

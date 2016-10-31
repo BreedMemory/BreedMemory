@@ -167,7 +167,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                         if(mMotherHealthData == null) {
                             request = new AddMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
                         } else {
-                            request = new EditMotherHealthData(mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
+                            request = new EditMotherHealthData(mMotherHealthData.getRelateCode(), mTime, mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString());
 
                         }
                         NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
@@ -193,15 +193,16 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                         if(mTaskId != 0) {
                             Toaster.showShortToast(HealthInfoAfterActivity.this, R.string.uploading_picture);
                         }
-                        // TODO: 谌珂 2016/10/26 接口文档没有传宝宝id的字段  等待添加
+                        // DONE: 谌珂 2016/10/26 接口文档没有传宝宝id的字段  等待添加
                         if(mBabyTask != null) {
                             mBabyTask.cancel(true);
                         }
                         BabyHealthData babyRequest;
+                        int childId = Integer.valueOf((String)mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId()));
                         if(mBabyHealthData == null) {
-                            babyRequest = new AddBabyHealthData(mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
+                            babyRequest = new AddBabyHealthData(childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
                         } else {
-                            babyRequest = new EditBabyHealthData(mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
+                            babyRequest = new EditBabyHealthData(mBabyHealthData.getRelateCode(), childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
                         }
                         NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
                                 new ReqBaseDataProc(HealthInfoAfterActivity.this, babyRequest),

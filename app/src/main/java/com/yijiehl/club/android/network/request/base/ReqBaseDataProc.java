@@ -32,7 +32,7 @@ public class ReqBaseDataProc extends ReqBase {
         super(context);
         List<BaseDataEntity> list = new ArrayList<>();
         list.add(entity);
-        this.dataList = JSON.toJSONString(list);
+        setDataList(JSON.toJSONString(list));
     }
 
     public ReqBaseDataProc(Context context, List<BaseDataEntity> list) {

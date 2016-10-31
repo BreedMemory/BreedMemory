@@ -5,6 +5,7 @@
  */
 package com.yijiehl.club.android.network.request.base;
 
+import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.request.IRequest;
 import com.yijiehl.club.android.common.Common;
 
@@ -17,6 +18,7 @@ import com.yijiehl.club.android.common.Common;
  * 版    本：1.0.0<br/>
  */
 public abstract class BmRequest implements IRequest {
+    protected Logger logger = new Logger(this.getClass());
 
     /** 客户端编号 */
     protected String clientNum = Common.CLIENT_NUMBER;
