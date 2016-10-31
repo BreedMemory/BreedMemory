@@ -1,12 +1,11 @@
 package com.yijiehl.club.android.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
@@ -20,12 +19,8 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
-import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
-
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -56,6 +51,29 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article>implements
         }
         holder.knowledgeTitle.setText(temp.getDataName());
         holder.knowledgeContent.setText(temp.getDataSummary());
+        if(temp.isCollected()) {
+            holder.knowledgeHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        } else {
+            holder.knowledgeHeart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+            holder.knowledgeHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // DONE: 2016/10/6 此处事件需要完善
+                    CollectArticle req = new CollectArticle(temp.getDataName(),
+                            temp.getDataLable(),
+                            temp.getImageInfo(),
+                            temp.getDataShowUrl(),
+                            temp.getDataSummary());
+                    NetHelper.getDataFromNet(mContext, new ReqBaseDataProc(mContext, req), new AbstractCallBack(mContext) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            refresh();
+                            Toaster.showShortToast(mContext, mContext.getString(R.string.collect_success));
+                        }
+                    });
+                }
+            });
+        }
         holder.knowledgeHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +105,12 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article>implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
-            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
-            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
-            mContext.startActivity(intent);
+            ActivitySvc.startArticle((Activity) mContext, true,
+                    ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),
+                    mDatas.get(position).getDataName(),
+                    mDatas.get(position).getDataLable(),
+                    mDatas.get(position).getImageInfo(),
+                    mDatas.get(position).getDataSummary());
         }
     }
 
@@ -106,5 +127,15 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article>implements
         IconTextView knowledgeHeart;
         @ViewInject(R.id.iv_knowledge_list_share)
         IconTextView knowledgeShare;
+    }
+
+    public void setCollected(String url) {
+        for (Article answer : mDatas) {
+            if(url.endsWith(answer.getDataShowUrl())) {
+                answer.setCollected(true);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

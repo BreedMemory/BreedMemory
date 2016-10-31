@@ -144,4 +144,6 @@
     <string name="select">选择</string>
     <string name="week">周</string>
     <string name="head">头围</string>
+    <string name="can_not_delete">不能删除</string>
+    <string name="delete_success">删除成功</string>
 </resources>

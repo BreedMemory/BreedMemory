@@ -66,14 +66,12 @@
                 android:layout_below="@id/ci_main_picture"
                 android:layout_width="match_parent"
                 android:layout_height="85dip"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_page_one_arc_up"/>
+                android:scaleType="fitXY"/>
             <ImageView
                 android:layout_below="@id/im_arc_up"
                 android:layout_width="match_parent"
                 android:layout_height="127dip"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_page_one_arc_down"/>
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/tv_advice"

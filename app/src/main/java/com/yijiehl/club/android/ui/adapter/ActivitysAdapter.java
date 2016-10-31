@@ -6,8 +6,8 @@
  */
 package com.yijiehl.club.android.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +17,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
-import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
-import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -69,9 +63,12 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> implemen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(!TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())){
-            Intent intent=new Intent(mContext,ArticalDetailActivity.class);
-            intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
-            mContext.startActivity(intent);
+            ActivitySvc.startArticle((Activity) mContext, true,
+                    ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),
+                            mDatas.get(position).getDataName(),
+                            mDatas.get(position).getDataLabel(),
+                            mDatas.get(position).getImageInfo(),
+                            mDatas.get(position).getDataSummary());
         }
     }
 
@@ -91,5 +88,15 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> implemen
         TextView tvPlace;
         @ViewInject(R.id.tv_item_time)
         TextView tvTime;
+    }
+
+    public void setCollected(String url) {
+        for (ActivityInfo answer : mDatas) {
+            if(url.endsWith(answer.getDataShowUrl())) {
+                answer.setCollected(true);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

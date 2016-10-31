@@ -1,7 +1,6 @@
 package com.yijiehl.club.android.ui.adapter;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +47,12 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
     private List<Article> educationData;
 
     private MyClickListener listener = new MyClickListener();
+    private Fragment mFragment;
 
-    public GrowUpContentAdapter(Context mContext, int mode) {
-        super(mContext);
+    public GrowUpContentAdapter(Fragment mFragment, int mode) {
+        super(mFragment.getActivity());
         this.mode = mode;
+        this.mFragment = mFragment;
         mDatas = allData;
     }
 
@@ -178,7 +178,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         holder.ivshare.setOnClickListener(listener);
         holder.ivheart.setOnClickListener(listener);
 
-        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getImageInfo())).into(holder.ivPic);
+        Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getImageInfo())).error(R.drawable.bg_loading).into(holder.ivPic);
         return convertView;
     }
 
@@ -221,9 +221,12 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
             return;
         }
-        Intent intent=new Intent(mContext, ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()));
-        mContext.startActivity(intent);
+        ActivitySvc.startArticle(mFragment, true,
+                ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),
+                mDatas.get(position).getDataName(),
+                mDatas.get(position).getDataLable(),
+                mDatas.get(position).getImageInfo(),
+                mDatas.get(position).getDataSummary());
     }
 
     class ViewHolder {
@@ -240,5 +243,15 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         TextView tvtitle;
         @ViewInject(R.id.tv_item_content)
         TextView tvcontext;
+    }
+
+    public void setCollected(String url) {
+        for (Article article : mDatas) {
+            if(url.endsWith(article.getDataShowUrl())) {
+                article.setCollected(true);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ import android.webkit.WebViewClient;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 
 /**
@@ -40,7 +40,7 @@ public class ClubIntroductionActivity extends BmActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String url = getIntent().getStringExtra(ArticalDetailActivity.URL);
+        String url = getIntent().getStringExtra(ArticleDetailActivity.URL);
         //String url = "http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_article_main&dd=XXXXXXXXX&bd=showdetail";
         if (TextUtils.isEmpty(url)) {
             webView.setVisibility(View.GONE);

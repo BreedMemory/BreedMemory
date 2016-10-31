@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,7 +19,6 @@ import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ContextUtils;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -35,6 +31,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchQuestion;
 import com.yijiehl.club.android.network.response.RespSearchQuestion;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
 
@@ -242,4 +239,13 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         obtainData(true, s.toString());
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
+            questionListAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+        }
+    }
+
 }

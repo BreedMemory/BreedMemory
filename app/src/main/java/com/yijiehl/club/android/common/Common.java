@@ -14,7 +14,7 @@ package com.yijiehl.club.android.common;
  * 版    本：1.0.0<br/>
  */
 public class Common {
-    public static final String SERVICE_URL = "biz.yijiehulian.com/";
+    public static final String SERVICE_URL = "admin.yunyujiyi.com/";
     /** 请求服务器使用的clientnumber，由服务器生成 */
     public static final String CLIENT_NUMBER = "YUEZIA8916679021";
 

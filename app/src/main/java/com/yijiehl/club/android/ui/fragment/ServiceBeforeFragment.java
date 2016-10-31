@@ -25,7 +25,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 
@@ -69,6 +69,9 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mMotherData = (RespSearchHealthData) pResponse;
+                if(mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
+                    return;
+                }
                 mInfo.setText(mMotherData.getResultList().get(0).getDataInfo1());
             }
         });
@@ -112,8 +115,8 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         if(mUserInfo == null) {
             return;
         }
-        Intent intent=new Intent(getActivity(),ArticalDetailActivity.class);
-        intent.putExtra(ArticalDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
+        Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);
     }
 

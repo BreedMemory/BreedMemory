@@ -1,5 +1,6 @@
 package com.yijiehl.club.android.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.yijiehl.club.android.network.request.search.ReqSearchEducationArticle
 import com.yijiehl.club.android.network.request.search.ReqSearchHealthArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
@@ -114,7 +116,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mTitle.setOnCheckedChangeListener(this);
-        mGrowUpContentAdapter = new GrowUpContentAdapter(getActivity(), getMode());
+        mGrowUpContentAdapter = new GrowUpContentAdapter(this, getMode());
         obtainData(true);
         mListView.setAdapter(mGrowUpContentAdapter);
         mSearch.addTextChangedListener(this);
@@ -328,4 +330,13 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     public void afterTextChanged(Editable s) {
         obtainData(true, s.toString());
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            mGrowUpContentAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+        }
+    }
+
 }

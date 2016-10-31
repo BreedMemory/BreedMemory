@@ -9,6 +9,8 @@ package com.yijiehl.club.android.ui.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,7 +24,11 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchMyMessage;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.HostViewPagerAdapter;
 
@@ -37,6 +43,14 @@ import com.yijiehl.club.android.ui.adapter.HostViewPagerAdapter;
  */
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BmActivity {
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
+
     /** 内容容器 */
     @ViewInject(R.id.vp_content_container)
     private ViewPager mViewPager;
@@ -56,6 +70,8 @@ public class MainActivity extends BmActivity {
     private int cachePagers = 4;
     /**第一次回退时间*/
     private long touchTime = 0;
+
+    private ObtainMyMessageTask mObtainMyMessageTask = new ObtainMyMessageTask();
 
     @Override
     protected String getHeadTitle() {
@@ -155,5 +171,18 @@ public class MainActivity extends BmActivity {
                 }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    class ObtainMyMessageTask implements Runnable {
+
+        @Override
+        public void run() {
+            NetHelper.getDataFromNet(MainActivity.this, new ReqSearchMyMessage(MainActivity.this), new AbstractCallBack(MainActivity.this) {
+                @Override
+                public void onSuccess(AbstractResponse pResponse) {
+                    mHandler.postDelayed(mObtainMyMessageTask, 30*1000);
+                }
+            });
+        }
     }
 }

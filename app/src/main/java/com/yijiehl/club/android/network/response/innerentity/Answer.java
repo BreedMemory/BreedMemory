@@ -50,6 +50,18 @@ public class Answer extends RespBaseSearchResult {
      * 最新/最近回复内容
      */
     private String replyInfo;
+    /**
+     * 是否已经收藏
+     */
+    private boolean isCollected;
+
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public void setCollected(boolean collected) {
+        isCollected = collected;
+    }
 
     public String getDateCode() {
         return dateCode;

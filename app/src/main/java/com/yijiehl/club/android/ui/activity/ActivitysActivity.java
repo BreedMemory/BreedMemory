@@ -12,7 +12,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
-import com.uuzz.android.ui.view.ptr.PtrHandler;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -31,7 +29,6 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
-import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
 
 import java.util.List;
@@ -185,5 +182,13 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         obtainData(true, s.toString());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
+            mAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+        }
     }
 }

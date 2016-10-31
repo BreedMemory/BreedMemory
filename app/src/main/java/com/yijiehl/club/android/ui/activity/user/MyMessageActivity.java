@@ -1,10 +1,18 @@
 package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchMyMessage;
+import com.yijiehl.club.android.network.response.RespSearchMyMessage;
 import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.adapter.MyMessageAdapter;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -18,6 +26,12 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
  */
 @ContentView(R.layout.activity_my_message)
 public class MyMessageActivity extends BmActivity{
+
+    @ViewInject(R.id.lv_listview)
+    private ListView mListView;
+
+    private MyMessageAdapter mAdapter;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.my_message);
@@ -26,5 +40,13 @@ public class MyMessageActivity extends BmActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAdapter = new MyMessageAdapter(this);
+        NetHelper.getDataFromNet(this, new ReqSearchMyMessage(this), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchMyMessage messages = (RespSearchMyMessage) pResponse;
+                mAdapter.setDatas(messages.getResultList());
+            }
+        });
     }
 }

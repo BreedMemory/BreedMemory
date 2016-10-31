@@ -1,18 +1,13 @@
 package com.yijiehl.club.android.ui.activity.user;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.ui.activity.ArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
 import com.yijiehl.club.android.ui.adapter.SignInAdapter;
 
 /**

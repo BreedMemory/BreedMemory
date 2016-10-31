@@ -89,7 +89,9 @@ public class AlbumPhotoActivity extends BmActivity {
                     return;
                 }
                 ArrayList<String> list = new ArrayList<>();
-                list.add(mAdapter.getDatas().get((int) id).getImageInfo());
+                for (int i = 0; i < mAdapter.getDatas().size(); i++) {
+                    list.add(mAdapter.getDatas().get(i).getImageInfo());
+                }
                 ActivitySvc.startImageViewer(AlbumPhotoActivity.this, list, false);
             }
         });
