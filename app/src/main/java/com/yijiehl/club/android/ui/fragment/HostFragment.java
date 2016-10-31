@@ -41,6 +41,7 @@ import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -291,7 +292,9 @@ public class HostFragment extends BaseHostFragment {
                     mUrls.put(UserInfo.MainDataType.RECOMMGROWUP, ActivitySvc.createWebUrl(entity.getValue()));
                     break;
                 case ACCTAMOUNT:
-                    mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), entity.getValue())));
+                    mUserInfo.setCustAmount(formatMoneyNum(entity.getValue()));
+                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
+                    mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), mUserInfo.getCustAmount())));
                     break;
                 case IMAGECOVER:
                     //用户照片
@@ -361,7 +364,16 @@ public class HostFragment extends BaseHostFragment {
             }
         }
     }
+    /**
+     * 描 述：数字货币格式化<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/31 <br/>
+     */
 
+    private String formatMoneyNum(String num){
+        NumberFormat nf = NumberFormat.getInstance();
+        return nf.format(Double.valueOf(num));
+    }
     /**
      * 描 述：生成提示语<br/>
      * 作 者：谌珂<br/>
