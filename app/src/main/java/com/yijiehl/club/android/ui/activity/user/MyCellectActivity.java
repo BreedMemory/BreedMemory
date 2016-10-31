@@ -89,6 +89,8 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
         obtainSignUp(true);
 
         mListView.setAdapter(collectionAdapter);
+        mListView.setOnItemClickListener(collectionAdapter);
+
         mListView.setEmptyView(noData);
 
         //设置下拉回调
@@ -113,7 +115,6 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
             }
         });
 
-        mListView.setOnItemClickListener(collectionAdapter);
         mSearch.addTextChangedListener(this);
         mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

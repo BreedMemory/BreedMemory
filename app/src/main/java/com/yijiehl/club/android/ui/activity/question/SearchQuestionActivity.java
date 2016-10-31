@@ -89,7 +89,6 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
                 }
             }
         }, false);
-        Log.d("====","方法外面");
     }
 
     @Override

@@ -47,7 +47,8 @@ public class MineActivity extends BmActivity {
     private TextView mNickname;
     @ViewInject(R.id.iv_my_head_pic)
     private ImageView mHead;
-
+    @ViewInject(R.id.tv_show_money)
+    private TextView mMoneyShow;
     private UserInfo mUserInfo;
 
     @Override
@@ -66,13 +67,14 @@ public class MineActivity extends BmActivity {
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
         if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
             mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
-            if(TextUtils.isEmpty(mUserInfo.getImageInfo())){
+            if (TextUtils.isEmpty(mUserInfo.getImageInfo())) {
                 Glide.with(this).load(R.drawable.test_main_image).into(mHead);
-            }else{
+            } else {
                 Glide.with(this).load(ActivitySvc.createResourceUrl(this, mUserInfo.getImageInfo())).dontAnimate().into(mHead);
             }
             mName.setText(mUserInfo.getAcctName());
             mNickname.setText(mUserInfo.getShortName());
+            mMoneyShow.setText(mUserInfo.getCustAmount());
         }
     }
 

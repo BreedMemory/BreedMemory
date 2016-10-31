@@ -380,7 +380,7 @@
                 android:layout_toRightOf="@id/im_gas_station"
                 android:textColor="@color/textColorPrimary"
                 android:layout_marginLeft="20dip"
-                android:layout_marginTop="45dip"
+                android:layout_marginTop="35dip"
                 android:textSize="21dip"
                 android:text="@string/grow_up_gas_station"/>
 

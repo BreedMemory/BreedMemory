@@ -125,7 +125,7 @@
     <string name="upload_failed">上传失败</string>
     <string name="uploading_picture">图片上传中!</string>
     <string name="upload_complete">上传完成</string>
-    <string name="my_medicine">我的疫苗</string>
+    <string name="my_medicine">疫苗提醒</string>
     <string name="save">保存</string>
     <string name="please_input_content">请输入要保存的内容</string>
     <string name="add_relate_account">添加亲友账户</string>
@@ -146,4 +146,6 @@
     <string name="head">头围</string>
     <string name="can_not_delete">不能删除</string>
     <string name="delete_success">删除成功</string>
+    <string name="add">新增</string>
+    <string name="time">时间</string>
 </resources>

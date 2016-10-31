@@ -80,10 +80,20 @@ public class UserInfo implements Serializable {
     private String areaInfo;
     /**会所电话*/
     private String custServicePhone;
+    /**成长加油站金额*/
+    private String custAmount;
 
     private RespLogin.AccountStatus status;
 
     private List<MainDataEntity> childrenInfo;
+
+    public String getCustAmount() {
+        return custAmount;
+    }
+
+    public void setCustAmount(String custAmount) {
+        this.custAmount = custAmount;
+    }
 
     public String getAreaInfo() {
         return areaInfo;

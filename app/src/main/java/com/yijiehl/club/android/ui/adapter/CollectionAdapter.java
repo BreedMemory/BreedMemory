@@ -35,7 +35,7 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Collection temp=mDatas.get(position);
-        ViewHolder holder=null;
+        ViewHolder holder;
         if(convertView==null){
             convertView=View.inflate(mContext,R.layout.item_collection,null);
             holder=new ViewHolder(convertView);
@@ -43,7 +43,7 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.mTitle.setText(temp.getDataType());
+        holder.mTitle.setText("文章");
         holder.mContent.setText(temp.getDataInfo());
         if(TextUtils.isEmpty(temp.getImageInfo())){
             Glide.with(mContext).load(R.drawable.bg_collect_default).into(holder.mIamge);

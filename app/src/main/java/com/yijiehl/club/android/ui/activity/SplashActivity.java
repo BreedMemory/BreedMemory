@@ -57,7 +57,13 @@ public class SplashActivity extends BmActivity {
      * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
      */
     private void sensitize() {
-        NetHelper.getDataFromNet(this, new ReqSensitize(this), new AbstractCallBack(this) {
+        ReqSensitize req = new ReqSensitize(this);
+        if(TextUtils.isEmpty(req.getUcid()) || TextUtils.isEmpty(req.getSecode())){
+            ActivitySvc.startLoginActivity(this);
+            finish();
+            return;
+        }
+        NetHelper.getDataFromNet(this, req, new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSensitize data = (RespSensitize) pResponse;
