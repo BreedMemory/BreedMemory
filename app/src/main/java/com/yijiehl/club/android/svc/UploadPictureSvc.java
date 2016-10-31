@@ -81,6 +81,9 @@ public class UploadPictureSvc extends Observable implements Observer {
             public void run() {
                 try {
                     File file = new File(path);
+                    if (!file.exists()) {
+                        return;
+                    }
                     UploadPicture upload = new UploadPicture(new File(path), tabs);
                     ReqBaseDataProc proc = new ReqBaseDataProc(context, upload);
                     BaseResponse baseResponse;
@@ -165,7 +168,7 @@ public class UploadPictureSvc extends Observable implements Observer {
      * @param relateCode 关联id
      */
     public void uploadMultiplePicture(@NonNull Context context, @NonNull ReqUploadFile.UploadType uploadType, @Nullable String tabs, @NonNull List<String> paths, long timestamp, @Nullable String relateCode) {
-        if (paths.size() == 0 || paths.isEmpty()) {
+        if (paths == null || paths.size() == 0 || paths.isEmpty()) {
             return;
         }
         groupCountPair.put(timestamp, paths.size());

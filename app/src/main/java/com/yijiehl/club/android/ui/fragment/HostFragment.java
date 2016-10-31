@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
@@ -449,25 +452,29 @@ public class HostFragment extends BaseHostFragment {
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
         Toaster.showShortToast(getActivity(), "收藏成功");
-        // TODO: 谌珂 2016/9/19 测试代码
-//        final File file = new File("/sdcard/Pictures/1453448257206.jpg");
-//        UploadPicture ipload = new UploadPicture(file);
-//        ReqBaseDataProc proc = new ReqBaseDataProc(getActivity(), ipload);
-//        NetHelper.getDataFromNet(getActivity(), proc, new AbstractCallBack(getActivity()) {
-//            @Override
-//            public void onSuccess(AbstractResponse pResponse) {
-//                BaseResponse data = (BaseResponse)pResponse;
-//                data.getReturnMsg().getResultCode();
-//                ReqUploadFile uploadFile = new ReqUploadFile(getActivity(), CRM_PHOTO_DETAIL, file);
-//                NetHelper.getDataFromNet(getActivity(), uploadFile, null);
-//            }
-//        });
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
-        Toaster.showShortToast(getActivity(), "分享成功");
+        new ShareAction(getActivity()).withText("hello")
+                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+
+                    }
+                }).open();
     }
 
     @Override

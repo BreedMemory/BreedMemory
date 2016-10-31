@@ -167,6 +167,8 @@ public class LineChatView extends View {
             valueY = getY(i);
             perValueX = getX(i-1);
             perValueY = getY(i-1);
+
+            //画线
             paint.setColor(mLineColor);
             paint.setStrokeWidth(mLineWidth);
             canvas.drawLine(perValueX, perValueY, valueX, valueY, paint);
@@ -178,8 +180,23 @@ public class LineChatView extends View {
                 drawPoint(canvas, valueX, valueY, position, i);
             }
         }
+
+        //如果只有一个点只画出选中点
+        if(values.size() == 1) {
+            drawPoint(canvas, getX(0), getY(0), 0, 0);
+        }
     }
 
+    /**
+     * 描 述：画点<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/31 <br/>
+     * @param canvas 画布
+     * @param x 点x坐标
+     * @param y 点y坐标
+     * @param position 选中点的索引
+     * @param i 当前画的点索引
+     */
     private void drawPoint(Canvas canvas, float x, float y, int position, int i) {
         if(position == i) {
             paint.setColor(mLineColor);
@@ -273,7 +290,7 @@ public class LineChatView extends View {
                     if (parent != null)
                         parent.requestDisallowInterceptTouchEvent(false);
 
-                    mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                    mVelocityTracker.computeCurrentVelocity(500, mMaximumVelocity);
                     int velocity = (int) mVelocityTracker.getXVelocity(mActivePointerId);
                     if (Math.abs(velocity) > mMinimumVelocity) {
                         mOverScroller.fling(getScrollX(), getScrollY(), -velocity, 0, getMinimumScrollX(), getMaximumScrollX(), 0, 0, 0, 0);
@@ -328,6 +345,9 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private int getMaximumScrollX(){
+        if(values == null || values.size() == 0) {
+            return 0;
+        }
         return (values.size()-1) * xStep - getWidth()/2;
     }
 
@@ -369,7 +389,6 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private void handlerClick(int x){
-        // TODO: 谌珂 2016/10/29 判断边界效应
         x = x + getScrollX();
         int position = x / xStep;
         if(x >= 0 && position < values.size()) {
@@ -411,6 +430,11 @@ public class LineChatView extends View {
         }
     }
 
+    /**
+     * 计算当前显示的位置
+     * @param offset 偏移量
+     * @return 当前位置
+     */
     private int computePosition(int offset){
         int leftOffset = getWidth() / 2;
         float scrollX = getScrollX()   + leftOffset +  offset;

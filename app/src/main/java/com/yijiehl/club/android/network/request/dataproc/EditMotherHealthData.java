@@ -15,8 +15,9 @@ package com.yijiehl.club.android.network.request.dataproc;
  * 版    本：1.0.0<br/>
  */
 public class EditMotherHealthData extends MotherHealthData {
-    public EditMotherHealthData(String statTime, String statValue01, String statValue10, String statValue11, String statValue12) {
+    public EditMotherHealthData(String relateCode, String statTime, String statValue01, String statValue10, String statValue11, String statValue12) {
         super(statTime, statValue01, statValue10, statValue11, statValue12);
+        this.dataCode = relateCode;
     }
 
     @Override

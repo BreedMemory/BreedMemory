@@ -69,7 +69,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mMotherData = (RespSearchHealthData) pResponse;
-                if(mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
+                if(mMotherData == null || mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
                     return;
                 }
                 mInfo.setText(mMotherData.getResultList().get(0).getDataInfo1());
