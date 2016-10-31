@@ -43,7 +43,7 @@ public class CreateQuestion extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModle() {
+    protected String getDataModel() {
         return "kb_question_main";
     }
 

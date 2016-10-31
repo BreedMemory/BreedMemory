@@ -30,7 +30,7 @@
         <View style="@style/health_data_item_divider" />
         <EditText
             android:id="@+id/et_baby_weight"
-            android:hint="请输入体重cm"
+            android:hint="请输入体重kg"
             style="@style/health_data_item_editor" />
     </RelativeLayout>
 

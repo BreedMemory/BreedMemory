@@ -389,6 +389,9 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private void handlerClick(int x){
+        if(values == null || values.size() == 0) {
+            return;
+        }
         x = x + getScrollX();
         int position = x / xStep;
         if(x >= 0 && position < values.size()) {
@@ -414,7 +417,7 @@ public class LineChatView extends View {
      * 调整item使对齐居中
      */
     private void adjustItem( ){
-        if(values == null) {
+        if(values == null || values.size() == 0) {
             return;
         }
         int position  = computePosition();

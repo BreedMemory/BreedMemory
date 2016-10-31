@@ -209,10 +209,15 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                                 new AbstractCallBack(HealthInfoAfterActivity.this) {
                                     @Override
                                     public void onSuccess(AbstractResponse pResponse) {
-                                        getMotherData();
+                                        String relateCode = ((BaseResponse)pResponse).getReturnMsg().getResultCode();
+                                        if(mUploadImageAdapter.getCount() <= 1 || TextUtils.isEmpty(relateCode)) {
+                                            getBabyData();
+                                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
+                                            return;
+                                        }
                                         mTaskId = System.currentTimeMillis();
                                         UploadPictureSvc.getInstance().addObserver(HealthInfoAfterActivity.this);
-                                        UploadPictureSvc.getInstance().uploadMultiplePicture(HealthInfoAfterActivity.this, ReqUploadFile.UploadType.CRM_HLDATA_ITEM_MY, null, mUploadImageAdapter.getDatas(), mTaskId, ((BaseResponse)pResponse).getReturnMsg().getResultCode());
+                                        UploadPictureSvc.getInstance().uploadMultiplePicture(HealthInfoAfterActivity.this, ReqUploadFile.UploadType.CRM_HLDATA_ITEM_MY, null, mUploadImageAdapter.getDatas(), mTaskId, relateCode);
                                     }
 
                                     @Override
@@ -237,11 +242,16 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         if (mTaskId == result.getTimestamp() && msg.what == ObservableTag.UPLOAD_COMPLETE) {
             UploadPictureSvc.getInstance().deleteObserver(this);
             mTaskId = 0;
-            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
-            if(mBabyTask != null) {
-                mBabyTask.cancel(true);
-            }
-            mBabyTask = getBabyData((String) mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId()));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.save_data_success));
+                    if(mBabyTask != null) {
+                        mBabyTask.cancel(true);
+                    }
+                    mBabyTask = getBabyData();
+                }
+            });
         }
 
     }
@@ -277,7 +287,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                         if(mBabyTask != null) {
                             mBabyTask.cancel(true);
                         }
-                        mBabyTask = getBabyData((String) group.findViewById(checkedId).getTag(checkedId));
+                        mBabyTask = getBabyData();
                         break;
                 }
             }
@@ -299,6 +309,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                     v.setTag(v.getId(), mUserInfo.getChildrenInfo().get(i).getValue());
                 }
             }
+            mBabyTask = getBabyData();
         }
     }
 
@@ -343,10 +354,10 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
-    private AsyncTask getBabyData(String babyId) {
+    private AsyncTask getBabyData() {
 
         clearBabyData();
-        return NetHelper.getDataFromNet(this, new ReqSearchBabyData(this, mTime, babyId), new AbstractCallBack(this) {
+        return NetHelper.getDataFromNet(this, new ReqSearchBabyData(this, mTime, (String) mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId())), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 if(((RespSearchHealthData) pResponse).getResultList() == null || ((RespSearchHealthData) pResponse).getResultList().size() == 0) {
@@ -389,9 +400,9 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                 if(data.getResultList() == null || data.getResultList().size() == 0) {
                     return;
                 }
-                List<String> urls = new ArrayList<String>();
+                List<String> urls = new ArrayList<>();
                 for (ExtraFile lExtraFile: data.getResultList()) {
-                    if (relateCode != lExtraFile.getDataCode())
+                    if (TextUtils.equals(relateCode, lExtraFile.getDataCode()))
                     urls.add(lExtraFile.getDataUrl());
                 }
                 mUploadImageAdapter.setMode(UploadImageAdapter.MODE_REMOTE);
@@ -464,7 +475,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         if(mBabyTask != null) {
             mBabyTask.cancel(true);
         }
-        mBabyTask = getBabyData((String) mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId()));
+        mBabyTask = getBabyData();
     }
 
     /**

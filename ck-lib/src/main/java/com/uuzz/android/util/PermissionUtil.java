@@ -10,7 +10,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -51,10 +50,6 @@ public class PermissionUtil {
      * @param accessTask 申请权限成功后需要执行的任务
      */
     public static void checkPermission(@NonNull Context context, @NonNull String[]permissions, Runnable accessTask, Runnable deniedTask) {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M && accessTask != null) {
-            accessTask.run();
-        }
-
         boolean allApplied = true;
         boolean isActivity = CkActivity.class.isAssignableFrom(context.getClass());
         List<String> notAppliedPermissions = null;

@@ -20,14 +20,10 @@ import android.text.TextUtils;
 public abstract class BaseDataEntity {
 
     /** 必填, 一次只能对同一类数据进行操作，如用户，讨论组/群组，讨论组/群组成员，常用联系人等 */
-    protected String dataModel = getDataModle();
+    protected String dataModel = this.getDataModel();
 
     /** 必填, create新增，update修改，delete删除，cancel取消 */
     protected String opType = getOperateType().getName();
-
-    public String getDataModel() {
-        return dataModel;
-    }
 
     public void setDataModel(String dataModel) {
         this.dataModel = dataModel;
@@ -46,7 +42,7 @@ public abstract class BaseDataEntity {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
      */
-    protected abstract String getDataModle();
+    protected abstract String getDataModel();
 
     /**
      * 描 述：设置操作类型<br/>

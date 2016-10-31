@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
@@ -384,9 +381,10 @@ public class HostFragment extends BaseHostFragment {
     private void makeUpTip(String tip) {
         if (TextUtils.isEmpty(tip)) {        //没有提示语则不显示
             mTip.setVisibility(View.GONE);
-        } else {
-            mTip.setVisibility(View.VISIBLE);
+            return;
         }
+
+
         mTipContainer.removeAllViews();
         String regular = "\\d";
         String[] split = tip.split(regular);   //分离出汉字数列
@@ -398,11 +396,12 @@ public class HostFragment extends BaseHostFragment {
                 addNumber(m.group());
             }
             addText(s);
-            if (TextUtils.isEmpty(s) && m.find()) {   //查找字符串中间的数字
+            if (!TextUtils.isEmpty(s) && m.find()) {   //查找字符串中间的数字
                 //生成一组数字
                 addNumber(m.group());
             }
         }
+        mTip.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -469,24 +468,24 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
-        new ShareAction(getActivity()).withText("hello")
-                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
-                .setCallback(new UMShareListener() {
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-
-                    }
-                }).open();
+//        new ShareAction(getActivity()).withText("hello")
+//                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
+//                .setCallback(new UMShareListener() {
+//                    @Override
+//                    public void onResult(SHARE_MEDIA share_media) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel(SHARE_MEDIA share_media) {
+//
+//                    }
+//                }).open();
     }
 
     @Override

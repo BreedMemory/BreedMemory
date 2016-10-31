@@ -53,7 +53,7 @@ public class AddRelationAccount extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModle() {
+    protected String getDataModel() {
         return "acct_contact_my";
     }
 
