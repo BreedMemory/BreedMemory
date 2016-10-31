@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_choose_remind_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dip"
+            android:text="注射时间"
+            android:textSize="18dip" />
+
+        <TextView
+            android:id="@+id/tv_remind_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="2016年10月31日 周一"
+            android:textSize="18dip" />
+
+        <ImageButton
+            android:layout_width="23dip"
+            android:layout_height="23dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dip"
+            android:background="@drawable/choose_bron_time" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_divider"
+        android:layout_below="@+id/layout_choose_remind_time"
+        android:layout_width="match_parent"
+        android:layout_height="1dip" />
+
+    <LinearLayout
+        android:id="@+id/layout_choose_remind_name"
+        android:layout_below="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="10dip"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="18dip"
+            android:text="疫苗名称"
+            android:textSize="18dip" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_remind_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="23dip"
+            android:layout_height="23dip"
+            android:layout_gravity="center"
+            android:layout_marginRight="18dip"
+            android:visibility="gone"
+            android:background="@drawable/cancel_et_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_time_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="334dip"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+            <com.uuzz.android.ui.view.MyButton
+                android:id="@+id/btn_choose_commit"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_text_size"
+                android:text="@string/choose" />
+        </LinearLayout>
+
+        <com.yijiehl.club.android.ui.view.TimePicker
+            android:id="@+id/tp_choose_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>
