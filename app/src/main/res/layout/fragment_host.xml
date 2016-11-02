@@ -292,7 +292,7 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="21dip"
                 android:paddingBottom="14dip"
-                android:text="婴儿一天喂几次奶？"/>
+                android:text="宝宝一天喂几次奶？"/>
 
             <ImageView
                 android:id="@+id/im_share_question"

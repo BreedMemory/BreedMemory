@@ -171,36 +171,6 @@ public class HealthInfoBeforeActivity extends BmActivity {
         return text;
     }
 
-    private String transformString(String value) {
-        switch (value) {
-            case "normal":
-                return "正常";
-            case "abnormal":
-                return "不正常";
-            case "higher":
-                return "偏高";
-            case "lower":
-                return "偏低";
-            case "nochk":
-                return "未检测";
-            case "good":
-                return "良好";
-            case "ordinary":
-                return "一般";
-            case "poorer":
-                return "较差";
-            case "breast_milk":
-                return "母乳";
-            case "powdered_milk":
-                return "奶粉";
-            case "have":
-                return "有";
-            case "not":
-                return "无";
-            default:
-                return value;
-        }
-    }
 
     /**
      * 描 述：确认时间<br/>

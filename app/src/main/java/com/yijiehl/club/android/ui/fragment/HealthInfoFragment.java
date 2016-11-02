@@ -7,6 +7,8 @@
  */
 package com.yijiehl.club.android.ui.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -19,6 +21,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
 import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
+import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
@@ -37,6 +40,11 @@ import java.util.List;
  * @author 谌珂 <br/>
  */
 public abstract class HealthInfoFragment extends BmFragment {
+
+    /** 图表周为单位时每页显示的点数 */
+    public static final int CHAT_STEP_WEEK = 8;
+    /** 图表月为单位时每页显示的点数 */
+    public static final int CHAT_STEP_MONTH = 31;
 
     /** 用户数据 */
     protected UserInfo mUserInfo;
@@ -63,6 +71,147 @@ public abstract class HealthInfoFragment extends BmFragment {
     protected List<RespSearchHealthDataList> mBabyDataListHead = new ArrayList<>();
     /** 宝宝胸围数据统计 */
     protected List<RespSearchHealthDataList> mBabyDataListChest = new ArrayList<>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getMotherHealthData();
+    }
+
+    /**
+     * 描 述：获取母亲健康信息<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherHealthData() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                if(mMotherData == null || mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
+                    return;
+                }
+                mMotherData = (RespSearchHealthData) pResponse;
+                onMotherHealthDataReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：获取到母亲信息后调用<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected abstract void onMotherHealthDataReceived();
+
+    /**
+     * 描 述：获取母亲体温统计数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherDataListTemperature() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_TEMPERATURE), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListTemperature = (RespSearchHealthDataList) pResponse;
+                onMotherDataListTemperatureReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：当妈妈体温列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onMotherDataListTemperatureReceived() {}
+
+    /**
+     * 描 述：获取母亲体重统计数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherDataListWeight() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_WEIGHT), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListWeight = (RespSearchHealthDataList) pResponse;
+                onMotherDataListWeightReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：当妈妈体重列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onMotherDataListWeightReceived() {}
+
+    /**
+     * 描 述：获取母亲胸围统计数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherDataListChest() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.CHEST_PERIMETER), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListChest = (RespSearchHealthDataList) pResponse;
+                onMotherDataListChestReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：当妈妈胸围列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onMotherDataListChestReceived() {}
+
+    /**
+     * 描 述：获取母亲腰围统计数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherDataListWaist() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.WAIST_PERIMETER), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListWaist = (RespSearchHealthDataList) pResponse;
+                onMotherDataListWaistReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：当妈妈腰围列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onMotherDataListWaistReceived() {}
+
+    /**
+     * 描 述：获取母亲臀围统计数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void getMotherDataListHip() {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.HIPS_PERIMETER), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                mMotherDataListHip = (RespSearchHealthDataList) pResponse;
+                onMotherDataListHipReceived();
+            }
+        });
+    }
+
+    /**
+     * 描 述：当妈妈臀围列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onMotherDataListHipReceived() {}
 
     /**
      * 描 述：获取所有宝宝所有数据<br/>
@@ -98,7 +247,7 @@ public abstract class HealthInfoFragment extends BmFragment {
     }
 
     /**
-     * 描 述：获取宝宝i的当天数据<br/>
+     * 描 述：获取宝宝i的身高列表数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/25 <br/>
      * @param index 宝宝索引
@@ -108,12 +257,20 @@ public abstract class HealthInfoFragment extends BmFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListHeight.add(index, (RespSearchHealthDataList)pResponse);
+                onBabyDataListHeightReceived(index);
             }
         });
     }
 
     /**
-     * 描 述：获取宝宝i的当天数据<br/>
+     * 描 述：当宝宝身高列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onBabyDataListHeightReceived(int index) {}
+
+    /**
+     * 描 述：获取宝宝i体重的列表数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/25 <br/>
      * @param index 宝宝索引
@@ -123,12 +280,20 @@ public abstract class HealthInfoFragment extends BmFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListWeight.add(index, (RespSearchHealthDataList)pResponse);
+                onBabyDataListWeightReceived(index);
             }
         });
     }
 
     /**
-     * 描 述：获取宝宝i的当天数据<br/>
+     * 描 述：当宝宝体重列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onBabyDataListWeightReceived(int index) {}
+
+    /**
+     * 描 述：获取宝宝i头围的列表数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/25 <br/>
      * @param index 宝宝索引
@@ -138,12 +303,20 @@ public abstract class HealthInfoFragment extends BmFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListHead.add(index, (RespSearchHealthDataList)pResponse);
+                onBabyDataListHeadReceived(index);
             }
         });
     }
 
     /**
-     * 描 述：获取宝宝i的当天数据<br/>
+     * 描 述：当宝宝头围列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onBabyDataListHeadReceived(int index) {}
+
+    /**
+     * 描 述：获取宝宝i头围的列表数据<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/25 <br/>
      * @param index 宝宝索引
@@ -153,9 +326,17 @@ public abstract class HealthInfoFragment extends BmFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListChest.add(index, (RespSearchHealthDataList)pResponse);
+                onBabyDataListChestReceived(index);
             }
         });
     }
+
+    /**
+     * 描 述：当宝宝胸围列表请求成功后返回<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    protected void onBabyDataListChestReceived(int index) {}
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

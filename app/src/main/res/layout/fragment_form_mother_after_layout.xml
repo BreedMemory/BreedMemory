@@ -31,17 +31,19 @@
         <RadioGroup
             android:id="@+id/rg_mother_selector_weight"
             style="@style/form_date_selector">
+
             <RadioButton
                 android:id="@+id/rb_mother_weight_date_week"
                 android:text="@string/week"
                 android:checked="true"
                 style="@style/form_date_item" />
+
             <RadioButton
                 android:id="@+id/rb_mother_weight_date_month"
                 android:text="@string/month"
                 style="@style/form_date_item"/>
         </RadioGroup>
-        
+
         <com.uuzz.android.ui.view.LineChatView
             android:id="@+id/lcv_mother_weight"
             android:background="#aadea0"
@@ -50,7 +52,7 @@
     </RelativeLayout>
 
 
-<!--  胸围  -->
+    <!--  胸围  -->
     <RelativeLayout
         android:id="@+id/ll_mother_chest_form_container"
         style="@style/form_main_container">

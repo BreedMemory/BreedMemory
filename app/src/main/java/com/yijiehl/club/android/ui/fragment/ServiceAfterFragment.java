@@ -19,15 +19,7 @@ import android.widget.TextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
-import com.uuzz.android.util.net.NetHelper;
-import com.uuzz.android.util.net.response.AbstractResponse;
-import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
-import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
-import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
-import com.yijiehl.club.android.network.response.RespSearchHealthData;
-import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
@@ -85,30 +77,10 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         mIllnessAdapter = new IllnessHistoryAdapter(getActivity());
         mBabyIllnessHistory.setAdapter(mIllnessAdapter);
 
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                if(mMotherData == null || mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
-                    return;
-                }
-                mMotherData = (RespSearchHealthData) pResponse;
-                mInfo.setText(mMotherData.getResultList().get(0).getDataInfo1());
-            }
-        });
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_TEMPERATURE), new AbstractCallBack(getActivity()) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                mMotherDataListTemperature = (RespSearchHealthDataList) pResponse;
-            }
-        });
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_WEIGHT), new AbstractCallBack(getActivity()) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                mMotherDataListWeight = (RespSearchHealthDataList) pResponse;
-            }
-        });
-
-
+        getMotherDataListWeight();
+        getMotherDataListChest();
+        getMotherDataListWaist();
+        getMotherDataListHip();
 
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -129,6 +101,31 @@ public class ServiceAfterFragment extends HealthInfoFragment {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onMotherHealthDataReceived() {
+        mInfo.setText(mMotherData.getResultList().get(0).getDataInfo1());
+    }
+
+    @Override
+    protected void onBabyDataListHeightReceived(int index) {
+
+    }
+
+    @Override
+    protected void onBabyDataListWeightReceived(int index) {
+
+    }
+
+    @Override
+    protected void onBabyDataListHeadReceived(int index) {
+
+    }
+
+    @Override
+    protected void onBabyDataListChestReceived(int index) {
+
     }
 
     @Override

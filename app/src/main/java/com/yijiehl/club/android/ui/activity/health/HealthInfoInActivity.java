@@ -198,9 +198,9 @@ public class HealthInfoInActivity extends BmActivity {
                 }
                 mMotherWeight.setText(lData.getResultList().get(0).getStatValue01());
                 mMotherTemperature.setText(lData.getResultList().get(0).getStatValue02());
-                mMotherBloodSugar.setText(transformString(lData.getResultList().get(0).getStatValue05()));
-                mMotherBloodPressure.setText(transformString(lData.getResultList().get(0).getStatValue06()));
-                mMotherSleep.setText(transformString(lData.getResultList().get(0).getStatValue07()));
+                mMotherBloodSugar.setText(RespSearchHealthData.transformString(lData.getResultList().get(0).getStatValue05()));
+                mMotherBloodPressure.setText(RespSearchHealthData.transformString(lData.getResultList().get(0).getStatValue06()));
+                mMotherSleep.setText(RespSearchHealthData.transformString(lData.getResultList().get(0).getStatValue07()));
                 mMotherInfo.setText(lData.getResultList().get(0).getDataInfo1());
             }
         });
@@ -239,12 +239,12 @@ public class HealthInfoInActivity extends BmActivity {
                 mBabyHead.setText(lData.getStatValue11());
                 mBabyChest.setText(lData.getStatValue10());
                 mBabyHeight.setText(lData.getStatValue03());
-                mBabyFoodKind.setText(transformString(lData.getStatValue20()));
-                mBabyFoodCount.setText(transformString(lData.getStatValue21()));
-                mBabyExcretion.setText("大便" + transformString(lData.getStatValue25()) + "，小便" + transformString(lData.getStatValue26()));
-                mBabyYellow.setText(transformString(lData.getStatValue30()));
-                mBabyWet.setText(transformString(lData.getStatValue31()));
-                mBabyRed.setText(transformString(lData.getStatValue32()));
+                mBabyFoodKind.setText(RespSearchHealthData.transformString(lData.getStatValue20()));
+                mBabyFoodCount.setText(RespSearchHealthData.transformString(lData.getStatValue21()));
+                mBabyExcretion.setText("大便" + RespSearchHealthData.transformString(lData.getStatValue25()) + "，小便" + RespSearchHealthData.transformString(lData.getStatValue26()));
+                mBabyYellow.setText(RespSearchHealthData.transformString(lData.getStatValue30()));
+                mBabyWet.setText(RespSearchHealthData.transformString(lData.getStatValue31()));
+                mBabyRed.setText(RespSearchHealthData.transformString(lData.getStatValue32()));
             }
         });
     }
@@ -273,37 +273,6 @@ public class HealthInfoInActivity extends BmActivity {
         text = text.replace("-", getString(R.string.month));
         text += "日 " + TimeUtil.getWeekStr(timestamp);
         return text;
-    }
-
-    private String transformString(String value) {
-        switch (value) {
-            case "normal":
-                return "正常";
-            case "abnormal":
-                return "不正常";
-            case "higher":
-                return "偏高";
-            case "lower":
-                return "偏低";
-            case "nochk":
-                return "未检测";
-            case "good":
-                return "良好";
-            case "ordinary":
-                return "一般";
-            case "poorer":
-                return "较差";
-            case "breast_milk":
-                return "母乳";
-            case "powdered_milk":
-                return "奶粉";
-            case "have":
-                return "有";
-            case "not":
-                return "无";
-            default:
-                return value;
-        }
     }
 
     /**

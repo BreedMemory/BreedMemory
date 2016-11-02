@@ -66,7 +66,7 @@
     <string name="food">饮食</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="retract">收起</string>
-    <string name="baby">婴儿</string>
+    <string name="baby">宝宝</string>
     <string name="weight">体重</string>
     <string name="head_size">头围</string>
     <string name="height">身高</string>
@@ -90,8 +90,8 @@
     <string name="red_buttock">红臀</string>
     <string name="search">搜索</string>
     <string name="my_question">我的问题</string>
-    <string name="mother_zone">母亲专区</string>
-    <string name="baby_zone">婴儿专区</string>
+    <string name="mother_zone">妈妈专区</string>
+    <string name="baby_zone">宝宝专区</string>
     <string name="zero_three_months">0-3个月</string>
     <string name="three_months_one_year">3个月-1岁</string>
     <string name="one_half_years">1岁-1岁半</string>
@@ -148,4 +148,5 @@
     <string name="delete_success">删除成功</string>
     <string name="add">新增</string>
     <string name="time">时间</string>
+    <string name="mother">妈妈</string>
 </resources>

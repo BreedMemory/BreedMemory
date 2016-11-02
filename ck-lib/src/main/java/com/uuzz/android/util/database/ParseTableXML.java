@@ -1,6 +1,7 @@
 package com.uuzz.android.util.database;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Xml;
 
@@ -119,7 +120,7 @@ public class ParseTableXML {
 						}
 						type = parser.next();
 					}
-					if (orm != null) {
+					if (orm != null && tables != null) {
 						tables.put(orm.getTableName(), orm);
 					}
 					result.success("");
@@ -136,7 +137,10 @@ public class ParseTableXML {
 	 * 整理创建表的sql语句
 	 * @return
 	 */
-	public static ArrayList<String> getCreateTableSql(){
+	public static @Nullable ArrayList<String> getCreateTableSql(){
+		if(tables == null) {
+			return null;
+		}
 		ArrayList<String> sqls = new ArrayList<>();
 		
 		//遍历拿出tables中的orm对象

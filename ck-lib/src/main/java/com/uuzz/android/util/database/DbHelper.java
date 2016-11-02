@@ -29,6 +29,9 @@ public class DbHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		ArrayList<String> sqls = ParseTableXML.getCreateTableSql();
+		if(sqls == null) {
+			return;
+		}
 		try{
 			db.beginTransaction();
 			//创建所有表

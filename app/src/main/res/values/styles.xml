@@ -319,7 +319,7 @@
 
     <style name="health_data_item_editor" parent="health_data_item_data">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:inputType">number</item>
+        <item name="android:inputType">numberDecimal</item>
         <item name="android:background">@null</item>
     </style>
 

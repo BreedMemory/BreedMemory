@@ -31,4 +31,41 @@ public class RespSearchHealthData extends BaseResponse {
     public void setResultList(List<HealthData> resultList) {
         this.resultList = resultList;
     }
+
+    /**
+     * 描 述：把健康数据中的英文字符串转义为中文<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    public static String transformString(String value) {
+        switch (value) {
+            case "normal":
+                return "正常";
+            case "abnormal":
+                return "不正常";
+            case "higher":
+                return "偏高";
+            case "lower":
+                return "偏低";
+            case "nochk":
+                return "未检测";
+            case "good":
+                return "良好";
+            case "ordinary":
+                return "一般";
+            case "poorer":
+                return "较差";
+            case "breast_milk":
+                return "母乳";
+            case "powdered_milk":
+                return "奶粉";
+            case "have":
+                return "有";
+            case "not":
+                return "无";
+            default:
+                return value;
+        }
+    }
+
 }

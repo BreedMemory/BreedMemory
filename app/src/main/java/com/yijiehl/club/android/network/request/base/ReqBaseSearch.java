@@ -168,8 +168,10 @@ public abstract class ReqBaseSearch extends ReqBase {
         BODY_WEIGHT(0, "body_weight"),
         BODY_TEMPERATURE(1, "body_temperature"),
         BODY_HEIGHT(2, "boby_height"),
-        HEAD_PERIMETER(2, "head_perimeter"),
-        CHEST_PERIMETER(2, "chest_perimeter");
+        HEAD_PERIMETER(3, "head_perimeter"),
+        CHEST_PERIMETER(4, "bust_perimeter"),
+        WAIST_PERIMETER(5, "waist_perimeter"),
+        HIPS_PERIMETER(6, "hip_perimeter");
 
         private int value;
         private String name;

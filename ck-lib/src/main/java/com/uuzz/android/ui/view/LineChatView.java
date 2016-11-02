@@ -25,8 +25,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.OverScroller;
 
 import com.uuzz.android.R;
+import com.uuzz.android.util.ScreenTools;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class LineChatView extends View {
 
     private OverScroller mOverScroller;
     private VelocityTracker mVelocityTracker;
-    private Reference<OnValueChanged> mCallbackRef;
+    private OnValueChanged mOnValueChangedListener;
 
     private boolean mIsDragging;
     private int mTouchSlop;
@@ -126,6 +126,9 @@ public class LineChatView extends View {
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setDither(true);
+        if(getPaddingTop() == 0 || getPaddingBottom() == 0) {
+            setPadding(0, ScreenTools.dip2px(context, 30), 0, ScreenTools.dip2px(context, 30));
+        }
 
         mOverScroller = new OverScroller(context, new DecelerateInterpolator());
         ViewConfiguration configuration = ViewConfiguration.get(context);
@@ -227,6 +230,13 @@ public class LineChatView extends View {
         return  (int) (getPaddingTop() + mTrueHeight *(mRange[1] - values.get(position))/(mRangeLength));
     }
 
+    private void requestParentDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        final ViewParent parent = getParent();
+        if (parent != null) {
+            parent.requestDisallowInterceptTouchEvent(disallowIntercept);
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -240,6 +250,12 @@ public class LineChatView extends View {
         switch (action){
 
             case MotionEvent.ACTION_DOWN:
+                int area = getWidth()/7;
+                if(event.getX() < area || event.getX() > area*6) {
+                    requestParentDisallowInterceptTouchEvent(false);
+                } else {
+                    requestParentDisallowInterceptTouchEvent(true);
+                }
                 if(!mOverScroller.isFinished())
                     mOverScroller.abortAnimation();
 
@@ -290,7 +306,7 @@ public class LineChatView extends View {
                     if (parent != null)
                         parent.requestDisallowInterceptTouchEvent(false);
 
-                    mVelocityTracker.computeCurrentVelocity(500, mMaximumVelocity);
+                    mVelocityTracker.computeCurrentVelocity(700, mMaximumVelocity);
                     int velocity = (int) mVelocityTracker.getXVelocity(mActivePointerId);
                     if (Math.abs(velocity) > mMinimumVelocity) {
                         mOverScroller.fling(getScrollX(), getScrollY(), -velocity, 0, getMinimumScrollX(), getMaximumScrollX(), 0, 0, 0, 0);
@@ -423,8 +439,8 @@ public class LineChatView extends View {
         int position  = computePosition();
         Rect rect = getLocationByPosition(position);
         int scrollX = rect.left - getScrollX();
-        if(mCallbackRef != null && mCallbackRef.get() != null) {
-            mCallbackRef.get().onValueChanged(position, values.get(position));
+        if(mOnValueChangedListener != null) {
+            mOnValueChangedListener.onValueChanged(position, values.get(position));
         }
 
         if(scrollX != 0) {
@@ -466,32 +482,43 @@ public class LineChatView extends View {
         }
     }
 
-    public void setmLineColor(int mLineColor) {
+    public void setLineColor(int mLineColor) {
         this.mLineColor = mLineColor;
+        invalidate();
     }
 
-    public void setmUnSelectedPointColor(int mUnSelectedPointColor) {
+    public void setUnSelectedPointColor(int mUnSelectedPointColor) {
         this.mUnSelectedPointColor = mUnSelectedPointColor;
+        invalidate();
     }
 
-    public void setmLineWidth(int mLineWidth) {
+    public void setLineWidth(int mLineWidth) {
         this.mLineWidth = mLineWidth;
+        invalidate();
     }
 
-    public void setmUnSelectedPointRadius(int mUnSelectedPointRadius) {
+    public void setUnSelectedPointRadius(int mUnSelectedPointRadius) {
         this.mUnSelectedPointRadius = mUnSelectedPointRadius;
+        invalidate();
     }
 
-    public void setmSelectedPointRadius(int mSelectedPointRadius) {
+    public void setSelectedPointRadius(int mSelectedPointRadius) {
         this.mSelectedPointRadius = mSelectedPointRadius;
+        invalidate();
     }
 
-    public void setmPointCount(int mPointCount) {
+    public void setPointCount(int mPointCount) {
         this.mPointCount = mPointCount;
+        invalidate();
     }
 
     public void setBesselLine(boolean besselLine) {
         isBesselLine = besselLine;
+        invalidate();
+    }
+
+    public void setOnValueChangedListener(OnValueChanged mOnValueChangedListener) {
+        this.mOnValueChangedListener = mOnValueChangedListener;
     }
 
     public List<Float> getValues() {
@@ -535,5 +562,6 @@ public class LineChatView extends View {
                 mRange[1] = value;
             }
         }
+        invalidate();
     }
 }
