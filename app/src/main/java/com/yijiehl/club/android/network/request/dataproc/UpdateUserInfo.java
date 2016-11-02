@@ -156,7 +156,7 @@ public class UpdateUserInfo extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModel() {
+    protected String getDataModle() {
         return "acct_main";
     }
 

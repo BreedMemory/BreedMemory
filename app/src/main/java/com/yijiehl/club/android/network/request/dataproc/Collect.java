@@ -32,7 +32,7 @@ public abstract class Collect extends BaseDataEntity {
     protected String dataInfo;
 
     @Override
-    protected String getDataModel() {
+    protected String getDataModle() {
         return "ext_favorite_item_my";
     }
 

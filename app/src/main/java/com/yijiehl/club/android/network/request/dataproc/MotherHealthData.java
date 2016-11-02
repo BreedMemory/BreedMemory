@@ -17,10 +17,10 @@ package com.yijiehl.club.android.network.request.dataproc;
 public abstract class MotherHealthData extends BaseDataEntity {
 
     public MotherHealthData(String statTime, String statValue01, String statValue10, String statValue11, String statValue12) {
-        this.statValue01 = statValue01.replace(".0", "");
-        this.statValue10 = statValue10.replace(".0", "");
-        this.statValue11 = statValue11.replace(".0", "");
-        this.statValue12 = statValue12.replace(".0", "");
+        this.statValue01 = statValue01;
+        this.statValue10 = statValue10;
+        this.statValue11 = statValue11;
+        this.statValue12 = statValue12;
         this.statTime = statTime;
     }
 
@@ -161,7 +161,7 @@ public abstract class MotherHealthData extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModel() {
+    protected String getDataModle() {
         return "crm_hldata_item_my";
     }
 }

@@ -28,11 +28,11 @@ public abstract class BabyHealthData extends BaseDataEntity {
      */
     public BabyHealthData(int childId, String statTime, String statValue03, String statValue01, String statValue35, String statValue36, String statValue37) {
         this.statTime = statTime;
-        this.statValue03 = statValue03.replace(".0", "");
-        this.statValue01 = statValue01.replace(".0", "");
-        this.statValue35 = statValue35.replace(".0", "");
-        this.statValue36 = statValue36.replace(".0", "");
-        this.statValue37 = statValue37.replace(".0", "");
+        this.statValue03 = statValue03;
+        this.statValue01 = statValue01;
+        this.statValue35 = statValue35;
+        this.statValue36 = statValue36;
+        this.statValue37 = statValue37;
         this.childId = childId;
     }
 
@@ -218,7 +218,7 @@ public abstract class BabyHealthData extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModel() {
+    protected String getDataModle() {
         return "crm_hldata_item_child";
     }
 }

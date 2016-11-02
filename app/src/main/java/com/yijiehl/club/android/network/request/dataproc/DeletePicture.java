@@ -30,7 +30,7 @@ public class DeletePicture extends BaseDataEntity {
     }
 
     @Override
-    protected String getDataModel() {
+    protected String getDataModle() {
         return "crm_photo_detail";
     }
 
