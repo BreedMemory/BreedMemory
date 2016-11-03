@@ -160,6 +160,10 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
             public void onClick(View v) {
                 switch (mFormSelector.getCheckedRadioButtonId()) {
                     case R.id.rb_mother:
+                        if(!checkMotherData()) {
+                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.please_input_real_data));
+                            return;
+                        }
                         if(mMotherTask != null) {
                             mMotherTask.cancel(true);
                         }
@@ -192,6 +196,10 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                     case R.id.rb_baby3:
                         if(mTaskId != 0) {
                             Toaster.showShortToast(HealthInfoAfterActivity.this, R.string.uploading_picture);
+                        }
+                        if(!checkBabyData()) {
+                            Toaster.showShortToast(HealthInfoAfterActivity.this, getString(R.string.please_input_real_data));
+                            return;
                         }
                         // DONE: 谌珂 2016/10/26 接口文档没有传宝宝id的字段  等待添加
                         if(mBabyTask != null) {
@@ -513,6 +521,48 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
             }
             mUploadImageAdapter.setDatas(filePaths);
         }
+    }
+    /**
+     * 描 述：检测母亲健康数据是否合理<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private boolean checkMotherData() {
+//        mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString()
+        float weight = Float.valueOf(mMotherWeight.getText().toString());
+        if(weight < 20 || weight > 200) {
+            return false;
+        }
+        float waist = Float.valueOf(mMotherWaist.getText().toString());
+        if(waist < 10 || waist > 200) {
+            return false;
+        }
+        float chest = Float.valueOf(mMotherChest.getText().toString());
+        if(chest < 30 || chest > 300) {
+            return false;
+        }
+        float hips = Float.valueOf(mMotherHips.getText().toString());
+        if(hips < 30 || hips > 300) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 描 述：检测婴儿健康数据是否合理<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private boolean checkBabyData() {
+        float weight = Float.valueOf(mBabyWeight.getText().toString());
+        if(weight < 1 || weight > 30) {
+            return false;
+        }
+        float height = Float.valueOf(mBabyHeight.getText().toString());
+        if(height < 20 || height > 100) {
+            return false;
+        }
+        return true;
     }
 
 }

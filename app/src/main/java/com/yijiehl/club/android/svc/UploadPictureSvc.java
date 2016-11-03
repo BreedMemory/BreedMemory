@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.uuzz.android.util.ObservableTag;
+import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.NetHelper;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
@@ -37,6 +38,8 @@ import java.util.Observer;
  *         版    本：1.0.0<br/>
  */
 public class UploadPictureSvc extends Observable implements Observer {
+
+    private Logger logger = new Logger(UploadPictureSvc.class);
 
     /**
      * 用于记录分组上传的组标记和上传个数
@@ -121,6 +124,7 @@ public class UploadPictureSvc extends Observable implements Observer {
                     msg.obj = new UploadPictureMessage(path, null, timestamp);
                     setChanged();
                     notifyObservers(msg);
+                    logger.e("upload picture failed," + msg.obj.toString()+  e);
                 }
             }
         });

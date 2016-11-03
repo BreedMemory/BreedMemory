@@ -27,6 +27,9 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
+import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -86,7 +89,27 @@ public class MineActivity extends BmActivity {
 
     @OnClick(R.id.layout_health_data)
     private void healthData() {
-
+        if (mUserInfo == null) {
+            return;
+        }
+        Class activity = null;
+        switch (mUserInfo.getStatus()) {
+            case GENERAL_BEFORE:
+            case SERVICE_BEFORE:
+                activity = HealthInfoBeforeActivity.class;
+                break;
+            case GENERAL_AFTER:
+            case SERVICE_AFTER:
+                activity = HealthInfoAfterActivity.class;
+                break;
+            case SERVICE_IN:
+                activity = HealthInfoInActivity.class;
+                break;
+        }
+        if(activity == null) {
+            return;
+        }
+        startActivity(new Intent(this, activity));
     }
 
     @OnClick(R.id.layout_medicine_remind)

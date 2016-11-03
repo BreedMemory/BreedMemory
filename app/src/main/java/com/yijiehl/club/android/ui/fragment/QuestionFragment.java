@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.activity.CkActivity;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
@@ -22,6 +23,7 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.question.AskQuestionActivity;
 import com.yijiehl.club.android.ui.activity.question.QuestionListActivity;
@@ -157,13 +159,22 @@ public class QuestionFragment extends BaseHostFragment {
         switch (mUserInfo.getStatus()) {
             case GENERAL_BEFORE:
             case GENERAL_AFTER:
-                View mAlertLayout = LayoutInflater.from(getActivity()).inflate(R.layout.can_not_ask_dialog, null);
-                TextView tvPhone = (TextView) mAlertLayout.findViewById(R.id.tv_dialog_phone);
+                if(alertDialog == null) {
+                    View mAlertLayout = LayoutInflater.from(getActivity()).inflate(R.layout.can_not_ask_dialog, null);
+                    TextView tvPhone = (TextView) mAlertLayout.findViewById(R.id.tv_dialog_phone);
 //                Log.d("====",mUserInfo.getCustServicePhone());
-                if (!TextUtils.isEmpty(mUserInfo.getCustServicePhone())) {
-                    tvPhone.setText(mUserInfo.getCustServicePhone());
+                    if (!TextUtils.isEmpty(mUserInfo.getCustServicePhone())) {
+                        tvPhone.setText(mUserInfo.getCustServicePhone());
+                        tvPhone.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivitySvc.call((CkActivity) getActivity(), mUserInfo.getCustServicePhone());
+                            }
+                        });
+                    }
+                    alertDialog = new AlertDialog.Builder(getActivity()).setView(mAlertLayout).show();
                 }
-                alertDialog = new AlertDialog.Builder(getActivity()).setView(mAlertLayout).show();
+                alertDialog.show();
                 break;
             default:
                 startActivity(new Intent(getActivity(), AskQuestionActivity.class));

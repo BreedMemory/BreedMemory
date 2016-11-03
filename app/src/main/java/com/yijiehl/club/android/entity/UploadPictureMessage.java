@@ -48,4 +48,9 @@ public class UploadPictureMessage {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "nativePath:" + nativePath + ", url:"+ url;
+    }
 }

@@ -6,19 +6,26 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.FootGroupBtn;
 import com.uuzz.android.ui.view.IconTextView;
+import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
@@ -70,6 +77,7 @@ public class MainActivity extends BmActivity {
     private int cachePagers = 4;
     /**第一次回退时间*/
     private long touchTime = 0;
+    private AlertDialog alertDialog;
 
     private ObtainMyMessageTask mObtainMyMessageTask = new ObtainMyMessageTask();
 
@@ -88,6 +96,40 @@ public class MainActivity extends BmActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
         mViewPager.setOffscreenPageLimit(cachePagers);
+        if(!isSigned()) {
+            if(alertDialog == null) {
+                View mAlertLayout = LayoutInflater.from(this).inflate(R.layout.sign_dialog, null);
+                alertDialog = new AlertDialog.Builder(this).setView(mAlertLayout).create();
+                alertDialog.getWindow().setBackgroundDrawable((new ColorDrawable()));
+            }
+            alertDialog.show();
+        }
+    }
+
+    /**
+     * 描 述：返回今天是否已经签到，如果未签到则保存当前时间戳到静态文件<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private boolean isSigned () {
+        long todayTime = System.currentTimeMillis();
+        String today = TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        String savedTime = ContextUtils.getSharedString(this, R.string.shared_preference_sign_time);
+        if(TextUtils.isEmpty(savedTime)) {
+            SharedPreferences.Editor editor = ContextUtils.getEditor(this);
+            editor.putString(getString(R.string.shared_preference_sign_time), String.valueOf(todayTime));
+            editor.commit();
+            return false;
+        }
+        long signTime = Long.valueOf(ContextUtils.getSharedString(this, R.string.shared_preference_sign_time));
+        String signedDate = TimeUtil.getTime(signTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        boolean result = TextUtils.equals(signedDate, today);
+        if(!result) {
+            SharedPreferences.Editor editor = ContextUtils.getEditor(this);
+            editor.putString(getString(R.string.shared_preference_sign_time), String.valueOf(todayTime));
+            editor.commit();
+        }
+        return result;
     }
 
     @Override

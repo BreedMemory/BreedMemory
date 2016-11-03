@@ -15,6 +15,7 @@
     <string name="shared_preference_msgUrl">shared_preference_msgUrl</string>
     <string name="shared_preference_resourceUrl">shared_preference_resourceUrl</string>
     <string name="shared_preference_user_info">shared_preference_user_info</string>
+    <string name="shared_preference_sign_time">shared_preference_sign_time</string>
     <string name="supplement_info">完善个人信息</string>
     <string name="name">姓名</string>
     <string name="male">男</string>
@@ -149,4 +150,5 @@
     <string name="add">新增</string>
     <string name="time">时间</string>
     <string name="mother">妈妈</string>
+    <string name="please_input_real_data">请输入真实数据</string>
 </resources>

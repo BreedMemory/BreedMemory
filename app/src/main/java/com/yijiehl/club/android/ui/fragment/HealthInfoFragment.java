@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.view.LineChatView;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
@@ -25,6 +26,7 @@ import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
+import com.yijiehl.club.android.network.response.innerentity.HealthDataListItem;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 
 import java.util.ArrayList;
@@ -76,6 +78,10 @@ public abstract class HealthInfoFragment extends BmFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getMotherHealthData();
+        if(mUserInfo == null) {
+            CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                    getString(R.string.shared_preference_user_info));
+        }
     }
 
     /**
@@ -94,6 +100,24 @@ public abstract class HealthInfoFragment extends BmFragment {
                 onMotherHealthDataReceived();
             }
         });
+    }
+
+    /**
+     * 描 述：填充图表数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     * @param chat 图表控件
+     * @param data 数据集合
+     */
+    protected void fillChatData(LineChatView chat, RespSearchHealthDataList data) {
+        if(data == null || data.getResultList() == null || data.getResultList().size() == 0) {
+            return;
+        }
+        List<Float> values = new ArrayList<>();
+        for (HealthDataListItem item: data.getResultList()) {
+            values.add(Float.valueOf(item.getStatValue()));
+        }
+        chat.setValues(values);
     }
 
     /**
@@ -242,8 +266,18 @@ public abstract class HealthInfoFragment extends BmFragment {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDatas.add(index, (RespSearchHealthData)pResponse);
+                onBabyDataReceived(index);
             }
         });
+    }
+
+    /**
+     * 描 述：当获取到宝宝信息后回调<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    protected void onBabyDataReceived(int index) {
+
     }
 
     /**
@@ -337,15 +371,6 @@ public abstract class HealthInfoFragment extends BmFragment {
      * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
      */
     protected void onBabyDataListChestReceived(int index) {}
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(mUserInfo == null && isVisibleToUser) {
-            CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
-                    getString(R.string.shared_preference_user_info));
-        }
-    }
 
     @Override
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {

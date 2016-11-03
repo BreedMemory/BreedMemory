@@ -261,7 +261,6 @@ public class LineChatView extends View {
         switch (action){
 
             case MotionEvent.ACTION_DOWN:
-                int area = getWidth()/10;
                 requestParentDisallowInterceptTouchEvent(true);
                 if(!mOverScroller.isFinished())
                     mOverScroller.abortAnimation();
@@ -278,16 +277,10 @@ public class LineChatView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.computeCurrentVelocity(700, mMaximumVelocity);
-                if(Math.abs(mVelocityTracker.getYVelocity() / mVelocityTracker.getXVelocity()) > 1) {
-                    requestParentDisallowInterceptTouchEvent(false);
-                }
-
                 int deltaX = (int) (mLastTouchX - event.getX(mActivePointerId));
-                if(!mIsDragging && Math.abs(deltaX) > mTouchSlop ) {
+                if(!mIsDragging && Math.abs(deltaX) > mTouchSlop && Math.abs(mVelocityTracker.getYVelocity() / mVelocityTracker.getXVelocity()) < 1) {
                     //do something
-                    final ViewParent parent = getParent();
-                    if (parent != null)
-                        parent.requestDisallowInterceptTouchEvent(true);
+                    requestParentDisallowInterceptTouchEvent(true);
 
 
                     if (deltaX > 0) {

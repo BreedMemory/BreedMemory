@@ -85,6 +85,10 @@ public class HealthInfoBeforeActivity extends BmActivity {
         mHeadRightContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!checkMotherData()) {
+                    Toaster.showShortToast(HealthInfoBeforeActivity.this, getString(R.string.please_input_real_data));
+                    return;
+                }
                 if(mMotherTask != null) {
                     mMotherTask.cancel(true);
                 }
@@ -112,6 +116,32 @@ public class HealthInfoBeforeActivity extends BmActivity {
                         });
             }
         });
+    }
+
+    /**
+     * 描 述：检测母亲健康数据是否合理<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private boolean checkMotherData() {
+//        mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString()
+        float weight = Float.valueOf(mMotherWeight.getText().toString());
+        if(weight < 20 || weight > 200) {
+            return false;
+        }
+        float waist = Float.valueOf(mMotherWaist.getText().toString());
+        if(waist < 10 || waist > 200) {
+            return false;
+        }
+        float chest = Float.valueOf(mMotherChest.getText().toString());
+        if(chest < 30 || chest > 300) {
+            return false;
+        }
+        float hips = Float.valueOf(mMotherHips.getText().toString());
+        if(hips < 30 || hips > 300) {
+            return false;
+        }
+        return true;
     }
 
     @Override

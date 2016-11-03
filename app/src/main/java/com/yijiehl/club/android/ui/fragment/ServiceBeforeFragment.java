@@ -19,15 +19,10 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
-import com.yijiehl.club.android.network.response.innerentity.HealthDataListItem;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 项目名称：手机在线 <br/>
@@ -88,16 +83,16 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
     /** 母亲腰围图表 */
     @ViewInject(R.id.lcv_mother_waist)
     private LineChatView mMotherWaistChat;
-    /** 母亲腰围值 */
+    /** 母亲臀围值 */
     @ViewInject(R.id.tv_mother_value_hips)
     private TextView mMotherHipValue;
-    /** 母亲腰围日期 */
+    /** 母亲臀围日期 */
     @ViewInject(R.id.tv_mother_date_hips)
     private TextView mMotherHipDate;
-    /** 母亲腰围图表密度转换 */
+    /** 母亲臀围图表密度转换 */
     @ViewInject(R.id.rg_mother_selector_hips)
     private RadioGroup mMotherHipSelector;
-    /** 母亲腰围图表 */
+    /** 母亲臀围图表 */
     @ViewInject(R.id.lcv_mother_hips)
     private LineChatView mMotherHipChat;
 
@@ -205,24 +200,6 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
                 }
             }
         });
-    }
-
-    /**
-     * 描 述：填充图表数据<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
-     * @param chat 图表控件
-     * @param data 数据集合
-     */
-    private void fillChatData(LineChatView chat, RespSearchHealthDataList data) {
-        if(data == null || data.getResultList() == null || data.getResultList().size() == 0) {
-            return;
-        }
-        List<Float> values = new ArrayList<>();
-        for (HealthDataListItem item: data.getResultList()) {
-            values.add(Float.valueOf(item.getStatValue()));
-        }
-        chat.setValues(values);
     }
 
     @Override

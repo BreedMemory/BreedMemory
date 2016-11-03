@@ -11,16 +11,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.uuzz.android.ui.view.LineChatView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
@@ -54,16 +53,88 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     /** 图表选择器 */
     @ViewInject(R.id.rg_selector)
     private RadioGroup mFormSelector;
-    /** 图表小容器 */
-    @ViewInject(R.id.fl_form_container)
-    private FrameLayout mFormFrameLayout;
     /** 母亲统计图容器 */
     @ViewInject(R.id.form_mother)
     private View mFormMother;
     /** 婴儿统计图容器 */
     @ViewInject(R.id.form_baby)
     private View mFormBaby;
-    /** 婴儿统计图容器 */
+
+    /** 母亲体重值 */
+    @ViewInject(R.id.tv_mother_value_weight)
+    private TextView mMotherWeightValue;
+    /** 母亲体重日期 */
+    @ViewInject(R.id.tv_mother_date_weight)
+    private TextView mMotherWeightDate;
+    /** 母亲体重图表密度转换 */
+    @ViewInject(R.id.rg_mother_selector_weight)
+    private RadioGroup mMotherWeightSelector;
+    /** 母亲体重图表 */
+    @ViewInject(R.id.lcv_mother_weight)
+    private LineChatView mMotherWeightChat;
+    /** 母亲胸围值 */
+    @ViewInject(R.id.tv_mother_value_chest)
+    private TextView mMotherChestValue;
+    /** 母亲胸围日期 */
+    @ViewInject(R.id.tv_mother_date_chest)
+    private TextView mMotherChestDate;
+    /** 母亲胸围图表密度转换 */
+    @ViewInject(R.id.rg_mother_selector_chest)
+    private RadioGroup mMotherChestSelector;
+    /** 母亲胸围图表 */
+    @ViewInject(R.id.lcv_mother_chest)
+    private LineChatView mMotherChestChat;
+    /** 母亲腰围值 */
+    @ViewInject(R.id.tv_mother_value_waist)
+    private TextView mMotherWaistValue;
+    /** 母亲腰围日期 */
+    @ViewInject(R.id.tv_mother_date_waist)
+    private TextView mMotherWaistDate;
+    /** 母亲腰围图表密度转换 */
+    @ViewInject(R.id.rg_mother_selector_waist)
+    private RadioGroup mMotherWaistSelector;
+    /** 母亲腰围图表 */
+    @ViewInject(R.id.lcv_mother_waist)
+    private LineChatView mMotherWaistChat;
+    /** 母亲臀围值 */
+    @ViewInject(R.id.tv_mother_value_hips)
+    private TextView mMotherHipValue;
+    /** 母亲臀围日期 */
+    @ViewInject(R.id.tv_mother_date_hips)
+    private TextView mMotherHipDate;
+    /** 母亲臀围图表密度转换 */
+    @ViewInject(R.id.rg_mother_selector_hips)
+    private RadioGroup mMotherHipSelector;
+    /** 母亲臀围图表 */
+    @ViewInject(R.id.lcv_mother_hips)
+    private LineChatView mMotherHipChat;
+    
+    /** 婴儿体重值 */
+    @ViewInject(R.id.tv_baby_value_weight)
+    private TextView mBabyWeightValue;
+    /** 婴儿体重日期 */
+    @ViewInject(R.id.tv_baby_date_weight)
+    private TextView mBabyWeightDate;
+    /** 婴儿体重图表密度转换 */
+    @ViewInject(R.id.rg_baby_selector_weight)
+    private RadioGroup mBabyWeightSelector;
+    /** 婴儿体重图表 */
+    @ViewInject(R.id.lcv_baby_weight)
+    private LineChatView mBabyWeightChat;
+    /** 婴儿身高值 */
+    @ViewInject(R.id.tv_baby_value_height)
+    private TextView mBabyHeightValue;
+    /** 婴儿身高日期 */
+    @ViewInject(R.id.tv_baby_date_height)
+    private TextView mBabyHeightDate;
+    /** 婴儿身高图表密度转换 */
+    @ViewInject(R.id.rg_baby_selector_height)
+    private RadioGroup mBabyHeightSelector;
+    /** 婴儿身高图表 */
+    @ViewInject(R.id.lcv_baby_height)
+    private LineChatView mBabyHeightChat;
+
+    /** 婴儿病历记录标题容器 */
     @ViewInject(R.id.tv_illness_title)
     private TextView mBabyIllnessHistoryTitle;
     /** 婴儿病历记录图容器 */
@@ -82,6 +153,8 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         getMotherDataListWaist();
         getMotherDataListHip();
 
+        initAllChat();
+
         mFormSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -96,7 +169,140 @@ public class ServiceAfterFragment extends HealthInfoFragment {
                     case R.id.rb_baby3:
                         mFormMother.setVisibility(View.GONE);
                         mFormBaby.setVisibility(View.VISIBLE);
-                        fillBabyData(checkedId);
+                        fillBabyData();
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * 描 述：配置母亲图表监听事件<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/2 <br/>
+     */
+    private void initAllChat() {
+        mMotherWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mMotherWeightValue.setText(mMotherDataListWeight.getResultList().get(position).getStatValue());
+                mMotherWeightDate.setText(mMotherDataListWeight.getResultList().get(position).getStatTime());
+            }
+        });
+        mMotherWeightSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_mother_weight_date_week:
+                        mMotherWeightChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_mother_weight_date_month:
+                        mMotherWeightChat.setPointCount(CHAT_STEP_MONTH);
+                        break;
+                }
+            }
+        });
+
+        mMotherChestChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mMotherChestValue.setText(mMotherDataListChest.getResultList().get(position).getStatValue());
+                mMotherChestDate.setText(mMotherDataListChest.getResultList().get(position).getStatTime());
+            }
+        });
+        mMotherChestSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_mother_chest_date_week:
+                        mMotherChestChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_mother_chest_date_month:
+                        mMotherChestChat.setPointCount(CHAT_STEP_MONTH);
+                        break;
+                }
+            }
+        });
+
+        mMotherWaistChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mMotherWaistValue.setText(mMotherDataListWaist.getResultList().get(position).getStatValue());
+                mMotherWaistDate.setText(mMotherDataListWaist.getResultList().get(position).getStatTime());
+            }
+        });
+        mMotherWaistSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_mother_waist_date_week:
+                        mMotherWaistChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_mother_waist_date_month:
+                        mMotherWaistChat.setPointCount(CHAT_STEP_MONTH);
+                        break;
+                }
+            }
+        });
+
+        mMotherHipChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mMotherHipValue.setText(mMotherDataListHip.getResultList().get(position).getStatValue());
+                mMotherHipDate.setText(mMotherDataListHip.getResultList().get(position).getStatTime());
+            }
+        });
+        mMotherHipSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_mother_hips_date_week:
+                        mMotherHipChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_mother_hips_date_month:
+                        mMotherHipChat.setPointCount(CHAT_STEP_MONTH);
+                        break;
+                }
+            }
+        });
+
+        mBabyWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mBabyWeightValue.setText(mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyWeightDate.setText(mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
+            }
+        });
+        mBabyWeightSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_baby_weight_date_week:
+                        mBabyWeightChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_baby_weight_date_month:
+                        mBabyWeightChat.setPointCount(CHAT_STEP_MONTH);
+                        break;
+                }
+            }
+        });
+
+        mBabyHeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
+            @Override
+            public void onValueChanged(int position, float value) {
+                mBabyHeightValue.setText(mBabyDataListHeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyHeightDate.setText(mBabyDataListHeight.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
+            }
+        });
+        mBabyHeightSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_baby_height_date_week:
+                        mBabyHeightChat.setPointCount(CHAT_STEP_WEEK);
+                        break;
+                    case R.id.rb_baby_height_date_month:
+                        mBabyHeightChat.setPointCount(CHAT_STEP_MONTH);
                         break;
                 }
             }
@@ -109,23 +315,39 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     }
 
     @Override
-    protected void onBabyDataListHeightReceived(int index) {
+    protected void onMotherDataListWeightReceived() {
+        fillChatData(mMotherWeightChat, mMotherDataListWeight);
+    }
 
+    @Override
+    protected void onMotherDataListChestReceived() {
+        fillChatData(mMotherChestChat, mMotherDataListChest);
+    }
+
+    @Override
+    protected void onMotherDataListWaistReceived() {
+        fillChatData(mMotherWaistChat, mMotherDataListWaist);
+    }
+
+    @Override
+    protected void onMotherDataListHipReceived() {
+        fillChatData(mMotherHipChat, mMotherDataListHip);
+    }
+
+    @Override
+    protected void onBabyDataListHeightReceived(int index) {
+        super.onBabyDataListHeightReceived(index);
+        if(index != getBabyDataIndex()) {
+            fillChatData(mBabyHeightChat, mBabyDataListHeight.get(index));
+        }
     }
 
     @Override
     protected void onBabyDataListWeightReceived(int index) {
-
-    }
-
-    @Override
-    protected void onBabyDataListHeadReceived(int index) {
-
-    }
-
-    @Override
-    protected void onBabyDataListChestReceived(int index) {
-
+        super.onBabyDataListWeightReceived(index);
+        if(index != getBabyDataIndex()) {
+            fillChatData(mBabyWeightChat, mBabyDataListWeight.get(index));
+        }
     }
 
     @Override
@@ -144,29 +366,34 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         }
     }
 
-    private void fillBabyData(int id) {
-        HealthData data = null;
-        switch (id) {
+    /**
+     * 描 述：填充婴儿统计图数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private void fillBabyData() {
+        fillChatData(mBabyHeightChat, mBabyDataListHeight.get(getBabyDataIndex()));
+        fillChatData(mBabyWeightChat, mBabyDataListWeight.get(getBabyDataIndex()));
+    }
+
+    /**
+     * 描 述：获取被选择的宝宝数据索引<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     * @return 宝宝数据索引
+     */
+    private int getBabyDataIndex() {
+        switch (mFormSelector.getCheckedRadioButtonId()) {
             case R.id.rb_baby0:
-                if(mBabyDatas.size() > 0 && mBabyDatas.get(0).getResultList() != null && mBabyDatas.get(0).getResultList().size() > 0) {
-                    data = mBabyDatas.get(0).getResultList().get(0);
-                }
-                break;
+                return 0;
             case R.id.rb_baby1:
-                if(mBabyDatas.size() > 1 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
-                    data = mBabyDatas.get(1).getResultList().get(0);
-                }
-                break;
+                return 1;
             case R.id.rb_baby2:
-                if(mBabyDatas.size() > 2 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
-                    data = mBabyDatas.get(2).getResultList().get(0);
-                }
-                break;
+                return 2;
             case R.id.rb_baby3:
-                if(mBabyDatas.size() > 3 && mBabyDatas.get(1).getResultList() != null && mBabyDatas.get(1).getResultList().size() > 0) {
-                    data = mBabyDatas.get(3).getResultList().get(0);
-                }
-                break;
+                return 3;
+            default:
+                return 0;
         }
     }
 

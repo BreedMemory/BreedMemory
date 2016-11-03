@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.uuzz.android.util.ContextUtils;
+import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
@@ -153,7 +154,19 @@ public class PersonalInfoActivity extends BmActivity {
             Toaster.showShortToast(this, R.string.uploading_picture);
             return;
         }
-        ActivitySvc.startImagePicker(this, null);
+        checkPromissions(FileUtil.createPermissions(), new ReadMediaTask());
+    }
+
+    /**
+     * 描 述：请求权限成功后打开图片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    private class ReadMediaTask implements Runnable {
+        @Override
+        public void run() {
+            ActivitySvc.startImagePicker(PersonalInfoActivity.this, null);
+        }
     }
 
     @OnClick(R.id.layout_update_nickname)
