@@ -376,4 +376,10 @@
         <item name="android:layout_height">130dip</item>
     </style>
 
+    <!-- 应用更新详情弹窗 -->
+    <style name="app_update_detail_anim">
+        <item name="android:windowEnterAnimation">@anim/app_update_detail_display</item>
+        <item name="android:windowExitAnimation">@anim/app_update_detail_dismiss</item>
+    </style>
+
 </resources>

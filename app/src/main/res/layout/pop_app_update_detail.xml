@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/layout_root"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+        android:background="@color/transparent">
+
+    <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/blank_space_7"
+            android:layout_margin="@dimen/blank_space_3"
+            android:background="@drawable/bg_round_vertex_white"
+            android:gravity="left|top"
+            android:text="新版本\n文件大小：9M\n1.xxxx\n2.xxxx"
+            android:textColor="@color/textColorPrimary"
+            android:scrollbars="vertical"
+            android:maxLines="12"
+            android:textSize="16dip"
+            android:padding="@dimen/blank_space_3"/>
+
+</LinearLayout>

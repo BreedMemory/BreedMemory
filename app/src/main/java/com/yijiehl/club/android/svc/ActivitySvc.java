@@ -36,6 +36,7 @@ import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.activity.user.LoginActivity;
 import com.yijiehl.club.android.ui.activity.user.SupplementInfoActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -404,5 +405,29 @@ public class ActivitySvc {
         intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
         intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
         intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+    }
+
+    public static void installApk(Context ctx,String filePath){
+        installApk(ctx, new File(filePath));
+    }
+
+    public static void installApk(Context ctx,File apkfile){
+        if (!apkfile.exists()) {
+            return;
+        } else {
+            ctx.startActivity(getInstallApkIntent(apkfile));
+        }
+    }
+
+    public static Intent getInstallApkIntent(String filePath){
+        return getInstallApkIntent(new File(filePath));
+    }
+
+    public static Intent getInstallApkIntent(File apkfile){
+        Intent i = new Intent();
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(android.content.Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+        return i;
     }
 }

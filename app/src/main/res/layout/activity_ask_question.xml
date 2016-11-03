@@ -48,7 +48,7 @@
         </RelativeLayout>
     </LinearLayout>
     
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="52dip"
         android:background="#fbfdff"
@@ -63,6 +63,33 @@
             android:background="@drawable/bg_question_publish"
             android:text="@string/publish"
             android:textSize="14dip"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/primary_margin"
+        android:layout_marginRight="@dimen/primary_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/primary_text_size"
+            android:text="紧急问题请直接拨打客服电话 "/>
+        <TextView
+            android:id="@+id/tv_ask_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/primary_text_size"
+            android:text="400-123"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/primary_text_size"
+            android:text="您的问题我们会在24小时内回复 "/>
+    </LinearLayout>
 
 </RelativeLayout>

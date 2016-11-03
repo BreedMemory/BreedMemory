@@ -11,4 +11,14 @@
         <attr name="drawRightLine" format="boolean" />
         <attr name="extra_desc" format="reference|string" />
     </declare-styleable>
+
+    <!-- 圆形进度自定义属性 -->
+    <declare-styleable name="TasksCompletedView">
+        <attr name="tc_radius" format="dimension" />
+        <attr name="tc_strokeWidth" format="dimension" />
+        <attr name="tc_circleColor" format="color" />
+        <attr name="tc_ringColor" format="color" />
+        <attr name="tc_ringBackgroundColor" format="color" />
+        <attr name="tc_textColor" format="color" />
+    </declare-styleable>
 </resources>

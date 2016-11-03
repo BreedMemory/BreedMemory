@@ -8,10 +8,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.view.IconTextView;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
@@ -24,6 +30,7 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CreateQuestion;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.base.BaseResponse;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -43,7 +50,7 @@ import java.util.ArrayList;
  *         版    本：1.0.0<br/>
  */
 @ContentView(R.layout.activity_ask_question)
-public class AskQuestionActivity extends BmActivity implements AdapterView.OnItemClickListener {
+public class AskQuestionActivity extends BmActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     /**
      * 提问内容
@@ -71,6 +78,15 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     @SaveInstance
     private long mTaskId;
 
+    @SaveInstance
+    private UserInfo userInfo;
+
+    /**
+     * 会所手机号
+     */
+    @ViewInject(R.id.tv_ask_phone)
+    private TextView mClubPhone;
+
     /**
      * 请求权限成功后回调
      */
@@ -79,7 +95,19 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     @Override
     protected String getHeadTitle() {
-        return getString(R.string.ask_question);
+        return getString(R.string.question);
+    }
+
+    @Override
+    protected void configHeadRightView() {
+        mRightBtn = new IconTextView(this);
+        mHeadRightContainer.addView(mRightBtn);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        mRightBtn.setText(getString(R.string.submit));
+
+        mRightBtn.setOnClickListener(this);
     }
 
     @Override
@@ -94,6 +122,31 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            fillInfoList(JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class));
+        }
+    }
+
+    /**
+     * 描 述：填充个人信息列表<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/10/23 <br/>
+     */
+    private void fillInfoList(UserInfo info) {
+        userInfo = info;
+        mClubPhone.setText(info.getCustServicePhone());
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -122,20 +175,8 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
     }
 
-    /**
-     * 描 述：请求权限成功后打开图片选择<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
-     */
-    private class ReadMediaTask implements Runnable {
-        @Override
-        public void run() {
-            ActivitySvc.startImagePicker(AskQuestionActivity.this, null);
-        }
-    }
-
-    @OnClick(R.id.btn_release)
-    private void release() {
+    @Override
+    public void onClick(View v) {
         // DONE: 谌珂 2016/10/21 请求接口提问
         if (TextUtils.isEmpty(mAskContent.getText().toString())) {
             Toaster.showShortToast(this, "请填写提问内容");
@@ -156,12 +197,30 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
                                     data.getReturnMsg().getResultCode());
                 }
                 //提问成功，回到我的问题页面
-                Intent intent=new Intent(AskQuestionActivity.this,QuestionListActivity.class);
-                intent.putExtra(QuestionListActivity.TYPE,QuestionListActivity.MY);
+                Intent intent = new Intent(AskQuestionActivity.this, QuestionListActivity.class);
+                intent.putExtra(QuestionListActivity.TYPE, QuestionListActivity.MY);
                 startActivity(intent);
                 finish();
 
             }
         }, false);
     }
+
+    /**
+     * 描 述：请求权限成功后打开图片选择<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/8 <br/>
+     */
+    private class ReadMediaTask implements Runnable {
+        @Override
+        public void run() {
+            ActivitySvc.startImagePicker(AskQuestionActivity.this, null);
+        }
+    }
+
+    @OnClick(R.id.tv_ask_phone)
+    private void call() {
+        ActivitySvc.call(this, userInfo.getCustServicePhone());
+    }
+
 }
