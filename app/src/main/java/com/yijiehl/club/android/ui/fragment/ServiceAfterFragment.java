@@ -66,7 +66,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     /** 婴儿统计图容器 */
     @ViewInject(R.id.tv_illness_title)
     private TextView mBabyIllnessHistoryTitle;
-    /** 婴儿统计图容器 */
+    /** 婴儿病历记录图容器 */
     @ViewInject(R.id.lv_listview)
     private ListView mBabyIllnessHistory;
     private IllnessHistoryAdapter mIllnessAdapter;

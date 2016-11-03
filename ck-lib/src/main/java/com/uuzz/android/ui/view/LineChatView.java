@@ -141,15 +141,26 @@ public class LineChatView extends View {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if(changed) {
-            xStep = getWidth() / (mPointCount-1);
-            mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
-            mRangeLength = mRange[1] - mRange[0];
+            initParam();
         }
+    }
+
+    /**
+     * 描 述：初始化画图需要的参数<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private void initParam() {
+        xStep = getWidth() / (mPointCount-1);
+        mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+        mRangeLength = mRange[1] - mRange[0];
+        scrollTo(getMaximumScrollX(), 0);
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(mRange[1] <= mRange[0]) {      //最大值不大于最小值，什么都不画
+        if(mRange[1] < mRange[0] || values == null || values.size() == 0) {      //最大值不大于最小值，什么都不画
             return;
         }
         //点I的实际X坐标
@@ -250,12 +261,8 @@ public class LineChatView extends View {
         switch (action){
 
             case MotionEvent.ACTION_DOWN:
-                int area = getWidth()/7;
-                if(event.getX() < area || event.getX() > area*6) {
-                    requestParentDisallowInterceptTouchEvent(false);
-                } else {
-                    requestParentDisallowInterceptTouchEvent(true);
-                }
+                int area = getWidth()/10;
+                requestParentDisallowInterceptTouchEvent(true);
                 if(!mOverScroller.isFinished())
                     mOverScroller.abortAnimation();
 
@@ -270,6 +277,10 @@ public class LineChatView extends View {
                 mLastTouchX = (int) event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
+                mVelocityTracker.computeCurrentVelocity(700, mMaximumVelocity);
+                if(Math.abs(mVelocityTracker.getYVelocity() / mVelocityTracker.getXVelocity()) > 1) {
+                    requestParentDisallowInterceptTouchEvent(false);
+                }
 
                 int deltaX = (int) (mLastTouchX - event.getX(mActivePointerId));
                 if(!mIsDragging && Math.abs(deltaX) > mTouchSlop ) {
@@ -291,6 +302,8 @@ public class LineChatView extends View {
                 if(mIsDragging){
                     if(canScroll(deltaX)){
                         scrollBy(deltaX, 0);
+                    } else {
+                        requestParentDisallowInterceptTouchEvent(false);
                     }
                     mLastTouchX = (int) event.getX();
                 }
@@ -345,7 +358,7 @@ public class LineChatView extends View {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      * @param deltaX X变化量
-     * @return
+     * @return 是否可以滚动
      */
     private boolean canScroll(int deltaX){
         int scrollX = getScrollX() + deltaX;
@@ -484,36 +497,43 @@ public class LineChatView extends View {
 
     public void setLineColor(int mLineColor) {
         this.mLineColor = mLineColor;
+        initParam();
         invalidate();
     }
 
     public void setUnSelectedPointColor(int mUnSelectedPointColor) {
         this.mUnSelectedPointColor = mUnSelectedPointColor;
+        initParam();
         invalidate();
     }
 
     public void setLineWidth(int mLineWidth) {
         this.mLineWidth = mLineWidth;
+        initParam();
         invalidate();
     }
 
     public void setUnSelectedPointRadius(int mUnSelectedPointRadius) {
         this.mUnSelectedPointRadius = mUnSelectedPointRadius;
+        initParam();
         invalidate();
     }
 
     public void setSelectedPointRadius(int mSelectedPointRadius) {
         this.mSelectedPointRadius = mSelectedPointRadius;
+        initParam();
         invalidate();
     }
 
     public void setPointCount(int mPointCount) {
         this.mPointCount = mPointCount;
+        initParam();
         invalidate();
     }
 
     public void setBesselLine(boolean besselLine) {
         isBesselLine = besselLine;
+        initParam();
         invalidate();
     }
 
@@ -562,6 +582,7 @@ public class LineChatView extends View {
                 mRange[1] = value;
             }
         }
+        initParam();
         invalidate();
     }
 }
