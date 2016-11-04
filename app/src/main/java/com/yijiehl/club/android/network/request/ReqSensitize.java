@@ -8,10 +8,11 @@ package com.yijiehl.club.android.network.request;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractTask;
+import com.yijiehl.club.android.network.request.base.ClientInfo;
 import com.yijiehl.club.android.network.request.base.ReqBase;
-import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
@@ -28,6 +29,18 @@ public class ReqSensitize extends ReqBase {
 
     public ReqSensitize(Context context) {
         super(context);
+        clientInfo = JSON.toJSONString(new ClientInfo(context));
+    }
+
+    /** 客户端详细信息，有很多项 */
+    protected String clientInfo;
+
+    public String getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setClientInfo(String clientInfo) {
+        this.clientInfo = clientInfo;
     }
 
     @Override
