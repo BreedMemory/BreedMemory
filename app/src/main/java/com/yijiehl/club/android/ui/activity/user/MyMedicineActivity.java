@@ -35,7 +35,7 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
 
     @Override
     protected String getHeadTitle() {
-        return getString(R.string.my_medicine);
+        return getString(R.string.vaccine);
     }
 
     @Override

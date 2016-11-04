@@ -41,7 +41,7 @@
                 android:id="@+id/gv_photo_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="28dp"
                 android:numColumns="3"
                 android:verticalSpacing="13dp"
                 android:horizontalSpacing="6dp"/>
@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/primary_margin"
         android:layout_marginLeft="@dimen/primary_margin"
         android:layout_marginRight="@dimen/primary_margin">
         <TextView
@@ -76,20 +77,15 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/primary_text_size"
-            android:text="紧急问题请直接拨打客服电话 "/>
+            android:text="您的问题我们会在24小时内回复
+如果是紧急问题，请直接拨打下面的客服电话。 "/>
         <TextView
             android:id="@+id/tv_ask_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/primary_text_size"
-            android:text="400-123"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/primary_text_size"
-            android:text="您的问题我们会在24小时内回复 "/>
+            android:textSize="@dimen/primary_text_size"/>
     </LinearLayout>
 
 </RelativeLayout>

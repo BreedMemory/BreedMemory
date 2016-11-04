@@ -52,6 +52,7 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
     public static final String TYPE = "type";
     public static final String MY = "my";
     public static final String MOTHER = "mother";
+    public static final String BABY = "month";
     public static final String MONTH0 = "0_3month";
     public static final String MONTH3 = "3_12month";
     public static final String MONTH12 = "12_18month";

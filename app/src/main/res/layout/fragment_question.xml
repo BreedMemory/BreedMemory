@@ -67,12 +67,15 @@
 
                 <Button
                     android:id="@+id/btn_my_question"
-                    android:layout_width="92dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dip"
                     android:layout_marginTop="45dip"
+                    android:paddingLeft="@dimen/primary_List_margin"
+                    android:paddingRight="@dimen/primary_List_margin"
                     android:background="@drawable/bg_my_question"
                     android:text="@string/my_question"
+                    android:textSize="@dimen/primary_text_size"
                     android:textColor="@color/white" />
 
                 <View
@@ -86,7 +89,7 @@
                 <RelativeLayout
                     android:id="@+id/layout_mother_zone"
                     android:layout_width="match_parent"
-                    android:layout_height="19dip"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="30dip"
                     android:layout_marginRight="30dip"
                     android:layout_marginTop="13dip">
@@ -120,7 +123,7 @@
                 <RelativeLayout
                     android:id="@+id/layout_baby_zone"
                     android:layout_width="match_parent"
-                    android:layout_height="19dip"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="30dip"
                     android:layout_marginRight="30dip"
                     android:layout_marginTop="13dip">

@@ -124,6 +124,9 @@ public class QuestionFragment extends BaseHostFragment {
             babyContextList.setVisibility(View.VISIBLE);
             isBabyShow = false;
         }*/
+        Intent intent = new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra(QuestionListActivity.TYPE, QuestionListActivity.BABY);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_zero_month)
