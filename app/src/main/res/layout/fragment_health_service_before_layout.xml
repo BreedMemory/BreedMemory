@@ -46,7 +46,7 @@
                 android:layout_below="@+id/tv_health_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/health_analysis"
+                android:text="@string/grow_up_info"
                 android:textSize="@dimen/primary_text_size"
                 android:textColor="@color/colorAccent"/>
 
