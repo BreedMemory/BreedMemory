@@ -151,19 +151,4 @@
     <string name="time">时间</string>
     <string name="mother">妈妈</string>
     <string name="please_input_real_data">请输入真实数据</string>
-    <string name="submit">提交</string>
-    <string name="question">问题</string>
-
-
-
-
-
-
-
-    <string name="tx_new_version">新版本</string>
-    <string name="tx_install">安装</string>
-    <string name="tx_loading_completed">加载完成</string>
-    <string name="tx_loading_failed_please_check_network">加载数据失败，请检查网络是否正常</string>
-    <string name="tx_view_details"></string>
-    <string name="update_failed">更新失败</string>
 </resources>

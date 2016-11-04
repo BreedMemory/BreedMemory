@@ -166,7 +166,7 @@
                             android:layout_width="15dip"
                             android:layout_height="15dip"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/dark_star" />
+                            android:src="@drawable/light_star" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                             android:layout_width="15dip"
                             android:layout_height="15dip"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/dark_star" />
+                            android:src="@drawable/light_star" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -216,7 +216,7 @@
                             android:layout_width="15dip"
                             android:layout_height="15dip"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/dark_star" />
+                            android:src="@drawable/light_star" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
                             android:layout_width="15dip"
                             android:layout_height="15dip"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/dark_star" />
+                            android:src="@drawable/light_star" />
 
                         <TextView
                             android:layout_width="wrap_content"
