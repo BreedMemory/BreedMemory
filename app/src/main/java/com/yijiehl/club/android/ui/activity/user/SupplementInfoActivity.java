@@ -284,4 +284,8 @@ public class SupplementInfoActivity extends BmActivity {
         }
         return true;
     }
+
+    @Override
+    protected void checkSensitize() {
+    }
 }

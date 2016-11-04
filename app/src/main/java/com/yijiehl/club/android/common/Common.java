@@ -20,4 +20,9 @@ public class Common {
 
     /** 验证码定时任务标记 */
     public static final int TIME_TASK_IDENTIFYING_CODE = 0;
+
+    /** 是否已经激活，激活接口调用完必须置为true */
+    public static volatile boolean isSensitize;
+    /** 是否已经签到，在Splash中激活后置为false，签到完毕后置为true */
+    public static volatile boolean isSigned = true;
 }

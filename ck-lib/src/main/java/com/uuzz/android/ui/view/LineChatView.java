@@ -463,7 +463,14 @@ public class LineChatView extends View {
     private int computePosition(int offset){
         int leftOffset = getWidth() / 2;
         float scrollX = getScrollX()   + leftOffset +  offset;
-        return Math.round(scrollX / xStep);
+        int position = Math.round(scrollX / xStep);
+        if(position < 0) {
+            position = 0;
+        }
+        if(position > values.size()-1) {
+            position = values.size()-1;
+        }
+        return position;
     }
 
     /**

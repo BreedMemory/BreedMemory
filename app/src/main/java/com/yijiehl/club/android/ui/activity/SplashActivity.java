@@ -11,17 +11,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.ReqSensitize;
-import com.yijiehl.club.android.network.response.RespLogin;
+import com.yijiehl.club.android.common.Common;
+import com.yijiehl.club.android.network.response.RespCheckVersion;
 import com.yijiehl.club.android.network.response.RespSensitize;
-import com.yijiehl.club.android.svc.ActivitySvc;
-import com.yijiehl.club.android.ui.activity.user.LoginActivity;
+import com.yijiehl.club.android.ui.controlversion.AppUpdateWindow;
+import com.yijiehl.club.android.ui.controlversion.ReqVersionCheck;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -43,41 +42,39 @@ public class SplashActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHeader.setVisibility(View.GONE);
-        if(TextUtils.isEmpty(ContextUtils.getSharedString(this, R.string.shared_preference_user_id))) {   //本地保存的userid为空，说明用户没有登录过，跳转到登录页面
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        } else {   //走激活接口
-            sensitize();
+        NetHelper.getDataFromNet(this, new ReqVersionCheck(), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespCheckVersion lRespCheckVersion = (RespCheckVersion) pResponse;
+                if(lRespCheckVersion.getResultList() == null || lRespCheckVersion.getResultList().size() == 0) {
+                    switchActivity();
+                    return;
+                }
+                Intent intent = new Intent(SplashActivity.this, AppUpdateWindow.class);
+                intent.putExtra(AppUpdateWindow.VERSION_INFO, lRespCheckVersion.getResultList().get(0));
+                startActivityForResult(intent, AppUpdateWindow.APP_UPDATE_WINDOW);
+            }
+        });
+
+    }
+
+    @Override
+    protected void checkSensitize() {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == AppUpdateWindow.APP_UPDATE_WINDOW) {
+            switchActivity();
         }
     }
 
-    /**
-     * 描 述：激活成功后根据用户状态跳转到相应页面，失败后重新激活<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
-     */
-    private void sensitize() {
-        ReqSensitize req = new ReqSensitize(this);
-        if(TextUtils.isEmpty(req.getUcid()) || TextUtils.isEmpty(req.getSecode())){
-            ActivitySvc.startLoginActivity(this);
-            finish();
-            return;
+    @Override
+    protected void onSensitizeSuccess(RespSensitize data) {
+        if(data.getCfgParams() != null && !TextUtils.isEmpty(data.getCfgParams().getSigninInfo())) {
+            Common.isSigned = false;
         }
-        NetHelper.getDataFromNet(this, req, new AbstractCallBack(this) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                RespSensitize data = (RespSensitize) pResponse;
-                ActivitySvc.loginSuccess(SplashActivity.this, data);
-                ActivitySvc.saveClientInfoNative(SplashActivity.this, data, null);
-                finish();
-            }
-
-            @Override
-            public void onFailed(String msg) {
-                super.onFailed(msg);
-                // TODO: 谌珂 2016/9/19 激活失败后的处理
-//                sensitize();
-            }
-        }, false);
+        finish();
     }
 }

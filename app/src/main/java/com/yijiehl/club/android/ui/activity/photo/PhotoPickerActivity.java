@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -128,6 +129,7 @@ public class PhotoPickerActivity extends BmActivity {
             Uri fileUri = Uri.fromFile(fos);   // create a file to save the image
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
             startActivityForResult(intent, TAKE_PHOTO);
+            Glide.get(PhotoPickerActivity.this).clearMemory();
         }
     }
 

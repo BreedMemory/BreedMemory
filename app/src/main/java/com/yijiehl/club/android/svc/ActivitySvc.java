@@ -28,6 +28,7 @@ import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.SplashActivity;
 import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
 import com.yijiehl.club.android.ui.activity.growup.NotSignUpGasStationActivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
@@ -83,7 +84,9 @@ public class ActivitySvc {
                 context.startActivity(intent);
                 break;
             default:
-                ActivitySvc.startMainActivity(context);
+                if(context instanceof SplashActivity) {
+                    ActivitySvc.startMainActivity(context);
+                }
                 break;
         }
     }

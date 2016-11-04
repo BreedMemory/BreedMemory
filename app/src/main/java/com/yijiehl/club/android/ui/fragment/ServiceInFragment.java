@@ -419,7 +419,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     }
 
     private void fillBabyData() {
-        if(mBabyDatas == null || mBabyDatas.size() == 0 || mBabyDatas.get(getBabyDataIndex()) == null || mBabyDatas.get(getBabyDataIndex()).getResultList() == null || mBabyDatas.get(getBabyDataIndex()).getResultList().size() > getBabyDataIndex()) {
+        if(mBabyDatas == null || mBabyDatas.size() == 0 || mBabyDatas.get(getBabyDataIndex()) == null || mBabyDatas.get(getBabyDataIndex()).getResultList() == null || mBabyDatas.get(getBabyDataIndex()).getResultList().size() <= getBabyDataIndex()) {
             return;
         }
         HealthData data = mBabyDatas.get(getBabyDataIndex()).getResultList().get(getBabyDataIndex());

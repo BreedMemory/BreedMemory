@@ -7,7 +7,9 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.animation.*;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.uuzz.android.util.net.httpcore.RequestParams;
 import com.uuzz.android.util.net.response.base.ResponseContent;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.common.Common;
+import com.yijiehl.club.android.network.response.innerentity.ClientVersionInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.view.TasksCompletedView;
 
@@ -29,6 +32,9 @@ import com.yijiehl.club.android.ui.view.TasksCompletedView;
  * @Description 应用更新
  */
 public class AppUpdateWindow extends Activity implements View.OnClickListener{
+    public static final int APP_UPDATE_WINDOW = 542;
+
+    private volatile boolean isUpdating;
 
     public static final String VERSION_INFO = "versionInfo";
 
@@ -97,15 +103,16 @@ public class AppUpdateWindow extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.btn_update){
-//            ViewUtil.invisiable(this,R.id.layout_btn);
+        if (v.getId()==R.id.btn_update && !isUpdating){
+            isUpdating = true;
             AlphaAnimation aa=new AlphaAnimation(1.0f,0f);
             aa.setDuration(800);
             aa.setFillAfter(true);
             findViewById(R.id.layout_btn).startAnimation(aa);
             dismissDetail();
+            process();
             final String path = FileUtil.getRootFilePath() + versionInfo.fileName;
-            RequestParams req = new RequestParams<>("http://" + Common.SERVICE_URL + "?" + "ct=android&dwid="+ versionInfo.downCode + "&inc=0"
+            RequestParams req = new RequestParams<>("http://" + Common.SERVICE_URL + "versiondw.htm?" + "ct=android&dwid="+ versionInfo.downCode + "&inc=0"
                     , null, null, null, -1, true, path, true);
             HttpFactory.getHttpHelper(HttpFactory.DOWNLOAD_DATA).httpRequest(req, new BaseHttp.HttpRequestListener() {
                 @Override
@@ -126,7 +133,6 @@ public class AppUpdateWindow extends Activity implements View.OnClickListener{
                         @Override
                         public void run() {
                             tcv.setProgress(progress);
-                            process();
                         }
                     });
                 }

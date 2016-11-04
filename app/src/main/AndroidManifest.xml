@@ -183,7 +183,12 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <!-- 增加疫苗提醒 -->
-        <activity android:name=".ui.activity.question.AddMedicineRemindActivity"
+        <activity android:name=".ui.activity.user.AddMedicineRemindActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <!-- 更新页面 -->
+        <activity android:name=".ui.controlversion.AppUpdateWindow"
             android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>

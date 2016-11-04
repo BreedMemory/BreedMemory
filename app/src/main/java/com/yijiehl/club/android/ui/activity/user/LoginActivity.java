@@ -151,4 +151,8 @@ public class LoginActivity extends BmActivity {
     private boolean checkVerifyCode(String code) {
         return !TextUtils.isEmpty(code);
     }
+
+    @Override
+    protected void checkSensitize() {
+    }
 }

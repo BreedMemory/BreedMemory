@@ -4,17 +4,15 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.uuzz.android.util.log.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -242,13 +240,14 @@ public class FileUtil {
 	 * @param path 图片路径
      */
 	public static void insertImageIntoGallery(Context context, String path) {
-		try {
-			MediaStore.Images.Media.insertImage(context.getContentResolver(),
-					path, String.valueOf(formatImageName(path)),
-					"孕育迹忆");
-		} catch (FileNotFoundException e) {
-			Log.d("FileUtils", "Insert image into system gallery error.", e);
-		}
+//		try {
+			MediaScannerConnection.scanFile(context, new String[]{path}, null, null);
+//			MediaStore.Images.Media.insertImage(context.getContentResolver(),
+//					path, String.valueOf(formatImageName(path)),
+//					"孕育迹忆");
+//		} catch (FileNotFoundException e) {
+//			Log.d("FileUtils", "Insert image into system gallery error.", e);
+//		}
 	}
 
 	/**

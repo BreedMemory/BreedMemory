@@ -6,18 +6,35 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.activity.CkActivity;
 import com.uuzz.android.ui.view.IconTextView;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.ObservableTag;
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
+import com.yijiehl.club.android.network.request.ReqSensitize;
+import com.yijiehl.club.android.network.response.RespSensitize;
+import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.activity.user.LoginActivity;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -57,7 +74,128 @@ public abstract class BmActivity extends CkActivity implements Observer {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkSensitize();
+    }
+
+    /**
+     * 描 述：检查是否需要重新激活<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/4 <br/>
+     */
+    protected void checkSensitize() {
+        if(!isSigned()) {
+            switchActivity();
+        } else if(!Common.isSigned) {
+            sign();
+        }
+    }
+
+    /**
+     * 描 述：返回今天是否已经签到，如果未签到则保存当前时间戳到静态文件<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
+     */
+    private boolean isSigned () {
+        if(Common.isSensitize) {
+            return true;
+        }
+        long todayTime = System.currentTimeMillis();
+        String today = TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        String savedTime = ContextUtils.getSharedString(this, R.string.shared_preference_sign_time);
+        if(TextUtils.isEmpty(savedTime)) {
+            SharedPreferences.Editor editor = ContextUtils.getEditor(this);
+            editor.putString(getString(R.string.shared_preference_sign_time), String.valueOf(todayTime));
+            editor.commit();
+            return false;
+        }
+        long signTime = Long.valueOf(ContextUtils.getSharedString(this, R.string.shared_preference_sign_time));
+        String signedDate = TimeUtil.getTime(signTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        boolean result = TextUtils.equals(signedDate, today);
+        if(!result) {
+            SharedPreferences.Editor editor = ContextUtils.getEditor(this);
+            editor.putString(getString(R.string.shared_preference_sign_time), String.valueOf(todayTime));
+            editor.commit();
+        }
+        Common.isSensitize = result;
+        return result;
+    }
+
+    /**
+     * 描 述：判定激活还是登录<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/4 <br/>
+     */
+    protected void switchActivity() {
+        if(TextUtils.isEmpty(ContextUtils.getSharedString(BmActivity.this, R.string.shared_preference_user_id))) {   //本地保存的userid为空，说明用户没有登录过，跳转到登录页面
+            startActivity(new Intent(BmActivity.this, LoginActivity.class));
+            finish();
+        } else {   //走激活接口
+            sensitize();
+        }
+    }
+
+    /**
+     * 描 述：激活成功后根据用户状态跳转到相应页面，失败后重新激活<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
+     */
+    protected void sensitize() {
+        ReqSensitize req = new ReqSensitize(this);
+        if(TextUtils.isEmpty(req.getUcid()) || TextUtils.isEmpty(req.getSecode())){
+            ActivitySvc.startLoginActivity(this);
+            finish();
+            return;
+        }
+        NetHelper.getDataFromNet(this, req, new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSensitize data = (RespSensitize) pResponse;
+                ActivitySvc.loginSuccess(BmActivity.this, data);
+                ActivitySvc.saveClientInfoNative(BmActivity.this, data, null);
+                Common.isSensitize = true;
+                onSensitizeSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                // TODO: 谌珂 2016/9/19 激活失败后的处理
+//                sensitize();
+            }
+        }, false);
+    }
+
+    /**
+     * 描 述：激活成功后回调<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/4 <br/>
+     */
+    protected void onSensitizeSuccess(RespSensitize data) {
+        if(data.getCfgParams() != null && !TextUtils.isEmpty(data.getCfgParams().getSigninInfo())) {
+            sign();
+        }
+
+    }
+
+    /**
+     * 描 述：弹出签到页面<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/4 <br/>
+     */
+    protected void sign() {
+        Common.isSigned = true;
+        AlertDialog alertDialog;
+        View mAlertLayout = LayoutInflater.from(this).inflate(R.layout.sign_dialog, null);
+        alertDialog = new AlertDialog.Builder(this).setView(mAlertLayout).create();
+        alertDialog.getWindow().setBackgroundDrawable((new ColorDrawable()));
+        alertDialog.show();
+    }
+
+    @Override
     protected void onDestroy() {
+        Glide.get(this).clearMemory();
         CacheDataDAO.getInstance(this).deleteObserver(this);
         super.onDestroy();
     }
