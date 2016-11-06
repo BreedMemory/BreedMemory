@@ -115,6 +115,7 @@
     <string name="upload">上传</string>
     <string name="owned_tabs">所持有标签</string>
     <string name="cancel">取消</string>
+    <string name="commit">确认</string>
     <string name="confirm_upload">确认上传</string>
     <string name="upload_count_must_less_than_9">每次最多上传9张图片</string>
     <string name="init_file_failed">初始化文件失败</string>
@@ -168,4 +169,13 @@
     <string name="tx_loading_failed_please_check_network">加载数据失败，请检查网络是否正常</string>
     <string name="tx_view_details"></string>
     <string name="update_failed">更新失败</string>
+    <string name="net_error_please_retry">网络连接失败,请重试!</string>
+    <string name="tip">提示</string>
+    <string name="retry">重试</string>
+    <string name="do_you_delete_me">真的要删除我吗？囧rz</string>
+    <string name="give_up">放弃</string>
+    <string name="please_wait_club_upload_data">请等待会所为您上传数据</string>
+    <string name="share_success">分享成功</string>
+    <string name="share_failed">分享失败</string>
+    <string name="share_cancel">取消分享</string>
 </resources>

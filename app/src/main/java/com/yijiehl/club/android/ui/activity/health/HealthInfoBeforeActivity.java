@@ -30,6 +30,8 @@ import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.dialog.BaseDialog;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 import com.yijiehl.club.android.ui.view.TimePicker;
 
 /**
@@ -124,7 +126,12 @@ public class HealthInfoBeforeActivity extends BmActivity {
      * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
      */
     private boolean checkMotherData() {
-//        mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString()
+        if(TextUtils.isEmpty(mMotherWeight.getText().toString()) ||
+                TextUtils.isEmpty(mMotherChest.getText().toString()) ||
+                TextUtils.isEmpty(mMotherWaist.getText().toString()) ||
+                TextUtils.isEmpty(mMotherHips.getText().toString())) {
+            return false;
+        }
         float weight = Float.valueOf(mMotherWeight.getText().toString());
         if(weight < 20 || weight > 200) {
             return false;
@@ -226,5 +233,48 @@ public class HealthInfoBeforeActivity extends BmActivity {
     private void chooseTime() {
         mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
         mPickerContainer.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 描 述：检查数据是否已经保存<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/11/5 <br/>
+     */
+    private boolean isSaveData() {
+        if(mMotherHealthData == null) {
+            return true;
+        }
+        if(TextUtils.isEmpty(mMotherWeight.getText().toString()) ||
+                TextUtils.isEmpty(mMotherChest.getText().toString()) ||
+                TextUtils.isEmpty(mMotherWaist.getText().toString()) ||
+                TextUtils.isEmpty(mMotherHips.getText().toString())) {
+            return false;
+        }
+        return (Float.valueOf(mMotherWeight.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue01())) &&
+                Float.valueOf(mMotherChest.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue10())) &&
+                Float.valueOf(mMotherWaist.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue11())) &&
+                Float.valueOf(mMotherHips.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue12())));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!isSaveData()) {
+            MessageDialog dialog = MessageDialog.getInstance(this);
+            dialog.setMessage("您当前的数据和图片没有上传完成?要放弃本次上传吗?");
+            dialog.showDoubleBtnDialog(R.string.cancel, R.string.give_up, new BaseDialog.OnBtnsClickListener() {
+                @Override
+                public void onLeftClickListener(View v, BaseDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onRightClickListener(View v, BaseDialog dialog) {
+                    dialog.dismiss();
+                    HealthInfoBeforeActivity.super.onBackPressed();
+                }
+            });
+        } else {
+            super.onBackPressed();
+        }
     }
 }

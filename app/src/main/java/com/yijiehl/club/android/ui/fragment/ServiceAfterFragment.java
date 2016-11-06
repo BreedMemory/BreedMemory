@@ -372,8 +372,12 @@ public class ServiceAfterFragment extends HealthInfoFragment {
      * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
      */
     private void fillBabyData() {
-        fillChatData(mBabyHeightChat, mBabyDataListHeight.get(getBabyDataIndex()));
-        fillChatData(mBabyWeightChat, mBabyDataListWeight.get(getBabyDataIndex()));
+        if(mBabyDataListHeight.size() > getBabyDataIndex()) {
+            fillChatData(mBabyHeightChat, mBabyDataListHeight.get(getBabyDataIndex()));
+        }
+        if(mBabyDataListWeight.size() > getBabyDataIndex()) {
+            fillChatData(mBabyWeightChat, mBabyDataListWeight.get(getBabyDataIndex()));
+        }
     }
 
     /**

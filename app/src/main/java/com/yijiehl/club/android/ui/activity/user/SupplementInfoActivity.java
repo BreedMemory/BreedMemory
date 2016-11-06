@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.Utils;
@@ -54,6 +56,8 @@ import java.util.List;
  */
 @ContentView(R.layout.activity_supplement_info)
 public class SupplementInfoActivity extends BmActivity {
+    @ViewInject(R.id.iv_login_bg)
+    private ImageView mBackground;
     /** 姓名编辑框 */
     @ViewInject(R.id.et_name)
     private EditText mName;
@@ -92,6 +96,7 @@ public class SupplementInfoActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Glide.with(this).load(R.drawable.login_bg).into(mBackground);
         //获取会所列表数据
         mTask = getClubInfo();
         //从Intent获取用户数据

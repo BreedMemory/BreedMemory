@@ -117,7 +117,7 @@ public class MyButton extends Button {
 		}
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				if(isChangeDrawable){
+				if(isChangeDrawable && getBackground() != null){
 					getBackground().setColorFilter(
 							new ColorMatrixColorFilter(BT_SELECTED));
 					setBackgroundDrawable(getBackground());
@@ -128,7 +128,7 @@ public class MyButton extends Button {
 				if (isFastDoubleClick()) {
 					event.setAction(MotionEvent.ACTION_CANCEL);
 				}
-				if(isChangeDrawable){
+				if(isChangeDrawable && getBackground() != null){
 					getBackground().setColorFilter(
 							new ColorMatrixColorFilter(BT_NOT_SELECTED));
 					setBackgroundDrawable(getBackground());

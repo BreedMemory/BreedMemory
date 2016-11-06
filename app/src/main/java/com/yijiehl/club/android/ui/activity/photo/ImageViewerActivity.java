@@ -18,6 +18,8 @@ import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
 import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.ImageViewerAdapter;
+import com.yijiehl.club.android.ui.dialog.BaseDialog;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,8 @@ public class ImageViewerActivity extends BmActivity {
     @ViewInject(R.id.pager)
     private ViewPager mViewPager;
 
+
+    ImageViewerAdapter mAdapter;
     private ArrayList<String> urls;
     private ArrayList<String> codes;
     private boolean isNative = true;
@@ -61,11 +65,11 @@ public class ImageViewerActivity extends BmActivity {
         urls = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
         codes = getIntent().getStringArrayListExtra(CODES);
         isNative=getIntent().getBooleanExtra(NATIVE, false);
-        ImageViewerAdapter adapter = new ImageViewerAdapter(this, urls, isNative);
-        mViewPager.setAdapter(adapter);
-        mViewPager.addOnPageChangeListener(adapter);
+        mAdapter = new ImageViewerAdapter(this, urls, isNative);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.addOnPageChangeListener(mAdapter);
 
-        adapter.setListener(new View.OnClickListener() {
+        mAdapter.setListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isHide) {
@@ -119,10 +123,25 @@ public class ImageViewerActivity extends BmActivity {
             Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.can_not_delete));
             return;
         }
-        NetHelper.getDataFromNet(this, new ReqBaseDataProc(this, new DeletePicture(codes.get(mViewPager.getCurrentItem()))), new AbstractCallBack(this) {
+        MessageDialog dialog = MessageDialog.getInstance(this);
+        dialog.setMessage(R.string.do_you_delete_me);
+        dialog.showDoubleBtnDialog(new BaseDialog.OnBtnsClickListener() {
             @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.delete_success));
+            public void onLeftClickListener(View v, BaseDialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightClickListener(View v, final BaseDialog dialog) {
+                NetHelper.getDataFromNet(ImageViewerActivity.this, new ReqBaseDataProc(ImageViewerActivity.this, new DeletePicture(codes.get(mViewPager.getCurrentItem()))), new AbstractCallBack(ImageViewerActivity.this) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        mAdapter.getPaths().remove(mViewPager.getCurrentItem());
+                        mAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                        Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.delete_success));
+                    }
+                });
             }
         });
     }

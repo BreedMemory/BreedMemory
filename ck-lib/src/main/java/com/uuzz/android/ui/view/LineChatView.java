@@ -278,18 +278,22 @@ public class LineChatView extends View {
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.computeCurrentVelocity(700, mMaximumVelocity);
                 int deltaX = (int) (mLastTouchX - event.getX(mActivePointerId));
-                if(!mIsDragging && Math.abs(deltaX) > mTouchSlop && Math.abs(mVelocityTracker.getYVelocity() / mVelocityTracker.getXVelocity()) < 1) {
-                    //do something
-                    requestParentDisallowInterceptTouchEvent(true);
+                if(Math.abs(mVelocityTracker.getYVelocity() / mVelocityTracker.getXVelocity()) < 1) {
+                    if(!mIsDragging && Math.abs(deltaX) > mTouchSlop) {
+                        //do something
+                        requestParentDisallowInterceptTouchEvent(true);
 
 
-                    if (deltaX > 0) {
-                        deltaX -= mTouchSlop;
-                    } else {
-                        deltaX += mTouchSlop;
+                        if (deltaX > 0) {
+                            deltaX -= mTouchSlop;
+                        } else {
+                            deltaX += mTouchSlop;
+                        }
+
+                        mIsDragging = true;
                     }
-
-                    mIsDragging = true;
+                } else {
+                    requestParentDisallowInterceptTouchEvent(false);
                 }
 
                 if(mIsDragging){

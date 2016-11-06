@@ -14,7 +14,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.uuzz.android.util.ScreenTools;
 import com.yijiehl.club.android.R;
 
 /**
@@ -51,7 +50,7 @@ public class UnderLineTextView extends TextView {
     private void initPaint() {
         mPaint = new Paint();
         mPaint.setColor(getResources().getColor(R.color.colorAccent));
-        mPaint.setStrokeWidth(ScreenTools.dip2px(getContext(), 2));
+        mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.space));
     }
 
     @Override

@@ -84,7 +84,7 @@ public class ActivitySvc {
                 context.startActivity(intent);
                 break;
             default:
-                if(context instanceof SplashActivity) {
+                if(context instanceof SplashActivity || context instanceof LoginActivity) {
                     ActivitySvc.startMainActivity(context);
                 }
                 break;

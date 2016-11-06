@@ -58,6 +58,8 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.activity.photo.PhotoPickerActivity;
 import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.adapter.UploadImageAdapter;
+import com.yijiehl.club.android.ui.dialog.BaseDialog;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 import com.yijiehl.club.android.ui.view.TimePicker;
 
 import java.util.ArrayList;
@@ -528,7 +530,12 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
      * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
      */
     private boolean checkMotherData() {
-//        mMotherWeight.getText().toString(), mMotherChest.getText().toString(), mMotherWaist.getText().toString(), mMotherHips.getText().toString()
+        if(TextUtils.isEmpty(mMotherWeight.getText().toString()) ||
+                TextUtils.isEmpty(mMotherChest.getText().toString()) ||
+                TextUtils.isEmpty(mMotherWaist.getText().toString()) ||
+                TextUtils.isEmpty(mMotherHips.getText().toString())) {
+            return false;
+        }
         float weight = Float.valueOf(mMotherWeight.getText().toString());
         if(weight < 20 || weight > 200) {
             return false;
@@ -554,6 +561,9 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
      * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
      */
     private boolean checkBabyData() {
+        if(TextUtils.isEmpty(mBabyWeight.getText()) || TextUtils.isEmpty(mBabyHeight.getText())) {
+            return false;
+        }
         float weight = Float.valueOf(mBabyWeight.getText().toString());
         if(weight < 1 || weight > 30) {
             return false;
@@ -565,4 +575,64 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         return true;
     }
 
+    /**
+     * 描 述：检查数据是否已经保存<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/11/5 <br/>
+     */
+    private boolean isSaveData() {
+        switch (mFormSelector.getCheckedRadioButtonId()) {
+            case R.id.rb_mother:
+                if(mMotherHealthData == null) {
+                    return true;
+                }
+                if(TextUtils.isEmpty(mMotherWeight.getText().toString()) ||
+                        TextUtils.isEmpty(mMotherChest.getText().toString()) ||
+                        TextUtils.isEmpty(mMotherWaist.getText().toString()) ||
+                        TextUtils.isEmpty(mMotherHips.getText().toString())) {
+                    return false;
+                }
+                return (Float.valueOf(mMotherWeight.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue01())) &&
+                        Float.valueOf(mMotherChest.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue10())) &&
+                        Float.valueOf(mMotherWaist.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue11())) &&
+                        Float.valueOf(mMotherHips.getText().toString()).equals(Float.valueOf(mMotherHealthData.getStatValue12())));
+            case R.id.rb_baby0:
+            case R.id.rb_baby1:
+            case R.id.rb_baby2:
+            case R.id.rb_baby3:
+                if(mBabyHealthData == null) {
+                    return true;
+                }
+                if(TextUtils.isEmpty(mBabyWeight.getText().toString()) ||
+                        TextUtils.isEmpty(mBabyHeight.getText().toString())) {
+                    return false;
+                }
+                return (Float.valueOf(mBabyWeight.getText().toString()).equals(Float.valueOf(mBabyHealthData.getStatValue01())) &&
+                        Float.valueOf(mBabyHeight.getText().toString()).equals(Float.valueOf(mBabyHealthData.getStatValue12())));
+            default:
+                return true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mTaskId != 0 || (mUploadImageAdapter.getMode() == UploadImageAdapter.MODE_NATIVE && mUploadImageAdapter.getCount() > 1) || !isSaveData()) {
+            MessageDialog dialog = MessageDialog.getInstance(this);
+            dialog.setMessage("您当前的数据和图片没有上传完成?要放弃本次上传吗?");
+            dialog.showDoubleBtnDialog(R.string.cancel, R.string.give_up, new BaseDialog.OnBtnsClickListener() {
+                @Override
+                public void onLeftClickListener(View v, BaseDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onRightClickListener(View v, BaseDialog dialog) {
+                    dialog.dismiss();
+                    HealthInfoAfterActivity.super.onBackPressed();
+                }
+            });
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -39,6 +39,10 @@ public class UploadImageAdapter extends BaseListViewAdapter<String> {
         this.mode = mode;
     }
 
+    public int getMode() {
+        return mode;
+    }
+
     public UploadImageAdapter(Context mContext) {
         super(mContext);
     }

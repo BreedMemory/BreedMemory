@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.TimeUtil;
+import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -194,6 +195,7 @@ public class HealthInfoInActivity extends BmActivity {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchHealthData lData = (RespSearchHealthData) pResponse;
                 if(lData.getResultList() == null || lData.getResultList().size() == 0) {
+                    Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
                     return;
                 }
                 mMotherWeight.setText(lData.getResultList().get(0).getStatValue01());
@@ -231,6 +233,7 @@ public class HealthInfoInActivity extends BmActivity {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 if(((RespSearchHealthData) pResponse).getResultList() == null || ((RespSearchHealthData) pResponse).getResultList().size() == 0) {
+                    Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
                     return;
                 }
                 HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);

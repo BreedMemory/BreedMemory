@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:visibility="visible"/>
 
-    <android.support.v4.view.ViewPager
+    <com.uuzz.android.ui.view.ViewPagerFixed
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,6 +34,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="50dip"
+        android:padding="@dimen/primary_List_margin"
         android:visibility="visible">
 
         <ImageView

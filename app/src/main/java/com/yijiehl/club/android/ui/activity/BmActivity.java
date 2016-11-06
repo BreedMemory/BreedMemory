@@ -35,6 +35,7 @@ import com.yijiehl.club.android.network.request.ReqSensitize;
 import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.user.LoginActivity;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -160,9 +161,16 @@ public abstract class BmActivity extends CkActivity implements Observer {
 
             @Override
             public void onFailed(String msg) {
-                super.onFailed(msg);
-                // TODO: 谌珂 2016/9/19 激活失败后的处理
-//                sensitize();
+                // DONE: 谌珂 2016/9/19 激活失败后的处理
+                final MessageDialog instance = MessageDialog.getInstance(BmActivity.this);
+                instance.setMessage(R.string.net_error_please_retry);
+                instance.showSimpleDialog(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        instance.dismiss();
+                        sensitize();
+                    }
+                });
             }
         }, false);
     }
@@ -252,4 +260,10 @@ public abstract class BmActivity extends CkActivity implements Observer {
      * 历 史: (1.0.0) 谌珂 2016/9/1 <br/>
      */
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Glide.get(this).clearMemory();
+    }
 }

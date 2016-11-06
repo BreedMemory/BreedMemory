@@ -6,16 +6,20 @@
  */
 package com.yijiehl.club.android.ui.activity.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.view.MyButton;
 import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.Utils;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -67,6 +71,8 @@ public class LoginActivity extends BmActivity {
         }
     });
 
+    @ViewInject(R.id.iv_login_bg)
+    private ImageView mBackground;
     /** 电话号码输入框 */
     @ViewInject(R.id.et_phone_number)
     private EditText mPhoneNumber;
@@ -82,6 +88,7 @@ public class LoginActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Glide.with(this).load(R.drawable.login_bg).into(mBackground);
         mHeader.setVisibility(View.GONE);
         String phone = ContextUtils.getSharedString(this, R.string.shared_preference_user_id);
         if(!TextUtils.isEmpty(phone)) {
@@ -114,6 +121,7 @@ public class LoginActivity extends BmActivity {
 
     @OnClick(R.id.mb_login)
     private void login() {
+        Utils.hideKeyBoard(mPhoneNumber);
         String phoneNumber = mPhoneNumber.getText().toString();
         String code = mVerifyCode.getText().toString();
         if(!checkPhoneNumber(phoneNumber) || !checkVerifyCode(code)) {
@@ -154,5 +162,13 @@ public class LoginActivity extends BmActivity {
 
     @Override
     protected void checkSensitize() {
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 }

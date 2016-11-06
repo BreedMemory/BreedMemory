@@ -382,4 +382,11 @@
         <item name="android:windowExitAnimation">@anim/app_update_detail_dismiss</item>
     </style>
 
+    <!--Dialog内容样式 -->
+    <style name="MyDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
 </resources>

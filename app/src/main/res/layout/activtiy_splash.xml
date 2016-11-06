@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/iv_login_bg"
         android:src="@drawable/login_bg"
         style="@style/splash_background_image" />
 

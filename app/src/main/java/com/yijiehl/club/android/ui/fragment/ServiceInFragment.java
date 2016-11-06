@@ -436,10 +436,18 @@ public class ServiceInFragment extends HealthInfoFragment {
         }
 
         // DONE: 谌珂 2016/11/3 填充统计图数据
-        fillChatData(mBabyHeightChat, mBabyDataListHeight.get(getBabyDataIndex()));
-        fillChatData(mBabyWeightChat, mBabyDataListWeight.get(getBabyDataIndex()));
-        fillChatData(mBabyHeadChat, mBabyDataListHead.get(getBabyDataIndex()));
-        fillChatData(mBabyChestChat, mBabyDataListChest.get(getBabyDataIndex()));
+        if(mBabyDataListHeight.size() > getBabyDataIndex()) {
+            fillChatData(mBabyHeightChat, mBabyDataListHeight.get(getBabyDataIndex()));
+        }
+        if(mBabyDataListWeight.size() > getBabyDataIndex()) {
+            fillChatData(mBabyWeightChat, mBabyDataListWeight.get(getBabyDataIndex()));
+        }
+        if(mBabyDataListHead.size() > getBabyDataIndex()) {
+            fillChatData(mBabyHeadChat, mBabyDataListHead.get(getBabyDataIndex()));
+        }
+        if(mBabyDataListChest.size() > getBabyDataIndex()) {
+            fillChatData(mBabyChestChat, mBabyDataListChest.get(getBabyDataIndex()));
+        }
     }
 
     @OnClick({R.id.im_more, R.id.tv_more})

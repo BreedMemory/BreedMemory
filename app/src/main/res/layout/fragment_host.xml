@@ -26,6 +26,7 @@
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="15dip"
                 android:layout_marginRight="15dip"
+                android:visibility="gone"
                 android:padding="5dip"
                 android:background="@drawable/bg_border_corner_sime_white">
                 <!-- 内层白色背景 -->
@@ -95,7 +96,7 @@
                 android:scaleType="fitCenter"
                 android:layout_height="76dp"
                 android:src="@drawable/club_logo"/>
-            
+
             <TextView
                 android:id="@+id/tv_message_tip_icon"
                 android:layout_above="@id/im_arc_up"
@@ -125,8 +126,7 @@
                 android:id="@+id/im_activity_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/shouye_huodong_bg"/>
+                android:scaleType="fitXY"/>
             <ImageView
                 android:id="@+id/im_arc_2"
                 android:layout_width="match_parent"
@@ -199,8 +199,7 @@
                 android:id="@+id/im_photo_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/shouye_zhaopian_bg"/>
+                android:scaleType="fitXY"/>
             <ImageView
                 android:id="@+id/im_arc_3"
                 android:layout_width="match_parent"
@@ -236,24 +235,21 @@
                 android:layout_marginTop="21dip"
                 android:layout_below="@id/rl_photo_share_btn_container"
                 android:layout_centerHorizontal="true">
-                
+
                 <ImageView
                     android:id="@+id/iv_photo_1"
                     style="@style/host_photo_content"
-                    android:scaleType="center"
-                    android:src="@drawable/photo_test"/>
+                    android:scaleType="center"/>
 
                 <ImageView
                     android:id="@+id/iv_photo_2"
                     style="@style/host_photo_content"
                     android:layout_marginRight="@dimen/primary_List_margin"
                     android:layout_marginLeft="@dimen/primary_List_margin"
-                    android:scaleType="center"
-                    android:src="@drawable/photo_test"/>
+                    android:scaleType="center"/>
 
                 <ImageView
                     android:id="@+id/iv_photo_3"
-                    android:src="@drawable/photo_test"
                     android:scaleType="center"
                     style="@style/host_photo_content" />
 

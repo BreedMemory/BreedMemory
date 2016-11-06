@@ -334,6 +334,11 @@ public class ImageViewer extends ImageView {
 
 							//判断图片移动是否会超出选区的范围，超出则不移动
 							float[] result = isSelectionOut(dX, dY);
+							if(result[0] == 0) {
+								requestParentDisallowInterceptTouchEvent(false);
+							} else {
+								requestParentDisallowInterceptTouchEvent(true);
+							}
 							translateBitmap(result[0], result[1]);
 
 							//移动图片

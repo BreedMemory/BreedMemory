@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
@@ -299,15 +302,11 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ACTIVITYCOVER:
                     //活动照片
-                    if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
-                    }
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
                     break;
                 case ALBUMCOVER:
                     //照片背景
-                    if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
-                    }
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
                     break;
                 case ALBUMITEM1:
                     //照片1
@@ -317,15 +316,11 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ALBUMITEM2:
                     //照片2
-                    if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage2);
-                    }
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage2);
                     break;
                 case ALBUMITEM3:
                     //照片3
-                    if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
-                    }
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
                     break;
                 case CUSTSERVICEPHONE:
                     //保存会所电话
@@ -462,30 +457,30 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
-        Toaster.showShortToast(getActivity(), "收藏成功");
+        Toaster.showShortToast(getActivity(), R.string.collect_success);
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
         // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
-//        new ShareAction(getActivity()).withText("hello")
-//                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
-//                .setCallback(new UMShareListener() {
-//                    @Override
-//                    public void onResult(SHARE_MEDIA share_media) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel(SHARE_MEDIA share_media) {
-//
-//                    }
-//                }).open();
+        new ShareAction(getActivity()).withText("hello")
+                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        Toaster.showShortToast(getActivity(), getString(R.string.share_success));
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        Toaster.showShortToast(getActivity(), getString(R.string.share_failed));
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+                        Toaster.showShortToast(getActivity(), getString(R.string.share_cancel));
+                    }
+                }).open();
     }
 
     @Override

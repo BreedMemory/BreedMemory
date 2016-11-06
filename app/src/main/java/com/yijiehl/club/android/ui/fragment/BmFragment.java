@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.fragment.CkFragment;
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
@@ -70,4 +71,10 @@ public class BmFragment extends CkFragment implements Observer {
      * 历 史: (1.0.0) 谌珂 2016/9/1 <br/>
      */
     protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {}
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Glide.get(getActivity()).clearMemory();
+    }
 }

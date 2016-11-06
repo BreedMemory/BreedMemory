@@ -99,7 +99,6 @@ public class FileLog {
         HAVE_PERMISSION = permission;
     }
 
-
     /**
      * 描 述：把日志中的缓存全部写入文件,为了保证运行速度不对日志文件大小进行整理<br/>
      * 作者：谌珂<br/>
