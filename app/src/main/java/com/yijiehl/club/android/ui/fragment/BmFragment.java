@@ -31,8 +31,8 @@ import java.util.Observer;
 public class BmFragment extends CkFragment implements Observer {
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         CacheDataDAO.getInstance(getActivity()).addObserver(this);
     }
 

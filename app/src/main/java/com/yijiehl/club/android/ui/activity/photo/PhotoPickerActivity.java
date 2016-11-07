@@ -193,7 +193,7 @@ public class PhotoPickerActivity extends BmActivity {
 
     @OnClick(R.id.tv_prview)
     private void prView() {
-        ActivitySvc.startImageViewer(PhotoPickerActivity.this, photoGridItemAdapter.getmSelectedPhoto(), true);
+        ActivitySvc.startImageViewer(PhotoPickerActivity.this, photoGridItemAdapter.getmSelectedPhoto(), true, 0);
     }
 
     @OnClick(R.id.btn_ok)

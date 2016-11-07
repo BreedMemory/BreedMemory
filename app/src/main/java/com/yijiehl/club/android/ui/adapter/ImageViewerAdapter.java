@@ -31,12 +31,14 @@ import java.util.List;
  */
 public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
-    public ImageViewerAdapter(Context context, List<String> paths, boolean isNative) {
+    public ImageViewerAdapter(Context context, List<String> paths, boolean isNative, PageSelectedListener lPageSelectedListener) {
         this.mContext = context;
         this.paths = paths;
         this.isNative = isNative;
+        this.mPageSelectedListener = lPageSelectedListener;
     }
     private View.OnClickListener mListener;
+    private PageSelectedListener mPageSelectedListener;
 
     public void setListener(View.OnClickListener mListener) {
         this.mListener = mListener;
@@ -113,10 +115,18 @@ public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPage
         for (ImageViewer lImageViewer : views) {
             lImageViewer.reset();
         }
+        if(mPageSelectedListener == null) {
+            return;
+        }
+        mPageSelectedListener.onPageSelector(position);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public interface PageSelectedListener {
+        void onPageSelector(int position);
     }
 }

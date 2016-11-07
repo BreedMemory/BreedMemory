@@ -132,7 +132,7 @@ public class PhotoGridItemAdapter extends BaseListViewAdapter<String> {
                     position = (int) v.getTag(R.id.pick_picture_content);
                     ArrayList<String> list = new ArrayList<>();
                     list.add(mDatas.get(position));
-                    ActivitySvc.startImageViewer(mContext, list, true);
+                    ActivitySvc.startImageViewer(mContext, list, true, 0);
                     break;
                 case R.id.iv_item_pick:
                     position = (int) v.getTag(R.id.pick_picture_tag);

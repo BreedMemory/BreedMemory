@@ -29,7 +29,6 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
@@ -160,10 +159,6 @@ public class HostFragment extends BaseHostFragment {
     @ViewInject(R.id.tv_message_tip_icon)
     private TextView mMessageTipIcon;
 
-    /**
-     * 活动信息
-     */
-    private ActivityInfo mActivityInfo;
     /**
      * 首页附加数据
      */

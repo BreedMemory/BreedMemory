@@ -218,13 +218,14 @@ public class ActivitySvc {
      * @param path 图片路径集合
      * @param isNative 是否是本地图片
      */
-    public static void startImageViewer(Context context, ArrayList<String> path, boolean isNative) {
+    public static void startImageViewer(Context context, ArrayList<String> path, boolean isNative, int index) {
         if (path == null || path.size() == 0) {
             return;
         }
         Intent intent = new Intent(context, ImageViewerActivity.class);
         intent.putExtra(ImageViewerActivity.NATIVE, isNative);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        intent.putExtra(ImageViewerActivity.INDEX, index);
         context.startActivity(intent);
     }
 
@@ -236,7 +237,7 @@ public class ActivitySvc {
      * @param path 图片路径集合
      * @param isNative 是否是本地图片
      */
-    public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, boolean isNative) {
+    public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, ArrayList<String> descs, boolean isNative, int index) {
         if (path == null || path.size() == 0) {
             return;
         }
@@ -244,6 +245,8 @@ public class ActivitySvc {
         intent.putExtra(ImageViewerActivity.NATIVE, isNative);
         intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
         intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
+        intent.putStringArrayListExtra(ImageViewerActivity.DESCS, descs);
+        intent.putExtra(ImageViewerActivity.INDEX, index);
         context.startActivity(intent);
     }
 

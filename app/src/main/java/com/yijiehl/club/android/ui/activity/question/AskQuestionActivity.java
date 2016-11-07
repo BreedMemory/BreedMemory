@@ -106,8 +106,9 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.submit));
+        mRightBtn.setModle(IconTextView.MODULE_TEXT);
 
-        mRightBtn.setOnClickListener(this);
+        mHeadRightContainer.setOnClickListener(this);
     }
 
     @Override

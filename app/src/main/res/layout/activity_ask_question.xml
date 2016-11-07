@@ -12,8 +12,10 @@
 
         <EditText
             android:id="@+id/et_ask_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="70dip"
+            android:gravity="top"
             android:layout_marginTop="30dip"
             android:hint="请详细输入您的问题(限140字)"
             android:textColor="#9b9b9b"
@@ -24,7 +26,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="3dip"
-            android:layout_marginTop="70dip"
+            android:layout_marginTop="@dimen/primary_List_margin"
             android:background="#e1e1e1" />
 
         <RelativeLayout
@@ -77,14 +79,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/primary_text_size"
-            android:text="您的问题我们会在24小时内回复
-如果是紧急问题，请直接拨打下面的客服电话。 "/>
+            android:text="您的问题我们会在24小时内回复\n如果是紧急问题，请直接拨打下面的客服电话。 "/>
         <TextView
             android:id="@+id/tv_ask_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/primary_text_size"/>
     </LinearLayout>
 
