@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.uuzz.android.ui.view.CircleImageView;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ContextUtils;
@@ -35,6 +32,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.ShareSvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
@@ -175,7 +173,7 @@ public class HostFragment extends BaseHostFragment {
      */
     private UserInfo mUserInfo;
 
-    private HashMap<UserInfo.MainDataType, String> mUrls = new HashMap<>();
+    private HashMap<UserInfo.MainDataType, UserInfo.MainDataEntity> mEntitys = new HashMap<>();
 
     @Nullable
     @Override
@@ -271,7 +269,7 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/10/15 <br/>
      */
     private void fillExtraInfo() {
-        mUrls.clear();
+        mEntitys.clear();
         for (UserInfo.MainDataEntity entity: mMainDataEntitys) {
             switch (UserInfo.MainDataType.setValue(entity.getType())) {
                 case HEALTHINFO:
@@ -281,15 +279,18 @@ public class HostFragment extends BaseHostFragment {
                 case RECOMMACTIVITY:
                     mActivityName.setText(entity.getName());
                     mActivityTime.setText(entity.getDesc());
-                    mUrls.put(UserInfo.MainDataType.RECOMMACTIVITY, ActivitySvc.createWebUrl(entity.getValue()));
+                    entity.setValue(ActivitySvc.createWebUrl(entity.getValue()));
+                    mEntitys.put(UserInfo.MainDataType.RECOMMACTIVITY, entity);
                     break;
                 case RECOMMQUESTION:
                     mQuestion.setText(entity.getName());
-                    mUrls.put(UserInfo.MainDataType.RECOMMQUESTION, ActivitySvc.createWebUrl(entity.getValue()));
+                    entity.setValue(ActivitySvc.createWebUrl(entity.getValue()));
+                    mEntitys.put(UserInfo.MainDataType.RECOMMQUESTION, entity);
                     break;
                 case RECOMMGROWUP:
                     mGrowUpTitle.setText(entity.getName());
-                    mUrls.put(UserInfo.MainDataType.RECOMMGROWUP, ActivitySvc.createWebUrl(entity.getValue()));
+                    entity.setValue(ActivitySvc.createWebUrl(entity.getValue()));
+                    mEntitys.put(UserInfo.MainDataType.RECOMMGROWUP, entity);
                     break;
                 case ACCTAMOUNT:
                     mUserInfo.setCustAmount(formatMoneyNum(entity.getValue()));
@@ -306,7 +307,9 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ALBUMCOVER:
                     //照片背景
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
+                    entity.setValue(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()));
+                    mEntitys.put(UserInfo.MainDataType.ALBUMCOVER, entity);
+                    Glide.with(this).load(entity.getValue()).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
                     break;
                 case ALBUMITEM1:
                     //照片1
@@ -462,25 +465,32 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
     private void share(View v) {
-        // TODO: 谌珂 2016/9/12 根据view id判断分享什么元素
-        new ShareAction(getActivity()).withText("hello")
-                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
-                .setCallback(new UMShareListener() {
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-                        Toaster.showShortToast(getActivity(), getString(R.string.share_success));
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        Toaster.showShortToast(getActivity(), getString(R.string.share_failed));
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-                        Toaster.showShortToast(getActivity(), getString(R.string.share_cancel));
-                    }
-                }).open();
+        switch (v.getId()) {
+            case R.id.im_share_activity:
+                UserInfo.MainDataEntity entity;
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMACTIVITY);
+                ShareSvc.shareUrl(getActivity(), entity.getValue(),
+                        entity.getName(),
+                        entity.getDesc());
+                break;
+            case R.id.im_share_grow_up:
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMGROWUP);
+                ShareSvc.shareUrl(getActivity(), entity.getValue(),
+                        entity.getName(),
+                        entity.getDesc());
+                break;
+            case R.id.im_share_question:
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMQUESTION);
+                ShareSvc.shareUrl(getActivity(), entity.getValue(),
+                        entity.getName(),
+                        entity.getDesc());
+                break;
+            case R.id.im_share_photo:
+                entity = mEntitys.get(UserInfo.MainDataType.IMAGECOVER);
+                ShareSvc.sharePhoto(getActivity(), entity.getValue(),
+                        entity.getName());
+                break;
+        }
     }
 
     @Override
@@ -520,7 +530,7 @@ public class HostFragment extends BaseHostFragment {
     private void toDetailActivitys() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
-                mUrls.get(UserInfo.MainDataType.RECOMMACTIVITY),
+                mEntitys.get(UserInfo.MainDataType.RECOMMACTIVITY).getValue(),
                 mActivityName.getText().toString(), null, null, null);
     }
 
@@ -528,7 +538,7 @@ public class HostFragment extends BaseHostFragment {
     private void toAnswerQue() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
-                mUrls.get(UserInfo.MainDataType.RECOMMQUESTION),
+                mEntitys.get(UserInfo.MainDataType.RECOMMQUESTION).getValue(),
                 mQuestion.getText().toString(), null, null, null);
     }
 
@@ -536,7 +546,7 @@ public class HostFragment extends BaseHostFragment {
     private void toDetailGrow(){
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
-                mUrls.get(UserInfo.MainDataType.RECOMMGROWUP),
+                mEntitys.get(UserInfo.MainDataType.RECOMMGROWUP).getValue(),
                 mGrowUpTitle.getText().toString(), null, null, null);
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
