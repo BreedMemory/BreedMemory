@@ -25,8 +25,9 @@ import com.yijiehl.club.android.ui.activity.BmActivity;
 public class KnowledgeActivity extends BmActivity {
 
     public static final String PREG = "pregnancy";
-    public static final String NEW = "newborn";
-    public static final String LITTLE = "littlebaby";
+    public static final String CHILD = "child";
+    public static final String CHILDLITTLE = "childlittle";
+    public static final String CHILDGENERAL = "childgeneral";
     public static final String TYPE = "type";
     /**产后下拉内容展示*/
   //  @ViewInject(R.id.layout_after_child_birth_context)
@@ -53,14 +54,21 @@ public class KnowledgeActivity extends BmActivity {
     @OnClick(R.id.layout_confinement)
     private void confinementInKnowledge(){
         Intent intent=new Intent(this,KnowledgeListActivity.class);
-        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.NEW);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.CHILDLITTLE);
         startActivity(intent);
     }
 
     @OnClick(R.id.layout_confinement_after)
     private void confinementAfterInKnowledge(){
         Intent intent=new Intent(this,KnowledgeListActivity.class);
-        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.LITTLE);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.CHILDGENERAL);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_after_child_birth)
+    private void child(){
+        Intent intent=new Intent(this,KnowledgeListActivity.class);
+        intent.putExtra(KnowledgeActivity.TYPE,KnowledgeActivity.CHILD);
         startActivity(intent);
     }
 

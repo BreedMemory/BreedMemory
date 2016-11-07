@@ -481,7 +481,7 @@ public class HostFragment extends BaseHostFragment {
                         entity.getDesc());
                 break;
             case R.id.im_share_photo:
-                entity = mEntitys.get(UserInfo.MainDataType.IMAGECOVER);
+                entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
                 ShareSvc.sharePhoto(getActivity(), entity.getValue(),
                         entity.getName());
                 break;
