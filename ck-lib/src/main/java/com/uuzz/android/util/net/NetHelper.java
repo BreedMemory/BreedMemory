@@ -1,5 +1,6 @@
 package com.uuzz.android.util.net;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -105,7 +106,9 @@ public class NetHelper {
      * @param context 如果是Activity实例则在主线程弹出对话框
      */
     private static void syncTaskErrorCallBack(Context context) {
-        Toaster.showShortToast(context, R.string.net_error);
+        if(Activity.class.isAssignableFrom(context.getClass())) {
+            Toaster.showShortToast(context, R.string.net_error);
+        }
     }
 
     /**

@@ -51,6 +51,7 @@ public class UploadHttp<E> extends BaseHttp<E, String> {
             try {
                 response = mHttpClient.execute(mHttpPost); //请求并返回结果
             } catch (Exception e) {
+                Log.e("UploadHttp", "upload failed", e);
                 return null;
             }
             int statuCode = response.getStatusLine().getStatusCode();

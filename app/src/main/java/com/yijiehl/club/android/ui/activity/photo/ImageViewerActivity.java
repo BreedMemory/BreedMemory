@@ -2,8 +2,10 @@ package com.yijiehl.club.android.ui.activity.photo;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -38,11 +40,15 @@ public class ImageViewerActivity extends BmActivity {
 
     public static final String NATIVE = "Native";
     public static final String CODES = "CODES";
+    public static final String DESCS = "DESCS";
+    public static final String INDEX = "INDEX";
 
     private boolean isHide;
 
     @ViewInject(R.id.rl_photo_bottom)
     private View mBottomContainer;
+    @ViewInject(R.id.tv_tag)
+    private TextView mTag;
     @ViewInject(R.id.pager)
     private ViewPager mViewPager;
 
@@ -50,7 +56,9 @@ public class ImageViewerActivity extends BmActivity {
     ImageViewerAdapter mAdapter;
     private ArrayList<String> urls;
     private ArrayList<String> codes;
+    private ArrayList<String> descs;
     private boolean isNative = true;
+    private int index;
 
     @Override
     protected String getHeadTitle() {
@@ -64,10 +72,26 @@ public class ImageViewerActivity extends BmActivity {
         lp.addRule(RelativeLayout.BELOW, 0);
         urls = getIntent().getStringArrayListExtra(UploadPhotoActivity.PATH);
         codes = getIntent().getStringArrayListExtra(CODES);
-        isNative=getIntent().getBooleanExtra(NATIVE, false);
-        mAdapter = new ImageViewerAdapter(this, urls, isNative);
+        descs = getIntent().getStringArrayListExtra(DESCS);
+        isNative = getIntent().getBooleanExtra(NATIVE, false);
+        index = getIntent().getIntExtra(INDEX, 0);
+        if(0 > index || urls.size() <= index) {
+            index = 0;
+        }
+        mAdapter = new ImageViewerAdapter(this, urls, isNative, new ImageViewerAdapter.PageSelectedListener() {
+            @Override
+            public void onPageSelector(int position) {
+                if(descs == null || TextUtils.isEmpty(descs.get(position))) {
+                    mTag.setVisibility(View.GONE);
+                } else {
+                    mTag.setVisibility(View.VISIBLE);
+                    mTag.setText(descs.get(position));
+                }
+            }
+        });
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
+        mViewPager.setCurrentItem(index);
 
         mAdapter.setListener(new View.OnClickListener() {
             @Override
@@ -137,9 +161,13 @@ public class ImageViewerActivity extends BmActivity {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
                         mAdapter.getPaths().remove(mViewPager.getCurrentItem());
-                        mAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                         Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.delete_success));
+                        if(mAdapter.getPaths().size() == 0) {
+                            finish();
+                        } else {
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }

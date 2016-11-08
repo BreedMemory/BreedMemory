@@ -1,5 +1,6 @@
 package com.yijiehl.club.android.ui.adapter;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,10 +19,12 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.svc.ShareSvc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,8 +212,10 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                     });
                     break;
                 case R.id.iv_item_share:
-                    // TODO: 2016/10/2
-                    Toaster.showShortToast(mContext,"您已分享");
+                    // DONE: 2016/10/2
+                    position = (int) v.getTag(R.id.share);
+                    Article article=mDatas.get(position);
+                    ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+article.getDataShowUrl(),article.getDataClfy(),article.getDataSummary());
                     break;
             }
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -33,30 +34,39 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="wrap_content"
         android:padding="@dimen/primary_List_margin"
         android:visibility="visible">
 
+        <TextView
+            android:id="@+id/tv_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:textSize="@dimen/second_text_size"
+            android:textColor="@color/textColorPrimary"
+            tools:text="聆听音乐，宝宝玩耍"/>
+
         <ImageView
             android:id="@+id/iv_image_share"
+            android:layout_below="@+id/tv_tag"
             android:layout_width="32dip"
             android:layout_height="31dip"
-            android:layout_centerVertical="true"
             android:src="@drawable/share" />
 
         <ImageView
             android:id="@+id/iv_image_collect"
             android:layout_width="32dip"
             android:layout_height="31dip"
+            android:layout_below="@+id/tv_tag"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:src="@drawable/collect" />
         <ImageView
             android:id="@+id/iv_image_delete"
             android:layout_width="32dip"
             android:layout_height="31dip"
+            android:layout_below="@+id/tv_tag"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:src="@drawable/delete" />
     </RelativeLayout>
 </RelativeLayout>
