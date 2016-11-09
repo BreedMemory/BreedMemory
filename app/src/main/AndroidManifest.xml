@@ -89,7 +89,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 添加亲友页面 -->
-        <activity android:name=".ui.activity.user.AddRelativesAccount"
+        <activity android:name=".ui.activity.user.AddRelativesAccountActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         <!-- 相册页面 -->

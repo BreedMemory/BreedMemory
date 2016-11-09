@@ -163,11 +163,7 @@ public class ImageViewerActivity extends BmActivity {
                         mAdapter.getPaths().remove(mViewPager.getCurrentItem());
                         dialog.dismiss();
                         Toaster.showShortToast(ImageViewerActivity.this, getString(R.string.delete_success));
-                        if(mAdapter.getPaths().size() == 0) {
-                            finish();
-                        } else {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        finish();
                     }
                 });
             }

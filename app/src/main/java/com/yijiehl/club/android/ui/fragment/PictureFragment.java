@@ -155,8 +155,6 @@ public class PictureFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         UploadPictureSvc.getInstance().addObserver(this);
-        obtainPersonalPhoto(true);
-        obtainAlbumPhoto(true);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
         mPicturePersonAdapter = new PicturePersonAdapter(this);
@@ -243,6 +241,13 @@ public class PictureFragment extends BaseHostFragment {
             mTaskId = System.currentTimeMillis();
             ActivitySvc.startUploadPhoto(getActivity(), paths, mTaskId);
         }
+    }
+
+    @Override
+    public void onResume() {
+        obtainPersonalPhoto(true);
+        obtainAlbumPhoto(true);
+        super.onResume();
     }
 
     /**

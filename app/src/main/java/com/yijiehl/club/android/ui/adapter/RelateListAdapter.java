@@ -20,7 +20,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.Account;
-import com.yijiehl.club.android.ui.activity.user.AddRelativesAccount;
+import com.yijiehl.club.android.ui.activity.user.AddRelativesAccountActivity;
 
 /**
  * 项目名称：手机在线 <br/>
@@ -59,7 +59,7 @@ public class RelateListAdapter extends BaseListViewAdapter<Account> implements A
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // DONE: 谌珂 2016/10/24 点击到底部按钮进入添加
         if(getCount() == position) {
-            mContext.startActivity(new Intent(mContext, AddRelativesAccount.class));
+            mContext.startActivity(new Intent(mContext, AddRelativesAccountActivity.class));
         }
     }
 

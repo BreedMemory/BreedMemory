@@ -39,6 +39,9 @@ public class ShareSvc {
      * @param desc 分享描述
      */
     public static void shareUrl(Activity activity, String url, String title, String desc) {
+        if(TextUtils.isEmpty(desc)) {
+            desc = title;
+        }
         new ShareAction(activity).withText(desc).withTitle(title).withTargetUrl(url)
                 .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
                 .setCallback(new ShareCallBack(activity)).open();

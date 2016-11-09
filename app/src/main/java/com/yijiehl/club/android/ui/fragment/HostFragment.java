@@ -34,7 +34,6 @@ import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
@@ -482,6 +481,9 @@ public class HostFragment extends BaseHostFragment {
                 break;
             case R.id.im_share_photo:
                 entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
+                if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
+                    return;
+                }
                 ShareSvc.sharePhoto(getActivity(), entity.getValue(),
                         entity.getName());
                 break;
@@ -550,9 +552,16 @@ public class HostFragment extends BaseHostFragment {
     }
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){
-        // TODO: 2016/10/11 此处临时写。。
-        Intent intent=new Intent(getActivity(), ImageViewerActivity.class);
-        intent.putExtra("isNative",true);
-        startActivity(intent);
+        UserInfo.MainDataEntity entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
+        if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
+            return;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> codes = new ArrayList<>();
+        ArrayList<String> descs = new ArrayList<>();
+        list.add(entity.getValue());
+        codes.add(entity.getName());
+        descs.add(entity.getName());
+        ActivitySvc.startImageViewer(getActivity(), list, codes, descs, false, 0);
     }
 }

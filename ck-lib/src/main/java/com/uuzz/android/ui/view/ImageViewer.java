@@ -150,12 +150,12 @@ public class ImageViewer extends ImageView {
 			float offsetHeight = (source.getHeight()-getHeight())/(float)getHeight();
 			if(Math.abs(offsetHeight) > Math.abs(offsetWidth)) {
 				if((fillType && offsetHeight < 0) || (!fillType && offsetHeight >= 0)) {
-					mScale = (float)getHeight()/source.getHeight();
+					mScale = (float)getWidth()/source.getWidth();
 				} else {
 					mScale = (float)source.getHeight()/getHeight();
 				}
 				mMatrix.postScale(mScale, mScale, 0, 0);
-				mMatrix.postTranslate(-(source.getWidth()*mScale - getWidth())/2, 0);
+				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);
 			} else {
 				if((fillType && offsetWidth < 0) || (!fillType && offsetWidth >= 0)) {
 					mScale = (float)getWidth()/source.getWidth();
@@ -335,20 +335,13 @@ public class ImageViewer extends ImageView {
 							//判断图片移动是否会超出选区的范围，超出则不移动
 							float[] result = isSelectionOut(dX, dY);
 							if(result[0] == 0) {
+								logger.v("InterceptTouchEvent   false,dx="+result[0]+",y="+result[1]);
 								requestParentDisallowInterceptTouchEvent(false);
 							} else {
+								logger.v("InterceptTouchEvent   true,dx="+result[0]+",y="+result[1]);
 								requestParentDisallowInterceptTouchEvent(true);
 							}
 							translateBitmap(result[0], result[1]);
-
-							//移动图片
-//							translateBitmap(dX, dY);
-							//////////////////////
-
-
-		//					if(Math.abs(dX) > 3 || Math.abs(dY) > 3){        //控制移动图片的精度
-		//						translateBitmap(dX, dY);
-		//					}
 							break;
 						default:
 							break;
@@ -414,21 +407,21 @@ public class ImageViewer extends ImageView {
 		//图片缩放后实际的边界点
 		float left = matrixValues[Matrix.MTRANS_X];
 		float top = matrixValues[Matrix.MTRANS_Y];
-		float width = source.getWidth() * scaleX;
+		final float width = source.getWidth() * scaleX;
 		float height = source.getHeight() * scaleY;
 		float right = left + width;
 		float bottom = top + height;
 
 		//计算图片需要的scale，拿到宽、高和现在的倍数的最大值
 		float scale = 1;
+		float tempScale = (float)selection.width()/width;
 		if(width < selection.width()) {
-			float tempScale = (float)selection.width()/width;
 			scale = scale > tempScale ? scale : tempScale;
 		}
-		if(height < selection.height()) {
-			float tempScale = (float)selection.height()/height;
-			scale = scale > tempScale ? scale : tempScale;
-		}
+//		if(height < selection.height()) {
+//			float tempScale = (float)selection.height()/height;
+//			scale = scale > tempScale ? scale : tempScale;
+//		}
 		isTouchEvent = true;
 		//经过最终缩放
 		if(scale > 1) {
@@ -444,11 +437,15 @@ public class ImageViewer extends ImageView {
 			offSetX = selection.right - right;
 		}
 
-		if(top > selection.top && bottom > selection.bottom) {  //平移至上边界
-			offSetY = selection.top - top;
-		} else if(top < selection.top && bottom < selection.bottom) {
-			offSetY = selection.bottom - bottom;
+		if(scale == tempScale || height < selection.bottom) {
+			offSetY = (selection.bottom-height)/2 - top;
 		}
+
+//		if(top > selection.top && bottom > selection.bottom) {  //平移至上边界
+//			offSetY = selection.top - top;
+//		} else if(top < selection.top && bottom < selection.bottom) {
+//			offSetY = selection.bottom - bottom;
+//		}
 
 		translateBitmap(offSetX, offSetY);
 	}
@@ -507,6 +504,7 @@ public class ImageViewer extends ImageView {
 
 		if(left > selection.left || right < selection.right) {
 			result[0] = 0;
+			logger.v("isSelectionOut dx="+dY+",dy="+dY);
 		}
 		if(top > selection.top || bottom < selection.bottom) {
 			result[1] = 0;
