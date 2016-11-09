@@ -280,6 +280,7 @@ public class PictureFragment extends BaseHostFragment {
                         upLoading.setVisibility(View.VISIBLE);
 
                     }
+                    mPicturePersonAdapter.clear();
                     mPicturePersonAdapter.setData(data.getResultList());
                 } else {
                     mPicturePersonAdapter.addData(data.getResultList());
@@ -324,6 +325,7 @@ public class PictureFragment extends BaseHostFragment {
                 RespSearchAlbums data = (RespSearchAlbums) pResponse;
 
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
+                    mPicturePersonAdapter.clear();
                     mPictureClubAdapter.setDatas(data.getResultList());
                 } else {
                     mPictureClubAdapter.addDatas(data.getResultList());

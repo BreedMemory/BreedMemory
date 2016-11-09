@@ -197,7 +197,7 @@
                 android:id="@+id/im_photo_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="centerCrop"/>
             <ImageView
                 android:id="@+id/im_arc_3"
                 android:layout_width="match_parent"
