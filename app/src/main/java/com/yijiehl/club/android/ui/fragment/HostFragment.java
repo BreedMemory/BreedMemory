@@ -28,7 +28,13 @@ import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
+import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
@@ -453,8 +459,43 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
-        // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
-        Toaster.showShortToast(getActivity(), R.string.collect_success);
+        // DONE: 谌珂 2016/9/12 根据view id判断收藏什么元素
+        //Toaster.showShortToast(getActivity(), R.string.collect_success);
+        switch (v.getId()) {
+            case R.id.im_collect_activity:
+                UserInfo.MainDataEntity entity;
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMACTIVITY);
+                CollectArticle temp = new CollectArticle(entity.getName(),null,null,entity.getValue(),null);
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), temp), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), getActivity().getString(R.string.collect_success));
+                    }
+                });
+                break;
+            case R.id.im_collect_grow_up:
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMGROWUP);
+                CollectArticle req = new CollectArticle(entity.getName(),null,null,entity.getValue(),null);
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), req), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), getActivity().getString(R.string.collect_success));
+                    }
+                });
+                break;
+            case R.id.im_collect_photo:
+                entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
+                if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
+                    return;
+                }
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new CollectPicture(entity.getValue())), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), R.string.collect_success);
+                    }
+                });
+                break;
+        }
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})

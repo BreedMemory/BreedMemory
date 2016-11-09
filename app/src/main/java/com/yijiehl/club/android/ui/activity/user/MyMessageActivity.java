@@ -48,5 +48,6 @@ public class MyMessageActivity extends BmActivity{
                 mAdapter.setDatas(messages.getResultList());
             }
         });
+        mListView.setAdapter(mAdapter);
     }
 }

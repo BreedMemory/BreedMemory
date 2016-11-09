@@ -46,6 +46,7 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.add));
+        mRightBtn.setModle(IconTextView.MODULE_TEXT);
 
         mRightBtn.setOnClickListener(this);
     }

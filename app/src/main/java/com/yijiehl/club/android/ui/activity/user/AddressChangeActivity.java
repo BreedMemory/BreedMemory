@@ -60,6 +60,7 @@ public class AddressChangeActivity extends BmActivity implements OnClickListener
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.save));
+        mRightBtn.setModle(IconTextView.MODULE_TEXT);
 
         mRightBtn.setOnClickListener(this);
     }
@@ -76,12 +77,12 @@ public class AddressChangeActivity extends BmActivity implements OnClickListener
             Toaster.showShortToast(AddressChangeActivity.this, getString(R.string.please_input_content));
             return;
         }
-        UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
+        final UpdateUserInfo info = new UpdateUserInfo(mUserInfo);
         info.setAreaInfo(editText.getText().toString());
         NetHelper.getDataFromNet(this, new ReqBaseDataProc(AddressChangeActivity.this, info), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                mUserInfo.setAreaInfo(editText.getText().toString());
+                mUserInfo.setAreaInfo(info.getAreaInfo());
                 ActivitySvc.saveUserInfoNative(AddressChangeActivity.this, mUserInfo);
                 finish();
             }

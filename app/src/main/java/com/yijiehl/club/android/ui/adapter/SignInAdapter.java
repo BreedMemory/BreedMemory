@@ -12,7 +12,9 @@ import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.SignIn;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -28,15 +30,6 @@ public class SignInAdapter extends BaseListViewAdapter<SignIn> {
 
     public SignInAdapter(Context mContext) {
         super(mContext);
-        mDatas = new ArrayList<>();
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
-        mDatas.add(new SignIn());
     }
 
     @Override
@@ -50,9 +43,9 @@ public class SignInAdapter extends BaseListViewAdapter<SignIn> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tvWeek.setText("周一");
-        holder.tvDate.setText("2016-10-19");
-        holder.tvTime.setText("10:00");
+        holder.tvWeek.setText(new SimpleDateFormat("EEEE").format(new Date(signIn.getCreateTime())));
+        holder.tvDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(signIn.getCreateTime())));
+        holder.tvTime.setText(new SimpleDateFormat("HH:mm").format(new Date(signIn.getCreateTime())));
         holder.tvSign.setText("签到成功");
         return convertView;
     }

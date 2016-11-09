@@ -6,7 +6,12 @@ import android.widget.TextView;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchSignIn;
+import com.yijiehl.club.android.network.response.RespSearchSignIn;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.SignInAdapter;
 
@@ -45,6 +50,15 @@ public class SignInActivity extends BmActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAdapter = new SignInAdapter(this);
+        NetHelper.getDataFromNet(this, new ReqSearchSignIn(this), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchSignIn respSearchSignIn = (RespSearchSignIn) pResponse;
+                mAdapter.setDatas(respSearchSignIn.getResultList());
+            }
+        }, false);
+
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
@@ -52,7 +66,6 @@ public class SignInActivity extends BmActivity {
                 mListView.loadComplete();
             }
         });
-        mAdapter = new SignInAdapter(this);
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(mEmptyView);
     }

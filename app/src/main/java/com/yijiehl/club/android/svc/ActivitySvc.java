@@ -411,6 +411,7 @@ public class ActivitySvc {
         intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
         intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
         intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        context.startActivity(intent);
     }
 
     public static void installApk(Context ctx,String filePath){
