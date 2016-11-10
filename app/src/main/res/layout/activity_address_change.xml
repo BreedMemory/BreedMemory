@@ -17,14 +17,14 @@
         android:layout_marginTop="10dip"
         android:background="@color/white">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_addchange_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dip"
             android:text="详细地址"
-            android:textSize="23dip" />
+            android:textSize="23dip" />-->
 
         <EditText
             android:id="@+id/et_address_change"
@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dip"
-            android:layout_toRightOf="@+id/tv_addchange_show"
             android:background="@null"
             android:cursorVisible="true"
             android:hint="@string/address_change_hint" />

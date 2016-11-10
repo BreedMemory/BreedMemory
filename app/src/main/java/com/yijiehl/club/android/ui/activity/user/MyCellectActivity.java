@@ -44,6 +44,10 @@ import java.util.List;
 @ContentView(R.layout.activity_my_collect)
 public class MyCellectActivity extends BmActivity implements TextWatcher {
 
+    public static final String PHOTO = "photo";
+    public static final String QUESTION = "question";
+    public static final String ARTICLE = "article";
+
     /**
      * 收藏列表
      */
@@ -90,6 +94,7 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
 
         mListView.setAdapter(collectionAdapter);
         mListView.setOnItemClickListener(collectionAdapter);
+        mListView.setOnItemLongClickListener(collectionAdapter);
 
         mListView.setEmptyView(noData);
 
@@ -156,14 +161,14 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchCollect data = (RespSearchCollect) pResponse;
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    isNoMore=true;
-                   // collectionAdapter.clear();
+                    isNoMore = true;
+                    // collectionAdapter.clear();
                     collectionAdapter.setDatas(data.getResultList());
                 } else {
                     collectionAdapter.addDatas(data.getResultList());
                 }
-                if(data.getResultList().size()<10){
-                    isNoMore=true;
+                if (data.getResultList().size() < 10) {
+                    isNoMore = true;
                 }
                 mListView.loadComplete();
                 mListView.lockLoad(isNoMore);

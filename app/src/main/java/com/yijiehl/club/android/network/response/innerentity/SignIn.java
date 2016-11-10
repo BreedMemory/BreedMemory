@@ -18,5 +18,19 @@ public class SignIn extends RespBaseSearchResult{
     /**积分值，可为空*/
     private long pointNum;
 
+    public long getCreateTime() {
+        return createTime;
+    }
 
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getPointNum() {
+        return pointNum;
+    }
+
+    public void setPointNum(long pointNum) {
+        this.pointNum = pointNum;
+    }
 }
