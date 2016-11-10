@@ -28,7 +28,7 @@ public class ReqSearchRelateAccount extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "acct_contact_my";
     }
 

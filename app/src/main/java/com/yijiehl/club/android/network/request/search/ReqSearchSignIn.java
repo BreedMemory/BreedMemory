@@ -23,7 +23,7 @@ public class ReqSearchSignIn extends ReqBaseSearch{
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "ext_signin_item_my";
     }
 

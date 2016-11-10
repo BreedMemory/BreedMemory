@@ -27,7 +27,7 @@ public class ReqSearchMyMessage extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "notice_item_my";
     }
 

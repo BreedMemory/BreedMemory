@@ -30,7 +30,7 @@ public class ReqSearchBabyDataList extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "crm_hldata_stat_child";
     }
 

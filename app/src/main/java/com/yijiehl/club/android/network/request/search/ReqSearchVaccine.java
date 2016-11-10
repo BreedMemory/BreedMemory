@@ -22,7 +22,7 @@ public class ReqSearchVaccine extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "notice_vaccine";
     }
 

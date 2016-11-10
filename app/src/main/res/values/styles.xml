@@ -36,6 +36,10 @@
         <item name="android:textSize">18dip</item>
     </style>
 
+    <style name="tv_mine_info_item_left_text" parent="tv_personal_info_item_left_text">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
     <style name="tv_personal_info_item_right_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

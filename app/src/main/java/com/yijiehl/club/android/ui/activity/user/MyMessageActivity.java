@@ -2,6 +2,7 @@ package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -29,6 +30,8 @@ public class MyMessageActivity extends BmActivity{
 
     @ViewInject(R.id.lv_listview)
     private ListView mListView;
+    @ViewInject(R.id.tv_no_data)
+    private TextView noData;
 
     private MyMessageAdapter mAdapter;
 
@@ -49,5 +52,6 @@ public class MyMessageActivity extends BmActivity{
             }
         });
         mListView.setAdapter(mAdapter);
+        mListView.setEmptyView(noData);
     }
 }

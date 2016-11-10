@@ -33,7 +33,7 @@ public class ReqSearchMotherData extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "crm_hldata_item_my";
     }
 

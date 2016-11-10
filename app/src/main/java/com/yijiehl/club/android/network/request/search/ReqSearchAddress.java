@@ -28,7 +28,7 @@ public class ReqSearchAddress extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "acct_my";
     }
 

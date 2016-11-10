@@ -32,7 +32,7 @@ public class ReqSearchQuestion extends ReqBaseSearch {
 
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "kb_question_main";
     }
 

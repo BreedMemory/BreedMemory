@@ -37,7 +37,7 @@ public class ReqSearchExtraFile extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "ext_file_item";
     }
 

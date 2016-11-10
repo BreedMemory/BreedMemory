@@ -26,7 +26,7 @@ public class ReqSearchCollect extends ReqBaseSearch{
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "ext_favorite_item_my";
     }
 

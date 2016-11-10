@@ -234,7 +234,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mBabyWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mBabyWeightValue.setText(String.format(getString(R.string.length_string), mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
+                mBabyWeightValue.setText(String.format(getString(R.string.weight_string), mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
                 mBabyWeightDate.setText(mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
             }
         });
@@ -345,7 +345,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListHeightReceived(int index) {
         super.onBabyDataListHeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyHeightChat, mBabyDataListHeight.get(index));
         }
     }
@@ -353,21 +353,21 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListWeightReceived(int index) {
         super.onBabyDataListWeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyWeightChat, mBabyDataListWeight.get(index));
         }
     }
 
     @Override
     protected void onBabyDataListHeadReceived(int index) {
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyHeadChat, mBabyDataListHead.get(index));
         }
     }
 
     @Override
     protected void onBabyDataListChestReceived(int index) {
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyChestChat, mBabyDataListChest.get(index));
         }
     }

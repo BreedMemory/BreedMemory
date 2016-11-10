@@ -67,7 +67,8 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
         if (TextUtils.isEmpty(temp.getImageInfo())) {
             Glide.with(mContext).load(R.drawable.bg_collect_default).into(holder.mIamge);
         } else {
-            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.mIamge);
+            //Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.mIamge);
+            Glide.with(mContext).load(temp.getImageInfo()).into(holder.mIamge);
         }
         return convertView;
     }

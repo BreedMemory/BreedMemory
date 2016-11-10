@@ -337,7 +337,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListHeightReceived(int index) {
         super.onBabyDataListHeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyHeightChat, mBabyDataListHeight.get(index));
         }
     }
@@ -345,7 +345,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListWeightReceived(int index) {
         super.onBabyDataListWeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyWeightChat, mBabyDataListWeight.get(index));
         }
     }
