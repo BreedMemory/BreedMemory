@@ -7,6 +7,7 @@
  */
 package com.yijiehl.club.android.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -23,9 +24,11 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
+import com.yijiehl.club.android.svc.ShareSvc;
 
 import java.util.ArrayList;
 
@@ -135,7 +138,8 @@ public class MenuAdapter extends BaseListViewAdapter<String> {
             }
         }
         if(TextUtils.equals(mDatas.get(position), SHARE)) {
-            // TODO: 谌珂 2016/10/30 分享
+            // DONE: 谌珂 2016/10/30 分享
+            ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+url,name,dataSummary);
         }
     }
 

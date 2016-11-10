@@ -99,7 +99,7 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article> implement
             @Override
             public void onClick(View v) {
                 // DONE: 2016/10/6 此处事件需要完善
-                ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+temp.getDataShowUrl(),temp.getDataClfy(),temp.getDataSummary());
+                ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+temp.getDataShowUrl(),temp.getDataName(),temp.getDataSummary());
             }
         });
         return convertView;

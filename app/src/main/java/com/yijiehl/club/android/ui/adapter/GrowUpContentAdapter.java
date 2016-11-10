@@ -215,7 +215,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                     // DONE: 2016/10/2
                     position = (int) v.getTag(R.id.share);
                     Article article=mDatas.get(position);
-                    ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+article.getDataShowUrl(),article.getDataClfy(),article.getDataSummary());
+                    ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+article.getDataShowUrl(),article.getDataName(),article.getDataSummary());
                     break;
             }
         }

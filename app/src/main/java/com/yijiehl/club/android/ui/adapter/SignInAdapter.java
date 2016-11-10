@@ -44,7 +44,7 @@ public class SignInAdapter extends BaseListViewAdapter<SignIn> {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tvWeek.setText(new SimpleDateFormat("EEEE").format(new Date(signIn.getCreateTime())));
-        holder.tvDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(signIn.getCreateTime())));
+        holder.tvDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(signIn.getCreateTime())));
         holder.tvTime.setText(new SimpleDateFormat("HH:mm").format(new Date(signIn.getCreateTime())));
         holder.tvSign.setText("签到成功");
         return convertView;

@@ -18,6 +18,7 @@ import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
 import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
+import com.yijiehl.club.android.svc.ShareSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.ImageViewerAdapter;
 import com.yijiehl.club.android.ui.dialog.BaseDialog;
@@ -116,7 +117,8 @@ public class ImageViewerActivity extends BmActivity {
      */
     @OnClick(R.id.iv_image_share)
     private void share() {
-        // TODO: 谌珂 2016/10/31 分享
+        // DONE: 谌珂 2016/10/31 分享
+        ShareSvc.sharePhoto(this,urls.get(mViewPager.getCurrentItem()),descs.get(mViewPager.getCurrentItem()));
     }
 
     /**

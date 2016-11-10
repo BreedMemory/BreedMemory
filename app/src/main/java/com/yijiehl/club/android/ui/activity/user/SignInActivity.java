@@ -1,6 +1,7 @@
 package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.ptr.PtrListView;
@@ -32,7 +33,7 @@ public class SignInActivity extends BmActivity {
      * 签到列表
      */
     @ViewInject(R.id.lv_listview)
-    protected PtrListView mListView;
+    protected ListView mListView;
     /**
      * 无数据提示
      */
@@ -59,13 +60,13 @@ public class SignInActivity extends BmActivity {
             }
         }, false);
 
-        mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
+        /*mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
             @Override
             public void onLoadMore() {
                 mListView.loadComplete();
             }
-        });
+        });*/
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(mEmptyView);
     }
