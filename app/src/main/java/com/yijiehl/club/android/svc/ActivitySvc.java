@@ -252,6 +252,28 @@ public class ActivitySvc {
     }
 
     /**
+     * 描 述：启动图片预览<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     * @param path 图片路径集合
+     * @param isNative 是否是本地图片
+     */
+    public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, ArrayList<String> descs, boolean isNative, int index,boolean iscollected) {
+        if (path == null || path.size() == 0) {
+            return;
+        }
+        Intent intent = new Intent(context, ImageViewerActivity.class);
+        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
+        intent.putStringArrayListExtra(ImageViewerActivity.DESCS, descs);
+        intent.putExtra(ImageViewerActivity.INDEX, index);
+        intent.putExtra(ImageViewerActivity.ISCOLLECTED, iscollected);
+        context.startActivity(intent);
+    }
+
+    /**
      * 描 述：启动加油站<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>

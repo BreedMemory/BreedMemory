@@ -172,8 +172,9 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         if(mDatas.get(position).isCollected()) {
             holder.ivheart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         } else {
-            holder.ivheart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+            holder.ivheart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         }
+        holder.ivshare.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         holder.tvtitle.setText(mDatas.get(position).getDataName());
         holder.tvcontext.setText(mDatas.get(position).getDataSummary());
         holder.ivshare.setTag(R.id.share, position);
@@ -215,7 +216,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                     // DONE: 2016/10/2
                     position = (int) v.getTag(R.id.share);
                     Article article=mDatas.get(position);
-                    ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+article.getDataShowUrl(),article.getDataName(),article.getDataSummary());
+                    ShareSvc.shareUrl((Activity) mContext,ActivitySvc.createWebUrl(article.getDataShowUrl()),article.getDataName(),article.getDataSummary());
                     break;
             }
         }

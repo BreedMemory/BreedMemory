@@ -43,6 +43,7 @@ public class ImageViewerActivity extends BmActivity {
     public static final String CODES = "CODES";
     public static final String DESCS = "DESCS";
     public static final String INDEX = "INDEX";
+    public static final String ISCOLLECTED = "iscollected";
 
     private boolean isHide;
 
@@ -59,6 +60,7 @@ public class ImageViewerActivity extends BmActivity {
     private ArrayList<String> codes;
     private ArrayList<String> descs;
     private boolean isNative = true;
+    private boolean isCollected = false;
     private int index;
 
     @Override
@@ -75,14 +77,15 @@ public class ImageViewerActivity extends BmActivity {
         codes = getIntent().getStringArrayListExtra(CODES);
         descs = getIntent().getStringArrayListExtra(DESCS);
         isNative = getIntent().getBooleanExtra(NATIVE, false);
+        isCollected = getIntent().getBooleanExtra(ISCOLLECTED, false);
         index = getIntent().getIntExtra(INDEX, 0);
-        if(0 > index || urls.size() <= index) {
+        if (0 > index || urls.size() <= index) {
             index = 0;
         }
         mAdapter = new ImageViewerAdapter(this, urls, isNative, new ImageViewerAdapter.PageSelectedListener() {
             @Override
             public void onPageSelector(int position) {
-                if(descs == null || TextUtils.isEmpty(descs.get(position))) {
+                if (descs == null || TextUtils.isEmpty(descs.get(position))) {
                     mTag.setVisibility(View.GONE);
                 } else {
                     mTag.setVisibility(View.VISIBLE);
@@ -94,16 +97,27 @@ public class ImageViewerActivity extends BmActivity {
         mViewPager.addOnPageChangeListener(mAdapter);
         mViewPager.setCurrentItem(index);
 
+        if (isCollected || isNative) {
+            mBottomContainer.setVisibility(View.GONE);
+        }
         mAdapter.setListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isHide) {
+                if (isHide) {
                     mHeader.setVisibility(View.VISIBLE);
-                    mBottomContainer.setVisibility(View.VISIBLE);
+                    if(isNative||isCollected){
+
+                    }else{
+                        mBottomContainer.setVisibility(View.VISIBLE);
+                    }
                     isHide = false;
                 } else {
                     mHeader.setVisibility(View.GONE);
-                    mBottomContainer.setVisibility(View.GONE);
+                    if(isNative||isCollected){
+
+                    }else{
+                        mBottomContainer.setVisibility(View.GONE);
+                    }
                     isHide = true;
                 }
             }
@@ -118,7 +132,7 @@ public class ImageViewerActivity extends BmActivity {
     @OnClick(R.id.iv_image_share)
     private void share() {
         // DONE: 谌珂 2016/10/31 分享
-        ShareSvc.sharePhoto(this,urls.get(mViewPager.getCurrentItem()),descs.get(mViewPager.getCurrentItem()));
+        ShareSvc.sharePhoto(this, urls.get(mViewPager.getCurrentItem()), descs.get(mViewPager.getCurrentItem()));
     }
 
     /**
