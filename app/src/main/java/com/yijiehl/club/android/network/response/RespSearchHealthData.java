@@ -59,6 +59,8 @@ public class RespSearchHealthData extends BaseResponse {
                 return "母乳";
             case "powdered_milk":
                 return "奶粉";
+            case "mix_milk":
+                return "混合";
             case "have":
                 return "有";
             case "not":

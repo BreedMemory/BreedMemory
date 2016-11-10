@@ -8,8 +8,6 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -35,10 +33,10 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.ReqSensitize;
-import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
@@ -67,15 +65,6 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
  */
 @ContentView(R.layout.fragment_host)
 public class HostFragment extends BaseHostFragment {
-
-    public static final int REFRESH_DELAY = 60*1000;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            return false;
-        }
-    });
     /**
      * 提示语的完整区域
      */
@@ -240,7 +229,6 @@ public class HostFragment extends BaseHostFragment {
 
         Glide.with(this).load(R.drawable.shouye_chengzhang_bg).dontAnimate().into(mGrowUpImageBackground);
         Glide.with(this).load(R.drawable.shouye_wenda_bg2).dontAnimate().into(mQuestionImageBackground);
-        refreshDelay();
     }
 
     /**
@@ -252,7 +240,6 @@ public class HostFragment extends BaseHostFragment {
         @Override
         public void run() {
             if(getActivity() == null) {
-                refreshDelay();
                 return;
             }
             NetHelper.getDataFromNet(getActivity(), new ReqSensitize(getActivity()), new AbstractCallBack(getActivity()) {
@@ -260,13 +247,6 @@ public class HostFragment extends BaseHostFragment {
                 public void onSuccess(AbstractResponse pResponse) {
                     RespSensitize data = (RespSensitize) pResponse;
                     fillActivity(ActivitySvc.saveClientInfoNative(getActivity(), data, null));
-                    refreshDelay();
-                }
-
-                @Override
-                public void onFailed(String msg) {
-                    super.onFailed(msg);
-                    refreshDelay();
                 }
             }, false);
         }
@@ -275,21 +255,9 @@ public class HostFragment extends BaseHostFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser) {  //页面隐藏则清除刷新任务
-            mHandler.removeCallbacks(mRefreshTask);
-        } else {
-            refreshDelay();
+        if(isVisibleToUser && mUserInfo != null) {  //页面隐藏则清除刷新任务
+            mRefreshTask.run();
         }
-    }
-
-    /**
-     * 描 述：延时刷新数据<br/>
-     * 作 者：谌珂<br/>
-     * 历 史: (1.7.3) 谌珂 2016/11/10 <br/>
-     */
-    private void refreshDelay() {
-        mHandler.removeCallbacks(mRefreshTask);
-        mHandler.postDelayed(mRefreshTask, REFRESH_DELAY);
     }
 
     /**
@@ -298,9 +266,12 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
      */
     private void fillActivity(UserInfo info) {
+        long t = System.currentTimeMillis();
         mUserInfo = info;
         //提示语
         makeUpTip(info.getWelcomeInfo());
+        logger.v("fill makeUpTip time is " + (System.currentTimeMillis() - t));
+        t = System.currentTimeMillis();
 
         //会所logo
         if (TextUtils.isEmpty(info.getIconInfo2())) {
@@ -324,8 +295,10 @@ public class HostFragment extends BaseHostFragment {
         }
 
         mMainDataEntitys = JSON.parseArray(info.getMainDataList(), UserInfo.MainDataEntity.class);
-
+        logger.v("fill common time is " + (System.currentTimeMillis() - t));
+        t = System.currentTimeMillis();
         fillExtraInfo();
+        logger.v("fill extra time is " + (System.currentTimeMillis() - t));
     }
 
     /**
@@ -336,6 +309,7 @@ public class HostFragment extends BaseHostFragment {
     private void fillExtraInfo() {
         mEntitys.clear();
         for (UserInfo.MainDataEntity entity: mMainDataEntitys) {
+            long t = System.currentTimeMillis();
             switch (UserInfo.MainDataType.setValue(entity.getType())) {
                 case HEALTHINFO:
                     //会所健康建议
@@ -359,7 +333,6 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ACCTAMOUNT:
                     mUserInfo.setCustAmount(formatMoneyNum(entity.getValue()));
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), mUserInfo.getCustAmount())));
                     break;
                 case IMAGECOVER:
@@ -372,9 +345,8 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ALBUMCOVER:
                     //照片背景
-                    entity.setValue(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()));
                     mEntitys.put(UserInfo.MainDataType.ALBUMCOVER, entity);
-                    Glide.with(this).load(entity.getValue()).error(R.drawable.shouye_zhaopian_bg).dontAnimate().into(mPhotoImageBackground);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_zhaopian_bg).dontAnimate().into(mPhotoImageBackground);
                     break;
                 case ALBUMITEM1:
                     //照片1
@@ -393,7 +365,6 @@ public class HostFragment extends BaseHostFragment {
                 case CUSTSERVICEPHONE:
                     //保存会所电话
                     mUserInfo.setCustServicePhone(entity.getValue());
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
                 case CHILDINFO:
                     //保存宝宝信息
@@ -419,10 +390,11 @@ public class HostFragment extends BaseHostFragment {
                         }
                         mUserInfo.getChildrenInfo().add(new UserInfo.MainDataEntity(desc, name, values[i]));
                     }
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
             }
+            logger.v("fill extra " + entity.getType() + " time is " + (System.currentTimeMillis() - t));
         }
+        ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
     }
     /**
      * 描 述：数字货币格式化<br/>
@@ -441,7 +413,7 @@ public class HostFragment extends BaseHostFragment {
      *
      * @param tip 接口返回的提示语
      */
-    private void makeUpTip(String tip) {
+    private void makeUpTip(final String tip) {
         if (TextUtils.isEmpty(tip)) {        //没有提示语则不显示
             mTip.setVisibility(View.GONE);
             return;
@@ -550,10 +522,7 @@ public class HostFragment extends BaseHostFragment {
                 break;
             case R.id.im_collect_photo:
                 entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
-                if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
-                    return;
-                }
-                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new CollectPicture(entity.getValue())), new AbstractCallBack(getActivity()) {
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new CollectPicture(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()))), new AbstractCallBack(getActivity()) {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
                         Toaster.showShortToast(getActivity(), R.string.collect_success);
@@ -587,10 +556,7 @@ public class HostFragment extends BaseHostFragment {
                 break;
             case R.id.im_share_photo:
                 entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
-                if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
-                    return;
-                }
-                ShareSvc.sharePhoto(getActivity(), entity.getValue(),
+                ShareSvc.sharePhoto(getActivity(), ActivitySvc.createResourceUrl(getActivity(), entity.getValue()),
                         entity.getName());
                 break;
         }
@@ -659,7 +625,7 @@ public class HostFragment extends BaseHostFragment {
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){
         UserInfo.MainDataEntity entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
-        if(TextUtils.equals(entity.getValue(), ActivitySvc.createResourceUrl(getActivity(), ""))) {
+        if(TextUtils.equals(entity.getValue(), "")) {
             return;
         }
         ArrayList<String> list = new ArrayList<>();

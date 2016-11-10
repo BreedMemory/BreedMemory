@@ -11,4 +11,7 @@
     <dimen name="blank_space_6">96dp</dimen>
     <dimen name="tx_size_7">20sp</dimen>
     <dimen name="blank_space_7">250dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

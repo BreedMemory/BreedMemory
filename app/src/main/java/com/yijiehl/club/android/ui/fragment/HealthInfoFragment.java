@@ -22,6 +22,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
 import com.yijiehl.club.android.network.request.search.ReqSearchBabyData;
+import com.yijiehl.club.android.network.request.search.ReqSearchBabyDataList;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherData;
 import com.yijiehl.club.android.network.request.search.ReqSearchMotherDataList;
 import com.yijiehl.club.android.network.response.RespSearchHealthData;
@@ -287,7 +288,7 @@ public abstract class HealthInfoFragment extends BmFragment {
      * @param index 宝宝索引
      */
     private void getBabyDataListHeightImpl(final int index) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_HEIGHT), new AbstractCallBack(getActivity()) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchBabyDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_HEIGHT), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListHeight.add(index, (RespSearchHealthDataList)pResponse);
@@ -310,7 +311,7 @@ public abstract class HealthInfoFragment extends BmFragment {
      * @param index 宝宝索引
      */
     private void getBabyDataListWeightImpl(final int index) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_WEIGHT), new AbstractCallBack(getActivity()) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchBabyDataList(getActivity(), ReqBaseSearch.StatisticalTarget.BODY_WEIGHT), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListWeight.add(index, (RespSearchHealthDataList)pResponse);
@@ -333,7 +334,7 @@ public abstract class HealthInfoFragment extends BmFragment {
      * @param index 宝宝索引
      */
     private void getBabyDataListHeadImpl(final int index) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.HEAD_PERIMETER), new AbstractCallBack(getActivity()) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchBabyDataList(getActivity(), ReqBaseSearch.StatisticalTarget.HEAD_PERIMETER), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListHead.add(index, (RespSearchHealthDataList)pResponse);
@@ -356,7 +357,7 @@ public abstract class HealthInfoFragment extends BmFragment {
      * @param index 宝宝索引
      */
     private void getBabyDataListChestImpl(final int index) {
-        NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherDataList(getActivity(), ReqBaseSearch.StatisticalTarget.CHEST_PERIMETER), new AbstractCallBack(getActivity()) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchBabyDataList(getActivity(), ReqBaseSearch.StatisticalTarget.CHEST_PERIMETER), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mBabyDataListChest.add(index, (RespSearchHealthDataList)pResponse);

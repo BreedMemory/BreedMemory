@@ -98,7 +98,11 @@ public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPage
         if(isNative) {
             ImageLoader.getInstance().displayImage("file:///" + paths.get(position), view);
         } else {
-            ImageLoader.getInstance().displayImage(paths.get(position), view);
+            if(paths.get(position).startsWith("http")) {
+                ImageLoader.getInstance().displayImage(paths.get(position), view);
+            } else {
+                ImageLoader.getInstance().displayImage(ActivitySvc.createResourceUrl(mContext, paths.get(position)), view);
+            }
         }
         view.reset();
         container.addView(view);
