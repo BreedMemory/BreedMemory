@@ -94,6 +94,7 @@ public class AlbumPhotoActivity extends BmActivity {
                 ArrayList<String> descs = new ArrayList<>();
                 for (int i = 0; i < mAdapter.getDatas().size(); i++) {
                     list.add("http://" + Common.SERVICE_URL + mAdapter.getDatas().get(i).getImageInfo());
+                    list.add(ActivitySvc.createWebUrl(mAdapter.getDatas().get(i).getImageInfo()));
                     codes.add(mAdapter.getDatas().get(i).getDataCode());
                     descs.add(mAdapter.getDatas().get(i).getDataDesc());
                 }

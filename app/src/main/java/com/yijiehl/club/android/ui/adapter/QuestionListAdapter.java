@@ -61,7 +61,7 @@ public class QuestionListAdapter extends BaseListViewAdapter<Answer> implements 
         if (mDatas.get(position).isCollected()) {
             holder.questionHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         } else {
-            holder.questionHeart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+            holder.questionHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
             holder.questionHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,11 +78,12 @@ public class QuestionListAdapter extends BaseListViewAdapter<Answer> implements 
                 }
             });
         }
+        holder.questionShare.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         holder.questionShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // DONE: 2016/10/4 此处事件需要完善
-                ShareSvc.shareUrl((Activity) mContext, "http://" + Common.SERVICE_URL + mDatas.get(position).getDataShowUrl(), mDatas.get(position).getDataContent(), mDatas.get(position).getReplyInfo());
+                ShareSvc.shareUrl((Activity) mContext, ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()), mDatas.get(position).getDataContent(), mDatas.get(position).getReplyInfo());
             }
         });
         return convertView;

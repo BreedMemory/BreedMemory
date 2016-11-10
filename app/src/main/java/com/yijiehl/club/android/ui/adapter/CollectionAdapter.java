@@ -86,7 +86,7 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
             ArrayList<String> codes = new ArrayList<>();
             list.add(mDatas.get(position).getImageInfo());
             codes.add(mDatas.get(position).getDataCode());
-            ActivitySvc.startImageViewer(mContext, list, codes, null, false, 0);
+            ActivitySvc.startImageViewer(mContext, list, codes, null, false, 0,true);
         }
     }
 
