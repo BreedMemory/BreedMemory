@@ -156,6 +156,9 @@
     <string name="submit">提交</string>
     <string name="question">问题</string>
     <string name="vaccine">疫苗</string>
+    <string name="length_string">%scm</string>
+    <string name="weight_string">%skg</string>
+    <string name="temperature_string">%s℃</string>
 
 
 
@@ -179,4 +182,5 @@
     <string name="share_failed">分享失败</string>
     <string name="share_cancel">取消分享</string>
     <string name="share_no_photo">分享图片不存在</string>
+    <string name="share_url_invalidate">分享链接无效</string>
 </resources>

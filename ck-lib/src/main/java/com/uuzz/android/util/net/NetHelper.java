@@ -3,6 +3,7 @@ package com.uuzz.android.util.net;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.uuzz.android.R;
@@ -35,7 +36,7 @@ public class NetHelper {
      * @param isShowLoading 是否弹出Loading
      * @return 线程任务，可用来取消任务进度。如果创建网络任务失败直接返回null
      */
-    public static AsyncTask getDataFromNet(Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack, boolean isShowLoading) {
+    public static AsyncTask getDataFromNet(@NonNull Context context, IRequest pRequest, AbstractTask.HttpCallBack pCallBack, boolean isShowLoading) {
         if(isShowLoading) {
             LoadingCOM.getInstance(context).showLoading(true);
         }

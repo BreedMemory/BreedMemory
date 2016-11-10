@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -47,6 +48,7 @@
         <com.uuzz.android.ui.view.LineChatView
             android:id="@+id/lcv_mother_weight"
             android:background="#aadea0"
+            app:unselected_point_color="#d8d8d8"
             style="@style/chat" />
 
     </RelativeLayout>
@@ -92,6 +94,7 @@
         <com.uuzz.android.ui.view.LineChatView
             android:id="@+id/lcv_mother_chest"
             android:background="#8de4c3"
+            app:unselected_point_color="#d8d8d8"
             style="@style/chat" />
 
     </RelativeLayout>
@@ -136,6 +139,7 @@
         <com.uuzz.android.ui.view.LineChatView
             android:id="@+id/lcv_mother_waist"
             android:background="#90dee6"
+            app:unselected_point_color="#d8d8d8"
             style="@style/chat" />
 
     </RelativeLayout>
@@ -180,6 +184,7 @@
         <com.uuzz.android.ui.view.LineChatView
             android:id="@+id/lcv_mother_hips"
             android:background="#9dbbe8"
+            app:unselected_point_color="#d8d8d8"
             style="@style/chat" />
 
     </RelativeLayout>

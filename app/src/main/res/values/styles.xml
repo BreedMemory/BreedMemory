@@ -327,7 +327,7 @@
         <item name="android:gravity">end</item>
         <item name="android:textSize">20dip</item>
         <item name="android:textColor">#f07aac</item>
-        <item name="android:layout_marginTop">13dip</item>
+        <item name="android:layout_marginTop">11dip</item>
         <item name="android:layout_marginRight">@dimen/text_space</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -345,7 +345,7 @@
         <item name="android:gravity">end</item>
         <item name="android:textSize">14dip</item>
         <item name="android:textColor">#d5d5d5</item>
-        <item name="android:layout_marginTop">18dip</item>
+        <item name="android:layout_marginTop">15dip</item>
         <item name="android:layout_marginLeft">@dimen/text_space</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

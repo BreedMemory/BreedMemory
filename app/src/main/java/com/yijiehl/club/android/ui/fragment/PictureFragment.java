@@ -325,7 +325,7 @@ public class PictureFragment extends BaseHostFragment {
                 RespSearchAlbums data = (RespSearchAlbums) pResponse;
 
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    mPicturePersonAdapter.clear();
+                    mPictureClubAdapter.clear();
                     mPictureClubAdapter.setDatas(data.getResultList());
                 } else {
                     mPictureClubAdapter.addDatas(data.getResultList());

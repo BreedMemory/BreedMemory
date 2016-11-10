@@ -99,7 +99,7 @@ public class ActivitySvc {
      * @param data 登录或激活后的数据
      * @param phoneNumber 用户电话号码，被用来标识userid  为空时不会覆盖原有的userid
      */
-    public static void saveClientInfoNative(Context context, RespLogin data, @Nullable String phoneNumber) {
+    public static UserInfo saveClientInfoNative(Context context, RespLogin data, @Nullable String phoneNumber) {
         // DONE: 谌珂 2016/9/7 保存基本参数
         SharedPreferences.Editor editor = ContextUtils.getEditor(context);
         editor.putString(context.getString(R.string.shared_preference_uccode), data.getUccode());
@@ -115,6 +115,7 @@ public class ActivitySvc {
         UserInfo userInfo = data.getCfgParams();
         userInfo.setStatus(data.getAccountStatus());
         saveUserInfoNative(context, userInfo);
+        return userInfo;
     }
 
     /**

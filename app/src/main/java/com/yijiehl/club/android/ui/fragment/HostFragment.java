@@ -8,6 +8,8 @@ package com.yijiehl.club.android.ui.fragment;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -28,7 +30,12 @@ import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.ReqSensitize;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
@@ -57,6 +64,15 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
  */
 @ContentView(R.layout.fragment_host)
 public class HostFragment extends BaseHostFragment {
+
+    public static final int REFRESH_DELAY = 60*1000;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
     /**
      * 提示语的完整区域
      */
@@ -166,6 +182,8 @@ public class HostFragment extends BaseHostFragment {
      * 用户信息
      */
     private UserInfo mUserInfo;
+    /** 刷新任务 */
+    private RefreshTask mRefreshTask = new RefreshTask();
 
     private HashMap<UserInfo.MainDataType, UserInfo.MainDataEntity> mEntitys = new HashMap<>();
 
@@ -217,8 +235,58 @@ public class HostFragment extends BaseHostFragment {
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(),
                 R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
 
-        Glide.with(this).load(R.drawable.shouye_chengzhang_bg).into(mGrowUpImageBackground);
-        Glide.with(this).load(R.drawable.shouye_wenda_bg2).into(mQuestionImageBackground);
+        Glide.with(this).load(R.drawable.shouye_chengzhang_bg).dontAnimate().into(mGrowUpImageBackground);
+        Glide.with(this).load(R.drawable.shouye_wenda_bg2).dontAnimate().into(mQuestionImageBackground);
+        refreshDelay();
+    }
+
+    /**
+     * 描 述：刷新首页数据任务，每分钟执行一次<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/10 <br/>
+     */
+    private class RefreshTask implements Runnable {
+        @Override
+        public void run() {
+            if(getActivity() == null) {
+                refreshDelay();
+                return;
+            }
+            NetHelper.getDataFromNet(getActivity(), new ReqSensitize(getActivity()), new AbstractCallBack(getActivity()) {
+                @Override
+                public void onSuccess(AbstractResponse pResponse) {
+                    RespSensitize data = (RespSensitize) pResponse;
+                    fillActivity(ActivitySvc.saveClientInfoNative(getActivity(), data, null));
+                    refreshDelay();
+                }
+
+                @Override
+                public void onFailed(String msg) {
+                    super.onFailed(msg);
+                    refreshDelay();
+                }
+            }, false);
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser) {  //页面隐藏则清除刷新任务
+            mHandler.removeCallbacks(mRefreshTask);
+        } else {
+            refreshDelay();
+        }
+    }
+
+    /**
+     * 描 述：延时刷新数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/10 <br/>
+     */
+    private void refreshDelay() {
+        mHandler.removeCallbacks(mRefreshTask);
+        mHandler.postDelayed(mRefreshTask, REFRESH_DELAY);
     }
 
     /**
@@ -235,21 +303,21 @@ public class HostFragment extends BaseHostFragment {
         if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2())).into(mClubLogo);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2())).dontAnimate().into(mClubLogo);
         }
 
         //会所长logo 活动模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoActivity);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoQuestion);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoQuestion);
         }
 
         mMainDataEntitys = JSON.parseArray(info.getMainDataList(), UserInfo.MainDataEntity.class);
@@ -293,31 +361,31 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case IMAGECOVER:
                     //用户照片
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.test_main_image).into(mMainPicture);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().error(R.drawable.test_main_image).into(mMainPicture);
                     break;
                 case ACTIVITYCOVER:
                     //活动照片
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().placeholder(R.drawable.shouye_huodong_bg).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
                     break;
                 case ALBUMCOVER:
                     //照片背景
                     entity.setValue(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()));
                     mEntitys.put(UserInfo.MainDataType.ALBUMCOVER, entity);
-                    Glide.with(this).load(entity.getValue()).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
+                    Glide.with(this).load(entity.getValue()).error(R.drawable.shouye_zhaopian_bg).dontAnimate().into(mPhotoImageBackground);
                     break;
                 case ALBUMITEM1:
                     //照片1
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage1);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage1);
                     }
                     break;
                 case ALBUMITEM2:
                     //照片2
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage2);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage2);
                     break;
                 case ALBUMITEM3:
                     //照片3
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage3);
                     break;
                 case CUSTSERVICEPHONE:
                     //保存会所电话

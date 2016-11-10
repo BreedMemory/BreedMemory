@@ -26,7 +26,7 @@ public abstract class BabyHealthData extends BaseDataEntity {
      * @param statValue36 开始时间
      * @param statValue37 持续天数
      */
-    public BabyHealthData(int childId, String statTime, String statValue03, String statValue01, String statValue35, String statValue36, String statValue37) {
+    public BabyHealthData(int childId, String statTime, String statValue03, String statValue01, String statValue35, String statValue36, String statValue37, int fileFlag) {
         this.statTime = statTime;
         this.statValue03 = statValue03;
         this.statValue01 = statValue01;
@@ -34,6 +34,7 @@ public abstract class BabyHealthData extends BaseDataEntity {
         this.statValue36 = statValue36;
         this.statValue37 = statValue37;
         this.childId = childId;
+        this.fileFlag = fileFlag;
     }
 
     protected int childId;
@@ -54,7 +55,7 @@ public abstract class BabyHealthData extends BaseDataEntity {
     protected String statValue36;
     protected String statValue37;
     protected String fileDesc;
-    protected String fileFlag;
+    protected int fileFlag;
     protected String dataCode;
 
     public int getChildId() {
@@ -209,11 +210,11 @@ public abstract class BabyHealthData extends BaseDataEntity {
         this.fileDesc = fileDesc;
     }
 
-    public String getFileFlag() {
+    public int getFileFlag() {
         return fileFlag;
     }
 
-    public void setFileFlag(String fileFlag) {
+    public void setFileFlag(int fileFlag) {
         this.fileFlag = fileFlag;
     }
 

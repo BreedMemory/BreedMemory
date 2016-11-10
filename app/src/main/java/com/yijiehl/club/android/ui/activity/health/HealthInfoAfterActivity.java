@@ -25,6 +25,7 @@ import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.Utils;
 import com.uuzz.android.util.database.dao.CacheDataDAO;
 import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
@@ -210,9 +211,9 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                         BabyHealthData babyRequest;
                         int childId = Integer.valueOf((String)mFormSelector.findViewById(mFormSelector.getCheckedRadioButtonId()).getTag(mFormSelector.getCheckedRadioButtonId()));
                         if(mBabyHealthData == null) {
-                            babyRequest = new AddBabyHealthData(childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
+                            babyRequest = new AddBabyHealthData(childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString(), mUploadImageAdapter.getCount() - 1);
                         } else {
-                            babyRequest = new EditBabyHealthData(mBabyHealthData.getRelateCode(), childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString());
+                            babyRequest = new EditBabyHealthData(mBabyHealthData.getRelateCode(), childId, mTime, mBabyHeight.getText().toString(), mBabyWeight.getText().toString(), mIllnessName.getText().toString(), mIllDate.getText().toString(), mIllnessDay.getText().toString(), mUploadImageAdapter.getCount() - 1);
                         }
                         NetHelper.getDataFromNet(HealthInfoAfterActivity.this,
                                 new ReqBaseDataProc(HealthInfoAfterActivity.this, babyRequest),
@@ -380,7 +381,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                 mIllDate.setText(mBabyHealthData.getStatValue36());
                 mIllnessDay.setText(mBabyHealthData.getStatValue37());
                 if(mBabyHealthData.getFileFlag() > 0) {
-                    obtainExtraPhoto(((RespSearchHealthData) pResponse).getReturnMsg().getResultCode());
+                    obtainExtraPhoto(((RespSearchHealthData) pResponse).getResultList().get(0).getRelateCode());
                 }
             }
         });
@@ -478,6 +479,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
 
     @OnClick(R.id.rl_choose_ill_time)
     private void chooseIllTime() {
+        Utils.hideKeyBoard(mFormSelector);
         mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
         mPickerContainer.setVisibility(View.VISIBLE);
         mChooseIllTimeCommit.setVisibility(View.VISIBLE);
@@ -608,7 +610,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                     return false;
                 }
                 return (Float.valueOf(mBabyWeight.getText().toString()).equals(Float.valueOf(mBabyHealthData.getStatValue01())) &&
-                        Float.valueOf(mBabyHeight.getText().toString()).equals(Float.valueOf(mBabyHealthData.getStatValue12())));
+                        Float.valueOf(mBabyHeight.getText().toString()).equals(Float.valueOf(mBabyHealthData.getStatValue03())));
             default:
                 return true;
         }
