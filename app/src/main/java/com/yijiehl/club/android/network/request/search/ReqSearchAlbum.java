@@ -28,7 +28,7 @@ public class ReqSearchAlbum extends ReqBaseSearch {
         this.start = start;
     }
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "photo_album_main";
     }
 

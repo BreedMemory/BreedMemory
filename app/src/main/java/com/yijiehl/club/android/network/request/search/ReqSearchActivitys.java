@@ -50,7 +50,7 @@ public class ReqSearchActivitys extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "crm_activity_main";
     }
 

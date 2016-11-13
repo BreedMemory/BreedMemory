@@ -155,8 +155,6 @@ public class PictureFragment extends BaseHostFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         UploadPictureSvc.getInstance().addObserver(this);
-        obtainPersonalPhoto(true);
-        obtainAlbumPhoto(true);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
         mPicturePersonAdapter = new PicturePersonAdapter(this);
@@ -245,6 +243,13 @@ public class PictureFragment extends BaseHostFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        obtainPersonalPhoto(true);
+        obtainAlbumPhoto(true);
+        super.onResume();
+    }
+
     /**
      * 描 述：获取个人相片<br/>
      * 作 者：谌珂<br/>
@@ -320,7 +325,7 @@ public class PictureFragment extends BaseHostFragment {
                 RespSearchAlbums data = (RespSearchAlbums) pResponse;
 
                 if (isRefresh || !TextUtils.isEmpty(keyWord)) {   //如果是刷新或者搜索则完全替换数据
-                    mPicturePersonAdapter.clear();
+                    mPictureClubAdapter.clear();
                     mPictureClubAdapter.setDatas(data.getResultList());
                 } else {
                     mPictureClubAdapter.addDatas(data.getResultList());

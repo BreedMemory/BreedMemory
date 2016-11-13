@@ -120,7 +120,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mMotherWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherWeightValue.setText(mMotherDataListWeight.getResultList().get(position).getStatValue());
+                mMotherWeightValue.setText(String.format(getString(R.string.weight_string), mMotherDataListWeight.getResultList().get(position).getStatValue()));
                 mMotherWeightDate.setText(mMotherDataListWeight.getResultList().get(position).getStatTime());
             }
         });
@@ -141,7 +141,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mMotherChestChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherChestValue.setText(mMotherDataListChest.getResultList().get(position).getStatValue());
+                mMotherChestValue.setText(String.format(getString(R.string.length_string), mMotherDataListChest.getResultList().get(position).getStatValue()));
                 mMotherChestDate.setText(mMotherDataListChest.getResultList().get(position).getStatTime());
             }
         });
@@ -162,7 +162,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mMotherWaistChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherWaistValue.setText(mMotherDataListWaist.getResultList().get(position).getStatValue());
+                mMotherWaistValue.setText(String.format(getString(R.string.length_string), mMotherDataListWaist.getResultList().get(position).getStatValue()));
                 mMotherWaistDate.setText(mMotherDataListWaist.getResultList().get(position).getStatTime());
             }
         });
@@ -183,7 +183,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mMotherHipChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherHipValue.setText(mMotherDataListHip.getResultList().get(position).getStatValue());
+                mMotherHipValue.setText(String.format(getString(R.string.length_string), mMotherDataListHip.getResultList().get(position).getStatValue()));
                 mMotherHipDate.setText(mMotherDataListHip.getResultList().get(position).getStatTime());
             }
         });
@@ -241,10 +241,10 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.lcv_mother_chest,
-            R.id.lcv_mother_weight,
-            R.id.lcv_mother_waist,
-            R.id.lcv_mother_hips})
+    @OnClick({R.id.ll_mother_chest_form_container,
+            R.id.ll_mother_weight_form_container,
+            R.id.ll_mother_waist_form_container,
+            R.id.ll_mother_hips_form_container})
     private void startHealthData() {
         Intent intent = new Intent(getActivity(), HealthInfoBeforeActivity.class);
         startActivity(intent);

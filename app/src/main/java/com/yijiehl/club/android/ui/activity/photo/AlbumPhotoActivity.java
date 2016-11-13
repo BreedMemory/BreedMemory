@@ -21,6 +21,7 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.search.ReqSearchAlbumPhoto;
 import com.yijiehl.club.android.network.response.ResSearchPhotos;
 import com.yijiehl.club.android.svc.ActivitySvc;
@@ -89,10 +90,15 @@ public class AlbumPhotoActivity extends BmActivity {
                     return;
                 }
                 ArrayList<String> list = new ArrayList<>();
+                ArrayList<String> codes = new ArrayList<>();
+                ArrayList<String> descs = new ArrayList<>();
                 for (int i = 0; i < mAdapter.getDatas().size(); i++) {
-                    list.add(mAdapter.getDatas().get(i).getImageInfo());
+                    list.add("http://" + Common.SERVICE_URL + mAdapter.getDatas().get(i).getImageInfo());
+                    list.add(ActivitySvc.createWebUrl(mAdapter.getDatas().get(i).getImageInfo()));
+                    codes.add(mAdapter.getDatas().get(i).getDataCode());
+                    descs.add(mAdapter.getDatas().get(i).getDataDesc());
                 }
-                ActivitySvc.startImageViewer(AlbumPhotoActivity.this, list, false, position);
+                ActivitySvc.startImageViewer(AlbumPhotoActivity.this, list, codes, descs, false, position);
             }
         });
     }

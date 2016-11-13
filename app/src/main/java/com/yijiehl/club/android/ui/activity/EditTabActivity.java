@@ -52,7 +52,7 @@ public class EditTabActivity extends BmActivity implements View.OnClickListener 
             finish();
             return;
         }
-        // TODO: 谌珂 2016/10/15 上传标签
+        // XXX: 谌珂 2016/10/15 上传标签
 
         Intent intent = new Intent();
         intent.putExtra(TAB, mEditText.getText());

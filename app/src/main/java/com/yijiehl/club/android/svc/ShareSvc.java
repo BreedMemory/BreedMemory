@@ -39,6 +39,13 @@ public class ShareSvc {
      * @param desc 分享描述
      */
     public static void shareUrl(Activity activity, String url, String title, String desc) {
+        if(TextUtils.equals(url, ActivitySvc.createWebUrl(""))) {
+            Toaster.showShortToast(activity, activity.getString(R.string.share_url_invalidate));
+            return;
+        }
+        if(TextUtils.isEmpty(desc)) {
+            desc = title;
+        }
         new ShareAction(activity).withText(desc).withTitle(title).withTargetUrl(url)
                 .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
                 .setCallback(new ShareCallBack(activity)).open();
@@ -53,7 +60,7 @@ public class ShareSvc {
      * @param title 分享标题
      */
     public static void sharePhoto(Activity activity, String uri, String title) {
-        if(TextUtils.isEmpty(uri)) {
+        if(TextUtils.isEmpty(uri) || TextUtils.equals(uri, ActivitySvc.createResourceUrl(activity, ""))) {
             Toaster.showShortToast(activity, R.string.share_no_photo);
             return;
         }

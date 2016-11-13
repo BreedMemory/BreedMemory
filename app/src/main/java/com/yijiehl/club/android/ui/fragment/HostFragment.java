@@ -28,13 +28,20 @@ import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.ReqSensitize;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
+import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
+import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
-import com.yijiehl.club.android.ui.activity.photo.ImageViewerActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
 import java.lang.reflect.Field;
@@ -167,6 +174,8 @@ public class HostFragment extends BaseHostFragment {
      * 用户信息
      */
     private UserInfo mUserInfo;
+    /** 刷新任务 */
+    private RefreshTask mRefreshTask = new RefreshTask();
 
     private HashMap<UserInfo.MainDataType, UserInfo.MainDataEntity> mEntitys = new HashMap<>();
 
@@ -218,8 +227,37 @@ public class HostFragment extends BaseHostFragment {
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(),
                 R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
 
-        Glide.with(this).load(R.drawable.shouye_chengzhang_bg).into(mGrowUpImageBackground);
-        Glide.with(this).load(R.drawable.shouye_wenda_bg2).into(mQuestionImageBackground);
+        Glide.with(this).load(R.drawable.shouye_chengzhang_bg).dontAnimate().into(mGrowUpImageBackground);
+        Glide.with(this).load(R.drawable.shouye_wenda_bg2).dontAnimate().into(mQuestionImageBackground);
+    }
+
+    /**
+     * 描 述：刷新首页数据任务，每分钟执行一次<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/10 <br/>
+     */
+    private class RefreshTask implements Runnable {
+        @Override
+        public void run() {
+            if(getActivity() == null) {
+                return;
+            }
+            NetHelper.getDataFromNet(getActivity(), new ReqSensitize(getActivity()), new AbstractCallBack(getActivity()) {
+                @Override
+                public void onSuccess(AbstractResponse pResponse) {
+                    RespSensitize data = (RespSensitize) pResponse;
+                    fillActivity(ActivitySvc.saveClientInfoNative(getActivity(), data, null));
+                }
+            }, false);
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && mUserInfo != null) {  //页面隐藏则清除刷新任务
+            mRefreshTask.run();
+        }
     }
 
     /**
@@ -228,34 +266,39 @@ public class HostFragment extends BaseHostFragment {
      * 历 史: (1.0.0) 谌珂 2016/9/14 <br/>
      */
     private void fillActivity(UserInfo info) {
+        long t = System.currentTimeMillis();
         mUserInfo = info;
         //提示语
         makeUpTip(info.getWelcomeInfo());
+        logger.v("fill makeUpTip time is " + (System.currentTimeMillis() - t));
+        t = System.currentTimeMillis();
 
         //会所logo
         if (TextUtils.isEmpty(info.getIconInfo2())) {
             mClubLogo.setVisibility(View.GONE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2())).into(mClubLogo);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo2())).dontAnimate().into(mClubLogo);
         }
 
         //会所长logo 活动模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoActivity);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
             mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
         } else {
-            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).into(mClubLogoInfoQuestion);
+            Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoQuestion);
         }
 
         mMainDataEntitys = JSON.parseArray(info.getMainDataList(), UserInfo.MainDataEntity.class);
-
+        logger.v("fill common time is " + (System.currentTimeMillis() - t));
+        t = System.currentTimeMillis();
         fillExtraInfo();
+        logger.v("fill extra time is " + (System.currentTimeMillis() - t));
     }
 
     /**
@@ -266,6 +309,7 @@ public class HostFragment extends BaseHostFragment {
     private void fillExtraInfo() {
         mEntitys.clear();
         for (UserInfo.MainDataEntity entity: mMainDataEntitys) {
+            long t = System.currentTimeMillis();
             switch (UserInfo.MainDataType.setValue(entity.getType())) {
                 case HEALTHINFO:
                     //会所健康建议
@@ -289,41 +333,38 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ACCTAMOUNT:
                     mUserInfo.setCustAmount(formatMoneyNum(entity.getValue()));
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     mGrowUpDesc.setText(Html.fromHtml(String.format(getString(R.string.grow_up_gas_station), mUserInfo.getCustAmount())));
                     break;
                 case IMAGECOVER:
                     //用户照片
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.test_main_image).into(mMainPicture);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().error(R.drawable.test_main_image).into(mMainPicture);
                     break;
                 case ACTIVITYCOVER:
                     //活动照片
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().placeholder(R.drawable.shouye_huodong_bg).error(R.drawable.shouye_huodong_bg).into(mActivityImageBackground);
                     break;
                 case ALBUMCOVER:
                     //照片背景
-                    entity.setValue(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()));
                     mEntitys.put(UserInfo.MainDataType.ALBUMCOVER, entity);
-                    Glide.with(this).load(entity.getValue()).error(R.drawable.shouye_zhaopian_bg).into(mPhotoImageBackground);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).error(R.drawable.shouye_zhaopian_bg).dontAnimate().into(mPhotoImageBackground);
                     break;
                 case ALBUMITEM1:
                     //照片1
                     if(!TextUtils.isEmpty(entity.getValue())) {
-                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage1);
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage1);
                     }
                     break;
                 case ALBUMITEM2:
                     //照片2
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage2);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage2);
                     break;
                 case ALBUMITEM3:
                     //照片3
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).into(mPhotoImage3);
+                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage3);
                     break;
                 case CUSTSERVICEPHONE:
                     //保存会所电话
                     mUserInfo.setCustServicePhone(entity.getValue());
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
                 case CHILDINFO:
                     //保存宝宝信息
@@ -349,10 +390,11 @@ public class HostFragment extends BaseHostFragment {
                         }
                         mUserInfo.getChildrenInfo().add(new UserInfo.MainDataEntity(desc, name, values[i]));
                     }
-                    ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
                     break;
             }
+            logger.v("fill extra " + entity.getType() + " time is " + (System.currentTimeMillis() - t));
         }
+        ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
     }
     /**
      * 描 述：数字货币格式化<br/>
@@ -371,7 +413,7 @@ public class HostFragment extends BaseHostFragment {
      *
      * @param tip 接口返回的提示语
      */
-    private void makeUpTip(String tip) {
+    private void makeUpTip(final String tip) {
         if (TextUtils.isEmpty(tip)) {        //没有提示语则不显示
             mTip.setVisibility(View.GONE);
             return;
@@ -454,8 +496,40 @@ public class HostFragment extends BaseHostFragment {
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})
     private void collect(View v) {
-        // TODO: 谌珂 2016/9/12 根据view id判断收藏什么元素
-        Toaster.showShortToast(getActivity(), R.string.collect_success);
+        // DONE: 谌珂 2016/9/12 根据view id判断收藏什么元素
+        //Toaster.showShortToast(getActivity(), R.string.collect_success);
+        switch (v.getId()) {
+            case R.id.im_collect_activity:
+                UserInfo.MainDataEntity entity;
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMACTIVITY);
+                CollectArticle temp = new CollectArticle(entity.getName(),null,null,entity.getValue(),null);
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), temp), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), getActivity().getString(R.string.collect_success));
+                    }
+                });
+                break;
+            case R.id.im_collect_grow_up:
+                entity = mEntitys.get(UserInfo.MainDataType.RECOMMGROWUP);
+                CollectArticle req = new CollectArticle(entity.getName(),null,null,entity.getValue(),null);
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), req), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), getActivity().getString(R.string.collect_success));
+                    }
+                });
+                break;
+            case R.id.im_collect_photo:
+                entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
+                NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new CollectPicture(ActivitySvc.createResourceUrl(getActivity(), entity.getValue()))), new AbstractCallBack(getActivity()) {
+                    @Override
+                    public void onSuccess(AbstractResponse pResponse) {
+                        Toaster.showShortToast(getActivity(), R.string.collect_success);
+                    }
+                });
+                break;
+        }
     }
 
     @OnClick({R.id.im_share_activity, R.id.im_share_grow_up, R.id.im_share_photo, R.id.im_share_question})
@@ -482,7 +556,7 @@ public class HostFragment extends BaseHostFragment {
                 break;
             case R.id.im_share_photo:
                 entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
-                ShareSvc.sharePhoto(getActivity(), entity.getValue(),
+                ShareSvc.sharePhoto(getActivity(), ActivitySvc.createResourceUrl(getActivity(), entity.getValue()),
                         entity.getName());
                 break;
         }
@@ -550,9 +624,16 @@ public class HostFragment extends BaseHostFragment {
     }
     @OnClick(R.id.im_photo_background)
     private void lookPhoto(){
-        // TODO: 2016/10/11 此处临时写。。
-        Intent intent=new Intent(getActivity(), ImageViewerActivity.class);
-        intent.putExtra("isNative",true);
-        startActivity(intent);
+        UserInfo.MainDataEntity entity = mEntitys.get(UserInfo.MainDataType.ALBUMCOVER);
+        if(TextUtils.equals(entity.getValue(), "")) {
+            return;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> codes = new ArrayList<>();
+        ArrayList<String> descs = new ArrayList<>();
+        list.add(entity.getValue());
+        codes.add(entity.getName());
+        descs.add(entity.getName());
+        ActivitySvc.startImageViewer(getActivity(), list, codes, descs, false, 0);
     }
 }

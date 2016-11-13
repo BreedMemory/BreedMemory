@@ -99,7 +99,7 @@ public class ActivitySvc {
      * @param data 登录或激活后的数据
      * @param phoneNumber 用户电话号码，被用来标识userid  为空时不会覆盖原有的userid
      */
-    public static void saveClientInfoNative(Context context, RespLogin data, @Nullable String phoneNumber) {
+    public static UserInfo saveClientInfoNative(Context context, RespLogin data, @Nullable String phoneNumber) {
         // DONE: 谌珂 2016/9/7 保存基本参数
         SharedPreferences.Editor editor = ContextUtils.getEditor(context);
         editor.putString(context.getString(R.string.shared_preference_uccode), data.getUccode());
@@ -115,6 +115,7 @@ public class ActivitySvc {
         UserInfo userInfo = data.getCfgParams();
         userInfo.setStatus(data.getAccountStatus());
         saveUserInfoNative(context, userInfo);
+        return userInfo;
     }
 
     /**
@@ -247,6 +248,28 @@ public class ActivitySvc {
         intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
         intent.putStringArrayListExtra(ImageViewerActivity.DESCS, descs);
         intent.putExtra(ImageViewerActivity.INDEX, index);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 描 述：启动图片预览<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/16 <br/>
+     * @param context 上下文
+     * @param path 图片路径集合
+     * @param isNative 是否是本地图片
+     */
+    public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, ArrayList<String> descs, boolean isNative, int index,boolean iscollected) {
+        if (path == null || path.size() == 0) {
+            return;
+        }
+        Intent intent = new Intent(context, ImageViewerActivity.class);
+        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
+        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
+        intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
+        intent.putStringArrayListExtra(ImageViewerActivity.DESCS, descs);
+        intent.putExtra(ImageViewerActivity.INDEX, index);
+        intent.putExtra(ImageViewerActivity.ISCOLLECTED, iscollected);
         context.startActivity(intent);
     }
 
@@ -411,6 +434,7 @@ public class ActivitySvc {
         intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
         intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
         intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        context.startActivity(intent);
     }
 
     public static void installApk(Context ctx,String filePath){

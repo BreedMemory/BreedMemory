@@ -16,6 +16,7 @@ import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.fragment.PictureFragment;
@@ -56,6 +57,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
     public void setDatas(List<List<PhotoInfo>> mDatas) {
         super.setDatas(mDatas);
     }
+
     /**
      * 描 述：伪泛型引起的重载不能编译！大坑！<br/>
      * 作 者：谌珂<br/>
@@ -71,10 +73,11 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
      * 描 述：设置数据源<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     *
      * @param photos 新未分组数据
      */
     public void setData(List<PhotoInfo> photos) {
-        if(photos == null || photos.size() == 0) {
+        if (photos == null || photos.size() == 0) {
             return;
         }
         mDatas = new ArrayList<>();
@@ -85,7 +88,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
     public int getAllCount() {
         int count = 0;
         if (mDatas == null) {
-            return  0;
+            return 0;
         }
         for (List<PhotoInfo> list : mDatas) {
             count += list.size();
@@ -97,10 +100,11 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
      * 描 述：对相片进行分组添加<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     *
      * @param photos 新未分组数据
      */
     public void addData(List<PhotoInfo> photos) {
-        if(photos == null || photos.size() == 0) {
+        if (photos == null || photos.size() == 0) {
             return;
         }
         LinkedList<List<PhotoInfo>> temp = arrangePhoto(photos);
@@ -109,8 +113,8 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
             return;
         }
         //如果原始数据的最后一组跟新数据的第一组时间一样则合并
-        if(mDatas.get(mDatas.size()-1).get(0).getCreateDay() == temp.getFirst().get(0).getCreateDay()) {
-            mDatas.get(mDatas.size()-1).addAll(temp.removeFirst());
+        if (mDatas.get(mDatas.size() - 1).get(0).getCreateDay() == temp.getFirst().get(0).getCreateDay()) {
+            mDatas.get(mDatas.size() - 1).addAll(temp.removeFirst());
         }
         mDatas.addAll(temp);
         refresh();
@@ -120,6 +124,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
      * 描 述：对相片进行分组<br/>
      * 作 者：谌珂<br/>
      * 历 史: (1.7.3) 谌珂 2016/10/19 <br/>
+     *
      * @param photos 未分组的数据
      * @return 分组后的数据
      */
@@ -127,10 +132,10 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
         LinkedList<List<PhotoInfo>> result = new LinkedList<>();
         for (PhotoInfo photoInfo : photos) {
             //如果组为空或者最后一组的照片日期跟当前照片日期不一样则创建一个新组
-            if(result.size() == 0 || result.getLast().get(0).getCreateDay() != photoInfo.getCreateDay()) {
+            if (result.size() == 0 || result.getLast().get(0).getCreateDay() != photoInfo.getCreateDay()) {
                 result.add(new ArrayList<PhotoInfo>());
             }
-            result.get(result.size()-1).add(photoInfo);
+            result.get(result.size() - 1).add(photoInfo);
         }
         return result;
     }
@@ -167,7 +172,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            if(position == parent.getAdapter().getCount()-1) {
+            if (position == parent.getAdapter().getCount() - 1) {
                 mFragment.upload();
             } else {
                 int groupPosition = (int) parent.getTag(R.id.picture_position);
@@ -175,7 +180,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
                 ArrayList<String> codes = new ArrayList<>();
                 ArrayList<String> descs = new ArrayList<>();
                 for (int i = 0; i < mDatas.get(groupPosition).size(); i++) {
-                    list.add(mDatas.get(groupPosition).get(i).getImageInfo());
+                    list.add("http://" + Common.SERVICE_URL + mDatas.get(groupPosition).get(i).getImageInfo());
                     codes.add(mDatas.get(groupPosition).get(i).getDataCode());
                     descs.add(mDatas.get(groupPosition).get(i).getDataDesc());
                 }

@@ -30,6 +30,7 @@
         android:layout_toRightOf="@+id/iv_collect_image"
         android:layout_marginLeft="@dimen/primary_margin"
         android:layout_marginRight="@dimen/primary_margin"
+        android:layout_alignTop="@+id/iv_collect_image"
         android:maxLines="2"
         android:ellipsize="end"
         android:lineSpacingExtra="3dip"

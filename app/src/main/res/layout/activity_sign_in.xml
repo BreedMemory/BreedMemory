@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.uuzz.android.ui.view.ptr.PtrListView
+    <!--<com.uuzz.android.ui.view.ptr.PtrListView
         android:id="@+id/lv_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,11 @@
         android:fadingEdge="none"
         android:focusable="true"
         android:listSelector="@drawable/bg_item_white_touchable"
-        android:scrollbarStyle="outsideOverlay" />
+        android:scrollbarStyle="outsideOverlay" />-->
+    <ListView
+        android:id="@+id/lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/tv_empty"

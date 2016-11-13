@@ -170,18 +170,14 @@
             android:layout_height="8dip"
             android:background="#eeeeee" />
 
-        <RelativeLayout
-            android:id="@+id/layout_health_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/health_data" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/layout_health_data"
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/health_data" />
 
         <View
             android:layout_width="match_parent"
@@ -190,36 +186,27 @@
             android:layout_marginRight="@dimen/primary_margin"
             android:background="#e1e1e1" />
 
-        <RelativeLayout
+        <TextView
             android:id="@+id/layout_medicine_remind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/medicine_remind" />
-        </RelativeLayout>
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/medicine_remind" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
             android:background="#eeeeee" />
 
-        <RelativeLayout
+
+        <TextView
             android:id="@+id/layout_my_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/my_message" />
-        </RelativeLayout>
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/my_message" />
 
         <View
             android:layout_width="match_parent"
@@ -228,18 +215,14 @@
             android:layout_marginRight="@dimen/primary_margin"
             android:background="#e1e1e1" />
 
-        <RelativeLayout
+
+        <TextView
             android:id="@+id/layout_my_collect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/my_collect" />
-        </RelativeLayout>
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/my_collect" />
 
         <View
             android:layout_width="match_parent"
@@ -248,36 +231,28 @@
             android:layout_marginRight="@dimen/primary_margin"
             android:background="#e1e1e1" />
 
-        <RelativeLayout
-            android:id="@+id/layout_club_introduction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/club_introduction" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/layout_club_introduction"
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/club_introduction" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
             android:background="#e1e1e1" />
 
-        <RelativeLayout
-            android:id="@+id/layout_my_exit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/tv_personal_info_item_left_text"
-                android:layout_marginBottom="@dimen/primary_List_margin"
-                android:layout_marginLeft="@dimen/primary_margin"
-                android:layout_marginTop="@dimen/primary_List_margin"
-                android:text="@string/my_exit" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/layout_my_exit"
+            style="@style/tv_mine_info_item_left_text"
+            android:paddingBottom="@dimen/primary_List_margin"
+            android:paddingLeft="@dimen/primary_margin"
+            android:paddingTop="@dimen/primary_List_margin"
+            android:text="@string/my_exit" />
 
         <View
             android:layout_width="match_parent"

@@ -292,7 +292,7 @@ public class LineChatView extends View {
 
                         mIsDragging = true;
                     }
-                } else {
+                } else if(!mIsDragging) {
                     requestParentDisallowInterceptTouchEvent(false);
                 }
 

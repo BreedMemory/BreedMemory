@@ -66,13 +66,14 @@ public class DefaultTask extends AbstractTask {
         }
         if(responseData.getReturnMsg() != null &&!responseData.getReturnMsg().isSuccess()) {
             logger.e(responseData.getReturnMsg().getEnMessage());
+            closeLoadingCom();
+            if(responseData.isNeedLogin()) {
+                ActivitySvc.startLoginActivity(mContext);
+                return;
+            }
             if(mListener != null) {
                 mListener.onFailed(responseData.getReturnMsg().getMessage());
             }
-            if(responseData.isNeedLogin()) {
-                ActivitySvc.startLoginActivity(mContext);
-            }
-            closeLoadingCom();
             return;
         }
         //缓存接口数据

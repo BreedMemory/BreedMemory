@@ -49,7 +49,7 @@ public class SplashActivity extends BmActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Glide.with(this).load(R.drawable.login_bg).into(mBackground);
+        Glide.with(this).load(R.drawable.login_bg).dontAnimate().into(mBackground);
         mHeader.setVisibility(View.GONE);
         NetHelper.getDataFromNet(this, new ReqVersionCheck(), new AbstractCallBack(this) {
             @Override

@@ -26,10 +26,15 @@ import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.SaveInstance;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
 import com.yijiehl.club.android.network.request.base.Sex;
+import com.yijiehl.club.android.network.request.search.ReqSearchAddress;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
+import com.yijiehl.club.android.network.response.RespSearchAddress;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
@@ -111,6 +116,20 @@ public class PersonalInfoActivity extends BmActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        NetHelper.getDataFromNet(this, new ReqSearchAddress(this), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchAddress address = (RespSearchAddress)pResponse;
+                if(address.getResultList() == null || address.getResultList().size() == 0 || TextUtils.isEmpty(address.getResultList().get(0).getAreaInfo())) {
+                    return;
+                }
+                mAddress.setText(address.getResultList().get(0).getAreaInfo());
+                if(userInfo != null) {
+                    userInfo.setAreaInfo(address.getResultList().get(0).getAreaInfo());
+                    ActivitySvc.saveUserInfoNative(PersonalInfoActivity.this, userInfo);
+                }
+            }
+        });
         CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(this, R.string.shared_preference_user_id),
                 getString(R.string.shared_preference_user_info));
     }
@@ -136,7 +155,10 @@ public class PersonalInfoActivity extends BmActivity {
         }
         mName.setText(info.getAcctName());
         mNick.setText(info.getShortName());
-        mAddress.setText(info.getAreaInfo());
+        if(!TextUtils.isEmpty(mAddress.getText())) {
+            userInfo.setAreaInfo(mAddress.getText().toString());
+            ActivitySvc.saveUserInfoNative(this, userInfo);
+        }
         mCustomerPhone.setText(info.getCustServicePhone());
         switch (Sex.setValue(info.getGenderCode())) {
             case MALE:

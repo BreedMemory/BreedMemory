@@ -57,7 +57,7 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article> implement
         if (temp.isCollected()) {
             holder.knowledgeHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         } else {
-            holder.knowledgeHeart.setTextColor(mContext.getResources().getColor(R.color.textColorHint));
+            holder.knowledgeHeart.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
             holder.knowledgeHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,6 +77,7 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article> implement
                 }
             });
         }
+        holder.knowledgeShare.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         holder.knowledgeHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +100,7 @@ public class KnowledgeListAdapter extends BaseListViewAdapter<Article> implement
             @Override
             public void onClick(View v) {
                 // DONE: 2016/10/6 此处事件需要完善
-                ShareSvc.shareUrl((Activity) mContext,"http://" + Common.SERVICE_URL+temp.getDataShowUrl(),temp.getDataClfy(),temp.getDataSummary());
+                ShareSvc.shareUrl((Activity) mContext,ActivitySvc.createWebUrl(temp.getDataShowUrl()),temp.getDataName(),temp.getDataSummary());
             }
         });
         return convertView;

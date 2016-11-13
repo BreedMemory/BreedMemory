@@ -26,8 +26,8 @@ public class EditBabyHealthData extends BabyHealthData {
      * @param statValue36 开始时间
      * @param statValue37 持续天数
      */
-    public EditBabyHealthData(String relateCode, int childId, String statTime, String statValue03, String statValue01, String statValue35, String statValue36, String statValue37) {
-        super(childId, statTime, statValue03, statValue01, statValue35, statValue36, statValue37);
+    public EditBabyHealthData(String relateCode, int childId, String statTime, String statValue03, String statValue01, String statValue35, String statValue36, String statValue37, int fileFlag) {
+        super(childId, statTime, statValue03, statValue01, statValue35, statValue36, statValue37, fileFlag);
         this.dataCode = relateCode;
     }
 

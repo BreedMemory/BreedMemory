@@ -192,7 +192,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mMotherWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherWeightValue.setText(mMotherDataListWeight.getResultList().get(position).getStatValue());
+                mMotherWeightValue.setText(String.format(getString(R.string.weight_string), mMotherDataListWeight.getResultList().get(position).getStatValue()));
                 mMotherWeightDate.setText(mMotherDataListWeight.getResultList().get(position).getStatTime());
             }
         });
@@ -213,7 +213,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mMotherTemperatureChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mMotherTemperatureValue.setText(mMotherDataListTemperature.getResultList().get(position).getStatValue());
+                mMotherTemperatureValue.setText(String.format(getString(R.string.temperature_string), mMotherDataListTemperature.getResultList().get(position).getStatValue()));
                 mMotherTemperatureDate.setText(mMotherDataListTemperature.getResultList().get(position).getStatTime());
             }
         });
@@ -234,7 +234,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mBabyWeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mBabyWeightValue.setText(mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyWeightValue.setText(String.format(getString(R.string.weight_string), mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
                 mBabyWeightDate.setText(mBabyDataListWeight.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
             }
         });
@@ -255,7 +255,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mBabyHeightChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mBabyHeightValue.setText(mBabyDataListHeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyHeightValue.setText(String.format(getString(R.string.length_string), mBabyDataListHeight.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
                 mBabyHeightDate.setText(mBabyDataListHeight.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
             }
         });
@@ -276,7 +276,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mBabyHeadChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mBabyHeadValue.setText(mBabyDataListHead.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyHeadValue.setText(String.format(getString(R.string.length_string), mBabyDataListHead.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
                 mBabyHeadDate.setText(mBabyDataListHead.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
             }
         });
@@ -297,7 +297,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         mBabyChestChat.setOnValueChangedListener(new LineChatView.OnValueChanged() {
             @Override
             public void onValueChanged(int position, float value) {
-                mBabyChestValue.setText(mBabyDataListChest.get(getBabyDataIndex()).getResultList().get(position).getStatValue());
+                mBabyChestValue.setText(String.format(getString(R.string.length_string), mBabyDataListChest.get(getBabyDataIndex()).getResultList().get(position).getStatValue()));
                 mBabyChestDate.setText(mBabyDataListChest.get(getBabyDataIndex()).getResultList().get(position).getStatTime());
             }
         });
@@ -345,7 +345,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListHeightReceived(int index) {
         super.onBabyDataListHeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyHeightChat, mBabyDataListHeight.get(index));
         }
     }
@@ -353,21 +353,21 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     protected void onBabyDataListWeightReceived(int index) {
         super.onBabyDataListWeightReceived(index);
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyWeightChat, mBabyDataListWeight.get(index));
         }
     }
 
     @Override
     protected void onBabyDataListHeadReceived(int index) {
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyHeadChat, mBabyDataListHead.get(index));
         }
     }
 
     @Override
     protected void onBabyDataListChestReceived(int index) {
-        if(index != getBabyDataIndex()) {
+        if(index == getBabyDataIndex()) {
             fillChatData(mBabyChestChat, mBabyDataListChest.get(index));
         }
     }
@@ -465,7 +465,13 @@ public class ServiceInFragment extends HealthInfoFragment {
     }
 
     @OnClick({R.id.mother_extra_data,
-            R.id.baby_extra_data})
+            R.id.baby_extra_data,
+            R.id.ll_mother_weight_form_container,
+            R.id.ll_mother_temperature_form_container,
+            R.id.ll_baby_head_form_container,
+            R.id.ll_baby_chest_form_container,
+            R.id.ll_baby_height_form_container,
+            R.id.ll_baby_weight_form_container})
     private void startHealthData() {
         Intent intent = new Intent(getActivity(), HealthInfoInActivity.class);
         intent.putExtra(HealthInfoInActivity.ROLE, mFormSelector.getCheckedRadioButtonId());

@@ -141,7 +141,7 @@ public abstract class ReqBaseSearch extends ReqBase {
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/9/12 <br/>
      */
-    protected abstract String getBizType();
+    public abstract String getBizType();
 
     @Override
     public String getPath() {

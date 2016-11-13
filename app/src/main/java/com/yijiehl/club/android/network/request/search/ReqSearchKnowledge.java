@@ -26,7 +26,7 @@ public class ReqSearchKnowledge extends ReqBaseSearch {
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "kb_article_knowledge";
     }
 

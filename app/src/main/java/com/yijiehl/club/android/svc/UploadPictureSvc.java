@@ -110,7 +110,7 @@ public class UploadPictureSvc extends Observable implements Observer {
                         ActivitySvc.startLoginActivity(context);
                     }
                     if (!baseResponse.getReturnMsg().isSuccess()) {
-                        throw new Exception("Get relative code failed!");
+                        throw new Exception("Upload picture failed!");
                     }
                     Message msg = Message.obtain();
                     msg.what = ObservableTag.UPLOAD_SUCCESS;

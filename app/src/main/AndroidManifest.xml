@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yijiehl.club.android">
-
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,188 +20,213 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:name=".BmApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="name,icon"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        <activity android:name=".ui.activity.SplashActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:replace="name,icon">
+        <activity
+            android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- 登录页面 -->
-        <activity android:name=".ui.activity.user.LoginActivity"
+        <activity
+            android:name=".ui.activity.user.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!-- 主页面 -->
-        <activity android:name=".ui.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <!-- 完善信息页面 -->
-        <activity android:name=".ui.activity.user.SupplementInfoActivity"
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- 完善信息页面 -->
+        <activity
+            android:name=".ui.activity.user.SupplementInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <!-- 我的页面 -->
-        <activity android:name=".ui.activity.user.MineActivity"
+        <activity
+            android:name=".ui.activity.user.MineActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <!-- 个人信息页面 -->
-        <activity android:name=".ui.activity.user.PersonalInfoActivity"
+        <activity
+            android:name=".ui.activity.user.PersonalInfoActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <!-- 成长文章详细页面 -->
-        <activity android:name=".ui.activity.ArticleDetailActivity"
+        <activity
+            android:name=".ui.activity.ArticleDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 昵称修改页面 -->
-        <activity android:name=".ui.activity.user.NickChangeActivity"
+        <activity
+            android:name=".ui.activity.user.NickChangeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 手机号修改页面 -->
-        <activity android:name=".ui.activity.photo.PhoneNumChangeActivity"
+        <activity
+            android:name=".ui.activity.photo.PhoneNumChangeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 地址修改页面 -->
-        <activity android:name=".ui.activity.user.AddressChangeActivity"
+        <activity
+            android:name=".ui.activity.user.AddressChangeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 性别修改页面 -->
-        <activity android:name=".ui.activity.user.SexChangeActivity"
+        <activity
+            android:name=".ui.activity.user.SexChangeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 添加亲友页面 -->
-        <activity android:name=".ui.activity.user.AddRelativesAccount"
+        <activity
+            android:name=".ui.activity.user.AddRelativesAccountActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 相册页面 -->
-        <activity android:name=".ui.activity.photo.PhotoPickerActivity"
+        <activity
+            android:name=".ui.activity.photo.PhotoPickerActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 照片详情页面 -->
-        <activity android:name=".ui.activity.photo.ImageViewerActivity"
+        <activity
+            android:name=".ui.activity.photo.ImageViewerActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 健康详情页面 -->
-        <activity android:name=".ui.activity.health.HealthInfoInActivity"
+        <activity
+            android:name=".ui.activity.health.HealthInfoInActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 活动列表 -->
-        <activity android:name=".ui.activity.ActivitysActivity"
+        <activity
+            android:name=".ui.activity.ActivitysActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 问题页面 -->
-        <activity android:name=".ui.activity.question.QuestionListActivity"
+        <activity
+            android:name=".ui.activity.question.QuestionListActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 知识页面 -->
-        <activity android:name=".ui.activity.question.KnowledgeActivity"
+        <activity
+            android:name=".ui.activity.question.KnowledgeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 知识列表页面 -->
-        <activity android:name=".ui.activity.question.KnowledgeListActivity"
+        <activity
+            android:name=".ui.activity.question.KnowledgeListActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 成长加油站页面 -->
-        <activity android:name=".ui.activity.growup.GrowUpGasStationAvtivity"
+        <activity
+            android:name=".ui.activity.growup.GrowUpGasStationAvtivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 成长加油站页面 -->
-        <activity android:name=".ui.activity.growup.NotSignUpGasStationActivity"
+        <activity
+            android:name=".ui.activity.growup.NotSignUpGasStationActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 提问页面 -->
-        <activity android:name=".ui.activity.question.AskQuestionActivity"
+        <activity
+            android:name=".ui.activity.question.AskQuestionActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 编辑标签 -->
-        <activity android:name=".ui.activity.EditTabActivity"
+        <activity
+            android:name=".ui.activity.EditTabActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 上传图片 -->
-        <activity android:name=".ui.activity.photo.UploadPhotoActivity"
+        <activity
+            android:name=".ui.activity.photo.UploadPhotoActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 群组照片 -->
-        <activity android:name=".ui.activity.photo.AlbumPhotoActivity"
+        <activity
+            android:name=".ui.activity.photo.AlbumPhotoActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 签到页面 -->
-        <activity android:name=".ui.activity.user.SignInActivity"
+        <activity
+            android:name=".ui.activity.user.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 会所介绍页面 -->
-        <activity android:name=".ui.activity.user.ClubIntroductionActivity"
+        <activity
+            android:name=".ui.activity.user.ClubIntroductionActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 我的消息页面 -->
-        <activity android:name=".ui.activity.user.MyMessageActivity"
+        <activity
+            android:name=".ui.activity.user.MyMessageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 我的疫苗 -->
-        <activity android:name=".ui.activity.user.MyMedicineActivity"
+        <activity
+            android:name=".ui.activity.user.MyMedicineActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 我的收藏 -->
-        <activity android:name=".ui.activity.user.MyCellectActivity"
+        <activity
+            android:name=".ui.activity.user.MyCellectActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 关系账户列表 -->
-        <activity android:name=".ui.activity.user.RelateListActivity"
+        <activity
+            android:name=".ui.activity.user.RelateListActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 出会所后健康页面详情 -->
-        <activity android:name=".ui.activity.health.HealthInfoAfterActivity"
+        <activity
+            android:name=".ui.activity.health.HealthInfoAfterActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 进会所前健康页面详情 -->
-        <activity android:name=".ui.activity.health.HealthInfoBeforeActivity"
+        <activity
+            android:name=".ui.activity.health.HealthInfoBeforeActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- 搜索问答列表 -->
-        <activity android:name=".ui.activity.question.SearchQuestionActivity"
+        <activity
+            android:name=".ui.activity.question.SearchQuestionActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 增加疫苗提醒 -->
-        <activity android:name=".ui.activity.user.AddMedicineRemindActivity"
+        <activity
+            android:name=".ui.activity.user.AddMedicineRemindActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 更新页面 -->
-        <activity android:name=".ui.controlversion.AppUpdateWindow"
+        <activity
+            android:name=".ui.controlversion.AppUpdateWindow"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
-
-
-
-
-
-
-
-
-
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -211,7 +236,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -223,16 +248,18 @@
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:theme="@style/Theme.UMDefault"
             android:excludeFromRecents="true"
-            />
+            android:theme="@style/Theme.UMDefault" />
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57d13359e0f55a9a87001b45" />
+
     </application>
+
 </manifest>

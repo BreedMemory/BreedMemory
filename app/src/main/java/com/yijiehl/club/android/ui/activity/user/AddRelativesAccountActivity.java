@@ -1,6 +1,6 @@
 /**
  * 项目名称：孕育迹忆 <br/>
- * 文件名称: AddRelativesAccount.java <br/>
+ * 文件名称: AddRelativesAccountActivity.java <br/>
  * Created by 张志新 on 2016/9/18.  <br/>
  */
 package com.yijiehl.club.android.ui.activity.user;/**
@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
- * 类  名: AddRelativesAccount <br/>
+ * 类  名: AddRelativesAccountActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
  * 版    本：1.0.0 <br/>
@@ -39,7 +39,7 @@ import java.util.List;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_add_relatives_account)
-public class AddRelativesAccount extends BmActivity {
+public class AddRelativesAccountActivity extends BmActivity {
 
     @ViewInject(R.id.tv_relatives_input)
     private TextView relEditText;
@@ -76,7 +76,7 @@ public class AddRelativesAccount extends BmActivity {
                     return;
                 }
                 AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith");
-                NetHelper.getDataFromNet(AddRelativesAccount.this, new ReqBaseDataProc(AddRelativesAccount.this, req), new AbstractCallBack(AddRelativesAccount.this) {
+                NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
                         finish();
@@ -95,7 +95,7 @@ public class AddRelativesAccount extends BmActivity {
         relEditText.setText(mExtras.get(relationIndex));
     }
 
-    @OnClick(R.id.ll_ship_picker_container)
+    @OnClick(R.id.ll_ship_container)
     private void chooseRelationShip() {
         relationShipContainer.setVisibility(View.VISIBLE);
         relationShipPicker.setValue(relationIndex);
@@ -105,7 +105,7 @@ public class AddRelativesAccount extends BmActivity {
     private void saveRelationShip() {
         relationShipContainer.setVisibility(View.GONE);
         relationIndex = relationShipPicker.getValue();
-        relEditText.setText(mExtras.get(relationIndex));
+        relEditText.setText(mExtras.get(relationIndex-1));
     }
 
 

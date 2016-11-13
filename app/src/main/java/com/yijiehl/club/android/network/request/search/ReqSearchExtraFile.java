@@ -21,23 +21,23 @@ import com.yijiehl.club.android.network.response.RespSearchExtraFile;
  * 版    本：1.0.0<br/>
  */
 public class ReqSearchExtraFile extends ReqBaseSearch {
-    public ReqSearchExtraFile(Context context, String relateCode) {
+    public ReqSearchExtraFile(Context context, String relateId) {
         super(context);
-        this.relateCode = relateCode;
+        this.relateId = relateId;
     }
 
-    private String relateCode;
+    private String relateId;
 
-    public String getRelateCode() {
-        return relateCode;
+    public String getRelateId() {
+        return relateId;
     }
 
-    public void setRelateCode(String relateCode) {
-        this.relateCode = relateCode;
+    public void setRelateId(String relateId) {
+        this.relateId = relateId;
     }
 
     @Override
-    protected String getBizType() {
+    public String getBizType() {
         return "ext_file_item";
     }
 
