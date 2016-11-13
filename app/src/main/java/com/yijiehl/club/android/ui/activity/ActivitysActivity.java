@@ -28,10 +28,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
-import com.yijiehl.club.android.network.response.innerentity.ActivityInfo;
 import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
-
-import java.util.List;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -152,7 +149,7 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
                 } else {
                     mAdapter.addDatas(data.getResultList());
                 }
-                if(data.getResultList().size()<10){
+                if(data.getResultList() == null || data.getResultList().size()<10){
                     isNoMore=true;
                 }
                 mListView.loadComplete();

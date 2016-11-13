@@ -154,7 +154,7 @@ public class KnowledgeListActivity extends BmActivity implements TextWatcher {
                 } else {
                     knowledgeListAdapter.addDatas(data.getResultList());
                 }
-                if(data.getResultList().size()<10){
+                if(data.getResultList() == null || data.getResultList().size()<10){
                    isNoMore=true;
                 }
                 mListView.loadComplete();

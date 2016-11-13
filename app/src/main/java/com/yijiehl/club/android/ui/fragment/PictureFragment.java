@@ -331,7 +331,7 @@ public class PictureFragment extends BaseHostFragment {
                     mPictureClubAdapter.addDatas(data.getResultList());
                 }
                 mListView.loadComplete();
-                if(data.getResultList().size() < 10) {
+                if(data.getResultList() == null || data.getResultList().size() < 10) {
                     mListView.lockLoad(true);
                 }
                 mPtrFrameLayout.refreshComplete();

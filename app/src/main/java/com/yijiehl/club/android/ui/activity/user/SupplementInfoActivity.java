@@ -145,6 +145,9 @@ public class SupplementInfoActivity extends BmActivity {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 mClubInfos = ((RespSearchClubs)pResponse).getResultList();
+                if(mClubInfos == null) {
+                    return;
+                }
                 //生成会所名称列表
                 List<String> lClubNames = new ArrayList<>();
                 for (int i = 0; i < mClubInfos.size(); i++) {

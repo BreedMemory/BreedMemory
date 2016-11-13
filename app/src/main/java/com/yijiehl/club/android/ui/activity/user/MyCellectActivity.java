@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,9 +14,7 @@ import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
-import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ContentView;
-import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
@@ -25,11 +22,8 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchCollect;
 import com.yijiehl.club.android.network.response.RespSearchCollect;
-import com.yijiehl.club.android.network.response.innerentity.Collection;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.adapter.CollectionAdapter;
-
-import java.util.List;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -167,7 +161,7 @@ public class MyCellectActivity extends BmActivity implements TextWatcher {
                 } else {
                     collectionAdapter.addDatas(data.getResultList());
                 }
-                if (data.getResultList().size() < 10) {
+                if (data.getResultList() == null || data.getResultList().size() < 10) {
                     isNoMore = true;
                 }
                 mListView.loadComplete();
