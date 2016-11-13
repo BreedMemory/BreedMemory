@@ -268,7 +268,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);*/
-        ActivitySvc.startArticle(getActivity(),false,mUserInfo.getFoodUrl(getActivity()),null,null,null,null);
+        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()),null,null,null,null);
     }
 
     @OnClick(R.id.ll_knowledge)

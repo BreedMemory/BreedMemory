@@ -21,6 +21,8 @@ import com.yijiehl.club.android.network.response.RespSearchHealthData;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
 import com.yijiehl.club.android.ui.adapter.BreedMemoryAdapter;
 
+import java.util.List;
+
 /**
  * 项目名称：手机大管家<br/>
  * 类  名: BreedMemoryActivity<br/>
@@ -52,10 +54,16 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
         memoryAdapter = new BreedMemoryAdapter(this);
         mViewPager.setAdapter(memoryAdapter);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setCurrentItem(memoryAdapter.getCount()/2);
         NetHelper.getDataFromNet(this, new ReqSearchBreedMemory(this), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
-                memoryAdapter.setDatas(((RespSearchHealthData)pResponse).getResultList());
+                List<HealthData> datas = ((RespSearchHealthData)pResponse).getResultList();
+                memoryAdapter.setDatas(datas);
+                if(datas == null || datas.size() == 0) {
+                    return;
+                }
+                mViewPager.setCurrentItem(datas.size()-1);
             }
         });
     }
@@ -67,7 +75,7 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
-        if(memoryAdapter == null || memoryAdapter.getCount() == 0) {
+        if(memoryAdapter == null || memoryAdapter.getDatas() == null) {
             return;
         }
         HealthData healthData = memoryAdapter.getDatas().get(position);

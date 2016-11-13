@@ -9,12 +9,9 @@ package com.yijiehl.club.android.network.request.base;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.uuzz.android.util.net.httpcore.RequestParams;
 import com.uuzz.android.util.net.task.AbstractTask;
 import com.yijiehl.club.android.network.task.DefaultTask;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Calendar;
 
 /**
@@ -62,14 +59,15 @@ public abstract class ReqBaseSearch extends ReqBase {
     }
 
     public void setKeyword(String keyword) {
-        if(TextUtils.isEmpty(keyword)) {
-            return;
-        }
-        try {
-            this.keyword = URLEncoder.encode(keyword, RequestParams.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        if(TextUtils.isEmpty(keyword)) {
+//            return;
+//        }
+//        try {
+//            this.keyword = URLEncoder.encode(keyword, RequestParams.UTF_8);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        this.keyword = keyword;
     }
 
     public String getDataClfy() {

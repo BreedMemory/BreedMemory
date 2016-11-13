@@ -11,7 +11,7 @@
         android:layout_height="300dip"
         android:padding="55dip"
         android:layout_marginTop="81dip"
-        android:background="@drawable/bg_breed_memory_0"
+        android:background="@drawable/bg_breed_memory_1"
         android:layout_centerHorizontal="true">
         <LinearLayout
             android:orientation="vertical"

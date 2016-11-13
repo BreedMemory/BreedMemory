@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.DeleteCollect;
-import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.network.response.innerentity.Collection;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.user.MyCellectActivity;
@@ -56,20 +54,15 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (temp.getDataType().indexOf(MyCellectActivity.QUESTION) != -1) {
+        if (temp.getDataType().contains(MyCellectActivity.QUESTION)) {
             holder.mTitle.setText("问题");
-        } else if (temp.getDataType().indexOf(MyCellectActivity.PHOTO) != -1) {
+        } else if (temp.getDataType().contains(MyCellectActivity.PHOTO)) {
             holder.mTitle.setText("照片");
-        } else if (temp.getDataType().indexOf(MyCellectActivity.ARTICLE) != -1) {
+        } else if (temp.getDataType().contains(MyCellectActivity.ARTICLE)) {
             holder.mTitle.setText("文章");
         }
         holder.mContent.setText(temp.getDataInfo());
-        if (TextUtils.isEmpty(temp.getImageInfo())) {
-            Glide.with(mContext).load(R.drawable.bg_collect_default).into(holder.mIamge);
-        } else {
-            //Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).into(holder.mIamge);
-            Glide.with(mContext).load(temp.getImageInfo()).into(holder.mIamge);
-        }
+        Glide.with(mContext).load(temp.getImageInfo()).error(R.drawable.bg_collect_default).into(holder.mIamge);
         return convertView;
     }
 
@@ -87,7 +80,7 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
             ArrayList<String> codes = new ArrayList<>();
             list.add(mDatas.get(position).getImageInfo());
             codes.add(mDatas.get(position).getDataCode());
-            ActivitySvc.startImageViewer(mContext, list, codes, null, false, 0,true);
+            ActivitySvc.startImageViewer(mContext, list, codes, null, false, 0, true);
         }
     }
 

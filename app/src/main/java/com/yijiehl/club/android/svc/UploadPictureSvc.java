@@ -7,13 +7,19 @@
 package com.yijiehl.club.android.svc;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.ObservableTag;
+import com.uuzz.android.util.ScreenTools;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.NetHelper;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
@@ -22,7 +28,10 @@ import com.yijiehl.club.android.network.request.dataproc.UploadPicture;
 import com.yijiehl.club.android.network.request.upload.ReqUploadFile;
 import com.yijiehl.club.android.network.response.base.BaseResponse;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -79,13 +88,24 @@ public class UploadPictureSvc extends Observable implements Observer {
      * @param timestamp  主要用于组上传中标记是哪个组的任务
      */
     public void uploadSinglePicture(final @NonNull Context context, final @NonNull ReqUploadFile.UploadType uploadType, final @Nullable String tabs, final @NonNull String path, final long timestamp, final @Nullable String relateCode) {
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+        AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     File file = new File(path);
                     if (!file.exists()) {
                         return;
+                    }
+                    Bitmap bm = getImage(ScreenTools.getScreenPixel(context)[0]/2, ScreenTools.getScreenPixel(context)[1]/2, path);
+                    file.delete();
+                    FileUtil.saveBitmap(path, bm);
+                    file = new File(path);
+                    int degree = readPictureDegree(path);
+                    if(degree != 0) {
+                        bm = rotateBitmap(bm, degree);
+                        file.delete();
+                        FileUtil.saveBitmap(path, bm);
+                        file = new File(path);
                     }
                     UploadPicture upload = new UploadPicture(new File(path), tabs);
                     ReqBaseDataProc proc = new ReqBaseDataProc(context, upload);
@@ -239,5 +259,94 @@ public class UploadPictureSvc extends Observable implements Observer {
         }
         groupCountPair.remove(timestamp);  //上传完成后从groupCountPair中移除此时间戳
         return true;
+    }
+
+    private int readPictureDegree(String path) {
+        int degree  = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            logger.e("read picture degree error", e);
+        }
+        return degree;
+    }
+
+    /**
+     * 旋转图片
+     * @param bitmap 旋转前的图片
+     * @param rotate 旋转角度
+     * @return 旋转后的图片
+     */
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotate) {
+        if (bitmap == null) {
+            return null;
+        }
+        if(rotate == 0) {
+            return bitmap;
+        }
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        // Setting post rotate to 90
+        Matrix mtx = new Matrix();
+        mtx.postRotate(rotate);
+        Bitmap bm = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+        bitmap.recycle();
+        return bm;
+    }
+
+    private Bitmap getImage(float width, float height, String srcPath) {
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        //开始读入图片，此时把options.inJustDecodeBounds 设回true了
+        newOpts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath,newOpts);//此时返回bm为空
+
+        newOpts.inJustDecodeBounds = false;
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+        //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
+        //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+        int be = 1;//be=1表示不缩放
+        if (w > h && w > width) {//如果宽度大的话根据宽度固定大小缩放
+            be = (int) (newOpts.outWidth / width);
+        } else if (w < h && h > height) {//如果高度高的话根据宽度固定大小缩放
+            be = (int) (newOpts.outHeight / height);
+        }
+        if (be <= 0)
+            be = 1;
+        newOpts.inSampleSize = be;//设置缩放比例
+        //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+        bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+        return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
+    }
+
+    private Bitmap compressImage(Bitmap image) {
+        if(image == null) {
+            return null;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024>800) {  //循环判断如果压缩后图片是否大于800kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        FileUtil.closeInputStream(isBm);
+        image.recycle();
+        return bitmap;
     }
 }

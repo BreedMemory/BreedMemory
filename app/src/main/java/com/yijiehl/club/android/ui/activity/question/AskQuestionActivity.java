@@ -169,10 +169,10 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         if (mAdapter.getItemViewType(position) != UploadImageAdapter.TYPE_ADD) {
             return;
         }
-        if (mTaskId != 0) {
-            Toaster.showShortToast(this, getString(R.string.uploading_picture));
-            return;
-        }
+//        if (mTaskId != 0) {
+//            Toaster.showShortToast(this, getString(R.string.uploading_picture));
+//            return;
+//        }
         checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
     }
 
@@ -215,7 +215,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
     private class ReadMediaTask implements Runnable {
         @Override
         public void run() {
-            ActivitySvc.startImagePicker(AskQuestionActivity.this, null);
+            ActivitySvc.startImagePicker(AskQuestionActivity.this, (ArrayList<String>) mAdapter.getDatas());
         }
     }
 

@@ -5,7 +5,7 @@
             android:shape="oval"
             android:useLevel="false">
             <solid
-                android:color="#F3D08E" />
+                android:color="#007E82" />
             <padding
                 android:bottom="15dp"
                 android:left="15dp"
@@ -18,7 +18,7 @@
             android:shape="oval"
             android:useLevel="false">
             <solid
-                android:color="#F3D08E" />
+                android:color="#007E82" />
             <stroke android:color="@color/white"
                 android:dashGap="5dip"
                 android:dashWidth="2dip"

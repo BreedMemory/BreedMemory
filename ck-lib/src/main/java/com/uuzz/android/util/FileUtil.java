@@ -112,6 +112,27 @@ public class FileUtil {
 	 }
 
 	/**
+	 * 保存Image的方法，有sd卡存储到sd卡，没有就存储到手机目录
+	 *
+	 * @param path 图片保存的路径（包括文件名）
+	 * @param bitmap 图片对象
+	 * @throws IOException
+	 */
+	 public static String saveBitmap(String path, Bitmap bitmap) throws
+			 IOException {
+		 if(bitmap == null){
+		 	throw new IOException();
+		 }
+		 File file = new File(path);
+		 file.createNewFile();
+		 FileOutputStream fos = new FileOutputStream(file);
+		 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+		 fos.flush();
+		 fos.close();
+		 return file.toURI().toString();
+	 }
+
+	/**
 	 * 判断文件是否存在
 	 * @param filePath 文件路径
 	 * @return 是否存在

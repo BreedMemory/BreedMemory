@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
@@ -59,7 +60,7 @@ public class BreedMemoryAdapter extends PagerAdapter {
         if(datas != null) {
             return datas.size();
         }
-        return 0;
+        return 366;
     }
 
     @Override
@@ -79,7 +80,10 @@ public class BreedMemoryAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = null;
         ViewHolder holder;
-        HealthData tempData = datas.get(position);
+        HealthData tempData = null;
+        if(datas != null) {
+            tempData = datas.get(position);
+        }
         for (View lView : views) {
             if(lView.getParent() == null) {
                 view = lView;
@@ -96,15 +100,55 @@ public class BreedMemoryAdapter extends PagerAdapter {
         }
         container.addView(view);
 
-
-        holder.mContent.setText(tempData.getImageDesc());
-        holder.mDate.setText(tempData.getDataSummary());
-        if(TextUtils.isEmpty(tempData.getImageInfo())) {
-            holder.mPic.setVisibility(View.GONE);
-        } else {
-            Glide.with(mContext).load(tempData.getImageInfo()).dontAnimate().into(holder.mPic);
-            holder.mPic.setVisibility(View.VISIBLE);
+        if(tempData != null) {
+            holder.mContent.setText(tempData.getImageDesc());
+            holder.mDate.setText(tempData.getDataSummary());
+            if(TextUtils.isEmpty(tempData.getImageInfo())) {
+                holder.mPic.setVisibility(View.GONE);
+            } else {
+                Glide.with(mContext).load(tempData.getImageInfo()).dontAnimate().into(holder.mPic);
+                holder.mPic.setVisibility(View.VISIBLE);
+            }
         }
+
+        int week = TimeUtil.getWeek(System.currentTimeMillis()) + 7*52 - position - 1;
+        int resBg, resCenterBg;
+        switch (week % 7) {
+            case 0:
+                resBg = R.drawable.bg_01;
+                resCenterBg = R.drawable.bg_breed_memory_1;
+                break;
+            case 1:
+                resBg = R.drawable.bg_02;
+                resCenterBg = R.drawable.bg_breed_memory_2;
+                break;
+            case 2:
+                resBg = R.drawable.bg_03;
+                resCenterBg = R.drawable.bg_breed_memory_3;
+                break;
+            case 3:
+                resBg = R.drawable.bg_04;
+                resCenterBg = R.drawable.bg_breed_memory_4;
+                break;
+            case 4:
+                resBg = R.drawable.bg_05;
+                resCenterBg = R.drawable.bg_breed_memory_5;
+                break;
+            case 5:
+                resBg = R.drawable.bg_06;
+                resCenterBg = R.drawable.bg_breed_memory_6;
+                break;
+            case 6:
+                resBg = R.drawable.bg_07;
+                resCenterBg = R.drawable.bg_breed_memory_7;
+                break;
+            default:
+                resBg = R.drawable.bg_01;
+                resCenterBg = R.drawable.bg_breed_memory_1;
+                break;
+        }
+        holder.mBackground.setBackgroundResource(resBg);
+        holder.mCenterBackground.setBackgroundResource(resCenterBg);
 
 
         return view;
