@@ -22,8 +22,8 @@ import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
-import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.question.KnowledgeActivity;
 
@@ -488,9 +488,10 @@ public class ServiceInFragment extends HealthInfoFragment {
         if(mUserInfo == null) {
             return;
         }
-        Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
+        /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
-        startActivity(intent);
+        startActivity(intent);*/
+        ActivitySvc.startArticle(getActivity(),false,mUserInfo.getFoodUrl(getActivity()),null,null,null,null);
     }
 
     @OnClick(R.id.ll_knowledge)

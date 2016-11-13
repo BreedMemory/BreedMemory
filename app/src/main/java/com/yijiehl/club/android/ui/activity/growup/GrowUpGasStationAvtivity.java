@@ -14,6 +14,7 @@ import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 
@@ -70,8 +71,8 @@ public class GrowUpGasStationAvtivity extends BmActivity {
     @OnClick({R.id.layout_new_left,R.id.layout_new_right})
     private void lookDetailNew() {
         // TODO: 2016/10/10 此处的url是临时的；
-        Intent intent=new Intent(this,ArticleDetailActivity.class);
-        intent.putExtra(ArticleDetailActivity.URL,"http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_gift_milk_powder&dd=XXXXXXXXX&bd=showdetail");
-        startActivity(intent);
+        String url="http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_gift_milk_powder&dd=XXXXXXXXX&bd=showdetail";
+
+        ActivitySvc.startArticle(this,false,url,null,null,null,null);
     }
 }
