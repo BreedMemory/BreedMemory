@@ -191,7 +191,7 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
                 } else {
                     questionListAdapter.addDatas(data.getResultList());
                 }
-                if(data.getResultList().size()<10){
+                if(data.getResultList() == null || data.getResultList().size()<10){
                     isNoMore=true;
                 }
                 mListView.loadComplete();

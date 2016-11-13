@@ -139,18 +139,30 @@ public class CacheDataDAO extends AbstractDAO<CacheDataEntity> {
      * @param name 接口请求参数的md5
      * @param data 接口返回的数据
      */
-    public void insertCacheDate(final Context context, final String name, final String data) {
+    public void insertCacheDate(Context context, String name, String data) {
+        String userId = ContextUtils.getSharedString(context, R.string.shared_preference_user_id);
+        //缓存接口数据
+        if(getCacheDataModle(userId, name) != null) {      //如果数据库中存在这条数据则更新
+            updateCacheData(userId, name, data);
+        } else {                                            //否则插入一条新数据
+            // DONE: 谌珂 2016/2/17 插入缓存数据
+            insert(new CacheDataEntity(name, data, userId), false);
+        }
+    }
+
+    /**
+     * 描 述：插入一掉接口数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/1 <br/>
+     * @param context 上下文
+     * @param name 接口请求参数的md5
+     * @param data 接口返回的数据
+     */
+    public void insertCacheDateAsync(final Context context, final String name, final String data) {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
-                String userId = ContextUtils.getSharedString(context, R.string.shared_preference_user_id);
-                //缓存接口数据
-                if(getCacheDataModle(userId, name) != null) {      //如果数据库中存在这条数据则更新
-                    updateCacheData(userId, name, data);
-                } else {                                            //否则插入一条新数据
-                    // DONE: 谌珂 2016/2/17 插入缓存数据
-                    insert(new CacheDataEntity(name, data, userId), false);
-                }
+                insertCacheDate(context, name, data);
             }
         });
     }

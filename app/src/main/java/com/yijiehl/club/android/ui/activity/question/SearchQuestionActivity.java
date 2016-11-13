@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -84,7 +83,7 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
                 questionListAdapter=new QuestionListAdapter(SearchQuestionActivity.this);
                 questionListAdapter.addDatas(data.getResultList());
                 lv.setAdapter(questionListAdapter);
-                if(data.getResultList().size()<=0){
+                if(data.getResultList() == null || data.getResultList().size()<=0){
                     noData.setVisibility(View.VISIBLE);
                 }
             }

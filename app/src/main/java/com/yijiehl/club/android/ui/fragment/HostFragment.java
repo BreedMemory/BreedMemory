@@ -41,6 +41,7 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
 import com.yijiehl.club.android.ui.activity.ActivitysActivity;
+import com.yijiehl.club.android.ui.activity.BreedMemoryActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 
@@ -223,12 +224,17 @@ public class HostFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // DONE: 谌珂 2016/10/15 替换为从数据库取数据
-        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(),
-                R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
 
         Glide.with(this).load(R.drawable.shouye_chengzhang_bg).dontAnimate().into(mGrowUpImageBackground);
         Glide.with(this).load(R.drawable.shouye_wenda_bg2).dontAnimate().into(mQuestionImageBackground);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // DONE: 谌珂 2016/10/15 替换为从数据库取数据
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(),
+                R.string.shared_preference_user_id), getString(R.string.shared_preference_user_info));
     }
 
     /**
@@ -394,7 +400,7 @@ public class HostFragment extends BaseHostFragment {
             }
             logger.v("fill extra " + entity.getType() + " time is " + (System.currentTimeMillis() - t));
         }
-        ActivitySvc.saveUserInfoNative(getActivity(), mUserInfo);
+        ActivitySvc.saveUserInfoNativeAsunc(getActivity(), mUserInfo);
     }
     /**
      * 描 述：数字货币格式化<br/>
@@ -569,7 +575,12 @@ public class HostFragment extends BaseHostFragment {
         }
     }
 
-    @OnClick({R.id.ci_main_picture,R.id.tv_advice})
+    @OnClick(R.id.ci_main_picture)
+    private void skipBreedMemory(){
+        startActivity(new Intent(getActivity(), BreedMemoryActivity.class));
+    }
+
+    @OnClick(R.id.tv_advice)
     private void skipHealthFragment(){
         ((MainActivity)getActivity()).setCurrentPage(1);
     }

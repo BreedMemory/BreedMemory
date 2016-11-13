@@ -141,6 +141,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onRefreshBegin(PtrFrameLayout frame) {
                 // DONE: 2016/9/7 请求网络并刷新数据 ，网络请求完毕后记着关了下拉刷新动画mPtrFrameLayout.refreshComplete();
                 mGrowUpContentAdapter.setMode(GrowUpContentAdapter.ALL_DATA);
+                mTitle.check(R.id.gb_all);
                 obtainData(true);
             }
         });
@@ -228,12 +229,12 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
-                    isEducateNoMore = true;
+                    isEducateNoMore = false;
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.EDUCATION_DATA, respSearchArticle.getResultList());
                 }
-                if(respSearchArticle.getResultList().size() < 10) {
+                if(respSearchArticle.getResultList() == null || respSearchArticle.getResultList().size() < 10) {
                     isEducateNoMore = true;
                 }
                 mListView.loadComplete();
@@ -262,12 +263,11 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
                 RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
                 if(isRefresh) {
                     isHealthNoMore = false;
-                    mGrowUpContentAdapter.clear();
                     mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
                 } else {
                     mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.HEALTH_DATA, respSearchArticle.getResultList());
                 }
-                if(respSearchArticle.getResultList().size() < 10) {
+                if(respSearchArticle.getResultList() == null ||respSearchArticle.getResultList().size() < 10) {
                     isHealthNoMore = true;
                 }
                 mListView.loadComplete();

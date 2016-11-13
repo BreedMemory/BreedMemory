@@ -8,6 +8,7 @@ package com.yijiehl.club.android.ui.fragment;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,11 +21,14 @@ import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
+import com.yijiehl.club.android.svc.LoginObservable;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoAfterActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoBeforeActivity;
 import com.yijiehl.club.android.ui.activity.health.HealthInfoInActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
+
+import java.util.Observable;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -81,6 +85,18 @@ public class HealthFragment extends BaseHostFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        LoginObservable.getInstance().addObserver(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setUserVisibleHint(true);
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
@@ -101,6 +117,15 @@ public class HealthFragment extends BaseHostFragment {
             }
             adaptView();
             configRightBtn();
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if(observable == LoginObservable.getInstance()) {
+            mUserInfo = null;
+            fragment = null;
         }
     }
 
@@ -176,5 +201,11 @@ public class HealthFragment extends BaseHostFragment {
         FragmentTransaction lFragmentTransaction = getFragmentManager().beginTransaction();
         lFragmentTransaction.add(R.id.fl_fragment_container, fragment);
         lFragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LoginObservable.getInstance().deleteObserver(this);
     }
 }

@@ -65,7 +65,8 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/9/7 <br/>
      */
     public static void startLoginActivity(Context context) {
-        context.startActivity(new Intent(context, LoginActivity.class));
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 
     /**
@@ -76,6 +77,7 @@ public class ActivitySvc {
      * @param data 登录或激活后的数据
      */
     public static void loginSuccess(Context context, RespLogin data) {
+        LoginObservable.getInstance().notifyObservers();
         switch (data.getAccountStatus()) {
             case INIT:
                 // DONE: 谌珂 2016/9/7 跳转到完善信息页面
@@ -148,6 +150,18 @@ public class ActivitySvc {
     public static void saveUserInfoNative(Context context, UserInfo data) {
         // DONE: 谌珂 2016/10/15 替换为存储到数据库
         CacheDataDAO.getInstance(null).insertCacheDate(context, context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
+    }
+
+    /**
+     * 描 述：保存用户信息数据到本地<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/9/8 <br/>
+     * @param context 上下文
+     * @param data 用户信息
+     */
+    public static void saveUserInfoNativeAsunc(Context context, UserInfo data) {
+        // DONE: 谌珂 2016/10/15 替换为存储到数据库
+        CacheDataDAO.getInstance(null).insertCacheDateAsync(context, context.getString(R.string.shared_preference_user_info), JSON.toJSONString(data));
     }
 
     /**

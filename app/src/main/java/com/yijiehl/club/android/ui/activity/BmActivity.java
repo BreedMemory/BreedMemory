@@ -153,8 +153,8 @@ public abstract class BmActivity extends CkActivity implements Observer {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSensitize data = (RespSensitize) pResponse;
-                ActivitySvc.loginSuccess(BmActivity.this, data);
                 ActivitySvc.saveClientInfoNative(BmActivity.this, data, null);
+                ActivitySvc.loginSuccess(BmActivity.this, data);
                 Common.isSensitize = true;
                 onSensitizeSuccess(data);
             }

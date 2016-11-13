@@ -77,7 +77,7 @@ public class DefaultTask extends AbstractTask {
             return;
         }
         //缓存接口数据
-        CacheDataDAO.getInstance(mContext).insertCacheDate(mContext, String.valueOf(mRequest.hashCode()), result.getEntity());
+        CacheDataDAO.getInstance(mContext).insertCacheDateAsync(mContext, String.valueOf(mRequest.hashCode()), result.getEntity());
 
         if(mListener != null) {
             mListener.onSuccess(responseData);

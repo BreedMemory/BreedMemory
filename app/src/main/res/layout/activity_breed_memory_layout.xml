@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="62dip"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_1"/>
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_text_size"
+        android:layout_marginTop="@dimen/primary_List_margin"
+        tools:text="第N天"/>
+    
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="53dip"
+        android:paddingRight="53dip"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:textSize="@dimen/primary_text_size"
+        android:textColor="#FF4A4A4A"
+        android:background="@drawable/bg_2"
+        tools:text="宝宝今天第10天，黄疸基本消退，母乳喂养，妈妈精神好，食欲佳。"/>
 </RelativeLayout>

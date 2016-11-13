@@ -19,7 +19,6 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.response.innerentity.Article;
@@ -109,6 +108,12 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         super.clear();
         if(allData != null) {
             allData.clear();
+        }
+        if(healthData != null) {
+            healthData.clear();
+        }
+        if(educationData != null) {
+            educationData.clear();
         }
     }
 
