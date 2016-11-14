@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
@@ -75,12 +76,19 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
-        if(memoryAdapter == null || memoryAdapter.getDatas() == null) {
+        if(memoryAdapter == null) {
             return;
         }
-        HealthData healthData = memoryAdapter.getDatas().get(position);
-        mContent.setText(healthData.getDataInfo1());
-        mDate.setText(healthData.getDataSummary());
+        if(memoryAdapter.getDatas() != null && memoryAdapter.getDatas().size() > position) {
+            HealthData healthData = memoryAdapter.getDatas().get(position);
+            mContent.setText(healthData.getDataInfo1());
+        }
+
+        int day = position - memoryAdapter.getCount()/2;
+        long timestamp = System.currentTimeMillis() + day*24L*60*60*1000;
+        StringBuilder sb = new StringBuilder();
+        sb.append(TimeUtil.getTime(timestamp, TimeUtil.DEFAULT_FORMAT_YYYYMMDD)).append(" ").append(TimeUtil.getWeekStr(timestamp));
+        mDate.setText(sb.toString());
     }
 
     @Override

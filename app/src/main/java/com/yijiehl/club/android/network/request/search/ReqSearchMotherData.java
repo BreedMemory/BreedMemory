@@ -25,6 +25,7 @@ import com.yijiehl.club.android.network.response.RespSearchHealthData;
 public class ReqSearchMotherData extends ReqBaseSearch {
     public ReqSearchMotherData(Context context) {
         super(context);
+        this.dataClfy = "latest";
     }
 
     public ReqSearchMotherData(Context context, String time) {

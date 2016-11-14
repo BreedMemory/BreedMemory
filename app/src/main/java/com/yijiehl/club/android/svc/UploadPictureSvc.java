@@ -98,17 +98,17 @@ public class UploadPictureSvc extends Observable implements Observer {
                     }
                     int degree = readPictureDegree(path);
                     Bitmap bm = getImage(ScreenTools.getScreenPixel(context)[0]/2, ScreenTools.getScreenPixel(context)[1]/2, path);
-                    file.delete();
-                    FileUtil.saveBitmap(path, bm);
-                    file = new File(path);
+                    String picPath = FileUtil.getRootFilePath() + System.currentTimeMillis() + ".jpg";
+                    FileUtil.saveBitmap(picPath, bm);
+                    file = new File(picPath);
 
                     if(degree != 0) {
                         bm = rotateBitmap(bm, degree);
                         file.delete();
-                        FileUtil.saveBitmap(path, bm);
-                        file = new File(path);
+                        FileUtil.saveBitmap(picPath, bm);
+                        file = new File(picPath);
                     }
-                    UploadPicture upload = new UploadPicture(new File(path), tabs);
+                    UploadPicture upload = new UploadPicture(new File(picPath), tabs);
                     ReqBaseDataProc proc = new ReqBaseDataProc(context, upload);
                     BaseResponse baseResponse;
                     String code;

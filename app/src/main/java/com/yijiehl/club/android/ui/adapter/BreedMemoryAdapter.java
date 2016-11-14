@@ -57,9 +57,6 @@ public class BreedMemoryAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if(datas != null) {
-            return datas.size();
-        }
         return 366;
     }
 
@@ -81,7 +78,7 @@ public class BreedMemoryAdapter extends PagerAdapter {
         View view = null;
         ViewHolder holder;
         HealthData tempData = null;
-        if(datas != null) {
+        if(datas != null && datas.size() > position) {
             tempData = datas.get(position);
         }
         for (View lView : views) {

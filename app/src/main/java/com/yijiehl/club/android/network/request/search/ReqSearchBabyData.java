@@ -26,6 +26,7 @@ public class ReqSearchBabyData extends ReqBaseSearch {
     public ReqSearchBabyData(Context context, String id) {
         super(context);
         this.dataId = id;
+        this.dataClfy = "latest";
     }
 
     public ReqSearchBabyData(Context context, String time, String id) {
