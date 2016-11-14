@@ -95,8 +95,7 @@ public class NetHelper {
             }
             return JSON.parseObject((String)lResponseContent.getEntity(), pRequest.getResponseClass());
         } catch (Exception e) {
-            logger.e("Create " + lTaskClass.getSimpleName() + "failed!", e);
-            throw new TaskFailException("Create " + lTaskClass.getSimpleName() + "failed!");
+            throw new TaskFailException(e.getMessage());
         }
     }
 

@@ -119,7 +119,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
         super.onActivityCreated(savedInstanceState);
         mTitle.setOnCheckedChangeListener(this);
         mGrowUpContentAdapter = new GrowUpContentAdapter(this, getMode());
-        obtainData(true);
+        obtainAllData();
         mListView.setAdapter(mGrowUpContentAdapter);
         mSearch.addTextChangedListener(this);
 
@@ -214,6 +214,17 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
                 obtainGrowUpArticle(isRefresh, keyWord);
                 break;
         }
+    }
+
+    /**
+     * 描 述：获取数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     */
+    private void obtainAllData() {
+        obtainEducationArticle(true, null);
+        obtainHealthArticle(true, null);
+        obtainGrowUpArticle(true, null);
     }
 
     /**

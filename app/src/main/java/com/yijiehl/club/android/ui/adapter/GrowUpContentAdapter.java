@@ -89,6 +89,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         switch (mode) {
             case ALL_DATA:
                 allData = datas;
+                break;
             case HEALTH_DATA:
                 healthData = datas;
                 break;
@@ -98,21 +99,44 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
             default:
                 break;
         }
+        switch (this.mode) {
+            case ALL_DATA:
+                mDatas = allData;
+                break;
+            case HEALTH_DATA:
+                mDatas = healthData;
+                break;
+            case EDUCATION_DATA:
+                mDatas = educationData;
+                break;
+            default:
+                break;
+        }
         refresh();
     }
 
     @Override
     public void clear() {
-        super.clear();
-        if(allData != null) {
-            allData.clear();
+        switch (mode) {
+            case ALL_DATA:
+                if(allData != null) {
+                    allData.clear();
+                }
+                break;
+            case HEALTH_DATA:
+                if(healthData != null) {
+                    healthData.clear();
+                }
+                break;
+            case EDUCATION_DATA:
+                if(educationData != null) {
+                    educationData.clear();
+                }
+                break;
+            default:
+                break;
         }
-        if(healthData != null) {
-            healthData.clear();
-        }
-        if(educationData != null) {
-            educationData.clear();
-        }
+        refresh();
     }
 
     public List<Article> getDatas(int mode) {
