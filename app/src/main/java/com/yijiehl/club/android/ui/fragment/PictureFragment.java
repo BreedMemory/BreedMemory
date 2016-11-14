@@ -214,7 +214,9 @@ public class PictureFragment extends BaseHostFragment {
                         if (mPicturePersonAdapter.getCount() == 0) {
                             upLoading.setVisibility(View.GONE);
                         } else {
-                            upLoading.setVisibility(View.VISIBLE);
+                            if (mTitle.getCheckedRadioButtonId() == R.id.rb_person){
+                                upLoading.setVisibility(View.VISIBLE);
+                            }
                         }
                         mPicturePersonAdapter.notifyDataSetChanged();
                         break;
@@ -289,8 +291,9 @@ public class PictureFragment extends BaseHostFragment {
                     if (data.getResultList() == null || data.getResultList().size() == 0) {
                         upLoading.setVisibility(View.GONE);
                     } else {
-                        upLoading.setVisibility(View.VISIBLE);
-
+                        if (mTitle.getCheckedRadioButtonId() == R.id.rb_person){
+                            upLoading.setVisibility(View.VISIBLE);
+                        }
                     }
                     mPicturePersonAdapter.clear();
                     mPicturePersonAdapter.setData(data.getResultList());
