@@ -105,6 +105,8 @@ public class PictureFragment extends BaseHostFragment {
     /** 请求权限成功后回调 */
     private ReadMediaTask mReadMediaTask = new ReadMediaTask();
     private long mTaskId;
+    private boolean isPersonalNoMore;
+    private boolean isAlbumNoMore;
 
     @Nullable
     @Override
@@ -230,6 +232,12 @@ public class PictureFragment extends BaseHostFragment {
     }
 
     @Override
+    public void onResume() {
+        refreshAll();
+        super.onResume();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PhotoPickerActivity.PHOTO_PICKER_ACTIVITY && resultCode == Activity.RESULT_OK) {
@@ -243,11 +251,15 @@ public class PictureFragment extends BaseHostFragment {
         }
     }
 
-    @Override
-    public void onResume() {
+    /**
+     * 描 述：刷新所有图片数据<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/11/14 <br/>
+     */
+    private void refreshAll() {
+        mListView.lockLoad(false);
         obtainPersonalPhoto(true);
         obtainAlbumPhoto(true);
-        super.onResume();
     }
 
     /**
@@ -287,8 +299,11 @@ public class PictureFragment extends BaseHostFragment {
                 }
                 mListView.loadComplete();
                 if(data.getResultList().size() < 10) {
-                    mListView.lockLoad(true);
+                    isPersonalNoMore = true;
+                } else {
+                    isPersonalNoMore = false;
                 }
+                awardLoadMore();
                 mPtrFrameLayout.refreshComplete();
             }
 
@@ -332,8 +347,11 @@ public class PictureFragment extends BaseHostFragment {
                 }
                 mListView.loadComplete();
                 if(data.getResultList() == null || data.getResultList().size() < 10) {
-                    mListView.lockLoad(true);
+                    isAlbumNoMore = true;
+                } else {
+                    isAlbumNoMore = false;
                 }
+                awardLoadMore();
                 mPtrFrameLayout.refreshComplete();
             }
 
@@ -344,6 +362,22 @@ public class PictureFragment extends BaseHostFragment {
                 mPtrFrameLayout.refreshComplete();
             }
         });
+    }
+
+    /**
+     * 描 述：判断是否可以加载更多<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.0.0) 谌珂 2016/10/28 <br/>
+     */
+    private void awardLoadMore() {
+        switch (mTitle.getCheckedRadioButtonId()) {
+            case R.id.rb_person:
+                mListView.lockLoad(isPersonalNoMore);
+                break;
+            case R.id.rb_club:
+                mListView.lockLoad(isAlbumNoMore);
+                break;
+        }
     }
 
     @OnClick({R.id.click_uploading, R.id.iv_uploading})

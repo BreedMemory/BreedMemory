@@ -170,6 +170,12 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
      */
     public static String createResourceUrl(Context context, String path) {
+        if(TextUtils.isEmpty(path)) {
+            return null;
+        }
+        if(path.startsWith("/")) {
+            path = path.substring(1, path.length());
+        }
         return ContextUtils.getSharedString(context, R.string.shared_preference_resourceUrl) + path;
     }
 
@@ -179,6 +185,9 @@ public class ActivitySvc {
      * 历 史: (1.0.0) 谌珂 2016/10/4 <br/>
      */
     public static String createWebUrl(String path) {
+        if(TextUtils.isEmpty(path)) {
+            return null;
+        }
         if(path.startsWith("/")) {
             path = path.substring(1, path.length());
         }
@@ -234,14 +243,7 @@ public class ActivitySvc {
      * @param isNative 是否是本地图片
      */
     public static void startImageViewer(Context context, ArrayList<String> path, boolean isNative, int index) {
-        if (path == null || path.size() == 0) {
-            return;
-        }
-        Intent intent = new Intent(context, ImageViewerActivity.class);
-        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
-        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
-        intent.putExtra(ImageViewerActivity.INDEX, index);
-        context.startActivity(intent);
+        startImageViewer(context, path, null, null, isNative, index);
     }
 
     /**
@@ -253,16 +255,7 @@ public class ActivitySvc {
      * @param isNative 是否是本地图片
      */
     public static void startImageViewer(Context context, ArrayList<String> path, ArrayList<String> codes, ArrayList<String> descs, boolean isNative, int index) {
-        if (path == null || path.size() == 0) {
-            return;
-        }
-        Intent intent = new Intent(context, ImageViewerActivity.class);
-        intent.putExtra(ImageViewerActivity.NATIVE, isNative);
-        intent.putStringArrayListExtra(UploadPhotoActivity.PATH, path);
-        intent.putStringArrayListExtra(ImageViewerActivity.CODES, codes);
-        intent.putStringArrayListExtra(ImageViewerActivity.DESCS, descs);
-        intent.putExtra(ImageViewerActivity.INDEX, index);
-        context.startActivity(intent);
+        startImageViewer(context, path, codes, descs, isNative, index, false);
     }
 
     /**
