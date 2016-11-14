@@ -24,11 +24,9 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
-import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
 
 import java.util.ArrayList;
@@ -140,7 +138,7 @@ public class MenuAdapter extends BaseListViewAdapter<String> {
         }
         if(TextUtils.equals(mDatas.get(position), SHARE)) {
             // DONE: 谌珂 2016/10/30 分享
-            ShareSvc.shareUrl((Activity) mContext, ActivitySvc.createWebUrl(url),name,dataSummary);
+            ShareSvc.shareUrl((Activity) mContext, url, name, dataSummary);
         }
     }
 

@@ -96,11 +96,12 @@ public class UploadPictureSvc extends Observable implements Observer {
                     if (!file.exists()) {
                         return;
                     }
+                    int degree = readPictureDegree(path);
                     Bitmap bm = getImage(ScreenTools.getScreenPixel(context)[0]/2, ScreenTools.getScreenPixel(context)[1]/2, path);
                     file.delete();
                     FileUtil.saveBitmap(path, bm);
                     file = new File(path);
-                    int degree = readPictureDegree(path);
+
                     if(degree != 0) {
                         bm = rotateBitmap(bm, degree);
                         file.delete();

@@ -93,7 +93,7 @@ public class HealthFragment extends BaseHostFragment {
     @Override
     public void onStart() {
         super.onStart();
-        setUserVisibleHint(true);
+        setUserVisibleHint(isVisible);
     }
 
     @Override

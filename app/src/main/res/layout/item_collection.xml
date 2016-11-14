@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/primary_List_margin"
+    android:paddingBottom="@dimen/primary_List_margin">
 
     <TextView
         android:id="@+id/tv_collect_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/primary_margin"
-        android:layout_marginTop="@dimen/primary_margin"
         android:textSize="@dimen/primary_margin"
         android:textColor="@color/textColorLight"/>
     <ImageView
         android:id="@+id/iv_collect_image"
         android:layout_width="70dip"
         android:layout_height="70dip"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         android:layout_below="@+id/tv_collect_title"
         android:layout_marginTop="10dip"
-        android:layout_marginBottom="10dip"
         android:background="#f1f2f4"
         android:src="@drawable/bg_collect_default"
         android:layout_marginLeft="@dimen/primary_margin"/>

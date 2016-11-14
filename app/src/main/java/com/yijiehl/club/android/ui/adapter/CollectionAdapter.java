@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.util.ScreenTools;
 import com.uuzz.android.util.Toaster;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
@@ -61,8 +62,20 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
         } else if (temp.getDataType().contains(MyCellectActivity.ARTICLE)) {
             holder.mTitle.setText("文章");
         }
+        ViewGroup.LayoutParams layoutParams = holder.mIamge.getLayoutParams();
+        if(temp.getDataType().contains(MyCellectActivity.PHOTO)) {
+            layoutParams.width = ScreenTools.dip2px(mContext, 137);
+            layoutParams.height = ScreenTools.dip2px(mContext, 70);
+        } else {
+            layoutParams.width = ScreenTools.dip2px(mContext, 70);
+            layoutParams.height = ScreenTools.dip2px(mContext, 70);
+        }
         holder.mContent.setText(temp.getDataInfo());
-        Glide.with(mContext).load(temp.getImageInfo()).error(R.drawable.bg_collect_default).into(holder.mIamge);
+        if(temp.getImageInfo() != null && temp.getImageInfo().startsWith("http")) {
+            Glide.with(mContext).load(temp.getImageInfo()).error(R.drawable.bg_collect_default).into(holder.mIamge);
+        } else {
+            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).error(R.drawable.bg_collect_default).into(holder.mIamge);
+        }
         return convertView;
     }
 
