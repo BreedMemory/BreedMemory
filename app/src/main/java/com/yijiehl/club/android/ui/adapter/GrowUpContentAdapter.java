@@ -25,7 +25,6 @@ import com.yijiehl.club.android.network.response.innerentity.Article;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +43,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
 
     /** 显示模式 {@link #ALL_DATA}, {@link #HEALTH_DATA}, {@link #EDUCATION_DATA} */
     private int mode;
-    private List<Article> allData = new ArrayList<>();
+    private List<Article> allData;
     private List<Article> healthData;
     private List<Article> educationData;
 
@@ -89,7 +88,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         }
         switch (mode) {
             case ALL_DATA:
-                throw new IllegalArgumentException("Can not set all data!");
+                allData = datas;
             case HEALTH_DATA:
                 healthData = datas;
                 break;
@@ -99,7 +98,6 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
             default:
                 break;
         }
-        allData.addAll(datas);
         refresh();
     }
 
@@ -140,8 +138,6 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
             return;
         }
         switch (mode) {
-            case ALL_DATA:
-                throw new IllegalArgumentException("Can not set all data!");
             case HEALTH_DATA:
                 if(healthData == null) {
                     healthData = datas;
@@ -156,10 +152,16 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                     educationData.addAll(datas);
                 }
                 break;
+            case ALL_DATA:
+                if(allData == null) {
+                    allData = datas;
+                } else {
+                    allData.addAll(datas);
+                }
+                break;
             default:
                 break;
         }
-        allData.addAll(datas);
         refresh();
     }
 

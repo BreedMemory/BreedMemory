@@ -118,7 +118,7 @@ public class UploadPictureSvc extends Observable implements Observer {
                             return;
                         }
                         if (!baseResponse.getReturnMsg().isSuccess()) {
-                            throw new Exception("Get relative code failed!");
+                            throw new Exception("Get relative code failed!" + baseResponse.getReturnMsg().getMessage());
                         }
                         code = baseResponse.getReturnMsg().getResultCode();
                     } else {
@@ -130,7 +130,7 @@ public class UploadPictureSvc extends Observable implements Observer {
                         ActivitySvc.startLoginActivity(context);
                     }
                     if (!baseResponse.getReturnMsg().isSuccess()) {
-                        throw new Exception("Upload picture failed!");
+                        throw new Exception("Upload picture failed!" + baseResponse.getReturnMsg().getMessage());
                     }
                     Message msg = Message.obtain();
                     msg.what = ObservableTag.UPLOAD_SUCCESS;

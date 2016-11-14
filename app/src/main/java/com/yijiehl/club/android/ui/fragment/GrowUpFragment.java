@@ -24,6 +24,7 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchGrowUpArticle;
 import com.yijiehl.club.android.network.request.search.ReqSearchEducationArticle;
 import com.yijiehl.club.android.network.request.search.ReqSearchHealthArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
@@ -70,6 +71,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
     private boolean isHealthNoMore;
     private boolean isEducateNoMore;
+    private boolean isAllNoMore;
 
     @Nullable
     @Override
@@ -140,8 +142,6 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 // DONE: 2016/9/7 请求网络并刷新数据 ，网络请求完毕后记着关了下拉刷新动画mPtrFrameLayout.refreshComplete();
-                mGrowUpContentAdapter.setMode(GrowUpContentAdapter.ALL_DATA);
-                mTitle.check(R.id.gb_all);
                 obtainData(true);
             }
         });
@@ -171,7 +171,7 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     private void awardLoadMore() {
         switch (mTitle.getCheckedRadioButtonId()) {
             case R.id.gb_all:
-                mListView.lockLoad(isHealthNoMore && isEducateNoMore);
+                mListView.lockLoad(isAllNoMore);
                 break;
             case R.id.gb_health:
                 mListView.lockLoad(isHealthNoMore);
@@ -211,10 +211,43 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
                 obtainHealthArticle(isRefresh, keyWord);
                 break;
             default:
-                obtainEducationArticle(isRefresh, keyWord);
-                obtainHealthArticle(isRefresh, keyWord);
+                obtainGrowUpArticle(isRefresh, keyWord);
                 break;
         }
+    }
+
+    /**
+     * 描 述：获取教育文章<br/>
+     * 作 者：谌珂<br/>
+     * 历 史: (1.7.3) 谌珂 2016/10/18 <br/>
+     * @param isRefresh 是否是完全刷新
+     */
+    private void obtainGrowUpArticle(final boolean isRefresh, final String keyWord) {
+        NetHelper.getDataFromNet(getActivity(), new ReqSearchGrowUpArticle(getActivity(), (isRefresh||!TextUtils.isEmpty(keyWord))?0:mGrowUpContentAdapter.getDatas(GrowUpContentAdapter.ALL_DATA).size(), keyWord), new AbstractCallBack(getActivity()) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchArticle respSearchArticle=(RespSearchArticle)pResponse;
+                if(isRefresh) {
+                    isAllNoMore = false;
+                    mGrowUpContentAdapter.setDatas(GrowUpContentAdapter.ALL_DATA, respSearchArticle.getResultList());
+                } else {
+                    mGrowUpContentAdapter.addDatas(GrowUpContentAdapter.ALL_DATA, respSearchArticle.getResultList());
+                }
+                if(respSearchArticle.getResultList() == null || respSearchArticle.getResultList().size() < 10) {
+                    isAllNoMore = true;
+                }
+                mListView.loadComplete();
+                awardLoadMore();
+                mPtrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                mListView.loadComplete();
+                mPtrFrameLayout.refreshComplete();
+            }
+        },false);
     }
 
     /**
