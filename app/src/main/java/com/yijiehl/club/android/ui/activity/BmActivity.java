@@ -228,6 +228,7 @@ public abstract class BmActivity extends CkActivity implements Observer {
 
     @Override
     protected void configHeadRightView() {
+        mHeadRightContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
         mHeadRightContainer.setVisibility(View.GONE);
         mRightBtn = new IconTextView(this);
         mHeadRightContainer.addView(mRightBtn);

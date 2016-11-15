@@ -44,9 +44,9 @@ public class RespSearchHealthData extends BaseResponse {
             case "abnormal":
                 return "不正常";
             case "higher":
-                return "偏高";
+                return "偏多";
             case "lower":
-                return "偏低";
+                return "偏少";
             case "nochk":
                 return "未检测";
             case "good":

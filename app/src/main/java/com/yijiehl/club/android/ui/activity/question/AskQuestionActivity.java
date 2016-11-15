@@ -72,11 +72,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
      * 图片适配器
      */
     UploadImageAdapter mAdapter;
-    /**
-     * 来自上传图片请求的时间戳，用于监听着返回匹配任务
-     */
-    @SaveInstance
-    private long mTaskId;
 
     @SaveInstance
     private UserInfo userInfo;
@@ -100,6 +95,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
 
     @Override
     protected void configHeadRightView() {
+        mHeadRightContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_header_touchable));
         mRightBtn = new IconTextView(this);
         mHeadRightContainer.addView(mRightBtn);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
@@ -116,9 +112,6 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
 
-        if (mTaskId == 0) {
-            mTaskId = getIntent().getLongExtra(UploadPhotoActivity.TASK, 0);
-        }
         mAdapter = new UploadImageAdapter(this);
         mPhotoContainer.setAdapter(mAdapter);
         mPhotoContainer.setOnItemClickListener(this);
@@ -158,8 +151,7 @@ public class AskQuestionActivity extends BmActivity implements AdapterView.OnIte
             if (filePaths == null || filePaths.size() == 0) {   //选择的图片为空终止
                 return;
             }
-            mAdapter.addDatas(filePaths);
-            mTaskId = System.currentTimeMillis();
+            mAdapter.setDatas(filePaths);
         }
     }
 

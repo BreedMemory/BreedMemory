@@ -70,11 +70,11 @@ public class CollectionAdapter extends BaseListViewAdapter<Collection> implement
             layoutParams.width = ScreenTools.dip2px(mContext, 70);
             layoutParams.height = ScreenTools.dip2px(mContext, 70);
         }
-        holder.mContent.setText(temp.getDataInfo());
+        holder.mContent.setText(temp.getDataName());
         if(temp.getImageInfo() != null && temp.getImageInfo().startsWith("http")) {
-            Glide.with(mContext).load(temp.getImageInfo()).error(R.drawable.bg_collect_default).into(holder.mIamge);
+            Glide.with(mContext).load(temp.getImageInfo()).error(R.drawable.bg_loading).into(holder.mIamge);
         } else {
-            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).error(R.drawable.bg_collect_default).into(holder.mIamge);
+            Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, temp.getImageInfo())).error(R.mipmap.logo).into(holder.mIamge);
         }
         return convertView;
     }

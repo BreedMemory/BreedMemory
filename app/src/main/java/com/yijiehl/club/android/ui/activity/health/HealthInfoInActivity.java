@@ -237,7 +237,12 @@ public class HealthInfoInActivity extends BmActivity {
                     return;
                 }
                 HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);
-                mBabyBirthday.setText(lData.getBirthdate());
+                if(TextUtils.isEmpty(lData.getBirthdate())) {
+                    mBabyBirthday.setVisibility(View.GONE);
+                } else {
+                    mBabyBirthday.setVisibility(View.VISIBLE);
+                    mBabyBirthday.setText(lData.getBirthdate());
+                }
                 mBabyWeight.setText(lData.getStatValue01());
                 mBabyHead.setText(lData.getStatValue11());
                 mBabyChest.setText(lData.getStatValue10());
