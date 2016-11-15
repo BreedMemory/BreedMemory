@@ -185,6 +185,26 @@ public class FileUtil {
 		return b;
 	}
 
+	/**
+	 * 描 述：初始化文件路径<br/>
+	 * 作者：谌珂<br/>
+	 * 历 史: (版本) 谌珂 2015/12/31 注释 <br/>
+	 */
+	public static void initTempPicPath(Logger logger, String path) {
+		initFilePath(logger, path);
+		File file = new File(path + ".nomedia");
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				if(logger == null) {
+					return;
+				}
+				logger.i("create path :  " + path + ".nomedia" + " failed!", e);
+			}
+		}
+	}
+
 //	/**
 //	 * 描 述：初始化文件路径<br/>
 //	 * 作者：谌珂<br/>

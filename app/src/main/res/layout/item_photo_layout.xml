@@ -6,6 +6,5 @@
         android:id="@+id/im_photo"
         android:layout_width="match_parent"
         android:layout_height="100dip"
-        android:scaleType="centerCrop"
-        android:src="@drawable/shouye_bg1"/>
+        android:scaleType="centerCrop"/>
 </LinearLayout>

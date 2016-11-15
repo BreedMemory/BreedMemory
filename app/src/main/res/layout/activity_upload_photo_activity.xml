@@ -67,7 +67,7 @@
             android:background="@null"
             android:padding="0dip"
             android:textColorHint="@color/textColorLight"
-            android:hint="标签"/>
+            android:hint="@string/say_something"/>
 
         <View
             android:layout_marginTop="@dimen/primary_List_margin"

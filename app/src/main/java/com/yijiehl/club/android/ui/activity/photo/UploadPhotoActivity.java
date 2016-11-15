@@ -6,6 +6,8 @@
  */
 package com.yijiehl.club.android.ui.activity.photo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,14 +85,14 @@ public class UploadPhotoActivity extends BmActivity implements AdapterView.OnIte
         // XXX: 谌珂 2016/10/15 查询标签 ，成功后填充标签      标签暂时使用输入框替代
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-//        //从编辑标签页面带回来的标签
-//        switch (requestCode) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        //从编辑标签页面带回来的标签
+        switch (requestCode) {
 //            case EditTabActivity.ADD_EDIT:
 //                if(mTabs == null) {
 //                    mTabs = new ArrayList<>();
@@ -98,12 +100,12 @@ public class UploadPhotoActivity extends BmActivity implements AdapterView.OnIte
 //                mTabs.add(data.getCharSequenceExtra(EditTabActivity.TAB).toString());
 //                fillTabs();
 //                break;
-//            case PhotoPickerActivity.PHOTO_PICKER_ACTIVITY:
-//                mFilePaths = data.getStringArrayListExtra(PATH);
-//                mAdapter.setDatas(mFilePaths);
-//                break;
-//        }
-//    }
+            case PhotoPickerActivity.PHOTO_PICKER_ACTIVITY:
+                mFilePaths = data.getStringArrayListExtra(PATH);
+                mAdapter.setDatas(mFilePaths);
+                break;
+        }
+    }
 
 //    /**
 //     * 描 述：填充标签<br/>

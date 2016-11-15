@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.uuzz.android.ui.view.IconTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dip"
-    android:layout_height="100dip"
-    android:text="@string/icon_add"
-    android:textSize="55dip"
-    android:paddingLeft="28dip"
-    android:paddingRight="28dip"
-    android:paddingTop="21dip"
-    android:paddingBottom="21dip"
-    android:gravity="center"
-    android:background="#f2f2f2"
-    android:textColor="#cdcdcd"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.uuzz.android.ui.view.IconTextView
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:text="@string/icon_add"
+        android:textSize="55dip"
+        android:gravity="center"
+        android:background="#f2f2f2"
+        android:textColor="#cdcdcd"/>
+</LinearLayout>
