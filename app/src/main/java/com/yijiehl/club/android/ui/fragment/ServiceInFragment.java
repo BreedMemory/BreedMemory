@@ -396,6 +396,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     protected void onUserInfoAvailable() {
         super.onUserInfoAvailable();
+        mInfo.setText(mUserInfo.getBaseInfo());
         getBabyData();
         //计算应当显示的宝宝视图按钮
         if(mUserInfo.getChildrenInfo() != null) {
@@ -464,7 +465,8 @@ public class ServiceInFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.mother_extra_data,
+    @OnClick({R.id.tv_health_desc,
+            R.id.mother_extra_data,
             R.id.baby_extra_data,
             R.id.ll_mother_weight_form_container,
             R.id.ll_mother_temperature_form_container,

@@ -353,6 +353,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     @Override
     protected void onUserInfoAvailable() {
         super.onUserInfoAvailable();
+        mInfo.setText(mUserInfo.getBaseInfo());
         getBabyData();
 
         // TODO: 谌珂 2016/10/26 请求接口查询病例
@@ -415,7 +416,8 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.ll_mother_chest_form_container,
+    @OnClick({R.id.tv_health_desc,
+            R.id.ll_mother_chest_form_container,
             R.id.ll_mother_weight_form_container,
             R.id.ll_mother_waist_form_container,
             R.id.ll_mother_hips_form_container,

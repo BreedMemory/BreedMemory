@@ -320,6 +320,7 @@ public class HostFragment extends BaseHostFragment {
                 case HEALTHINFO:
                     //会所健康建议
                     mAdvice.setText(entity.getValue());
+                    mUserInfo.setBaseInfo(entity.getValue());
                     break;
                 case RECOMMACTIVITY:
                     mActivityName.setText(entity.getName());

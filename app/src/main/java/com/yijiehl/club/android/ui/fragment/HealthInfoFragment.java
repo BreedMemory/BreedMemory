@@ -94,10 +94,10 @@ public abstract class HealthInfoFragment extends BmFragment {
         NetHelper.getDataFromNet(getActivity(), new ReqSearchMotherData(getActivity()), new AbstractCallBack(getActivity()) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
+                mMotherData = (RespSearchHealthData) pResponse;
                 if(mMotherData == null || mMotherData.getResultList() == null || mMotherData.getResultList().size() == 0) {
                     return;
                 }
-                mMotherData = (RespSearchHealthData) pResponse;
                 onMotherHealthDataReceived();
             }
         });

@@ -241,7 +241,8 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         mIcMore.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.ll_mother_chest_form_container,
+    @OnClick({R.id.tv_health_desc,
+            R.id.ll_mother_chest_form_container,
             R.id.ll_mother_weight_form_container,
             R.id.ll_mother_waist_form_container,
             R.id.ll_mother_hips_form_container})
@@ -274,5 +275,11 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
     @OnClick(R.id.ll_knowledge)
     private void startKnowledge(){
         startActivity(new Intent(getActivity(), KnowledgeActivity.class));
+    }
+
+    @Override
+    protected void onUserInfoAvailable() {
+        super.onUserInfoAvailable();
+        mInfo.setText(mUserInfo.getBaseInfo());
     }
 }
