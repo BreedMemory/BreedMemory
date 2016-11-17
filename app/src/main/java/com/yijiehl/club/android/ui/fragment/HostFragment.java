@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -37,6 +38,7 @@ import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectArticle;
 import com.yijiehl.club.android.network.request.dataproc.CollectPicture;
 import com.yijiehl.club.android.network.response.RespSensitize;
+import com.yijiehl.club.android.network.response.innerentity.MyMessage;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.ShareSvc;
@@ -44,6 +46,7 @@ import com.yijiehl.club.android.ui.activity.ActivitysActivity;
 import com.yijiehl.club.android.ui.activity.BreedMemoryActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
+import com.yijiehl.club.android.ui.activity.user.MyMessageActivity;
 
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
@@ -76,6 +79,11 @@ public class HostFragment extends BaseHostFragment {
      */
     @ViewInject(R.id.ll_tip_container)
     private LinearLayout mTipContainer;
+    /**
+     * 消息提醒
+     */
+    @ViewInject(R.id.rl_message_remind)
+    private RelativeLayout mMessageRemind;
     /**
      * 圆形照片
      */
@@ -175,6 +183,7 @@ public class HostFragment extends BaseHostFragment {
      * 用户信息
      */
     private UserInfo mUserInfo;
+    private MyMessage mMessage;
     /** 刷新任务 */
     private RefreshTask mRefreshTask = new RefreshTask();
 
@@ -581,6 +590,11 @@ public class HostFragment extends BaseHostFragment {
         startActivity(new Intent(getActivity(), BreedMemoryActivity.class));
     }
 
+    @OnClick({R.id.tv_message_tip_icon,R.id.tv_message_tip})
+    private void shipMyMessage(){
+        mMessageRemind.setVisibility(View.GONE);
+        startActivity(new Intent(getActivity(), MyMessageActivity.class));
+    }
     @OnClick(R.id.tv_advice)
     private void skipHealthFragment(){
         ((MainActivity)getActivity()).setCurrentPage(1);
@@ -647,5 +661,19 @@ public class HostFragment extends BaseHostFragment {
         codes.add(entity.getName());
         descs.add(entity.getName());
         ActivitySvc.startImageViewer(getActivity(), list, codes, descs, false, 0);
+    }
+
+    public void setmMessage(MyMessage mMessage) {
+        this.mMessage = mMessage;
+        showMessage();
+    }
+
+    private void showMessage() {
+        mMessageRemind.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.rl_message_remind)
+    private void cancelMessage(){
+        mMessageRemind.setVisibility(View.GONE);
     }
 }

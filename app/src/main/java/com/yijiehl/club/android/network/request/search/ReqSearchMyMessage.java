@@ -21,9 +21,9 @@ import com.yijiehl.club.android.network.response.RespSearchMyMessage;
  * 版    本：1.0.0<br/>
  */
 public class ReqSearchMyMessage extends ReqBaseSearch {
-    public ReqSearchMyMessage(Context context) {
+    public ReqSearchMyMessage(Context context,boolean noread) {
         super(context);
-        this.dataClfy = "all";
+        this.dataClfy = noread ? "" : "all";
     }
 
     @Override
