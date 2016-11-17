@@ -151,7 +151,11 @@ public class LineChatView extends View {
      * 历 史: (1.7.3) 谌珂 2016/11/3 <br/>
      */
     private void initParam() {
-        xStep = getWidth() / (mPointCount-1);
+        if(mPointCount == 1){
+            xStep = 0;
+        }else{
+            xStep = getWidth() / (mPointCount-1);
+        }
         mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
         mRangeLength = mRange[1] - mRange[0];
         scrollTo(getMaximumScrollX(), 0);
