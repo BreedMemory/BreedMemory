@@ -158,9 +158,9 @@ public class ImageViewer extends ImageView {
 				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);
 			} else {
 				if((fillType && offsetWidth < 0) || (!fillType && offsetWidth >= 0)) {
-					mScale = (float)getWidth()/source.getWidth();
-				} else {
 					mScale = (float)source.getWidth()/getWidth();
+				} else {
+					mScale = (float)getWidth()/source.getWidth();
 				}
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);

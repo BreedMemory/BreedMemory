@@ -129,7 +129,7 @@ public class CircularImageView extends ImageView {
 		paint.setColor(Color.parseColor("#FFFFFFFF"));
 
 		//设置文字间距
-//		paint.setLetterSpacing(mLetterSpace);
+//		mPaint.setLetterSpacing(mLetterSpace);
 		//计算文字大小
 		float lTextSize = ScreenTools.dip2px(this.getContext(), 8f);
 
@@ -141,7 +141,7 @@ public class CircularImageView extends ImageView {
 		//基线的Y坐标
 		float lBaseLineY = lHtartHeight / 6 - fm.descent + (fm.descent - fm.ascent) / 2 + lHtartHeight;
 		canvas.drawText(mShadeText, gap, lBaseLineY, paint);
-//		float lTextWidth = paint.measureText(mShadeText);
+//		float lTextWidth = mPaint.measureText(mShadeText);
 	}
 
 	private void drawLiftUp(Canvas canvas) {

@@ -202,18 +202,18 @@ public class ImageEditor extends View {
 		canvas.restore();
 
 //		//设置选区颜色，默认为白色,6px
-//		paint.setColor(Color.WHITE);
-//		paint.setStrokeWidth(0);
-//		paint.setStyle(Paint.Style.STROKE);
+//		mPaint.setColor(Color.WHITE);
+//		mPaint.setStrokeWidth(0);
+//		mPaint.setStyle(Paint.Style.STROKE);
 //		//绘制圆形选区,由于选区边框width影响，半径-3
-//		canvas.drawCircle(selection.left+radius, selection.top+radius, radius, paint);
+//		canvas.drawCircle(selection.left+radius, selection.top+radius, radius, mPaint);
 //		//绘制网格
 //		//绘制圆形选区的外切正方形，边为虚线
-//		paint.setPathEffect(effects);
+//		mPaint.setPathEffect(effects);
 //		path.reset();
 //		path.addRect(selection.left, selection.top, selection.right, selection.bottom, Path.Direction.CW);
 //		path.close();
-//		canvas.drawPath(path, paint);
+//		canvas.drawPath(path, mPaint);
 //
 //		//构建选区路径
 //		path.reset();
@@ -225,16 +225,16 @@ public class ImageEditor extends View {
 //		//剪裁圆形选区
 //		canvas.clipPath(path);
 //		//绘制正常颜色图片
-//		paint.setPathEffect(null);
+//		mPaint.setPathEffect(null);
 //		//绘制网格线
-////		paint.setStyle(Style.FILL);
-////		paint.setColor(Color.argb(130, 255, 255, 255));
-////		paint.setStrokeWidth(1);
+////		mPaint.setStyle(Style.FILL);
+////		mPaint.setColor(Color.argb(130, 255, 255, 255));
+////		mPaint.setStrokeWidth(1);
 //		canvas.drawBitmap(source, mMatrix, null);
-////		canvas.drawLine(selection.left+diameter/3, 0, selection.left+diameter/3, selection.bottom, paint);
-////		canvas.drawLine(selection.left+diameter*2/3, 0, selection.left+diameter*2/3, selection.bottom, paint);
-////		canvas.drawLine(0, selection.top+diameter/3, selection.right, selection.top+diameter/3, paint);
-////		canvas.drawLine(0, selection.top+diameter*2/3, selection.right, selection.top+diameter*2/3, paint);
+////		canvas.drawLine(selection.left+diameter/3, 0, selection.left+diameter/3, selection.bottom, mPaint);
+////		canvas.drawLine(selection.left+diameter*2/3, 0, selection.left+diameter*2/3, selection.bottom, mPaint);
+////		canvas.drawLine(0, selection.top+diameter/3, selection.right, selection.top+diameter/3, mPaint);
+////		canvas.drawLine(0, selection.top+diameter*2/3, selection.right, selection.top+diameter*2/3, mPaint);
 //		canvas.restore();
 		
 		//绘制完成后恢复标记
