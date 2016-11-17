@@ -24,9 +24,10 @@ import com.yijiehl.club.android.network.response.RespSearchHealthDataList;
  */
 public class ReqSearchBabyDataList extends ReqBaseSearch {
 
-    public ReqSearchBabyDataList(Context context, StatisticalTarget target) {
+    public ReqSearchBabyDataList(Context context, StatisticalTarget target, String childId) {
         super(context);
         this.dataClfy = target.getName();
+        this.dataId = childId;
     }
 
     @Override

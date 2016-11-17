@@ -223,6 +223,7 @@ public class HealthInfoBeforeActivity extends BmActivity {
             return;
         }
         mTimeView.setText(newTime);
+        mMotherHealthData = null;
         if(mMotherTask != null) {
             mMotherTask.cancel(true);
         }

@@ -413,7 +413,6 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
                 }
                 List<String> urls = new ArrayList<>();
                 for (ExtraFile lExtraFile: data.getResultList()) {
-                    if (TextUtils.equals(relateCode, lExtraFile.getDataCode()))
                     urls.add(lExtraFile.getDataUrl());
                 }
                 mUploadImageAdapter.setMode(UploadImageAdapter.MODE_REMOTE);
@@ -451,10 +450,12 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         if(mMotherTask != null) {
             mMotherTask.cancel(true);
         }
+        mMotherHealthData = null;
         mMotherTask = getMotherData();
         if(mBabyTask != null) {
             mBabyTask.cancel(true);
         }
+        mBabyHealthData = null;
         mBabyTask = getBabyData();
     }
 
