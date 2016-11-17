@@ -242,7 +242,11 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private int getY(int position) {
-        return  (int) (getPaddingTop() + mTrueHeight *(mRange[1] - values.get(position))/(mRangeLength));
+        if(mRange[1] == mRange[0]) {
+            return  getHeight()/2;
+        } else {
+            return  (int) (getPaddingTop() + mTrueHeight *(mRange[1] - values.get(position))/(mRangeLength));
+        }
     }
 
     private void requestParentDisallowInterceptTouchEvent(boolean disallowIntercept) {
@@ -577,9 +581,7 @@ public class LineChatView extends View {
             mRange[1] = 0;
             return;
         }
-        if(values.size() < mPointCount) {
-            mPointCount = values.size();
-        }
+        mPointCount = values.size();
         mRange[0] = values.get(0);
         mRange[1] = values.get(0);
         for (Float value: values) {

@@ -8,8 +8,6 @@
 package com.yijiehl.club.android.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -97,8 +95,8 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
     private LineChatView mMotherHipChat;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         getMotherDataListWeight();
         getMotherDataListChest();
         getMotherDataListWaist();
@@ -269,7 +267,7 @@ public class ServiceBeforeFragment extends HealthInfoFragment {
         /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);*/
-        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()),getString(R.string.food),null,null,null);
+        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null);
     }
 
     @OnClick(R.id.ll_knowledge)

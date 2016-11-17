@@ -157,8 +157,6 @@ public class ServiceInFragment extends HealthInfoFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getMotherDataListTemperature();
-        getMotherDataListWeight();
 
         initAllChat();
 
@@ -181,6 +179,13 @@ public class ServiceInFragment extends HealthInfoFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMotherDataListTemperature();
+        getMotherDataListWeight();
     }
 
     /**
@@ -493,7 +498,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);*/
-        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()),getString(R.string.food),null,null,null);
+        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null);
     }
 
     @OnClick(R.id.ll_knowledge)
