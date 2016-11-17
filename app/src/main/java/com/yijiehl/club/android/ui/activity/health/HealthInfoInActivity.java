@@ -195,7 +195,9 @@ public class HealthInfoInActivity extends BmActivity {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchHealthData lData = (RespSearchHealthData) pResponse;
                 if(lData.getResultList() == null || lData.getResultList().size() == 0) {
-                    Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
+                    if(!mTimeView.getText().toString().isEmpty()&&mTimeView.getText().toString().equals(createTime(System.currentTimeMillis()))){
+                        Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
+                    }
                     return;
                 }
                 mMotherWeight.setText(lData.getResultList().get(0).getStatValue01());
@@ -233,7 +235,9 @@ public class HealthInfoInActivity extends BmActivity {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 if(((RespSearchHealthData) pResponse).getResultList() == null || ((RespSearchHealthData) pResponse).getResultList().size() == 0) {
-                    Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
+                    if(!mTimeView.getText().toString().isEmpty()&&mTimeView.getText().toString().equals(createTime(System.currentTimeMillis()))){
+                        Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
+                    }
                     return;
                 }
                 HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);
