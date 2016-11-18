@@ -234,7 +234,6 @@ public class HealthInfoInActivity extends BmActivity {
             public void onSuccess(AbstractResponse pResponse) {
                 if(((RespSearchHealthData) pResponse).getResultList() == null || ((RespSearchHealthData) pResponse).getResultList().size() == 0) {
                     Toaster.showShortToast(HealthInfoInActivity.this, getString(R.string.please_wait_club_upload_data));
-                    mBabyBirthday.setVisibility(View.GONE);
                     return;
                 }
                 HealthData lData = ((RespSearchHealthData) pResponse).getResultList().get(0);

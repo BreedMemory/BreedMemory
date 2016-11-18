@@ -18,7 +18,12 @@ import com.yijiehl.club.android.network.response.RespSearchArticle;
  */
 public class ReqSearchKnowledge extends ReqBaseSearch {
 
-    public ReqSearchKnowledge(Context context, String type, String key,int start) {
+    public ReqSearchKnowledge(Context context, String key) {
+        super(context);
+        setKeyword(key);
+    }
+
+    public ReqSearchKnowledge(Context context, String type, String key, int start) {
         super(context);
         this.dataClfy = type;
         setKeyword(key);

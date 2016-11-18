@@ -44,7 +44,7 @@ public class MyMessageActivity extends BmActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new MyMessageAdapter(this);
-        NetHelper.getDataFromNet(this, new ReqSearchMyMessage(this), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqSearchMyMessage(this,false), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchMyMessage messages = (RespSearchMyMessage) pResponse;

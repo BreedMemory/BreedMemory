@@ -6,6 +6,7 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,8 +30,10 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchMyMessage;
+import com.yijiehl.club.android.network.response.RespSearchMyMessage;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.HostViewPagerAdapter;
+import com.yijiehl.club.android.ui.fragment.HostFragment;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -70,6 +73,7 @@ public class MainActivity extends BmActivity {
     private int cachePagers = 4;
     /**第一次回退时间*/
     private long touchTime = 0;
+    HostViewPagerAdapter mAdapter;
 
     private ObtainMyMessageTask mObtainMyMessageTask = new ObtainMyMessageTask();
 
@@ -84,10 +88,11 @@ public class MainActivity extends BmActivity {
         mViewPager.setCurrentItem(mCurrentPage);
         setFootFocus(mCurrentPage);
         //创建适配器
-        HostViewPagerAdapter mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
+        mAdapter = new HostViewPagerAdapter(getFragmentManager(), this);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
         mViewPager.setOffscreenPageLimit(cachePagers);
+        mObtainMyMessageTask.run();
     }
 
     @Override
@@ -105,6 +110,13 @@ public class MainActivity extends BmActivity {
                 startActivity(new Intent(MainActivity.this, MineActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mObtainMyMessageTask);
+
     }
 
     /**
@@ -177,10 +189,17 @@ public class MainActivity extends BmActivity {
 
         @Override
         public void run() {
-            NetHelper.getDataFromNet(MainActivity.this, new ReqSearchMyMessage(MainActivity.this), new AbstractCallBack(MainActivity.this) {
+            NetHelper.getDataFromNet(MainActivity.this, new ReqSearchMyMessage(MainActivity.this,true), new AbstractCallBack(MainActivity.this) {
                 @Override
                 public void onSuccess(AbstractResponse pResponse) {
+                    mHandler.removeCallbacks(mObtainMyMessageTask);
                     mHandler.postDelayed(mObtainMyMessageTask, 30*1000);
+                    RespSearchMyMessage data = (RespSearchMyMessage) pResponse;
+                    if(data.getResultList() == null || data.getResultList().size() == 0) {
+                        return;
+                    }
+                    HostFragment fragment = (HostFragment) mAdapter.getItem(0);
+                    fragment.setmMessage(data.getResultList().get(data.getResultList().size() - 1));
                 }
             });
         }

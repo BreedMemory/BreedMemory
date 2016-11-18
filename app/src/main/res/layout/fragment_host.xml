@@ -60,6 +60,39 @@
                 app:outside_border_color="#33ffffff"
                 tools:src="@drawable/test_main_image"/>
 
+            <RelativeLayout
+                android:id="@+id/rl_message_remind"
+                android:layout_width="275dip"
+                android:layout_height="275dip"
+                android:layout_below="@id/ll_tip_background"
+                android:layout_marginTop="2dip"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_message_remind"
+                android:visibility="gone">
+                <RelativeLayout
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="275dip"
+                    android:layout_height="275dip">
+                    <TextView
+                        android:id="@+id/tv_message_show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:textColor="#007e82"
+                        android:textSize="24dip"
+                        android:text="您有一条新短消息"/>
+                    <ImageView
+                        android:layout_width="30dip"
+                        android:layout_marginTop="25dip"
+                        android:layout_height="30dip"
+                        android:src="@drawable/iv_cancel_message"
+                        android:layout_below="@+id/tv_message_show"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+
             <ImageView
                 android:id="@+id/im_arc_up"
                 android:layout_below="@id/ci_main_picture"
