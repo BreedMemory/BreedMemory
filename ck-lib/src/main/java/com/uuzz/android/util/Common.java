@@ -21,7 +21,7 @@ public class Common {
     public static String PACKAGE_NAME;
     /** App版本号 */
     // ReleaseConfig: 谌珂 2016/8/29 APP版本号
-    public static String APP_VERSION = "1.0.16";
+    public static String APP_VERSION = "1.0.17";
 
     /** 默认超时时间 */
     // ReleaseConfig: 谌珂 2016/3/16 配置默认超时时间

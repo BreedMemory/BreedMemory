@@ -30,6 +30,7 @@ public class ReqSearchBabyDataList extends ReqBaseSearch {
         this.dataId = childId;
     }
 
+
     @Override
     public String getBizType() {
         return "crm_hldata_stat_child";
