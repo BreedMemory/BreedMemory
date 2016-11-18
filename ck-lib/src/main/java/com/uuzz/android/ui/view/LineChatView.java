@@ -158,7 +158,11 @@ public class LineChatView extends View {
         }
         mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
         mRangeLength = mRange[1] - mRange[0];
-        scrollTo(getMaximumScrollX(), 0);
+        if(mPointCount > 2) {
+            scrollTo(mPointCount/2, 0);
+        } else {
+            scrollTo(getMaximumScrollX(), 0);
+        }
         invalidate();
     }
 
