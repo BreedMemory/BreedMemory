@@ -12,6 +12,7 @@
     <View style="@style/health_data_divider" />
 
     <RelativeLayout
+        android:visibility="gone"
         style="@style/health_data_item_container">
         <TextView
             style="@style/health_data_title"
