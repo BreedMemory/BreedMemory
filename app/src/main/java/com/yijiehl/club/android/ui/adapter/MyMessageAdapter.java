@@ -13,10 +13,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.adapter.BaseListViewAdapter;
+import com.uuzz.android.util.TimeUtil;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.MyMessage;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 项目名称：手机大管家<br/>
@@ -41,9 +46,9 @@ public class MyMessageAdapter extends BaseListViewAdapter<MyMessage> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.title.setText(mDatas.get(position).getDataName());
-        holder.content.setText(mDatas.get(position).getDataContent());
-        holder.time.setText(mDatas.get(position).getNoticeTime());
+        //holder.title.setText(mDatas.get(position).getDataName());
+//        holder.content.setText(mDatas.get(position).getDataContent());
+        holder.time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(mDatas.get(position).getNoticeTime())));
         return convertView;
     }
 

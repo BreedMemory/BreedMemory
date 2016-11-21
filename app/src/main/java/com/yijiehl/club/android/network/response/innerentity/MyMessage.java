@@ -19,7 +19,7 @@ import com.yijiehl.club.android.network.response.base.RespBaseSearchResult;
 public class MyMessage extends RespBaseSearchResult {
 
     private String dataContent;
-    private String noticeTime;
+    private long noticeTime;
     private String opNum;
 
     public String getDataContent() {
@@ -30,11 +30,11 @@ public class MyMessage extends RespBaseSearchResult {
         this.dataContent = dataContent;
     }
 
-    public String getNoticeTime() {
+    public long getNoticeTime() {
         return noticeTime;
     }
 
-    public void setNoticeTime(String noticeTime) {
+    public void setNoticeTime(long noticeTime) {
         this.noticeTime = noticeTime;
     }
 

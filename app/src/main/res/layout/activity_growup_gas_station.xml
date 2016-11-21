@@ -117,7 +117,7 @@
                 android:layout_height="155dip"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitXY"
-                android:src="@drawable/temp_gas_left" />
+                android:src="@drawable/temp_gas" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

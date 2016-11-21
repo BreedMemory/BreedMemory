@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:dividerHeight="8dip"
+        android:dividerHeight="1dip"
         android:background="#f7fbff"/>
     <TextView
         android:id="@+id/tv_no_data"
