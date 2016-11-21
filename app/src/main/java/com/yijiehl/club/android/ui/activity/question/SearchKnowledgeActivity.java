@@ -61,7 +61,11 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
 
     @OnClick(R.id.tv_cancel)
     private void cancel() {
-        mEditText.getText().clear();
+        if(!TextUtils.isEmpty(mEditText.getText())){
+            mEditText.getText().clear();
+            return;
+        }
+        finish();
     }
 
     /**
