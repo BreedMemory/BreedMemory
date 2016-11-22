@@ -417,7 +417,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
     private void hideForm() {
         mFormContainer.setVisibility(View.GONE);
         mMore.setVisibility(View.VISIBLE);
-        mIcMore.setVisibility(View.VISIBLE);
+       // mIcMore.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.tv_health_desc,

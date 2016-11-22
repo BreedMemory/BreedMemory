@@ -427,8 +427,8 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
     private String createTime(long timestamp) {
-        String text = mTime.replace("-", getString(R.string.year));
-        text = text.replace("-", getString(R.string.month));
+        String text = mTime.replaceFirst("-", getString(R.string.year));
+        text = text.replaceFirst("-", getString(R.string.month));
         text += "日 " + TimeUtil.getWeekStr(timestamp);
         return text;
     }

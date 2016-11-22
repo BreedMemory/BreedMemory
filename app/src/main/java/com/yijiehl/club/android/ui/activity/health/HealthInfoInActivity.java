@@ -281,8 +281,8 @@ public class HealthInfoInActivity extends BmActivity {
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
     private String createTime(long timestamp) {
-        String text = mTime.replace("-", getString(R.string.year));
-        text = text.replace("-", getString(R.string.month));
+        String text = mTime.replaceFirst("-", getString(R.string.year));
+        text = text.replaceFirst("-", getString(R.string.month));
         text += "日 " + TimeUtil.getWeekStr(timestamp);
         return text;
     }
@@ -309,5 +309,7 @@ public class HealthInfoInActivity extends BmActivity {
         mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
         mPickerContainer.setVisibility(View.VISIBLE);
     }
+
+
 
 }

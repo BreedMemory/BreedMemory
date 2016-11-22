@@ -79,6 +79,7 @@
                 android:layout_toLeftOf="@id/im_more"
                 android:paddingRight="@dimen/text_space"
                 android:layout_alignParentBottom="true"
+                android:visibility="gone"
                 android:textSize="@dimen/second_text_size"
                 android:textColor="@color/colorAccent"
                 android:text="@string/know_more"/>
