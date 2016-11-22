@@ -39,6 +39,7 @@
         android:layout_marginLeft="18dip">
         <ListView
             android:id="@+id/lv_medicine"
+            android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <TextView

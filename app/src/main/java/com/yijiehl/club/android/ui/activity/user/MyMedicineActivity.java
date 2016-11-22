@@ -10,8 +10,14 @@ import android.widget.TextView;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
+import com.uuzz.android.util.net.NetHelper;
+import com.uuzz.android.util.net.response.AbstractResponse;
+import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
+import com.yijiehl.club.android.network.request.search.ReqSearchVaccine;
+import com.yijiehl.club.android.network.response.RespSearchVaccine;
 import com.yijiehl.club.android.ui.activity.BmActivity;
+import com.yijiehl.club.android.ui.adapter.VaccineListAdapter;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -32,6 +38,8 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
     /**疫苗提醒列表*/
     @ViewInject(R.id.lv_medicine)
     private ListView mLvMedicine;
+
+    private VaccineListAdapter mAdapter;
 
     @Override
     protected String getHeadTitle() {
@@ -54,7 +62,15 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAdapter  = new VaccineListAdapter(this);
+        NetHelper.getDataFromNet(this, new ReqSearchVaccine(this), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                RespSearchVaccine data = (RespSearchVaccine) pResponse;
+                mAdapter.addDatas(data.getResultList());
+            }
+        }, false);
+        mLvMedicine.setAdapter(mAdapter);
         mLvMedicine.setEmptyView(mNoRemind);
     }
 

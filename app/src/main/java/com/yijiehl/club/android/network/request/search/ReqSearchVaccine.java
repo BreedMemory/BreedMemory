@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.yijiehl.club.android.network.request.base.ReqBaseSearch;
+import com.yijiehl.club.android.network.response.RespSearchVaccine;
 
 /**
  * 项目名称：孕育迹忆 <br/>
@@ -28,6 +29,6 @@ public class ReqSearchVaccine extends ReqBaseSearch {
 
     @Override
     public Class<? extends AbstractResponse> getResponseClass() {
-        return null;
+        return RespSearchVaccine.class;
     }
 }

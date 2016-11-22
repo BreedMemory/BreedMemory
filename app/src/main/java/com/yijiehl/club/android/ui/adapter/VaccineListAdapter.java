@@ -40,7 +40,7 @@ public class VaccineListAdapter extends BaseListViewAdapter<Vaccine>{
             holder= (ViewHolder) convertView.getTag();
         }
         holder.mName.setText(temp.getDataName());
-        holder.mTime.setText(String.valueOf(temp.getOpTime()));
+        holder.mTime.setText(temp.getDataContent());
         return convertView;
     }
 
