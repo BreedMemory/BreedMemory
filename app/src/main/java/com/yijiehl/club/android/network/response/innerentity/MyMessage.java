@@ -21,6 +21,15 @@ public class MyMessage extends RespBaseSearchResult {
     private String dataContent;
     private long noticeTime;
     private String opNum;
+    private String dataShowUrl;
+
+    public String getDataShowUrl() {
+        return dataShowUrl;
+    }
+
+    public void setDataShowUrl(String dataShowUrl) {
+        this.dataShowUrl = dataShowUrl;
+    }
 
     public String getDataContent() {
         return dataContent;

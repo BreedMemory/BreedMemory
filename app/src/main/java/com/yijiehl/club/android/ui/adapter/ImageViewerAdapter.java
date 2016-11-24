@@ -106,6 +106,11 @@ public class ImageViewerAdapter extends PagerAdapter implements ViewPager.OnPage
         }
         view.reset();
         container.addView(view);
+        if(position == 0){
+            if(mPageSelectedListener != null) {
+                mPageSelectedListener.onPageSelector(0);
+            }
+        }
         return view;
     }
 

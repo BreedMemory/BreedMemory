@@ -182,7 +182,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
                 for (int i = 0; i < mDatas.get(groupPosition).size(); i++) {
                     list.add("http://" + Common.SERVICE_URL + mDatas.get(groupPosition).get(i).getImageInfo());
                     codes.add(mDatas.get(groupPosition).get(i).getDataCode());
-                    descs.add(mDatas.get(groupPosition).get(i).getDataDesc());
+                    descs.add(mDatas.get(groupPosition).get(i).getDataLabel());
                 }
                 ActivitySvc.startImageViewer(mContext, list, codes, descs, false, position);
             }

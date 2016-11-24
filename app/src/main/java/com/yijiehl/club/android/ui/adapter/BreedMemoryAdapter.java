@@ -112,28 +112,28 @@ public class BreedMemoryAdapter extends PagerAdapter {
         int resBg, resCenterBg;
         switch (week % 7) {
             case 0:
-                resBg = R.drawable.bg_01;
-                resCenterBg = R.drawable.bg_breed_memory_1;
-                break;
-            case 1:
-                resBg = R.drawable.bg_02;
-                resCenterBg = R.drawable.bg_breed_memory_2;
-                break;
-            case 2:
                 resBg = R.drawable.bg_03;
                 resCenterBg = R.drawable.bg_breed_memory_3;
+                break;
+            case 1:
+                resBg = R.drawable.bg_06;
+                resCenterBg = R.drawable.bg_breed_memory_6;
+                break;
+            case 2:
+                resBg = R.drawable.bg_02;
+                resCenterBg = R.drawable.bg_breed_memory_2;
                 break;
             case 3:
                 resBg = R.drawable.bg_04;
                 resCenterBg = R.drawable.bg_breed_memory_4;
                 break;
             case 4:
-                resBg = R.drawable.bg_05;
-                resCenterBg = R.drawable.bg_breed_memory_5;
+                resBg = R.drawable.bg_01;
+                resCenterBg = R.drawable.bg_breed_memory_1;
                 break;
             case 5:
-                resBg = R.drawable.bg_06;
-                resCenterBg = R.drawable.bg_breed_memory_6;
+                resBg = R.drawable.bg_05;
+                resCenterBg = R.drawable.bg_breed_memory_5;
                 break;
             case 6:
                 resBg = R.drawable.bg_07;

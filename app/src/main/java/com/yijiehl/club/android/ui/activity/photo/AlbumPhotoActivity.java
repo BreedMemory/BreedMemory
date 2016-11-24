@@ -95,7 +95,7 @@ public class AlbumPhotoActivity extends BmActivity {
                 for (int i = 0; i < mAdapter.getDatas().size(); i++) {
                     list.add(ActivitySvc.createWebUrl(mAdapter.getDatas().get(i).getImageInfo()));
                     codes.add(mAdapter.getDatas().get(i).getDataCode());
-                    descs.add(mAdapter.getDatas().get(i).getDataDesc());
+                    descs.add(mAdapter.getDatas().get(i).getDataLabel());
                 }
                 ActivitySvc.startImageViewer(AlbumPhotoActivity.this, list, codes, descs, false, position);
             }

@@ -22,6 +22,7 @@
                     android:paddingTop="@dimen/primary_List_margin"
                     android:paddingBottom="@dimen/primary_List_margin">
                     <com.uuzz.android.ui.view.IconTextView
+                        android:id="@+id/itv_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/icon_return"
@@ -35,6 +36,7 @@
                         android:layout_centerInParent="true"
                         tools:text="2014年"/>
                     <com.uuzz.android.ui.view.IconTextView
+                        android:id="@+id/itv_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

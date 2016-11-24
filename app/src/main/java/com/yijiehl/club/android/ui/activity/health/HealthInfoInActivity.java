@@ -34,6 +34,9 @@ import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.view.TimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 项目名称：手机大管家<br/>
  * 类  名: HealthInfoInActivity<br/>
@@ -124,6 +127,7 @@ public class HealthInfoInActivity extends BmActivity {
     private UserInfo mUserInfo;
     private AsyncTask mMotherTask;
     private AsyncTask mBabyTask;
+    private int flag = 0;
 
     @Override
     protected String getHeadTitle() {
@@ -148,6 +152,7 @@ public class HealthInfoInActivity extends BmActivity {
                         mMotherTask = getMotherData();
                         mDataMother.setVisibility(View.VISIBLE);
                         mDataBaby.setVisibility(View.GONE);
+                        flag = 0;
                         break;
                     case R.id.rb_baby0:
                     case R.id.rb_baby1:
@@ -159,6 +164,7 @@ public class HealthInfoInActivity extends BmActivity {
                             mBabyTask.cancel(true);
                         }
                         mBabyTask = getBabyData((String) group.findViewById(checkedId).getTag(checkedId));
+                        flag = Integer.parseInt((String) group.findViewById(checkedId).getTag(checkedId));
                         break;
                 }
             }
@@ -301,15 +307,63 @@ public class HealthInfoInActivity extends BmActivity {
             return;
         }
         mTimeView.setText(newTime);
-        mMotherTask = getMotherData();
+        if(flag == 0){
+            mMotherTask = getMotherData();
+        }
+        mBabyTask = getBabyData(String.valueOf(flag));
     }
 
-    @OnClick(R.id.rl_choose_time)
+    @OnClick(R.id.tv_time)
     private void chooseTime() {
         mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
         mPickerContainer.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 描 述：逆转时间<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/11/22 <br/>
+     */
+    private long createNextTime(String time) {
+        String tempTime = time.substring(0,time.indexOf("日"));
+        tempTime = tempTime.replace(getString(R.string.year),"-");
+        tempTime = tempTime.replace(getString(R.string.month),"-");
+        return createLongTime(tempTime,"yyyy-MM-dd");
+    }
+
+    private long createLongTime(String timeStr,String formatString) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(
+                    formatString);
+            Date date = format.parse(timeStr);
+            return date.getTime();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    @OnClick(R.id.itv_left)
+    private void yesterdayData(){
+        String nowTime = mTimeView.getText().toString();
+        Long newTime = createNextTime(nowTime) - 24*60*60*1000;
+        mTime = TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        mTimeView.setText(createTime(createLongTime(TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD),"yyyy-MM-dd")));
+        if(flag == 0){
+            mMotherTask = getMotherData();
+        }
+        mBabyTask = getBabyData(String.valueOf(flag));
+    }
+
+    @OnClick(R.id.itv_right)
+    private void tomorrowData(){
+        String nowTime = mTimeView.getText().toString();
+        Long newTime = createNextTime(nowTime) + 24*60*60*1000;
+        mTime = TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        mTimeView.setText(createTime(createLongTime(TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD),"yyyy-MM-dd")));
+        if(flag == 0){
+            mMotherTask = getMotherData();
+        }
+        mBabyTask = getBabyData(String.valueOf(flag));
+    }
 
 
 }
