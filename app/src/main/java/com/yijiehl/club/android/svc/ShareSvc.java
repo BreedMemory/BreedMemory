@@ -8,6 +8,7 @@
 package com.yijiehl.club.android.svc;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.umeng.socialize.ShareAction;
@@ -46,7 +47,7 @@ public class ShareSvc {
         if(TextUtils.isEmpty(desc)) {
             desc = title;
         }
-        new ShareAction(activity).withText(desc).withTitle(title).withTargetUrl(url)
+        new ShareAction(activity).withText(desc).withTitle(title).withTargetUrl(url).withMedia(new UMImage(activity, BitmapFactory.decodeResource(activity.getResources(),R.mipmap.logo)))
                 .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
                 .setCallback(new ShareCallBack(activity)).open();
     }

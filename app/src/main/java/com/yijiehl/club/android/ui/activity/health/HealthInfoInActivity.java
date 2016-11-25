@@ -128,6 +128,7 @@ public class HealthInfoInActivity extends BmActivity {
     private AsyncTask mMotherTask;
     private AsyncTask mBabyTask;
     private int flag = 0;
+    private String babyId;
 
     @Override
     protected String getHeadTitle() {
@@ -164,7 +165,8 @@ public class HealthInfoInActivity extends BmActivity {
                             mBabyTask.cancel(true);
                         }
                         mBabyTask = getBabyData((String) group.findViewById(checkedId).getTag(checkedId));
-                        flag = Integer.parseInt((String) group.findViewById(checkedId).getTag(checkedId));
+                        babyId = (String) group.findViewById(checkedId).getTag(checkedId);
+                        flag = 1;
                         break;
                 }
             }
@@ -310,7 +312,7 @@ public class HealthInfoInActivity extends BmActivity {
         if(flag == 0){
             mMotherTask = getMotherData();
         }
-        mBabyTask = getBabyData(String.valueOf(flag));
+        mBabyTask = getBabyData(babyId);
     }
 
     @OnClick(R.id.tv_time)

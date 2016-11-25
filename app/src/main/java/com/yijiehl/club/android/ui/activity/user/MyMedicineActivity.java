@@ -48,7 +48,7 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
 
     @Override
     protected void configHeadRightView() {
-        mRightBtn = new IconTextView(this);
+        /*mRightBtn = new IconTextView(this);
         mHeadRightContainer.addView(mRightBtn);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRightBtn.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -56,7 +56,7 @@ public class MyMedicineActivity extends BmActivity implements View.OnClickListen
         mRightBtn.setText(getString(R.string.add));
         mRightBtn.setModle(IconTextView.MODULE_TEXT);
 
-        mRightBtn.setOnClickListener(this);
+        mRightBtn.setOnClickListener(this);*/
     }
 
     @Override

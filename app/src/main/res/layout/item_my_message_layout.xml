@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="10dip"
+        android:lineSpacingExtra="3dip"
         android:text="您的问题，有新的答案。"
         android:textSize="17dip" />
 
@@ -31,7 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dip"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="20dip"
+        android:textColor="@color/blue"
+        android:paddingBottom="5dip"
         android:text="查看更多"/>
 
     <TextView
@@ -42,6 +45,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dip"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="20dip"
+        android:paddingBottom="5dip"
         android:text="08-24  10:30" />
 </RelativeLayout>

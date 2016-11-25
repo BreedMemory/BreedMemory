@@ -75,13 +75,7 @@ public class AlbumPhotoActivity extends BmActivity {
         mAdapter = new ImageGridAlbumAdapter(this);
         gridView.setAdapter(mAdapter);
 
-        NetHelper.getDataFromNet(this, new ReqSearchAlbumPhoto(this, mDataId), new AbstractCallBack(this) {
-            @Override
-            public void onSuccess(AbstractResponse pResponse) {
-                ResSearchPhotos lPhotoInfo = (ResSearchPhotos) pResponse;
-                mAdapter.setDatas(lPhotoInfo.getResultList());
-            }
-        });
+        refreshPhoto();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,5 +94,25 @@ public class AlbumPhotoActivity extends BmActivity {
                 ActivitySvc.startImageViewer(AlbumPhotoActivity.this, list, codes, descs, false, position);
             }
         });
+    }
+
+    /**
+     * 描 述：<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 谌珂 2016/11/25 <br/>
+     */
+    private void refreshPhoto(){
+        NetHelper.getDataFromNet(this, new ReqSearchAlbumPhoto(this, mDataId), new AbstractCallBack(this) {
+            @Override
+            public void onSuccess(AbstractResponse pResponse) {
+                ResSearchPhotos lPhotoInfo = (ResSearchPhotos) pResponse;
+                mAdapter.setDatas(lPhotoInfo.getResultList());
+            }
+        });
+    }
+    @Override
+    protected void onResume() {
+        refreshPhoto();
+        super.onResume();
     }
 }
