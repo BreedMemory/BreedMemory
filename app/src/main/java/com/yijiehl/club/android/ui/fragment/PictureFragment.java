@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
@@ -31,6 +33,8 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.network.request.search.ReqSearchAlbum;
 import com.yijiehl.club.android.network.request.search.ReqSearchPersonalPhoto;
 import com.yijiehl.club.android.network.response.ResSearchPhotos;
@@ -44,8 +48,11 @@ import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
+import com.yijiehl.club.android.ui.dialog.BaseDialog;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -107,6 +114,9 @@ public class PictureFragment extends BaseHostFragment {
     private long mTaskId;
     private boolean isPersonalNoMore;
     private boolean isAlbumNoMore;
+    @ViewInject(R.id.rl_delete)
+    private RelativeLayout mRelativeDetele;
+    private boolean isDeleteState ;
 
     @Nullable
     @Override
@@ -123,7 +133,24 @@ public class PictureFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isDeleteState){
+                    ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                    ((MainActivity)getActivity()).getmRightBtn().setText("取消");
+                    isDeleteState = true;
+                     mRelativeDetele.setVisibility(View.VISIBLE);
+                    mPicturePersonAdapter.setSelect(true);
+                }else{
+                    ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                    ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+                    isDeleteState = false;
+                    mRelativeDetele.setVisibility(View.GONE);
+                    mPicturePersonAdapter.setSelect(false);
+                }
+            }
+        };
     }
 
     @Override
@@ -134,18 +161,18 @@ public class PictureFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-//        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
-//        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
-//        if(mTitle == null) {
-//            return true;
-//        }
-//        switch (mTitle.getCheckedRadioButtonId()) {
-//            case R.id.rb_person:
-//                return true;
-//            default:
-//                return false;
-//        }
-        return false;
+        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+        if(mTitle == null) {
+            return true;
+        }
+        switch (mTitle.getCheckedRadioButtonId()) {
+            case R.id.rb_person:
+                return true;
+            default:
+                return false;
+        }
+      //  return false;
     }
 
     @Override
@@ -159,7 +186,7 @@ public class PictureFragment extends BaseHostFragment {
         UploadPictureSvc.getInstance().addObserver(this);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
-        mPicturePersonAdapter = new PicturePersonAdapter(this);
+        mPicturePersonAdapter = new PicturePersonAdapter(this,mListener);
         //初始化列表
         mListView.setAdapter(mPicturePersonAdapter);
         mListView.setEmptyView(noData);
@@ -228,6 +255,10 @@ public class PictureFragment extends BaseHostFragment {
                         upLoading.setVisibility(View.GONE);
                         mPictureClubAdapter.notifyDataSetChanged();
                         break;
+                }
+
+                if(!isRightBtnVisible()){
+                    ((MainActivity)getActivity()).getmRightBtn().setText("");
                 }
             }
         });
@@ -389,6 +420,60 @@ public class PictureFragment extends BaseHostFragment {
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
     }
 
+    private int photosNum = 0;
+    private void judgeRefresh(){
+        photosNum++;
+        if(photosNum == dataCodeList.size()){
+            Toaster.showShortToast(getActivity(), getString(R.string.delete_success));
+            refreshAll();
+            ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+            ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+            isDeleteState = false;
+            mRelativeDetele.setVisibility(View.GONE);
+            mPicturePersonAdapter.setSelect(false);
+            photosNum = 0;
+            dataCodeList.clear();
+        }
+    }
+    @OnClick(R.id.iv_delete)
+    private void detelePhotos(){
+
+        if(dataCodeList.size() <= 0){
+            Toaster.showShortToast(getActivity(),"请选择要删除的照片");
+            return;
+        }
+        MessageDialog dialog = MessageDialog.getInstance(getActivity());
+        dialog.setMessage(R.string.do_you_delete_me);
+        dialog.showDoubleBtnDialog(new BaseDialog.OnBtnsClickListener() {
+            @Override
+            public void onLeftClickListener(View v, BaseDialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightClickListener(View v, final BaseDialog dialog) {
+
+                for(int i = 0 ;i < dataCodeList.size() ;i++){
+                    NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new DeletePicture(dataCodeList.get(i))), new AbstractCallBack(getActivity()) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            dialog.dismiss();
+                            judgeRefresh();
+                        }
+
+                        @Override
+                        public void onFailed(String msg) {
+                            super.onFailed(msg);
+                            judgeRefresh();
+                        }
+                    });
+                }
+
+
+            }
+        });
+    }
+
     /**
      * 描 述：请求权限成功后打开图片选择<br/>
      * 作 者：谌珂<br/>
@@ -426,4 +511,21 @@ public class PictureFragment extends BaseHostFragment {
         UploadPictureSvc.getInstance().deleteObserver(this);
         super.onDestroy();
     }
+
+    public interface DeleteListPhoto{
+        void addDataCode(String dataCode);
+        void deleteDataCode(String dataCode);
+    }
+    private List<String> dataCodeList = new ArrayList<>();
+    private DeleteListPhoto mListener = new DeleteListPhoto() {
+        @Override
+        public void addDataCode(String dataCode) {
+            dataCodeList.add(dataCode);
+        }
+
+        @Override
+        public void deleteDataCode(String dataCode) {
+            dataCodeList.remove(dataCode);
+        }
+    };
 }

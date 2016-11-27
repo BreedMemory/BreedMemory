@@ -40,6 +40,8 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
     private boolean isSelect;
 
+    private  PictureFragment.DeleteListPhoto deleteListPhoto;
+
     public void setSelect(boolean select) {
         isSelect = select;
         refresh();
@@ -48,6 +50,12 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
     public PicturePersonAdapter(PictureFragment mFragment) {
         super(mFragment.getActivity());
         this.mFragment = mFragment;
+    }
+
+    public PicturePersonAdapter(PictureFragment mFragment,PictureFragment.DeleteListPhoto deleteListPhoto) {
+        super(mFragment.getActivity());
+        this.mFragment = mFragment;
+        this.deleteListPhoto = deleteListPhoto;
     }
 
     private PictureFragment mFragment;
@@ -164,7 +172,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 //        holder.showAddress.setText("北京");
         List<PhotoInfo> dataGrid = mDatas.get(position);
         if (dataGrid != null && dataGrid.size() > 0) {
-            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect));
+            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect,deleteListPhoto));
         }
         holder.gridView.setTag(R.id.picture_position, position);
         /**
