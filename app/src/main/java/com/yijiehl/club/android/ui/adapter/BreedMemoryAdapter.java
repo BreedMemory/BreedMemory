@@ -108,7 +108,7 @@ public class BreedMemoryAdapter extends PagerAdapter {
             }
         }
 
-        int week = TimeUtil.getWeek(System.currentTimeMillis()) + 7*52 - position - 1;
+        int week = TimeUtil.getWeek(System.currentTimeMillis()) + 7*52 - (position-getCount()/2) - 1;
         int resBg, resCenterBg;
         switch (week % 7) {
             case 0:

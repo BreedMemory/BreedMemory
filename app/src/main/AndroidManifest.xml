@@ -78,6 +78,11 @@
             android:name=".ui.activity.ArticleDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+        <!-- 成长文章详细页面 -->
+        <activity
+            android:name=".ui.activity.GrowUpArticalDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <!-- 昵称修改页面 -->
         <activity
             android:name=".ui.activity.user.NickChangeActivity"

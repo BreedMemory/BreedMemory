@@ -27,6 +27,7 @@ import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespLogin;
 import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
+import com.yijiehl.club.android.ui.activity.GrowUpArticalDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.activity.SplashActivity;
 import com.yijiehl.club.android.ui.activity.growup.GrowUpGasStationAvtivity;
@@ -418,6 +419,19 @@ public class ActivitySvc {
         context.startActivityForResult(intent, ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY);
     }
 
+    public static void startArticle(Fragment context, boolean isShareOrCollect, String url, String name, String label, String imageInfo, String dataSummery,boolean isgrow) {
+        if(!url.startsWith("http")) {
+            url = ActivitySvc.createWebUrl(url);
+        }
+        Intent intent=new Intent(context.getActivity(),GrowUpArticalDetailActivity.class);
+        intent.putExtra(ArticleDetailActivity.URL, url);
+        intent.putExtra(ArticleDetailActivity.NAME, name);
+        intent.putExtra(ArticleDetailActivity.LABEL, label);
+        intent.putExtra(ArticleDetailActivity.IMAGE_INFO, imageInfo);
+        intent.putExtra(ArticleDetailActivity.DATA_SUMMERY, dataSummery);
+        intent.putExtra(ArticleDetailActivity.SHARE, isShareOrCollect);
+        context.startActivityForResult(intent, ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY);
+    }
     /**
      * 描 述：开启web浏览页面<br/>
      * 作 者：谌珂<br/>

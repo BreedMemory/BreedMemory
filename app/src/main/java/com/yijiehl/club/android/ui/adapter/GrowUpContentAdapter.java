@@ -263,7 +263,7 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
                 mDatas.get(position).getDataName(),
                 mDatas.get(position).getDataLable(),
                 mDatas.get(position).getImageInfo(),
-                mDatas.get(position).getDataSummary());
+                mDatas.get(position).getDataSummary(),true);
     }
 
     class ViewHolder {

@@ -33,6 +33,8 @@ import java.util.List;
  */
 public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
+    private boolean isSelect;
+
     @Override
     public int getCount() {
         return super.getCount() + 1;
@@ -41,6 +43,11 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
     public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
         super(mContext);
         mDatas= data;
+    }
+    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data, boolean isSelect) {
+        super(mContext);
+        mDatas= data;
+        this.isSelect = isSelect;
     }
 
     @Override
@@ -60,6 +67,11 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
             holder.add.setVisibility(View.GONE);
             holder.ivContent.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
+        }
+        if(isSelect) {
+            // TODO: 2016/11/27  d显示蒙版
+        } else {
+            // TODO: 2016/11/27 隐藏蒙版
         }
         return convertView;
     }

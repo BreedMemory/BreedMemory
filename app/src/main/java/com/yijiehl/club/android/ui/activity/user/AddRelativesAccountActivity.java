@@ -3,14 +3,14 @@
  * 文件名称: AddRelativesAccountActivity.java <br/>
  * Created by 张志新 on 2016/9/18.  <br/>
  */
-package com.yijiehl.club.android.ui.activity.user;/**
- * Created by asus on 2016/9/18.
- */
+package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.IconTextView;
@@ -58,6 +58,23 @@ public class AddRelativesAccountActivity extends BmActivity {
     private int relationIndex;
     List<String> mExtras = new ArrayList<>();
 
+    @ViewInject(R.id.switch_mother_data)
+    private Switch motherSwitch;
+
+    @ViewInject(R.id.switch_baby_data)
+    private Switch babySwitch;
+
+    @ViewInject(R.id.switch_my_answer_data)
+    private Switch myAnswerSwitch;
+
+    @ViewInject(R.id.switch_photo_data)
+    private Switch photoSwitch;
+
+    private int motherFlag;
+    private int babyFlag;
+    private int answerFlag;
+    private int photoFlag;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.relaccount);
@@ -75,7 +92,7 @@ public class AddRelativesAccountActivity extends BmActivity {
                 if(!checkData()) {
                     return;
                 }
-                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith");
+                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag));
                 NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
@@ -93,6 +110,55 @@ public class AddRelativesAccountActivity extends BmActivity {
         mExtras.add(getString(R.string.kith));
         relationShipPicker.setExtras(mExtras);
         relEditText.setText(mExtras.get(relationIndex));
+
+        motherFlag = 1;
+        babyFlag = 1;
+        answerFlag = 1;
+        photoFlag = 1;
+
+        motherSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    motherFlag = 1;
+                }else{
+                    motherFlag = 0;
+                }
+            }
+        });
+
+        babySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    babyFlag = 1;
+                }else{
+                    babyFlag = 0;
+                }
+            }
+        });
+
+        myAnswerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    answerFlag = 1;
+                }else{
+                    answerFlag = 0;
+                }
+            }
+        });
+
+        photoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    photoFlag = 1;
+                }else{
+                    photoFlag = 0;
+                }
+            }
+        });
     }
 
     @OnClick(R.id.ll_ship_container)

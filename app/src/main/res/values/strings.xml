@@ -159,6 +159,10 @@
     <string name="length_string">%scm</string>
     <string name="weight_string">%skg</string>
     <string name="temperature_string">%s℃</string>
+    <string name="mother_data_visit">妈妈健康数据访问</string>
+    <string name="baby_data_visit">宝宝健康数据访问</string>
+    <string name="my_answer_visit">我的回答访问访问</string>
+    <string name="photo_visit">照片访问</string>
 
 
     <string name="tx_new_version">新版本</string>

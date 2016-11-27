@@ -38,6 +38,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_phone_container"
         android:layout_marginTop="1dip"
         android:layout_below="@+id/ll_name_container"
         style="@style/add_relation_item_container">
@@ -50,6 +51,67 @@
         <EditText
             android:id="@+id/et_phone_input"
             android:inputType="phone"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_mother_data_container"
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_phone_container"
+        style="@style/add_relation_item_container">
+
+        <TextView
+            style="@style/add_relation_item_text"
+            android:text="@string/mother_data_visit" />
+
+        <Switch
+            android:id="@+id/switch_mother_data"
+            android:checked="true"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_baby_data_container"
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_mother_data_container"
+        style="@style/add_relation_item_container">
+
+        <TextView
+            style="@style/add_relation_item_text"
+            android:text="@string/baby_data_visit" />
+        <Switch
+            android:id="@+id/switch_baby_data"
+            android:checked="true"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_my_answer_container"
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_baby_data_container"
+        style="@style/add_relation_item_container">
+
+        <TextView
+            style="@style/add_relation_item_text"
+            android:text="@string/my_answer_visit" />
+        <Switch
+            android:id="@+id/switch_my_answer_data"
+            android:checked="true"
+            style="@style/add_relate_item_edittext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_photo_container"
+        android:layout_marginTop="1dip"
+        android:layout_below="@+id/ll_my_answer_container"
+        style="@style/add_relation_item_container">
+
+        <TextView
+            style="@style/add_relation_item_text"
+            android:text="@string/photo_visit" />
+        <Switch
+            android:id="@+id/switch_photo_data"
+            android:checked="true"
             style="@style/add_relate_item_edittext" />
     </LinearLayout>
 

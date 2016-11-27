@@ -159,7 +159,7 @@ public class LineChatView extends View {
         mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
         mRangeLength = mRange[1] - mRange[0];
         if(mPointCount > 2) {
-            scrollTo(mPointCount/2, 0);
+            scrollTo(getX(values.size()/2) - getWidth()/2, 0);
         } else {
             scrollTo(getMaximumScrollX(), 0);
         }
@@ -542,7 +542,11 @@ public class LineChatView extends View {
     }
 
     public void setPointCount(int mPointCount) {
-        this.mPointCount = mPointCount;
+        if(values.size() < 8 && mPointCount == 8) {
+            this.mPointCount = values.size();
+        } else {
+            this.mPointCount = mPointCount;
+        }
         initParam();
         invalidate();
     }
@@ -585,7 +589,8 @@ public class LineChatView extends View {
             mRange[1] = 0;
             return;
         }
-        mPointCount = values.size();
+//        mPointCount = values.size();   /
+        setPointCount(mPointCount);
         mRange[0] = values.get(0);
         mRange[1] = values.get(0);
         for (Float value: values) {

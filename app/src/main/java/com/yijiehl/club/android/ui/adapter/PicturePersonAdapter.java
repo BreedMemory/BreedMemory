@@ -38,6 +38,13 @@ import java.util.List;
  */
 public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
+    private boolean isSelect;
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+        refresh();
+    }
+
     public PicturePersonAdapter(PictureFragment mFragment) {
         super(mFragment.getActivity());
         this.mFragment = mFragment;
@@ -157,7 +164,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 //        holder.showAddress.setText("北京");
         List<PhotoInfo> dataGrid = mDatas.get(position);
         if (dataGrid != null && dataGrid.size() > 0) {
-            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid));
+            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect));
         }
         holder.gridView.setTag(R.id.picture_position, position);
         /**

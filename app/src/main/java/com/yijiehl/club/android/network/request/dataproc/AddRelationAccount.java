@@ -18,15 +18,55 @@ package com.yijiehl.club.android.network.request.dataproc;
  */
 public class AddRelationAccount extends BaseDataEntity {
 
-    public AddRelationAccount(String dataName, String mobileNum, String relationCode) {
+    public AddRelationAccount(String dataName, String mobileNum, String relationCode, String hldataMainAuth, String hldataChildAuth, String questionAuth, String photoAuth) {
         this.dataName = dataName;
         this.mobileNum = mobileNum;
         this.relationCode = relationCode;
+        this.hldataMainAuth = hldataMainAuth;
+        this.hldataChildAuth = hldataChildAuth;
+        this.questionAuth = questionAuth;
+        this.photoAuth = photoAuth;
     }
 
     private String dataName;
     private String mobileNum;
     private String relationCode;
+    private String hldataMainAuth;
+    private String hldataChildAuth;
+    private String questionAuth;
+    private String photoAuth;
+
+    public String getHldataMainAuth() {
+        return hldataMainAuth;
+    }
+
+    public void setHldataMainAuth(String hldataMainAuth) {
+        this.hldataMainAuth = hldataMainAuth;
+    }
+
+    public String getHldataChildAuth() {
+        return hldataChildAuth;
+    }
+
+    public void setHldataChildAuth(String hldataChildAuth) {
+        this.hldataChildAuth = hldataChildAuth;
+    }
+
+    public String getQuestionAuth() {
+        return questionAuth;
+    }
+
+    public void setQuestionAuth(String questionAuth) {
+        this.questionAuth = questionAuth;
+    }
+
+    public String getPhotoAuth() {
+        return photoAuth;
+    }
+
+    public void setPhotoAuth(String photoAuth) {
+        this.photoAuth = photoAuth;
+    }
 
     public String getDataName() {
         return dataName;
