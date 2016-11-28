@@ -51,6 +51,7 @@ public class RelateListActivity extends BmActivity {
         mAdapter = new RelateListAdapter(this);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(mAdapter);
+        mListView.setOnItemLongClickListener(mAdapter);
     }
 
     @Override

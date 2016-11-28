@@ -41,6 +41,16 @@ import java.util.List;
 @ContentView(R.layout.activity_add_relatives_account)
 public class AddRelativesAccountActivity extends BmActivity {
 
+    public static final String  RELATIONCODE  = "relationCode";
+    public static final String  DATANAME  = "dataName";
+    public static final String  MOBILENUM  = "mobileNum";
+    public static final String  DATACODE  = "dataCode";
+    public static final String  AUTH1  = "accessAuth1";
+    public static final String  AUTH2  = "accessAuth2";
+    public static final String  AUTH5  = "accessAuth5";
+    public static final String  AUTH6  = "accessAuth6";
+    public static final String  MODE  = "mode";
+
     @ViewInject(R.id.tv_relatives_input)
     private TextView relEditText;
 
@@ -75,6 +85,12 @@ public class AddRelativesAccountActivity extends BmActivity {
     private int answerFlag;
     private int photoFlag;
 
+    private boolean isChange;
+    private String relation;
+    private String name;
+    private String phoneNum;
+    private String dataCode;
+
     @Override
     protected String getHeadTitle() {
         return getString(R.string.relaccount);
@@ -92,7 +108,7 @@ public class AddRelativesAccountActivity extends BmActivity {
                 if(!checkData()) {
                     return;
                 }
-                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag));
+                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag),isChange,dataCode);
                 NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
                     @Override
                     public void onSuccess(AbstractResponse pResponse) {
@@ -115,6 +131,23 @@ public class AddRelativesAccountActivity extends BmActivity {
         babyFlag = 1;
         answerFlag = 1;
         photoFlag = 1;
+
+        isChange = getIntent().getBooleanExtra(AddRelativesAccountActivity.MODE,false);
+
+        if(isChange){
+            relation = getIntent().getStringExtra(AddRelativesAccountActivity.RELATIONCODE);
+            name = getIntent().getStringExtra(AddRelativesAccountActivity.DATANAME);
+            phoneNum = getIntent().getStringExtra(AddRelativesAccountActivity.MOBILENUM);
+            motherFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH1));
+            babyFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH2));
+            answerFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH5));
+            photoFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH6));
+            dataCode = getIntent().getStringExtra(AddRelativesAccountActivity.DATACODE);
+
+            relEditText.setText(relation);
+            nameEditText.setText(name);
+            phoneEditText.setText(phoneNum);
+        }
 
         motherSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -24,6 +24,7 @@
         android:layout_marginLeft="14dip"
         android:singleLine="true"
         android:ellipsize="end"
+        android:textColor="#007e82"
         android:textSize="18dip"
         android:text="标题" />
 
