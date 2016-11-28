@@ -134,9 +134,12 @@ public class MineActivity extends BmActivity {
 
     @OnClick(R.id.layout_club_introduction)
     private void clubIntro() {
-        Intent intent = new Intent(this, ClubIntroductionActivity.class);
+        /*Intent intent = new Intent(this, ClubIntroductionActivity.class);
         intent.putExtra(ArticleDetailActivity.URL, mUserInfo.getCustServiceUrl(this));
-        startActivity(intent);
+        startActivity(intent);*/
+        ActivitySvc.startArticle(this, true,
+                mUserInfo.getCustServiceUrl(this),
+                mUserInfo.getOrgInfo(), null, null, mUserInfo.getOrgInfo());
     }
 
     @OnClick(R.id.layout_my_exit)
