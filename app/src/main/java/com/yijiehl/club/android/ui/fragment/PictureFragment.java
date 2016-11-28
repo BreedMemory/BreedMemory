@@ -17,14 +17,18 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -39,6 +43,7 @@ import com.yijiehl.club.android.network.request.search.ReqSearchAlbum;
 import com.yijiehl.club.android.network.request.search.ReqSearchPersonalPhoto;
 import com.yijiehl.club.android.network.response.ResSearchPhotos;
 import com.yijiehl.club.android.network.response.RespSearchAlbums;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -117,6 +122,7 @@ public class PictureFragment extends BaseHostFragment {
     @ViewInject(R.id.rl_delete)
     private RelativeLayout mRelativeDetele;
     private boolean isDeleteState ;
+    private UserInfo mUserInfo;
 
     @Nullable
     @Override
@@ -183,6 +189,8 @@ public class PictureFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
         UploadPictureSvc.getInstance().addObserver(this);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
@@ -417,6 +425,10 @@ public class PictureFragment extends BaseHostFragment {
     @OnClick({R.id.click_uploading, R.id.iv_uploading})
     public void upload() {
         // DONE: 2016/9/26
+        if(mUserInfo == null || mUserInfo.isChildAccount()) {
+            Toaster.showShortToast(getActivity(), "您是亲友账号，无法进行此操作");
+            return;
+        }
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
     }
 
@@ -502,6 +514,13 @@ public class PictureFragment extends BaseHostFragment {
                     obtainPersonalPhoto(true);
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
         }
     }
 

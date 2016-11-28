@@ -28,6 +28,8 @@ public class UserInfo implements Serializable {
 
     /** 自己的名称 */
     private String acctName;
+    /** 账号类型 */
+    private String acctType;
     /** 昵称 */
     private String shortName;
     /** 性别，可为空，m表示男，f表示女 */
@@ -82,6 +84,14 @@ public class UserInfo implements Serializable {
     private String custServicePhone;
     /**成长加油站金额*/
     private String custAmount;
+
+    public String getAcctType() {
+        return acctType;
+    }
+
+    public void setAcctType(String acctType) {
+        this.acctType = acctType;
+    }
 
     private RespLogin.AccountStatus status;
 
@@ -418,6 +428,10 @@ public class UserInfo implements Serializable {
 
     public void setStatus(RespLogin.AccountStatus status) {
         this.status = status;
+    }
+
+    public boolean isChildAccount() {
+        return TextUtils.equals(acctType, "childAcct");
     }
 
     /**
