@@ -18,7 +18,7 @@ package com.yijiehl.club.android.network.request.dataproc;
  */
 public class AddRelationAccount extends BaseDataEntity {
 
-    public AddRelationAccount(String dataName, String mobileNum, String relationCode, String hldataMainAuth, String hldataChildAuth, String questionAuth, String photoAuth) {
+    public AddRelationAccount(String dataName, String mobileNum, String relationCode, String hldataMainAuth, String hldataChildAuth, String questionAuth, String photoAuth, boolean isChange,String dataCode) {
         this.dataName = dataName;
         this.mobileNum = mobileNum;
         this.relationCode = relationCode;
@@ -26,6 +26,8 @@ public class AddRelationAccount extends BaseDataEntity {
         this.hldataChildAuth = hldataChildAuth;
         this.questionAuth = questionAuth;
         this.photoAuth = photoAuth;
+        this.isChange = isChange;
+        this.dataCode = dataCode;
     }
 
     private String dataName;
@@ -35,6 +37,16 @@ public class AddRelationAccount extends BaseDataEntity {
     private String hldataChildAuth;
     private String questionAuth;
     private String photoAuth;
+    private boolean isChange;
+    private String dataCode;
+
+    public boolean isChange() {
+        return isChange;
+    }
+
+    public void setChange(boolean change) {
+        isChange = change;
+    }
 
     public String getHldataMainAuth() {
         return hldataMainAuth;
@@ -99,6 +111,6 @@ public class AddRelationAccount extends BaseDataEntity {
 
     @Override
     protected OperateType getOperateType() {
-        return OperateType.CREATE;
+        return isChange ?OperateType.UPDATE:OperateType.CREATE;
     }
 }
