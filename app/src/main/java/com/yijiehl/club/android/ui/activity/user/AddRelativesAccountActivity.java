@@ -23,6 +23,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.AddRelationAccount;
+import com.yijiehl.club.android.network.request.dataproc.UpdateRelationAccount;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.view.NumberPickerView;
 
@@ -108,13 +109,23 @@ public class AddRelativesAccountActivity extends BmActivity {
                 if(!checkData()) {
                     return;
                 }
-                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag),isChange,dataCode);
-                NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
-                    @Override
-                    public void onSuccess(AbstractResponse pResponse) {
-                        finish();
-                    }
-                });
+                if(isChange){
+                    UpdateRelationAccount req = new UpdateRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag),dataCode);
+                    NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            finish();
+                        }
+                    });
+                }else{
+                    AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag));
+                    NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            finish();
+                        }
+                    });
+                }
             }
         });
     }
@@ -145,8 +156,10 @@ public class AddRelativesAccountActivity extends BmActivity {
             dataCode = getIntent().getStringExtra(AddRelativesAccountActivity.DATACODE);
 
             relEditText.setText(relation);
+            relEditText.setEnabled(false);
             nameEditText.setText(name);
             phoneEditText.setText(phoneNum);
+            phoneEditText.setEnabled(false);
         }
 
         motherSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -196,7 +209,7 @@ public class AddRelativesAccountActivity extends BmActivity {
 
     @OnClick(R.id.ll_ship_container)
     private void chooseRelationShip() {
-        relationShipContainer.setVisibility(View.VISIBLE);
+        if(!isChange)relationShipContainer.setVisibility(View.VISIBLE);
         relationShipPicker.setValue(relationIndex);
     }
 
