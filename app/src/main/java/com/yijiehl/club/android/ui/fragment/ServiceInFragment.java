@@ -74,9 +74,6 @@ public class ServiceInFragment extends HealthInfoFragment {
     /** 宝宝饮食背景 */
     @ViewInject(R.id.ll_baby_food)
     private View mBabyFood;
-    /** 宝宝排泄背景 */
-    @ViewInject(R.id.ll_baby_excretion)
-    private View mBabyExcretion;
     /** 宝宝生理性背景 */
     @ViewInject(R.id.ll_baby_physiology)
     private View mBabyPhysiology;
@@ -433,9 +430,9 @@ public class ServiceInFragment extends HealthInfoFragment {
             if(!TextUtils.equals(data.getStatValue21(), "normal")) {
                 mBabyFood.setBackgroundColor(getResources().getColor(R.color.unnormal));
             }
-            if(TextUtils.equals(data.getStatValue25(), "abnormal") || TextUtils.equals(data.getStatValue26(), "abnormal")) {
-                mBabyExcretion.setBackgroundColor(getResources().getColor(R.color.unnormal));
-            }
+//            if(TextUtils.equals(data.getStatValue25(), "abnormal") || TextUtils.equals(data.getStatValue26(), "abnormal")) {
+//                mBabyExcretion.setBackgroundColor(getResources().getColor(R.color.unnormal));
+//            }
             if(TextUtils.equals(data.getStatValue30(), "have") || TextUtils.equals(data.getStatValue31(), "have") || TextUtils.equals(data.getStatValue32(), "have")) {
                 mBabyPhysiology.setBackgroundColor(getResources().getColor(R.color.unnormal));
             }

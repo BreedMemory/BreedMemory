@@ -38,7 +38,7 @@
                 android:text="宝宝长成什么样了？"/>
         </LinearLayout>
     </RelativeLayout>
-    <ImageView
+    <com.uuzz.android.ui.view.CircleImageView
         android:id="@+id/iv_pic"
         android:layout_width="300dip"
         android:layout_height="300dip"

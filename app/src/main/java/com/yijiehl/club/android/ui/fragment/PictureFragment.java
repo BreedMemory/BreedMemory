@@ -500,7 +500,6 @@ public class PictureFragment extends BaseHostFragment {
                 public void run() {
                     // DONE: 谌珂 2016/10/16 重新拉接口获取图片
                     obtainPersonalPhoto(true);
-                    Toaster.showShortToast(getActivity(), getString(R.string.upload_complete));
                 }
             });
         }

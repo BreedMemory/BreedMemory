@@ -297,14 +297,14 @@ public class HostFragment extends BaseHostFragment {
 
         //会所长logo 活动模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
-            mClubLogoInfoActivity.setVisibility(View.INVISIBLE);
+            mClubLogoInfoActivity.setVisibility(View.GONE);
         } else {
             Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoActivity);
         }
 
         //会所长logo 问答模块
         if (TextUtils.isEmpty(info.getIconInfo1())) {
-            mClubLogoInfoQuestion.setVisibility(View.INVISIBLE);
+            mClubLogoInfoQuestion.setVisibility(View.GONE);
         } else {
             Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), info.getIconInfo1())).dontAnimate().into(mClubLogoInfoQuestion);
         }
@@ -505,9 +505,9 @@ public class HostFragment extends BaseHostFragment {
     @OnClick({R.id.im_club_logo,R.id.im_logo_info_activity,R.id.im_logo_info_question})
     private void startWebView() {
         // DONE: 谌珂 2016/9/11 跳转到会所简介 第一次进app跳转到会所选择
-        ActivitySvc.startArticle(this, false,
+        ActivitySvc.startArticle(this, true,
                 mUserInfo.getCustServiceUrl(getActivity()),
-                null, null, null, null);
+                mUserInfo.getOrgInfo(), null, null, mUserInfo.getOrgInfo());
     }
 
     @OnClick({R.id.im_collect_activity, R.id.im_collect_grow_up, R.id.im_collect_photo})

@@ -21,6 +21,7 @@ import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.HealthData;
+import com.yijiehl.club.android.svc.ActivitySvc;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +62,11 @@ public class BreedMemoryAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object)   {
+        return POSITION_NONE;
+    }
+
+    @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
@@ -78,8 +84,15 @@ public class BreedMemoryAdapter extends PagerAdapter {
         View view = null;
         ViewHolder holder;
         HealthData tempData = null;
-        if(datas != null && datas.size() > position) {
-            tempData = datas.get(position);
+        int day = position - getCount()/2;
+        long timestamp = System.currentTimeMillis() + day*24L*60*60*1000;
+        if(datas != null) {
+            for (HealthData data : datas) {
+                if(TextUtils.equals(data.getStatTime(), TimeUtil.getTime(timestamp, TimeUtil.DEFAULT_FORMAT_YYYYMMDD))) {
+                    tempData = data;
+                    break;
+                }
+            }
         }
         for (View lView : views) {
             if(lView.getParent() == null) {
@@ -103,35 +116,39 @@ public class BreedMemoryAdapter extends PagerAdapter {
             if(TextUtils.isEmpty(tempData.getImageInfo())) {
                 holder.mPic.setVisibility(View.GONE);
             } else {
-                Glide.with(mContext).load(tempData.getImageInfo()).dontAnimate().into(holder.mPic);
+                Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, tempData.getImageInfo())).dontAnimate().into(holder.mPic);
                 holder.mPic.setVisibility(View.VISIBLE);
             }
+        } else {
+            holder.mPic.setVisibility(View.GONE);
+            holder.mContent.setText("");
+            holder.mDate.setText("");
         }
 
-        int week = TimeUtil.getWeek(System.currentTimeMillis()) + 7*52 - (position-getCount()/2) - 1;
+        int week = TimeUtil.getWeek(timestamp);
         int resBg, resCenterBg;
-        switch (week % 7) {
-            case 0:
+        switch (week) {
+            case 3:
                 resBg = R.drawable.bg_03;
                 resCenterBg = R.drawable.bg_breed_memory_3;
                 break;
-            case 1:
+            case 7:
                 resBg = R.drawable.bg_06;
                 resCenterBg = R.drawable.bg_breed_memory_6;
                 break;
-            case 2:
+            case 4:
                 resBg = R.drawable.bg_02;
                 resCenterBg = R.drawable.bg_breed_memory_2;
                 break;
-            case 3:
+            case 2:
                 resBg = R.drawable.bg_04;
                 resCenterBg = R.drawable.bg_breed_memory_4;
                 break;
-            case 4:
+            case 5:
                 resBg = R.drawable.bg_01;
                 resCenterBg = R.drawable.bg_breed_memory_1;
                 break;
-            case 5:
+            case 0:
                 resBg = R.drawable.bg_05;
                 resCenterBg = R.drawable.bg_breed_memory_5;
                 break;

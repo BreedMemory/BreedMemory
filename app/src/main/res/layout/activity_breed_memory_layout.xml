@@ -33,6 +33,8 @@
         android:paddingTop="10dip"
         android:gravity="center"
         android:textSize="@dimen/primary_text_size"
+        android:lines="5"
+        android:ellipsize="end"
         android:textColor="#FF4A4A4A"
         android:background="@drawable/bg_2"
         tools:text="宝宝今天第10天，黄疸基本消退，母乳喂养，妈妈精神好，食欲佳。"/>

@@ -27,8 +27,8 @@ public class ReqSearchBreedMemory extends ReqBaseSearch {
 
     public ReqSearchBreedMemory(Context context) {
         super(context);
-        this.startTime = TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DATE_FORMAT_YYYYMMDD);
-        this.endTime = TimeUtil.getTime(System.currentTimeMillis() - 183L*24*60*60*1000, TimeUtil.DATE_FORMAT_YYYYMMDD);
+        this.endTime = TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        this.startTime = TimeUtil.getTime(System.currentTimeMillis() - 183L*24*60*60*1000, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
     }
 
     @Override
