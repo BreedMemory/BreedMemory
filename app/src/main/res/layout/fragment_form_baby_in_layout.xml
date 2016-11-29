@@ -204,15 +204,14 @@
         <LinearLayout
             android:id="@+id/ll_baby_excretion"
             style="@style/health_info_container"
-            android:background="@color/transparent"
             android:layout_marginLeft="22dip"
             android:layout_marginRight="22dip">
-            <!--<ImageView-->
-                <!--android:src="@drawable/ic_excretion"-->
-                <!--style="@style/health_info_icon" />-->
-            <!--<TextView-->
-                <!--android:text="@string/excretion"-->
-                <!--style="@style/health_info_title" />-->
+            <ImageView
+                android:src="@drawable/ic_excretion"
+                style="@style/health_info_icon" />
+            <TextView
+                android:text="@string/cord"
+                style="@style/health_info_title" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_baby_physiology"
