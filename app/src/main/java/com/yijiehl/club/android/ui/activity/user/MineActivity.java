@@ -76,7 +76,7 @@ public class MineActivity extends BmActivity {
                 Glide.with(this).load(ActivitySvc.createResourceUrl(this, mUserInfo.getImageInfo())).dontAnimate().into(mHead);
             }
             mName.setText(mUserInfo.getAcctName());
-            mNickname.setText((mUserInfo.getShortName().indexOf("null") == -1) ? mUserInfo.getShortName() : "");
+            mNickname.setText( mUserInfo.getShortName());
             mMoneyShow.setText(mUserInfo.getCustAmount());
         }
     }

@@ -261,7 +261,7 @@ public class HealthInfoInActivity extends BmActivity {
                 mBabyHeight.setText(lData.getStatValue03());
                 mBabyFoodKind.setText(RespSearchHealthData.transformString(lData.getStatValue20()));
                 mBabyFoodCount.setText(RespSearchHealthData.transformString(lData.getStatValue21()));
-                mBabyExcretion.setText(TextUtils.equals(lData.getStatValue27(), "have")?"已脱落":"未脱落");
+                mBabyExcretion.setText(TextUtils.equals(lData.getStatValue27(), "have")?"未脱落":"已脱落");
                 mBabyYellow.setText(RespSearchHealthData.transformString(lData.getStatValue30()));
                 mBabyWet.setText(RespSearchHealthData.transformString(lData.getStatValue31()));
                 mBabyRed.setText(RespSearchHealthData.transformString(lData.getStatValue32()));
