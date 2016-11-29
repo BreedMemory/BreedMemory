@@ -128,7 +128,7 @@ public class BreedMemoryAdapter extends PagerAdapter {
         int week = TimeUtil.getWeek(timestamp);
         int resBg, resCenterBg;
         switch (week) {
-            case 3:
+            case 6:
                 resBg = R.drawable.bg_03;
                 resCenterBg = R.drawable.bg_breed_memory_3;
                 break;
@@ -136,23 +136,23 @@ public class BreedMemoryAdapter extends PagerAdapter {
                 resBg = R.drawable.bg_06;
                 resCenterBg = R.drawable.bg_breed_memory_6;
                 break;
-            case 4:
+            case 1:
                 resBg = R.drawable.bg_02;
                 resCenterBg = R.drawable.bg_breed_memory_2;
                 break;
-            case 2:
+            case 5:
                 resBg = R.drawable.bg_04;
                 resCenterBg = R.drawable.bg_breed_memory_4;
                 break;
-            case 5:
+            case 4:
                 resBg = R.drawable.bg_01;
                 resCenterBg = R.drawable.bg_breed_memory_1;
                 break;
-            case 0:
+            case 3:
                 resBg = R.drawable.bg_05;
                 resCenterBg = R.drawable.bg_breed_memory_5;
                 break;
-            case 6:
+            case 2:
                 resBg = R.drawable.bg_07;
                 resCenterBg = R.drawable.bg_breed_memory_7;
                 break;
