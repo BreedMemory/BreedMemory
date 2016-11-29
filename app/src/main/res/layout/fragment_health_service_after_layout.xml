@@ -58,6 +58,8 @@
                 android:layout_marginLeft="30dip"
                 android:layout_marginTop="18dip"
                 android:layout_marginRight="30dip"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:text="@string/test_health"
                 android:textSize="@dimen/primary_text_size"
                 android:textColor="@color/textColorPrimary"/>
@@ -66,6 +68,7 @@
                 android:id="@+id/im_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dip"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="30dip"
