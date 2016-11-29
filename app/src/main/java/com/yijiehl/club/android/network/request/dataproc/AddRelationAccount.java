@@ -18,56 +18,24 @@ package com.yijiehl.club.android.network.request.dataproc;
  */
 public class AddRelationAccount extends BaseDataEntity {
 
-    public AddRelationAccount(String dataName, String mobileNum, String relationCode, String hldataMainAuth, String hldataChildAuth, String questionAuth, String photoAuth) {
+    public AddRelationAccount(String dataName, String mobileNum, String relationCode, String accessAuth1, String accessAuth2, String accessAuth5, String accessAuth6) {
         this.dataName = dataName;
         this.mobileNum = mobileNum;
         this.relationCode = relationCode;
-        this.hldataMainAuth = hldataMainAuth;
-        this.hldataChildAuth = hldataChildAuth;
-        this.questionAuth = questionAuth;
-        this.photoAuth = photoAuth;
+        this.accessAuth1 = accessAuth1;
+        this.accessAuth2 = accessAuth2;
+        this.accessAuth5 = accessAuth5;
+        this.accessAuth6 = accessAuth6;
     }
 
     private String dataName;
     private String mobileNum;
     private String relationCode;
-    private String hldataMainAuth;
-    private String hldataChildAuth;
-    private String questionAuth;
-    private String photoAuth;
+    private String accessAuth1;
+    private String accessAuth2;
+    private String accessAuth5;
+    private String accessAuth6;
 
-
-    public String getHldataMainAuth() {
-        return hldataMainAuth;
-    }
-
-    public void setHldataMainAuth(String hldataMainAuth) {
-        this.hldataMainAuth = hldataMainAuth;
-    }
-
-    public String getHldataChildAuth() {
-        return hldataChildAuth;
-    }
-
-    public void setHldataChildAuth(String hldataChildAuth) {
-        this.hldataChildAuth = hldataChildAuth;
-    }
-
-    public String getQuestionAuth() {
-        return questionAuth;
-    }
-
-    public void setQuestionAuth(String questionAuth) {
-        this.questionAuth = questionAuth;
-    }
-
-    public String getPhotoAuth() {
-        return photoAuth;
-    }
-
-    public void setPhotoAuth(String photoAuth) {
-        this.photoAuth = photoAuth;
-    }
 
     public String getDataName() {
         return dataName;
@@ -91,6 +59,38 @@ public class AddRelationAccount extends BaseDataEntity {
 
     public void setRelationCode(String relationCode) {
         this.relationCode = relationCode;
+    }
+
+    public String getAccessAuth1() {
+        return accessAuth1;
+    }
+
+    public void setAccessAuth1(String accessAuth1) {
+        this.accessAuth1 = accessAuth1;
+    }
+
+    public String getAccessAuth2() {
+        return accessAuth2;
+    }
+
+    public void setAccessAuth2(String accessAuth2) {
+        this.accessAuth2 = accessAuth2;
+    }
+
+    public String getAccessAuth5() {
+        return accessAuth5;
+    }
+
+    public void setAccessAuth5(String accessAuth5) {
+        this.accessAuth5 = accessAuth5;
+    }
+
+    public String getAccessAuth6() {
+        return accessAuth6;
+    }
+
+    public void setAccessAuth6(String accessAuth6) {
+        this.accessAuth6 = accessAuth6;
     }
 
     @Override

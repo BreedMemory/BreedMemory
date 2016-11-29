@@ -150,9 +150,13 @@ public class AddRelativesAccountActivity extends BmActivity {
             name = getIntent().getStringExtra(AddRelativesAccountActivity.DATANAME);
             phoneNum = getIntent().getStringExtra(AddRelativesAccountActivity.MOBILENUM);
             motherFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH1));
+            if(motherFlag == 0) motherSwitch.setChecked(false);
             babyFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH2));
+            if(motherFlag == 0) babySwitch.setChecked(false);
             answerFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH5));
+            if(answerFlag == 0) myAnswerSwitch.setChecked(false);
             photoFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH6));
+            if(photoFlag == 0) photoSwitch.setChecked(false);
             dataCode = getIntent().getStringExtra(AddRelativesAccountActivity.DATACODE);
 
             relEditText.setText(relation);
