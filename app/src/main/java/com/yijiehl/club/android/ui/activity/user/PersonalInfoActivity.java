@@ -154,7 +154,7 @@ public class PersonalInfoActivity extends BmActivity {
             Glide.with(this).load(ActivitySvc.createResourceUrl(this, info.getImageInfo())).dontAnimate().placeholder(R.drawable.bg_loading).into(mHeadPic);
         }
         mName.setText(info.getAcctName());
-        mNick.setText((info.getShortName().indexOf("null") == -1) ? info.getShortName() : "");
+        mNick.setText(info.getShortName());
         if(!TextUtils.isEmpty(mAddress.getText())) {
             userInfo.setAreaInfo(mAddress.getText().toString());
             ActivitySvc.saveUserInfoNative(this, userInfo);
