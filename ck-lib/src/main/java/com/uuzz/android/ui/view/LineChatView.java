@@ -427,7 +427,7 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private void handlerClick(int x){
-        if(values == null || values.size() == 0) {
+        if(values == null || values.size() < 2) {
             return;
         }
         x = x + getScrollX();
