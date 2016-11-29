@@ -63,6 +63,7 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
                 List<HealthData> datas = ((RespSearchHealthData)pResponse).getResultList();
                 memoryAdapter.setDatas(datas);
                 memoryAdapter.notifyDataSetChanged();
+                onPageSelected(mViewPager.getCurrentItem());
             }
         });
     }
