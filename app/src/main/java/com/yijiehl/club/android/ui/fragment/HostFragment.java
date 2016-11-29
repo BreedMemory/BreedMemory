@@ -657,7 +657,7 @@ public class HostFragment extends BaseHostFragment {
         ArrayList<String> list = new ArrayList<>();
         ArrayList<String> codes = new ArrayList<>();
         ArrayList<String> descs = new ArrayList<>();
-        list.add(entity.getValue());
+        list.add(!(entity.getValue().startsWith("http")) ? ActivitySvc.createWebUrl(entity.getValue()):entity.getValue());
         codes.add(entity.getName());
         descs.add(entity.getName());
         ActivitySvc.startImageViewer(getActivity(), list, codes, descs, false, 0);
