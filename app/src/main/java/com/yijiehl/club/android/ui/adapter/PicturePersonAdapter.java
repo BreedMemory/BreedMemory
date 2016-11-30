@@ -172,7 +172,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 //        holder.showAddress.setText("北京");
         List<PhotoInfo> dataGrid = mDatas.get(position);
         if (dataGrid != null && dataGrid.size() > 0) {
-            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect,deleteListPhoto));
+            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect, deleteListPhoto, position==0));
         }
         holder.gridView.setTag(R.id.picture_position, position);
         /**

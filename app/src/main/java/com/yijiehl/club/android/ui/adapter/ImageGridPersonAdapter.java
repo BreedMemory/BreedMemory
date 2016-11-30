@@ -36,6 +36,7 @@ import java.util.List;
 public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
     private boolean isSelect;
+    private boolean showAdd;
 
     /**
      * 用户选择的图片，存储为图片的完整路径
@@ -70,11 +71,12 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
     }
 
 
-    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data, boolean isSelect,PictureFragment.DeleteListPhoto listener) {
+    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data, boolean isSelect,PictureFragment.DeleteListPhoto listener, boolean showAdd) {
         super(mContext);
         mDatas = data;
         this.isSelect = isSelect;
         this.deleteListPhoto = listener;
+        this.showAdd = showAdd;
     }
 
     @Override
@@ -87,8 +89,11 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (position == getCount() - 1) {
+        if (showAdd && position == getCount() - 1) {
             holder.add.setVisibility(View.VISIBLE);
+            holder.ivContent.setVisibility(View.GONE);
+        } else if(!showAdd && position == getCount() - 1) {
+            holder.add.setVisibility(View.GONE);
             holder.ivContent.setVisibility(View.GONE);
         } else {
             holder.add.setVisibility(View.GONE);
@@ -96,12 +101,12 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
             Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         }
         if (isSelect) {
-            // TODO: 2016/11/27  d显示蒙版
+            // DONE: 2016/11/27  d显示蒙版
             holder.ivChoose.setVisibility(View.VISIBLE);
 
 
         } else {
-            // TODO: 2016/11/27 隐藏蒙版
+            // DONE: 2016/11/27 隐藏蒙版
             holder.ivChoose.setVisibility(View.GONE);
         }
 

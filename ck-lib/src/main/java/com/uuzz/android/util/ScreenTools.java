@@ -1,8 +1,11 @@
 // Copyright (C) 2012-2014 UUZZ All rights reserved
 package com.uuzz.android.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.Window;
 
 /**
  * 类 名: ScreenTools<br/>
@@ -48,6 +51,21 @@ public class ScreenTools {
 		screenPixel[0] = width;
 		screenPixel[1] = height;
 		return screenPixel;
+	}
+
+	/**
+	 * 描 述：获取状态栏高度<br/>
+	 * 作 者：谌珂<br/>
+	 * 历 史: (1.7.3) 谌珂 2016/11/30 <br/>
+	 */
+	public static int getStatusHeight(Activity activity) {
+		Rect rectangle = new Rect();
+		Window window = activity.getWindow();
+		window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+		int statusBarHeight = rectangle.top;
+		int contentViewTop =
+				window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+		return contentViewTop - statusBarHeight;
 	}
 
 }
