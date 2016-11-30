@@ -163,6 +163,7 @@
                         android:id="@+id/layout_zero_month"
                         android:layout_width="match_parent"
                         android:layout_height="44dip"
+                        android:background="@drawable/bg_item_white_touchable"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -188,6 +189,7 @@
                         android:id="@+id/layout_three_months"
                         android:layout_width="match_parent"
                         android:layout_height="44dip"
+                        android:background="@drawable/bg_item_white_touchable"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -213,6 +215,7 @@
                         android:id="@+id/layout_one_year"
                         android:layout_width="match_parent"
                         android:layout_height="44dip"
+                        android:background="@drawable/bg_item_white_touchable"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -238,6 +241,7 @@
                         android:id="@+id/layout_one_half_years"
                         android:layout_width="match_parent"
                         android:layout_height="44dip"
+                        android:background="@drawable/bg_item_white_touchable"
                         android:orientation="horizontal">
 
                         <ImageView

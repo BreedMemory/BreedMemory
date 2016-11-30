@@ -372,11 +372,15 @@ public class HostFragment extends BaseHostFragment {
                     break;
                 case ALBUMITEM2:
                     //照片2
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage2);
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage2);
+                    }
                     break;
                 case ALBUMITEM3:
                     //照片3
-                    Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage3);
+                    if(!TextUtils.isEmpty(entity.getValue())) {
+                        Glide.with(this).load(ActivitySvc.createResourceUrl(getActivity(), entity.getValue())).dontAnimate().into(mPhotoImage3);
+                    }
                     break;
                 case CUSTSERVICEPHONE:
                     //保存会所电话
