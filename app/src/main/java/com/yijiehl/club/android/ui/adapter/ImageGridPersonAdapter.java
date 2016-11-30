@@ -56,7 +56,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
     @Override
     public int getCount() {
-        return super.getCount() + 1;
+        return showAdd?super.getCount() + 1:super.getCount();
     }
 
     public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
