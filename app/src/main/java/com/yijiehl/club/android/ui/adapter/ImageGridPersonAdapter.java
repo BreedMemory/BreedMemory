@@ -92,9 +92,6 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         if (showAdd && position == getCount() - 1) {
             holder.add.setVisibility(View.VISIBLE);
             holder.ivContent.setVisibility(View.GONE);
-        } else if(!showAdd && position == getCount() - 1) {
-            holder.add.setVisibility(View.GONE);
-            holder.ivContent.setVisibility(View.GONE);
         } else {
             holder.add.setVisibility(View.GONE);
             holder.ivContent.setVisibility(View.VISIBLE);
