@@ -542,7 +542,7 @@ public class LineChatView extends View {
     }
 
     public void setPointCount(int mPointCount) {
-        if(values.size() < 8 && mPointCount == 8) {
+        if(values != null && values.size() < 8 && mPointCount == 8) {
             this.mPointCount = values.size();
         } else {
             this.mPointCount = mPointCount;

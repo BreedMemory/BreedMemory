@@ -98,7 +98,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
             Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         }
         if (isSelect) {
-            // DONE: 2016/11/27  d显示蒙版
+            // DONE: 2016/11/27  显示蒙版
             holder.ivChoose.setVisibility(View.VISIBLE);
 
 
