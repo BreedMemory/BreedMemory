@@ -30,5 +30,19 @@
         android:numColumns="3"
         android:verticalSpacing="10dp"
         android:layout_marginTop="28dip" />
-
+    <RelativeLayout
+        android:id="@+id/rl_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dip"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dip"
+            android:src="@drawable/delete"/>
+    </RelativeLayout>
 </RelativeLayout>

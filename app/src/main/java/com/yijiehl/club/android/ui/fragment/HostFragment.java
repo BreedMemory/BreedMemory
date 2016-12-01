@@ -627,7 +627,7 @@ public class HostFragment extends BaseHostFragment {
         startActivity(new Intent(getActivity(), ActivitysActivity.class));
     }
 
-    @OnClick(R.id.tv_activity_name)
+    @OnClick(R.id.rl_activity)
     private void toDetailActivitys() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
@@ -635,7 +635,7 @@ public class HostFragment extends BaseHostFragment {
                 mActivityName.getText().toString(), null, null, null, getString(R.string.activity));
     }
 
-    @OnClick(R.id.tv_question_name)
+    @OnClick(R.id.rl_question)
     private void toAnswerQue() {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,

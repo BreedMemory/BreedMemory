@@ -165,40 +165,53 @@
                 android:layout_alignParentBottom="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/bg_tranlusent_arc"/>
-            <TextView
-                android:id="@+id/tv_activity_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_activity"
                 android:layout_alignTop="@id/im_arc_2"
-                android:layout_marginTop="50dip"
-                android:layout_marginLeft="50dip"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/primary_text_size"
-                android:text="聆听音乐"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_activity_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dip"
+                    android:layout_marginLeft="50dip"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/primary_text_size"
+                    android:text="聆听音乐"/>
+                <View
+                    android:id="@+id/activity_divider"
+                    android:layout_below="@id/tv_activity_name"
+                    android:layout_marginLeft="50dip"
+                    android:layout_marginRight="50dip"
+                    android:layout_marginTop="34dip"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/colorAccent"/>
+                <TextView
+                    android:id="@+id/tv_activity_time"
+                    android:layout_below="@id/tv_activity_name"
+                    android:layout_alignRight="@id/activity_divider"
+                    android:layout_marginTop="10dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/second_text_size"
+                    android:text="8月13日 10:30 pm"/>
+
+            </RelativeLayout>
             <View
-                android:id="@+id/activity_divider"
-                android:layout_below="@id/tv_activity_name"
+                android:id="@+id/activity_dividers"
+                android:layout_below="@id/rl_activity"
                 android:layout_marginLeft="50dip"
                 android:layout_marginRight="50dip"
-                android:layout_marginTop="34dip"
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
-                android:background="@color/colorAccent"/>
-            <TextView
-                android:id="@+id/tv_activity_time"
-                android:layout_below="@id/tv_activity_name"
-                android:layout_alignRight="@id/activity_divider"
-                android:layout_marginTop="10dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/second_text_size"
-                android:text="8月13日 10:30 pm"/>
-
+                android:background="@null"/>
             <ImageView
                 android:id="@+id/im_collect_activity"
                 android:layout_marginTop="10dip"
-                android:layout_below="@id/activity_divider"
+                android:layout_below="@id/rl_activity"
                 android:layout_toLeftOf="@+id/im_share_activity"
                 android:layout_marginRight="30dip"
                 style="@style/share_btn_size"
@@ -207,8 +220,8 @@
                 android:id="@id/im_share_activity"
                 android:layout_marginRight="-18dip"
                 android:layout_marginTop="10dip"
-                android:layout_below="@id/activity_divider"
-                android:layout_alignRight="@id/activity_divider"
+                android:layout_below="@id/rl_activity"
+                android:layout_alignRight="@id/activity_dividers"
                 style="@style/share_btn_size"
                 android:src="@drawable/share"/>
 
@@ -216,12 +229,12 @@
                 android:id="@+id/im_logo_info_activity"
                 android:layout_width="wrap_content"
                 android:maxWidth="125dip"
-                android:layout_height="27dip"
+                android:layout_height="40dip"
                 android:scaleType="fitStart"
                 android:src="@drawable/club_logo_info"
                 android:layout_alignTop="@+id/im_collect_activity"
-                android:layout_alignLeft="@+id/activity_divider"
-                android:layout_alignStart="@+id/activity_divider" />
+                android:layout_alignLeft="@+id/activity_dividers"
+                android:layout_alignStart="@+id/activity_dividers" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -248,12 +261,12 @@
                 android:layout_marginTop="@dimen/text_space">
                 <ImageView
                     android:id="@+id/im_collect_photo"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
                     android:src="@drawable/collect"
                     style="@style/share_btn_size" />
                 <ImageView
                     android:id="@+id/im_share_photo"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
                     style="@style/share_btn_size"
                     android:src="@drawable/share"/>
             </RelativeLayout>
@@ -269,11 +282,13 @@
 
                 <ImageView
                     android:id="@+id/iv_photo_1"
+                    android:src="@drawable/shouye_zhaopian_tu1"
                     style="@style/host_photo_content"
                     android:scaleType="center"/>
 
                 <ImageView
                     android:id="@+id/iv_photo_2"
+                    android:src="@drawable/shouye_zhaopian_tu2"
                     style="@style/host_photo_content"
                     android:layout_marginRight="@dimen/primary_List_margin"
                     android:layout_marginLeft="@dimen/primary_List_margin"
@@ -281,6 +296,7 @@
 
                 <ImageView
                     android:id="@+id/iv_photo_3"
+                    android:src="@drawable/shouye_zhaopian_tu3"
                     android:scaleType="center"
                     style="@style/host_photo_content" />
 
@@ -309,23 +325,29 @@
                 android:layout_alignParentBottom="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/bg_tranlusent_arc"/>
-            <com.yijiehl.club.android.ui.view.UnderLineTextView
-                android:id="@+id/tv_question_name"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:id="@+id/rl_question"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/im_arc_4"
                 android:layout_marginTop="50dip"
-                android:layout_marginLeft="50dip"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="21dip"
-                android:paddingBottom="14dip"
-                android:text="宝宝一天喂几次奶？"/>
+                android:layout_marginLeft="50dip">
+                <com.yijiehl.club.android.ui.view.UnderLineTextView
+                    android:id="@+id/tv_question_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21dip"
+                    android:paddingBottom="14dip"
+                    android:text="宝宝一天喂几次奶？"/>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/im_share_question"
                 android:layout_marginRight="43dip"
                 android:layout_marginTop="19dip"
-                android:layout_below="@id/tv_question_name"
+                android:layout_below="@id/rl_question"
                 android:layout_alignParentRight="true"
                 style="@style/share_btn_size"
                 android:src="@drawable/share"/>
@@ -334,12 +356,12 @@
                 android:id="@+id/im_logo_info_question"
                 android:layout_width="wrap_content"
                 android:maxWidth="125dip"
-                android:layout_height="25dip"
+                android:layout_height="40dip"
                 android:scaleType="fitStart"
                 android:src="@drawable/club_logo_info"
                 android:layout_marginLeft="54dip"
                 android:layout_marginTop="23dip"
-                android:layout_below="@id/tv_question_name"/>
+                android:layout_below="@id/rl_question"/>
         </RelativeLayout>
 
         <RelativeLayout style="@style/host_page_container"
