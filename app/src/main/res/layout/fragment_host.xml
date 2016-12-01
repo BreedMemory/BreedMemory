@@ -366,12 +366,12 @@
                 android:layout_marginTop="@dimen/text_space">
                 <ImageView
                     android:id="@+id/im_collect_grow_up"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
                     android:src="@drawable/collect"
                     style="@style/share_btn_size" />
                 <ImageView
                     android:id="@+id/im_share_grow_up"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
                     style="@style/share_btn_size"
                     android:src="@drawable/share"/>
             </RelativeLayout>
