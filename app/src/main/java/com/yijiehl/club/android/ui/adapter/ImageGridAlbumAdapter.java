@@ -43,6 +43,7 @@ public class ImageGridAlbumAdapter extends BaseListViewAdapter<PhotoInfo> {
 
     public void setSelect(boolean select) {
         isSelect = select;
+        refresh();
     }
 
     /**

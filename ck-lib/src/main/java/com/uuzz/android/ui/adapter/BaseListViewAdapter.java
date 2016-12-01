@@ -78,7 +78,7 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter implements Adap
      * 作 者：谌珂<br/>
      * 历 史: (1.0.0) 谌珂 2016/8/19 <br/>
      */
-    protected void refresh() {
+    public void refresh() {
         if (Activity.class.isAssignableFrom(mContext.getClass())) {
             ((Activity)mContext).runOnUiThread(new Runnable() {
                 @Override

@@ -8,7 +8,6 @@
 package com.yijiehl.club.android.ui.activity.photo;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,14 +26,12 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.network.request.search.ReqSearchAlbumPhoto;
 import com.yijiehl.club.android.network.response.ResSearchPhotos;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.activity.MainActivity;
 import com.yijiehl.club.android.ui.adapter.ImageGridAlbumAdapter;
 import com.yijiehl.club.android.ui.dialog.BaseDialog;
 import com.yijiehl.club.android.ui.dialog.MessageDialog;
@@ -88,11 +85,12 @@ public class AlbumPhotoActivity extends BmActivity {
         layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         mRightBtn.setText(getString(R.string.select));
-        mRightBtn.setOnClickListener(new View.OnClickListener() {
+        mRightBtn.setModle(IconTextView.MODULE_TEXT);
+        mHeadRightContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isDeleteState){
-                    mRightBtn.setText("取消");
+                    mRightBtn.setText(R.string.cancel);
                     isDeleteState = true;
                     mRelativeDetele.setVisibility(View.VISIBLE);
                     mAdapter.setSelect(true);
@@ -192,6 +190,7 @@ public class AlbumPhotoActivity extends BmActivity {
                             mRelativeDetele.setVisibility(View.GONE);
                             mAdapter.setSelect(false);
                             dataCodeList.clear();
+                            mAdapter.refresh();
                         }
 
                         @Override
