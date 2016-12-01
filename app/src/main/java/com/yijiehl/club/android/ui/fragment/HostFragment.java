@@ -463,6 +463,7 @@ public class HostFragment extends BaseHostFragment {
      * @param text 提示短语
      */
     private void addText(String text) {
+        text = text.replaceAll(" ", "   ");
         TextView v = new TextView(getActivity());
         mTipContainer.addView(v);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
@@ -492,9 +493,10 @@ public class HostFragment extends BaseHostFragment {
                 v = new ImageView(getActivity());
                 mTipContainer.addView(v);
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
-                layoutParams.width = ScreenTools.dip2px(getActivity(), 21);
+                layoutParams.width = ScreenTools.dip2px(getActivity(), 15);
                 layoutParams.height = ScreenTools.dip2px(getActivity(), 26);
                 layoutParams.setMargins(ScreenTools.dip2px(getActivity(), 2), 0, 0, 0);
+                v.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 v.setImageBitmap(BitmapFactory.decodeResource(getResources(), resId));
             }
         } catch (Exception e) {
@@ -626,7 +628,7 @@ public class HostFragment extends BaseHostFragment {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
                 mEntitys.get(UserInfo.MainDataType.RECOMMACTIVITY).getValue(),
-                mActivityName.getText().toString(), null, null, null);
+                mActivityName.getText().toString(), null, null, null, getString(R.string.activity));
     }
 
     @OnClick(R.id.tv_question_name)
@@ -634,7 +636,7 @@ public class HostFragment extends BaseHostFragment {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
                 mEntitys.get(UserInfo.MainDataType.RECOMMQUESTION).getValue(),
-                mQuestion.getText().toString(), null, null, null);
+                mQuestion.getText().toString(), null, null, null, getString(R.string.question));
     }
 
     @OnClick(R.id.tv_grow_up_title)
@@ -642,7 +644,7 @@ public class HostFragment extends BaseHostFragment {
         // DONE: 2016/10/6 此处临时跳转一固定问题解答页面，后期要根据具体问题跳转到具体解答页面
         ActivitySvc.startArticle(this, true,
                 mEntitys.get(UserInfo.MainDataType.RECOMMGROWUP).getValue(),
-                mGrowUpTitle.getText().toString(), null, null, null);
+                mGrowUpTitle.getText().toString(), null, null, null, getString(R.string.grow_up));
     }
     @OnClick({R.id.im_gas_station,R.id.tv_grow_up_desc})
     private void toGasStation(){

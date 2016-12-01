@@ -451,7 +451,7 @@ public class ServiceAfterFragment extends HealthInfoFragment {
         /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);*/
-        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null);
+        ActivitySvc.startArticle(this,true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null, getString(R.string.month_food));
     }
 
     @OnClick(R.id.ll_knowledge)

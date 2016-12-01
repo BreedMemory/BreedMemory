@@ -1,3 +1,10 @@
+/**
+ * 项目名称：手机在线 <br/>
+ * 文件名称: SearchQuestionActivity.java <br/>
+ * <p/>
+ * Created by 谌珂 on 2016/10/27.  <br/>
+ * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
+ */
 package com.yijiehl.club.android.ui.activity.question;
 
 import android.content.Intent;
@@ -17,24 +24,23 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchKnowledge;
+import com.yijiehl.club.android.network.request.search.ReqSearchGrowUpArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.BmActivity;
-import com.yijiehl.club.android.ui.adapter.KnowledgeListAdapter;
+import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 
 /**
- * 项目名称：孕育迹忆 <br/>
- * 类  名: SearchKnowledgeActivity <br/>
+ * 项目名称：手机在线 <br/>
+ * 类  名: SearchQuestionActivity <br/>
  * 类描述: <br/>
  * 实现的主要功能 <br/>
- * 版    本：1.0.0 <br/>
- * 修改时间：2016/11/17 <br/>
- *
- * @author 张志新 <br/>
+ * 版    本：1.7.3 <br/>
+ * 修改时间：2016/10/27 <br/>
+ * @author 谌珂 <br/>
  */
 @ContentView(R.layout.activity_search_layout)
-public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
+public class SearchGrowUpActivity extends BmActivity implements TextWatcher {
     /**搜索栏*/
     @ViewInject(R.id.et_search)
     private EditText mEditText;
@@ -45,7 +51,7 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
     @ViewInject(R.id.tv_search_no_data)
     private TextView noData;
 
-    private KnowledgeListAdapter knowledgeListAdapter;
+    private GrowUpContentAdapter mGrowUpContentAdapter;
 
     @Override
     protected String getHeadTitle() {
@@ -57,6 +63,9 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         mHeader.setVisibility(View.GONE);
         mEditText.addTextChangedListener(this);
+        mGrowUpContentAdapter=new GrowUpContentAdapter(this, GrowUpContentAdapter.ALL_DATA);
+        lv.setAdapter(mGrowUpContentAdapter);
+        lv.setOnItemClickListener(mGrowUpContentAdapter);
     }
 
     @OnClick(R.id.tv_cancel)
@@ -74,13 +83,11 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
      * 历 史: (1.0.0) 张志新 2016/10/28 <br/>
      */
     private void obtainData(String keyWord) {
-        NetHelper.getDataFromNet(this, new ReqSearchKnowledge(this, keyWord), new AbstractCallBack(this) {
+        NetHelper.getDataFromNet(this, new ReqSearchGrowUpArticle(this, 0, keyWord), new AbstractCallBack(this) {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle data = (RespSearchArticle) pResponse;
-                knowledgeListAdapter = new KnowledgeListAdapter(SearchKnowledgeActivity.this);
-                knowledgeListAdapter.addDatas(data.getResultList());
-                lv.setAdapter(knowledgeListAdapter);
+                mGrowUpContentAdapter.addDatas(data.getResultList());
                 if(data.getResultList() == null || data.getResultList().size()<=0){
                     noData.setVisibility(View.VISIBLE);
                 }
@@ -109,7 +116,7 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
-            knowledgeListAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
+            mGrowUpContentAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
         }
     }
 }

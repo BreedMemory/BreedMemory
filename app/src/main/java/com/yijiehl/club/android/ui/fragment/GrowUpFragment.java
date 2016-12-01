@@ -4,13 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.uuzz.android.ui.view.IconTextView;
@@ -19,18 +14,20 @@ import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrHandler;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchGrowUpArticle;
 import com.yijiehl.club.android.network.request.search.ReqSearchEducationArticle;
+import com.yijiehl.club.android.network.request.search.ReqSearchGrowUpArticle;
 import com.yijiehl.club.android.network.request.search.ReqSearchHealthArticle;
 import com.yijiehl.club.android.network.response.RespSearchArticle;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.ui.activity.ArticleDetailActivity;
 import com.yijiehl.club.android.ui.activity.MainActivity;
+import com.yijiehl.club.android.ui.activity.question.SearchGrowUpActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
 
@@ -45,16 +42,10 @@ import com.yijiehl.club.android.ui.adapter.GrowUpContentAdapter;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.fragment_growup)
-public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnCheckedChangeListener, TextWatcher {
+public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnCheckedChangeListener {
 
     @ViewInject(R.id.layout_title)
     private RadioGroup mTitle;
-    @ViewInject(R.id.et_search)
-    private EditText mSearch;
-    @ViewInject(R.id.iv_search_show)
-    private ImageView mSearchShow;
-    @ViewInject(R.id.layout_search_logo)
-    private LinearLayout mSearchLogo;
 
     /**
      * 内容列表
@@ -121,7 +112,6 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
         mGrowUpContentAdapter = new GrowUpContentAdapter(this, getMode());
         obtainAllData();
         mListView.setAdapter(mGrowUpContentAdapter);
-        mSearch.addTextChangedListener(this);
 
         mListView.setLoadMoreListener(new PtrListView.LoadMoreListener() {
 
@@ -148,19 +138,6 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
 
         // DONE: 2016/9/9 成长文章item单击事件
         mListView.setOnItemClickListener(mGrowUpContentAdapter);
-
-        mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    mSearchLogo.setVisibility(View.GONE);
-                    mSearchShow.setVisibility(View.VISIBLE);
-                }else{
-                    mSearchLogo.setVisibility(View.VISIBLE);
-                    mSearchShow.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
     }
 
     /**
@@ -361,26 +338,16 @@ public class GrowUpFragment extends BaseHostFragment implements RadioGroup.OnChe
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        obtainData(true, s.toString());
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
             mGrowUpContentAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
         }
+    }
+
+    @OnClick(R.id.layout_search_logo)
+    private void startSearchGrowActivity() {
+        startActivity(new Intent(getActivity(), SearchGrowUpActivity.class));
     }
 
 }

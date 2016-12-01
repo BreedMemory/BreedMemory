@@ -39,7 +39,7 @@ import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
  * 修改时间：2016/10/27 <br/>
  * @author 谌珂 <br/>
  */
-@ContentView(R.layout.activity_search_question_layout)
+@ContentView(R.layout.activity_search_layout)
 public class SearchQuestionActivity extends BmActivity implements TextWatcher {
     /**搜索栏*/
     @ViewInject(R.id.et_search)

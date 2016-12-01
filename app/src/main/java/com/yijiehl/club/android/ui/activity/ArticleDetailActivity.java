@@ -35,6 +35,7 @@ public class ArticleDetailActivity extends BmActivity implements MenuAdapter.OnC
 
     public static final int ARTICL_EDETAIL_ACTIVITY = 876;
 
+    public static final String TITLE = "TITLE";
     public static final String SHARE = "SHARE";
     public static final String URL = "URL";
     public static final String NAME = "NAME";
@@ -114,6 +115,10 @@ public class ArticleDetailActivity extends BmActivity implements MenuAdapter.OnC
         super.onCreate(savedInstanceState);
 
         // DONE: 2016/9/11 此处需要获取url
+        String title = getIntent().getStringExtra(TITLE);
+        if(!TextUtils.isEmpty(title)) {
+            mTitleText.setText(title);
+        }
         String url = getIntent().getStringExtra(URL);
         if (TextUtils.isEmpty(url)) {
             webView.setVisibility(View.GONE);

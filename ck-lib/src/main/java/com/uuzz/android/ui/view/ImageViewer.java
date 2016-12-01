@@ -139,6 +139,7 @@ public class ImageViewer extends ImageView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.drawColor(Color.BLACK);
 		try {
 			source = ((BitmapDrawable)getDrawable()).getBitmap();
 		} catch (Exception e) {
@@ -168,7 +169,6 @@ public class ImageViewer extends ImageView {
 			}
 
 		}
-		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
 	}

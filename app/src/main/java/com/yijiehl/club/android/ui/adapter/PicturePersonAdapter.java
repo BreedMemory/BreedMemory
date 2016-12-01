@@ -186,11 +186,11 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int groupPosition = (int) parent.getTag(R.id.picture_position);
 
-            if (position == parent.getAdapter().getCount() - 1) {
+            if (groupPosition == 0 && position == parent.getAdapter().getCount() - 1) {
                 mFragment.upload();
             } else {
-                int groupPosition = (int) parent.getTag(R.id.picture_position);
                 ArrayList<String> list = new ArrayList<>();
                 ArrayList<String> codes = new ArrayList<>();
                 ArrayList<String> descs = new ArrayList<>();

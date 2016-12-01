@@ -219,10 +219,16 @@
             android:name=".ui.activity.question.SearchQuestionActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|stateVisible" />
         <!-- 搜索知识列表 -->
         <activity
             android:name=".ui.activity.question.SearchKnowledgeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 搜索成长列表 -->
+        <activity
+            android:name=".ui.activity.question.SearchGrowUpActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

@@ -38,22 +38,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/my_health"
                 android:textSize="@dimen/primary_text_size"
-                android:textColor="@color/textColorPrimary"/>
-
-            <TextView
-                android:id="@+id/tv_health_analysis"
-                android:layout_marginLeft="30dip"
-                android:layout_marginTop="18dip"
-                android:layout_below="@+id/tv_health_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/health_analysis"
-                android:textSize="@dimen/primary_text_size"
                 android:textColor="@color/colorAccent"/>
+
 
             <TextView
                 android:id="@+id/tv_health_desc"
-                android:layout_below="@+id/tv_health_analysis"
+                android:layout_below="@+id/tv_health_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dip"
