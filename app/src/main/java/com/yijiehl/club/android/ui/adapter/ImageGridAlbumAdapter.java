@@ -72,6 +72,8 @@ public class ImageGridAlbumAdapter extends BaseListViewAdapter<PhotoInfo> {
         }
         Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
 
+        holder.ivContent.setColorFilter(null);
+
         if (isSelect) {
             // DONE: 2016/11/27  显示蒙版
             holder.ivChoose.setVisibility(View.VISIBLE);
