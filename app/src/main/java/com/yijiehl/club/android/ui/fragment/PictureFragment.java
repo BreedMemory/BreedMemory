@@ -123,6 +123,7 @@ public class PictureFragment extends BaseHostFragment {
     private RelativeLayout mRelativeDetele;
     private boolean isDeleteState ;
     private UserInfo mUserInfo;
+    private RightBtnClickListener mRightBtnCLickListener;
 
     @Nullable
     @Override
@@ -139,24 +140,29 @@ public class PictureFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isDeleteState){
-                    ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
-                    ((MainActivity)getActivity()).getmRightBtn().setText("取消");
-                    isDeleteState = true;
-                     mRelativeDetele.setVisibility(View.VISIBLE);
-                    mPicturePersonAdapter.setSelect(true);
-                }else{
-                    ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
-                    ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
-                    isDeleteState = false;
-                    mRelativeDetele.setVisibility(View.GONE);
-                    mPicturePersonAdapter.setSelect(false);
-                }
+        if(mRightBtnCLickListener == null) {
+            mRightBtnCLickListener = new RightBtnClickListener();
+        }
+        return mRightBtnCLickListener;
+    }
+
+    private class RightBtnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if(!isDeleteState){
+                ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                ((MainActivity)getActivity()).getmRightBtn().setText("取消");
+                isDeleteState = true;
+                mRelativeDetele.setVisibility(View.VISIBLE);
+                mPicturePersonAdapter.setSelect(true);
+            }else{
+                ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+                isDeleteState = false;
+                mRelativeDetele.setVisibility(View.GONE);
+                mPicturePersonAdapter.setSelect(false);
             }
-        };
+        }
     }
 
     @Override
@@ -254,6 +260,8 @@ public class PictureFragment extends BaseHostFragment {
                             }
                         }
                         mPicturePersonAdapter.notifyDataSetChanged();
+                        ((BmActivity)getActivity()).mHeadRightContainer.setVisibility(View.VISIBLE);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setOnClickListener(mRightBtnCLickListener);
                         break;
                     case R.id.rb_club:
                         mListView.setOnItemClickListener(mPictureClubAdapter);
@@ -262,11 +270,11 @@ public class PictureFragment extends BaseHostFragment {
                         noDataTextView.setVisibility(View.GONE);
                         upLoading.setVisibility(View.GONE);
                         mPictureClubAdapter.notifyDataSetChanged();
+                        isDeleteState = true;
+                        mRightBtnCLickListener.onClick(null);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setVisibility(View.GONE);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setOnClickListener(null);
                         break;
-                }
-
-                if(!isRightBtnVisible()){
-                    ((MainActivity)getActivity()).getmRightBtn().setText("");
                 }
             }
         });
