@@ -17,7 +17,6 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.CollectQuestion;
 import com.yijiehl.club.android.network.response.innerentity.Answer;
@@ -99,7 +98,8 @@ public class QuestionListAdapter extends BaseListViewAdapter<Answer> implements 
                 mDatas.get(position).getDataContent(),
                 mDatas.get(position).getDataDesc(),
                 mDatas.get(position).getImageInfo(),
-                mDatas.get(position).getReplyInfo());
+                mDatas.get(position).getReplyInfo(),
+                mContext.getResources().getString(R.string.question));
     }
 
     class ViewHolder {

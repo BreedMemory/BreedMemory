@@ -162,7 +162,6 @@ public class AlbumPhotoActivity extends BmActivity {
 
     @OnClick(R.id.iv_delete)
     private void detelePhotos(){
-
         if(dataCodeList.size() <= 0){
             Toaster.showShortToast(this,"请选择要删除的照片");
             return;
@@ -205,8 +204,6 @@ public class AlbumPhotoActivity extends BmActivity {
                         }
                     });
                 }
-
-
             }
         });
     }
