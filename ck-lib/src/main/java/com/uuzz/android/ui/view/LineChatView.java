@@ -158,7 +158,11 @@ public class LineChatView extends View {
         }
         mTrueHeight = getHeight() - getPaddingTop() - getPaddingBottom();
         mRangeLength = mRange[1] - mRange[0];
-        scrollTo(getMaximumScrollX(), 0);
+        if(mPointCount > 2 && values != null) {
+            scrollTo(getX(values.size()/2) - getWidth()/2, 0);
+        } else {
+            scrollTo(getMaximumScrollX(), 0);
+        }
         invalidate();
     }
 
@@ -423,7 +427,7 @@ public class LineChatView extends View {
      * 历 史: (1.0.0) 谌珂 2016/10/29 <br/>
      */
     private void handlerClick(int x){
-        if(values == null || values.size() == 0) {
+        if(values == null || values.size() < 2) {
             return;
         }
         x = x + getScrollX();
@@ -538,7 +542,11 @@ public class LineChatView extends View {
     }
 
     public void setPointCount(int mPointCount) {
-        this.mPointCount = mPointCount;
+        if(values != null && values.size() < 8 && mPointCount == 8) {
+            this.mPointCount = values.size();
+        } else {
+            this.mPointCount = mPointCount;
+        }
         initParam();
         invalidate();
     }
@@ -581,7 +589,8 @@ public class LineChatView extends View {
             mRange[1] = 0;
             return;
         }
-        mPointCount = values.size();
+//        mPointCount = values.size();   /
+        setPointCount(mPointCount);
         mRange[0] = values.get(0);
         mRange[1] = values.get(0);
         for (Float value: values) {

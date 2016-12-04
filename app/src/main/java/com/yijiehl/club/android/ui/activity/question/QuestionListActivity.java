@@ -3,14 +3,9 @@ package com.yijiehl.club.android.ui.activity.question;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -47,7 +42,7 @@ import com.yijiehl.club.android.ui.adapter.QuestionListAdapter;
  * @author 张志新 <br/>
  */
 @ContentView(R.layout.activity_question_list)
-public class QuestionListActivity extends BmActivity implements TextWatcher {
+public class QuestionListActivity extends BmActivity {
 
     public static final String TYPE = "type";
     public static final String MY = "my";
@@ -57,15 +52,6 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
     public static final String MONTH3 = "3_12month";
     public static final String MONTH12 = "12_18month";
     public static final String MONTH18 = "18-36month";
-    /**
-     * 搜索栏
-     */
-    @ViewInject(R.id.et_search)
-    private EditText mSearch;
-    @ViewInject(R.id.iv_search_show)
-    private ImageView mSearchShow;
-    @ViewInject(R.id.layout_search_logo)
-    private LinearLayout mSearchLogo;
     /**
      * 问题列表
      */
@@ -133,20 +119,11 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
 
         mListView.setOnItemClickListener(questionListAdapter);
 
-        mSearch.addTextChangedListener(this);
-        mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mSearchLogo.setVisibility(View.GONE);
-                    mSearchShow.setVisibility(View.VISIBLE);
-                } else {
-                    mSearchLogo.setVisibility(View.VISIBLE);
-                    mSearchShow.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+    }
 
+    @OnClick(R.id.layout_search_logo)
+    private void startSearchActivity() {
+        startActivity(new Intent(this, SearchQuestionActivity.class));
     }
 
     @Override
@@ -224,21 +201,6 @@ public class QuestionListActivity extends BmActivity implements TextWatcher {
                 startActivity(new Intent(this, AskQuestionActivity.class));
                 break;
         }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        obtainData(true, s.toString());
     }
 
     @Override

@@ -10,6 +10,7 @@
         android:layout_height="19dip"
         android:layout_marginLeft="@dimen/primary_margin"
         android:layout_marginTop="@dimen/primary_margin"
+        android:textColor="#046b6f"
         android:text="小孩应该多久喂一次奶"
         android:textSize="@dimen/primary_margin" />
 

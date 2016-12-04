@@ -21,14 +21,17 @@ import com.yijiehl.club.android.network.response.RespSearchMyMessage;
  * 版    本：1.0.0<br/>
  */
 public class ReqSearchMyMessage extends ReqBaseSearch {
+
+    private boolean isState;
     public ReqSearchMyMessage(Context context,boolean noread) {
         super(context);
         this.dataClfy = noread ? "" : "all";
+        isState = noread;
     }
 
     @Override
     public String getBizType() {
-        return "notice_item_my";
+        return isState ? "notice_item_unread" : "notice_item_my";
     }
 
     @Override

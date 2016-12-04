@@ -19,8 +19,17 @@ import com.yijiehl.club.android.network.response.base.RespBaseSearchResult;
 public class MyMessage extends RespBaseSearchResult {
 
     private String dataContent;
-    private String noticeTime;
+    private long noticeTime;
     private String opNum;
+    private String dataShowUrl;
+
+    public String getDataShowUrl() {
+        return dataShowUrl;
+    }
+
+    public void setDataShowUrl(String dataShowUrl) {
+        this.dataShowUrl = dataShowUrl;
+    }
 
     public String getDataContent() {
         return dataContent;
@@ -30,11 +39,11 @@ public class MyMessage extends RespBaseSearchResult {
         this.dataContent = dataContent;
     }
 
-    public String getNoticeTime() {
+    public long getNoticeTime() {
         return noticeTime;
     }
 
-    public void setNoticeTime(String noticeTime) {
+    public void setNoticeTime(long noticeTime) {
         this.noticeTime = noticeTime;
     }
 

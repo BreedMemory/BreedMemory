@@ -2,6 +2,7 @@ package com.yijiehl.club.android.ui.adapter;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,11 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         super(mFragment.getActivity());
         this.mode = mode;
         this.mFragment = mFragment;
+        mDatas = allData;
+    }
+    public GrowUpContentAdapter(Context context, int mode) {
+        super(context);
+        this.mode = mode;
         mDatas = allData;
     }
 
@@ -258,12 +264,12 @@ public class GrowUpContentAdapter extends BaseListViewAdapter<Article> implement
         if(TextUtils.isEmpty(mDatas.get(position).getDataShowUrl())) {
             return;
         }
-        ActivitySvc.startArticle(mFragment, true,
+        ActivitySvc.startArticle(mContext, true,
                 ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),
                 mDatas.get(position).getDataName(),
                 mDatas.get(position).getDataLable(),
                 mDatas.get(position).getImageInfo(),
-                mDatas.get(position).getDataSummary());
+                mDatas.get(position).getDataSummary(), mContext.getResources().getString(R.string.grow_up));
     }
 
     class ViewHolder {

@@ -15,14 +15,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
+import com.alibaba.fastjson.JSON;
+import com.uuzz.android.ui.view.IconTextView;
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
+import com.uuzz.android.util.ContextUtils;
 import com.uuzz.android.util.FileUtil;
 import com.uuzz.android.util.ObservableTag;
 import com.uuzz.android.util.Toaster;
+import com.uuzz.android.util.database.dao.CacheDataDAO;
+import com.uuzz.android.util.database.entity.CacheDataEntity;
 import com.uuzz.android.util.ioc.annotation.ContentView;
 import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
@@ -31,10 +37,13 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.entity.UploadPictureMessage;
+import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
+import com.yijiehl.club.android.network.request.dataproc.DeletePicture;
 import com.yijiehl.club.android.network.request.search.ReqSearchAlbum;
 import com.yijiehl.club.android.network.request.search.ReqSearchPersonalPhoto;
 import com.yijiehl.club.android.network.response.ResSearchPhotos;
 import com.yijiehl.club.android.network.response.RespSearchAlbums;
+import com.yijiehl.club.android.network.response.innerentity.UserInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
 import com.yijiehl.club.android.svc.UploadPictureSvc;
 import com.yijiehl.club.android.ui.activity.BmActivity;
@@ -44,8 +53,11 @@ import com.yijiehl.club.android.ui.activity.photo.UploadPhotoActivity;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.PictureClubAdapter;
 import com.yijiehl.club.android.ui.adapter.PicturePersonAdapter;
+import com.yijiehl.club.android.ui.dialog.BaseDialog;
+import com.yijiehl.club.android.ui.dialog.MessageDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -107,6 +119,11 @@ public class PictureFragment extends BaseHostFragment {
     private long mTaskId;
     private boolean isPersonalNoMore;
     private boolean isAlbumNoMore;
+    @ViewInject(R.id.rl_delete)
+    private RelativeLayout mRelativeDetele;
+    private boolean isDeleteState ;
+    private UserInfo mUserInfo;
+    private RightBtnClickListener mRightBtnCLickListener;
 
     @Nullable
     @Override
@@ -123,7 +140,29 @@ public class PictureFragment extends BaseHostFragment {
     @Nullable
     @Override
     protected View.OnClickListener getRightBtnClickListener() {
-        return null;
+        if(mRightBtnCLickListener == null) {
+            mRightBtnCLickListener = new RightBtnClickListener();
+        }
+        return mRightBtnCLickListener;
+    }
+
+    private class RightBtnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if(!isDeleteState){
+                ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                ((MainActivity)getActivity()).getmRightBtn().setText("取消");
+                isDeleteState = true;
+                mRelativeDetele.setVisibility(View.VISIBLE);
+                mPicturePersonAdapter.setSelect(true);
+            }else{
+                ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+                ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+                isDeleteState = false;
+                mRelativeDetele.setVisibility(View.GONE);
+                mPicturePersonAdapter.setSelect(false);
+            }
+        }
     }
 
     @Override
@@ -134,18 +173,18 @@ public class PictureFragment extends BaseHostFragment {
 
     @Override
     protected boolean isRightBtnVisible() {
-//        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
-//        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
-//        if(mTitle == null) {
-//            return true;
-//        }
-//        switch (mTitle.getCheckedRadioButtonId()) {
-//            case R.id.rb_person:
-//                return true;
-//            default:
-//                return false;
-//        }
-        return false;
+        ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+        ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+        if(mTitle == null) {
+            return true;
+        }
+        switch (mTitle.getCheckedRadioButtonId()) {
+            case R.id.rb_person:
+                return true;
+            default:
+                return false;
+        }
+      //  return false;
     }
 
     @Override
@@ -156,10 +195,12 @@ public class PictureFragment extends BaseHostFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        CacheDataDAO.getInstance(null).getCacheDataAsync(ContextUtils.getSharedString(getActivity(), R.string.shared_preference_user_id),
+                getString(R.string.shared_preference_user_info));
         UploadPictureSvc.getInstance().addObserver(this);
         //初始化适配器
         mPictureClubAdapter = new PictureClubAdapter(getActivity());
-        mPicturePersonAdapter = new PicturePersonAdapter(this);
+        mPicturePersonAdapter = new PicturePersonAdapter(this,mListener);
         //初始化列表
         mListView.setAdapter(mPicturePersonAdapter);
         mListView.setEmptyView(noData);
@@ -219,6 +260,8 @@ public class PictureFragment extends BaseHostFragment {
                             }
                         }
                         mPicturePersonAdapter.notifyDataSetChanged();
+                        ((BmActivity)getActivity()).mHeadRightContainer.setVisibility(View.VISIBLE);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setOnClickListener(mRightBtnCLickListener);
                         break;
                     case R.id.rb_club:
                         mListView.setOnItemClickListener(mPictureClubAdapter);
@@ -227,6 +270,10 @@ public class PictureFragment extends BaseHostFragment {
                         noDataTextView.setVisibility(View.GONE);
                         upLoading.setVisibility(View.GONE);
                         mPictureClubAdapter.notifyDataSetChanged();
+                        isDeleteState = true;
+                        mRightBtnCLickListener.onClick(null);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setVisibility(View.GONE);
+                        ((BmActivity)getActivity()).mHeadRightContainer.setOnClickListener(null);
                         break;
                 }
             }
@@ -386,7 +433,65 @@ public class PictureFragment extends BaseHostFragment {
     @OnClick({R.id.click_uploading, R.id.iv_uploading})
     public void upload() {
         // DONE: 2016/9/26
+        if(mUserInfo == null || mUserInfo.isChildAccount()) {
+            Toaster.showShortToast(getActivity(), "您是亲友账号，无法进行此操作");
+            return;
+        }
         ((BmActivity)getActivity()).checkPromissions(FileUtil.createPermissions(), mReadMediaTask);
+    }
+
+    private int photosNum = 0;
+    private void judgeRefresh(){
+        photosNum++;
+        if(photosNum == dataCodeList.size()){
+            Toaster.showShortToast(getActivity(), getString(R.string.delete_success));
+            refreshAll();
+            ((MainActivity)getActivity()).getmRightBtn().setModle(IconTextView.MODULE_TEXT);
+            ((MainActivity)getActivity()).getmRightBtn().setText(R.string.select);
+            isDeleteState = false;
+            mRelativeDetele.setVisibility(View.GONE);
+            mPicturePersonAdapter.setSelect(false);
+            photosNum = 0;
+            dataCodeList.clear();
+        }
+    }
+    @OnClick(R.id.iv_delete)
+    private void detelePhotos(){
+
+        if(dataCodeList.size() <= 0){
+            Toaster.showShortToast(getActivity(),"请选择要删除的照片");
+            return;
+        }
+        MessageDialog dialog = MessageDialog.getInstance(getActivity());
+        dialog.setMessage(R.string.do_you_delete_me);
+        dialog.showDoubleBtnDialog(new BaseDialog.OnBtnsClickListener() {
+            @Override
+            public void onLeftClickListener(View v, BaseDialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightClickListener(View v, final BaseDialog dialog) {
+
+                for(int i = 0 ;i < dataCodeList.size() ;i++){
+                    NetHelper.getDataFromNet(getActivity(), new ReqBaseDataProc(getActivity(), new DeletePicture(dataCodeList.get(i))), new AbstractCallBack(getActivity()) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            dialog.dismiss();
+                            judgeRefresh();
+                        }
+
+                        @Override
+                        public void onFailed(String msg) {
+                            super.onFailed(msg);
+                            judgeRefresh();
+                        }
+                    });
+                }
+
+
+            }
+        });
     }
 
     /**
@@ -415,9 +520,15 @@ public class PictureFragment extends BaseHostFragment {
                 public void run() {
                     // DONE: 谌珂 2016/10/16 重新拉接口获取图片
                     obtainPersonalPhoto(true);
-                    Toaster.showShortToast(getActivity(), getString(R.string.upload_complete));
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onReceiveCacheData(CacheDataEntity pCacheDataEntity) {
+        if (TextUtils.equals(getString(R.string.shared_preference_user_info), pCacheDataEntity.getmName())) {
+            mUserInfo = JSON.parseObject(pCacheDataEntity.getmData(), UserInfo.class);
         }
     }
 
@@ -426,4 +537,21 @@ public class PictureFragment extends BaseHostFragment {
         UploadPictureSvc.getInstance().deleteObserver(this);
         super.onDestroy();
     }
+
+    public interface DeleteListPhoto{
+        void addDataCode(String dataCode);
+        void deleteDataCode(String dataCode);
+    }
+    private List<String> dataCodeList = new ArrayList<>();
+    private DeleteListPhoto mListener = new DeleteListPhoto() {
+        @Override
+        public void addDataCode(String dataCode) {
+            dataCodeList.add(dataCode);
+        }
+
+        @Override
+        public void deleteDataCode(String dataCode) {
+            dataCodeList.remove(dataCode);
+        }
+    };
 }

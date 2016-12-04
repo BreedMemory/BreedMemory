@@ -1,33 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="75dip"
-android:background="@color/white">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="15dip"
-        android:textSize="18dip"
+        android:text="问答"
         android:textColor="@color/textColorPrimary"
-        android:text="问答"/>
+        android:visibility="gone"
+        android:textSize="18dip" />
+
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17dip"
-        android:textColor="@color/textColorLight"
         android:layout_marginLeft="15dip"
-        android:layout_marginTop="43dip"
-        android:text="您的问题，有新的答案。"/>
+        android:layout_marginTop="10dip"
+        android:lineSpacingExtra="3dip"
+        android:text="您的问题，有新的答案。"
+        android:textSize="17dip" />
+
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/tv_more"
+        android:layout_below="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="20dip"
+        android:textColor="@color/blue"
+        android:paddingBottom="5dip"
+        android:text="查看更多"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_below="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dip"
         android:layout_marginRight="15dip"
-        android:textColor="@color/colorPrimary"
-        android:text="08-24  10:30"/>
+        android:layout_marginTop="20dip"
+        android:paddingBottom="5dip"
+        android:text="08-24  10:30" />
 </RelativeLayout>

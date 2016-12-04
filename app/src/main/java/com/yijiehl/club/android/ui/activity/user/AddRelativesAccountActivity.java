@@ -3,14 +3,14 @@
  * 文件名称: AddRelativesAccountActivity.java <br/>
  * Created by 张志新 on 2016/9/18.  <br/>
  */
-package com.yijiehl.club.android.ui.activity.user;/**
- * Created by asus on 2016/9/18.
- */
+package com.yijiehl.club.android.ui.activity.user;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.uuzz.android.ui.view.IconTextView;
@@ -23,6 +23,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.base.ReqBaseDataProc;
 import com.yijiehl.club.android.network.request.dataproc.AddRelationAccount;
+import com.yijiehl.club.android.network.request.dataproc.UpdateRelationAccount;
 import com.yijiehl.club.android.ui.activity.BmActivity;
 import com.yijiehl.club.android.ui.view.NumberPickerView;
 
@@ -41,6 +42,16 @@ import java.util.List;
 @ContentView(R.layout.activity_add_relatives_account)
 public class AddRelativesAccountActivity extends BmActivity {
 
+    public static final String  RELATIONCODE  = "relationCode";
+    public static final String  DATANAME  = "dataName";
+    public static final String  MOBILENUM  = "mobileNum";
+    public static final String  DATACODE  = "dataCode";
+    public static final String  AUTH1  = "accessAuth1";
+    public static final String  AUTH2  = "accessAuth2";
+    public static final String  AUTH5  = "accessAuth5";
+    public static final String  AUTH6  = "accessAuth6";
+    public static final String  MODE  = "mode";
+
     @ViewInject(R.id.tv_relatives_input)
     private TextView relEditText;
 
@@ -57,6 +68,29 @@ public class AddRelativesAccountActivity extends BmActivity {
 
     private int relationIndex;
     List<String> mExtras = new ArrayList<>();
+
+    @ViewInject(R.id.switch_mother_data)
+    private Switch motherSwitch;
+
+    @ViewInject(R.id.switch_baby_data)
+    private Switch babySwitch;
+
+    @ViewInject(R.id.switch_my_answer_data)
+    private Switch myAnswerSwitch;
+
+    @ViewInject(R.id.switch_photo_data)
+    private Switch photoSwitch;
+
+    private int motherFlag;
+    private int babyFlag;
+    private int answerFlag;
+    private int photoFlag;
+
+    private boolean isChange;
+    private String relation;
+    private String name;
+    private String phoneNum;
+    private String dataCode;
 
     @Override
     protected String getHeadTitle() {
@@ -75,13 +109,23 @@ public class AddRelativesAccountActivity extends BmActivity {
                 if(!checkData()) {
                     return;
                 }
-                AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith");
-                NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
-                    @Override
-                    public void onSuccess(AbstractResponse pResponse) {
-                        finish();
-                    }
-                });
+                if(isChange){
+                    UpdateRelationAccount req = new UpdateRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag),dataCode);
+                    NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            finish();
+                        }
+                    });
+                }else{
+                    AddRelationAccount req = new AddRelationAccount(nameEditText.getText().toString(), phoneEditText.getText().toString(), TextUtils.equals("0", String.valueOf(relationIndex))?"couple":"kith",String.valueOf(motherFlag),String.valueOf(babyFlag),String.valueOf(answerFlag),String.valueOf(photoFlag));
+                    NetHelper.getDataFromNet(AddRelativesAccountActivity.this, new ReqBaseDataProc(AddRelativesAccountActivity.this, req), new AbstractCallBack(AddRelativesAccountActivity.this) {
+                        @Override
+                        public void onSuccess(AbstractResponse pResponse) {
+                            finish();
+                        }
+                    });
+                }
             }
         });
     }
@@ -93,11 +137,83 @@ public class AddRelativesAccountActivity extends BmActivity {
         mExtras.add(getString(R.string.kith));
         relationShipPicker.setExtras(mExtras);
         relEditText.setText(mExtras.get(relationIndex));
+
+        motherFlag = 1;
+        babyFlag = 1;
+        answerFlag = 1;
+        photoFlag = 1;
+
+        isChange = getIntent().getBooleanExtra(AddRelativesAccountActivity.MODE,false);
+
+        if(isChange){
+            relation = getIntent().getStringExtra(AddRelativesAccountActivity.RELATIONCODE);
+            name = getIntent().getStringExtra(AddRelativesAccountActivity.DATANAME);
+            phoneNum = getIntent().getStringExtra(AddRelativesAccountActivity.MOBILENUM);
+            motherFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH1));
+            if(motherFlag == 0) motherSwitch.setChecked(false);
+            babyFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH2));
+            if(motherFlag == 0) babySwitch.setChecked(false);
+            answerFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH5));
+            if(answerFlag == 0) myAnswerSwitch.setChecked(false);
+            photoFlag = Integer.valueOf(getIntent().getStringExtra(AddRelativesAccountActivity.AUTH6));
+            if(photoFlag == 0) photoSwitch.setChecked(false);
+            dataCode = getIntent().getStringExtra(AddRelativesAccountActivity.DATACODE);
+
+            relEditText.setText(relation);
+            relEditText.setEnabled(false);
+            nameEditText.setText(name);
+            phoneEditText.setText(phoneNum);
+            phoneEditText.setEnabled(false);
+        }
+
+        motherSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    motherFlag = 1;
+                }else{
+                    motherFlag = 0;
+                }
+            }
+        });
+
+        babySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    babyFlag = 1;
+                }else{
+                    babyFlag = 0;
+                }
+            }
+        });
+
+        myAnswerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    answerFlag = 1;
+                }else{
+                    answerFlag = 0;
+                }
+            }
+        });
+
+        photoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    photoFlag = 1;
+                }else{
+                    photoFlag = 0;
+                }
+            }
+        });
     }
 
     @OnClick(R.id.ll_ship_container)
     private void chooseRelationShip() {
-        relationShipContainer.setVisibility(View.VISIBLE);
+        if(!isChange)relationShipContainer.setVisibility(View.VISIBLE);
         relationShipPicker.setValue(relationIndex);
     }
 

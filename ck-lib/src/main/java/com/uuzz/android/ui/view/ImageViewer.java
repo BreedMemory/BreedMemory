@@ -127,6 +127,7 @@ public class ImageViewer extends ImageView {
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.ImageViewer);
 		fillType = a.getBoolean(R.styleable.ImageViewer_model, true);
+		setScaleType(ScaleType.MATRIX);
 		a.recycle();
 	}
 
@@ -138,6 +139,7 @@ public class ImageViewer extends ImageView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.drawColor(Color.BLACK);
 		try {
 			source = ((BitmapDrawable)getDrawable()).getBitmap();
 		} catch (Exception e) {
@@ -157,17 +159,16 @@ public class ImageViewer extends ImageView {
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);
 			} else {
-				if((fillType && offsetWidth < 0) || (!fillType && offsetWidth >= 0)) {
-					mScale = (float)source.getWidth()/getWidth();
-				} else {
+//				if((fillType && offsetWidth < 0) || (!fillType && offsetWidth >= 0)) {
+//					mScale = (float)source.getWidth()/getWidth();
+//				} else {
 					mScale = (float)getWidth()/source.getWidth();
-				}
+//				}
 				mMatrix.postScale(mScale, mScale, 0, 0);
 				mMatrix.postTranslate(0, -(source.getHeight()*mScale - getHeight())/2);
 			}
 
 		}
-		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(source, mMatrix, paint);
 		isTouchEvent = false;
 	}
@@ -207,7 +208,8 @@ public class ImageViewer extends ImageView {
 			mMatrix.setValues(matrixValues);
 			return;
 		}
-		setImageMatrix(mMatrix);
+//		setImageMatrix(mMatrix);
+		invalidate();
 	}
 
 	/**
@@ -225,13 +227,13 @@ public class ImageViewer extends ImageView {
 
 		//缩放后如果图片边界已经超出选区则还原矩阵
 		float scale;
-		if(matrixValues[Matrix.MSCALE_X] > mScale*2) {
+		if(matrixValues[Matrix.MSCALE_X] >= mScale*4) {
 			scale = mScale/matrixValues[Matrix.MSCALE_X];
 		} else {
-			scale = 4/matrixValues[Matrix.MSCALE_X];
+			scale = 4*mScale/matrixValues[Matrix.MSCALE_X];
 		}
 		mMatrix.postScale(scale, scale, px, py);
-		setImageMatrix(mMatrix);
+		invalidate();
 	}
 
 
@@ -621,6 +623,7 @@ public class ImageViewer extends ImageView {
 		isTouchEvent = false;
 		mMatrix.reset();
 		isPointerUp = false;
+		setScaleType(ScaleType.MATRIX);
 		invalidate();
 	}
 

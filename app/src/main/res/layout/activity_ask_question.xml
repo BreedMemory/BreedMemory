@@ -17,9 +17,9 @@
             android:minHeight="70dip"
             android:gravity="top"
             android:layout_marginTop="30dip"
-            android:hint="请详细输入您的问题(限140字)"
+            android:hint="请详细输入您的问题(限300字)"
             android:textColor="#9b9b9b"
-            android:maxLength="140"
+            android:maxLength="300"
             android:background="@null"
             android:textSize="18dip" />
 

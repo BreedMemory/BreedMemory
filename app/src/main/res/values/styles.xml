@@ -317,7 +317,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">@dimen/primary_text_size</item>
-        <item name="android:layout_marginLeft">18dip</item>
+        <item name="android:layout_marginLeft">80dip</item>
         <item name="android:layout_toRightOf">@+id/tv_relatives_show</item>
         <item name="android:background">@null</item>
     </style>

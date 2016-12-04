@@ -8,19 +8,15 @@ package com.yijiehl.club.android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.uuzz.android.ui.view.ptr.PtrClassicFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrDefaultHandler;
 import com.uuzz.android.ui.view.ptr.PtrFrameLayout;
 import com.uuzz.android.ui.view.ptr.PtrListView;
 import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.OnClick;
 import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
@@ -28,6 +24,7 @@ import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchActivitys;
 import com.yijiehl.club.android.network.response.RespSearchActivitys;
+import com.yijiehl.club.android.ui.activity.question.SearchActivitysActivity;
 import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
 
 /**
@@ -40,17 +37,7 @@ import com.yijiehl.club.android.ui.adapter.ActivitysAdapter;
  *         版    本：1.0.0<br/>
  */
 @ContentView(R.layout.activity_activitys_layout)
-public class ActivitysActivity extends BmActivity implements TextWatcher {
-
-    /**
-     * 搜索栏
-     */
-    @ViewInject(R.id.et_search)
-    private EditText mSearch;
-    @ViewInject(R.id.iv_search_show)
-    private ImageView mSearchShow;
-    @ViewInject(R.id.layout_search_logo)
-    private LinearLayout mSearchLogo;
+public class ActivitysActivity extends BmActivity {
 
 
     /**
@@ -100,20 +87,6 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
             @Override
             public void onLoadMore() {
                 obtainData(false);
-            }
-        });
-
-        mSearch.addTextChangedListener(this);
-        mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mSearchLogo.setVisibility(View.GONE);
-                    mSearchShow.setVisibility(View.VISIBLE);
-                } else {
-                    mSearchLogo.setVisibility(View.VISIBLE);
-                    mSearchShow.setVisibility(View.INVISIBLE);
-                }
             }
         });
     }
@@ -167,25 +140,15 @@ public class ActivitysActivity extends BmActivity implements TextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        obtainData(true, s.toString());
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ArticleDetailActivity.ARTICL_EDETAIL_ACTIVITY && resultCode == RESULT_OK) {
             mAdapter.setCollected(data.getStringExtra(ArticleDetailActivity.URL));
         }
+    }
+
+    @OnClick(R.id.layout_search_logo)
+    private void startSearchActivity() {
+        startActivity(new Intent(this, SearchActivitysActivity.class));
     }
 }

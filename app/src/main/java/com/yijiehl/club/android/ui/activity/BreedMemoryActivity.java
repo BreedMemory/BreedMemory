@@ -7,7 +7,12 @@
 package com.yijiehl.club.android.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uuzz.android.util.TimeUtil;
@@ -35,6 +40,15 @@ import java.util.List;
 @ContentView(R.layout.activity_breed_memory_layout)
 public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageChangeListener {
 
+    Handler mHander = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
+
+    @ViewInject(R.id.rl_container)
+    private RelativeLayout mContainer;
     @ViewInject(R.id.tv_date)
     private TextView mDate;
     @ViewInject(R.id.tv_content)
@@ -61,12 +75,23 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
             public void onSuccess(AbstractResponse pResponse) {
                 List<HealthData> datas = ((RespSearchHealthData)pResponse).getResultList();
                 memoryAdapter.setDatas(datas);
-                if(datas == null || datas.size() == 0) {
-                    return;
-                }
-                mViewPager.setCurrentItem(datas.size()-1);
+                memoryAdapter.notifyDataSetChanged();
+                onPageSelected(mViewPager.getCurrentItem());
             }
         });
+        mRootLayout.setFitsSystemWindows(false);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            mContainer.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                                 | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     @Override
@@ -76,12 +101,9 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
+        mContent.setText("");
         if(memoryAdapter == null) {
             return;
-        }
-        if(memoryAdapter.getDatas() != null && memoryAdapter.getDatas().size() > position) {
-            HealthData healthData = memoryAdapter.getDatas().get(position);
-            mContent.setText(healthData.getDataInfo1());
         }
 
         int day = position - memoryAdapter.getCount()/2;
@@ -89,6 +111,15 @@ public class BreedMemoryActivity extends BmActivity implements ViewPager.OnPageC
         StringBuilder sb = new StringBuilder();
         sb.append(TimeUtil.getTime(timestamp, TimeUtil.DEFAULT_FORMAT_YYYYMMDD)).append(" ").append(TimeUtil.getWeekStr(timestamp));
         mDate.setText(sb.toString());
+
+        if(memoryAdapter.getDatas() != null) {
+            for (HealthData data : memoryAdapter.getDatas()) {
+                if(TextUtils.equals(data.getStatTime(), TimeUtil.getTime(timestamp, TimeUtil.DEFAULT_FORMAT_YYYYMMDD))) {
+                    mContent.setText(data.getDataInfo1());
+                    break;
+                }
+            }
+        }
     }
 
     @Override

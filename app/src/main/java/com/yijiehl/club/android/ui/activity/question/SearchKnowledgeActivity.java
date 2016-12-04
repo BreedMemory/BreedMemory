@@ -33,7 +33,7 @@ import com.yijiehl.club.android.ui.adapter.KnowledgeListAdapter;
  *
  * @author 张志新 <br/>
  */
-@ContentView(R.layout.activity_search_knowledge_layout)
+@ContentView(R.layout.activity_search_layout)
 public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
     /**搜索栏*/
     @ViewInject(R.id.et_search)
@@ -61,7 +61,11 @@ public class SearchKnowledgeActivity extends BmActivity implements TextWatcher {
 
     @OnClick(R.id.tv_cancel)
     private void cancel() {
-        mEditText.getText().clear();
+        if(!TextUtils.isEmpty(mEditText.getText())){
+            mEditText.getText().clear();
+            return;
+        }
+        finish();
     }
 
     /**

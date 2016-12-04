@@ -68,10 +68,17 @@ public class GrowUpGasStationAvtivity extends BmActivity {
         mShowMoney.setText(num);
     }
 
-    @OnClick({R.id.layout_new_left,R.id.layout_new_right})
+    @OnClick(R.id.layout_new_left)
     private void lookDetailNew() {
         // TODO: 2016/10/10 此处的url是临时的；
         String url="http://biz.yijiehulian.com/showpgclfybiz.htm?clfy=kb_gift_milk_powder&dd=XXXXXXXXX&bd=showdetail";
+
+        ActivitySvc.startArticle(this,false,url,null,null,null,null);
+    }
+    @OnClick(R.id.layout_new_right)
+    private void lookDetailNewRight() {
+        // TODO: 2016/10/10 此处的url是临时的；
+        String url="http://mp.weixin.qq.com/s?__biz=MjM5MjExNDgwNA==&mid=2650520154&idx=1&sn=c3c504d4b4f57b181c044a58739a9703&chksm=bea42b4189d3a257b6ee45264de317cf724d96fa980b30b27964c9a360110abcbf043ab141aa&mpshare=1&scene=1&srcid=1121s4zdFATTpW3AiyrEkE3h#wechat_redirect";
 
         ActivitySvc.startArticle(this,false,url,null,null,null,null);
     }

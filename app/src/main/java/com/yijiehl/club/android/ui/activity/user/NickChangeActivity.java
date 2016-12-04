@@ -76,6 +76,9 @@ public class NickChangeActivity extends BmActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         mUserInfo = (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
+        if(mUserInfo != null){
+            editText.setText(mUserInfo.getShortName());
+        }
 
         /**设置文本输入变化监听 */
         editText.addTextChangedListener(new TextWatcher() {

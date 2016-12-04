@@ -36,6 +36,56 @@ public class Account extends RespBaseSearchResult {
     private String createTime;
     /** 描述信息 */
     private String dataDesc;
+    /** 数据编码,该值可用于修改和查看详情 */
+    private String dataCode;
+    /*妈妈健康数据访问授权,1表示允许访问 0表示不允许访问*/
+    private String accessAuth1;
+    /*宝宝健康数据访问授权,1表示允许访问 0表示不允许访问*/
+    private String accessAuth2;
+    /*宝我的问答访问授权,1表示允许访问 0表示不允许访问*/
+    private String accessAuth5;
+    /*照片访问授权,1表示允许访问 0表示不允许访问*/
+    private String accessAuth6;
+
+    public String getAccessAuth1() {
+        return accessAuth1;
+    }
+
+    public void setAccessAuth1(String accessAuth1) {
+        this.accessAuth1 = accessAuth1;
+    }
+
+    public String getAccessAuth2() {
+        return accessAuth2;
+    }
+
+    public void setAccessAuth2(String accessAuth2) {
+        this.accessAuth2 = accessAuth2;
+    }
+
+    public String getAccessAuth5() {
+        return accessAuth5;
+    }
+
+    public void setAccessAuth5(String accessAuth5) {
+        this.accessAuth5 = accessAuth5;
+    }
+
+    public String getAccessAuth6() {
+        return accessAuth6;
+    }
+
+    public void setAccessAuth6(String accessAuth6) {
+        this.accessAuth6 = accessAuth6;
+    }
+
+    public String getDataCode() {
+        return dataCode;
+    }
+
+    public void setDataCode(String dataCode) {
+        this.dataCode = dataCode;
+    }
 
     public String getMobileNum() {
         return mobileNum;

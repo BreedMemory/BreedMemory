@@ -69,6 +69,9 @@ public class AddressChangeActivity extends BmActivity implements OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserInfo = (UserInfo) getIntent().getSerializableExtra(PersonalInfoActivity.USER_INFO);
+        if(mUserInfo != null){
+            editText.setText(mUserInfo.getAreaInfo());
+        }
     }
 
     @Override

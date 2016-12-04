@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginLeft="18dip"
     android:layout_marginRight="18dip"
     android:orientation="horizontal">
@@ -9,22 +9,31 @@
     <TextView
         android:id="@+id/tv_vaccine_name"
         android:layout_width="0dip"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:gravity="center"
+        android:paddingTop="10dip"
+        android:paddingBottom="14dip"
         android:text="djklas;jfsf"
         android:textSize="18dip" />
 
     <View
         android:layout_width="1dip"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"/>
 
-    <TextView
-        android:id="@+id/tv_vaccine_time"
+    <RelativeLayout
         android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="一个月"
-        android:textSize="18dip" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_vaccine_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="10dip"
+            android:paddingBottom="14dip"
+            android:text="一个月"
+            android:textSize="18dip" />
+    </RelativeLayout>
+
 </LinearLayout>

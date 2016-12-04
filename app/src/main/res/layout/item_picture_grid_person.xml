@@ -2,12 +2,33 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/iv_content"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_content"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <ImageView
+            android:id="@+id/iv_choose"
+            android:layout_width="31dip"
+            android:layout_height="31dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="9dip"
+            android:background="@null"
+            android:paddingTop="3dip"
+            android:paddingRight="3dip"
+            android:paddingBottom="5dip"
+            android:paddingLeft="5dip"
+            android:visibility="gone"
+            android:src="@drawable/picture_unselected" />
+    </RelativeLayout>
 
     <com.uuzz.android.ui.view.IconTextView
         android:id="@+id/icv_add"

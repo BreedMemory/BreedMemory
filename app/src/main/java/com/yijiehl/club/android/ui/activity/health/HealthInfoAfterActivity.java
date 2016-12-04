@@ -63,7 +63,9 @@ import com.yijiehl.club.android.ui.dialog.BaseDialog;
 import com.yijiehl.club.android.ui.dialog.MessageDialog;
 import com.yijiehl.club.android.ui.view.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
@@ -427,8 +429,8 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
      * 历 史: (1.0.0) 谌珂 2016/10/26 <br/>
      */
     private String createTime(long timestamp) {
-        String text = mTime.replace("-", getString(R.string.year));
-        text = text.replace("-", getString(R.string.month));
+        String text = mTime.replaceFirst("-", getString(R.string.year));
+        text = text.replaceFirst("-", getString(R.string.month));
         text += "日 " + TimeUtil.getWeekStr(timestamp);
         return text;
     }
@@ -470,7 +472,7 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         mIllDate.setText(mTimePicker.getDate());
     }
 
-    @OnClick(R.id.rl_choose_time)
+    @OnClick(R.id.tv_time)
     private void chooseTime() {
         mTimePicker.setDate(TimeUtil.getTime(System.currentTimeMillis(), TimeUtil.DEFAULT_FORMAT_YYYYMMDD));
         mPickerContainer.setVisibility(View.VISIBLE);
@@ -637,5 +639,62 @@ public class HealthInfoAfterActivity extends BmActivity implements AdapterView.O
         } else {
             super.onBackPressed();
         }
+    }
+    /**
+     * 描 述：逆转时间<br/>
+     * 作 者：张志新<br/>
+     * 历 史: (1.0.0) 张志新 2016/11/22 <br/>
+     */
+    private long createNextTime(String time) {
+        String tempTime = time.substring(0,time.indexOf("日"));
+        tempTime = tempTime.replace(getString(R.string.year),"-");
+        tempTime = tempTime.replace(getString(R.string.month),"-");
+        return createLongTime(tempTime,"yyyy-MM-dd");
+    }
+
+    private long createLongTime(String timeStr,String formatString) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(
+                    formatString);
+            Date date = format.parse(timeStr);
+            return date.getTime();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    @OnClick(R.id.itv_left)
+    private void yesterdayData(){
+        String nowTime = mTimeView.getText().toString();
+        Long newTime = createNextTime(nowTime) - 24*60*60*1000;
+        mTime = TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        mTimeView.setText(createTime(createLongTime(TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD),"yyyy-MM-dd")));
+        if(mMotherTask != null) {
+            mMotherTask.cancel(true);
+        }
+        mMotherHealthData = null;
+        mMotherTask = getMotherData();
+        if(mBabyTask != null) {
+            mBabyTask.cancel(true);
+        }
+        mBabyHealthData = null;
+        mBabyTask = getBabyData();
+    }
+
+    @OnClick(R.id.itv_right)
+    private void tomorrowData(){
+        String nowTime = mTimeView.getText().toString();
+        Long newTime = createNextTime(nowTime) + 24*60*60*1000;
+        mTime = TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD);
+        mTimeView.setText(createTime(createLongTime(TimeUtil.getTime(newTime, TimeUtil.DEFAULT_FORMAT_YYYYMMDD),"yyyy-MM-dd")));
+        if(mMotherTask != null) {
+            mMotherTask.cancel(true);
+        }
+        mMotherHealthData = null;
+        mMotherTask = getMotherData();
+        if(mBabyTask != null) {
+            mBabyTask.cancel(true);
+        }
+        mBabyHealthData = null;
+        mBabyTask = getBabyData();
     }
 }

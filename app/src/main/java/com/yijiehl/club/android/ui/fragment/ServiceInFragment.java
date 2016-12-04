@@ -74,7 +74,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     /** 宝宝饮食背景 */
     @ViewInject(R.id.ll_baby_food)
     private View mBabyFood;
-    /** 宝宝排泄背景 */
+    /** 宝宝脐带背景 */
     @ViewInject(R.id.ll_baby_excretion)
     private View mBabyExcretion;
     /** 宝宝生理性背景 */
@@ -433,7 +433,10 @@ public class ServiceInFragment extends HealthInfoFragment {
             if(!TextUtils.equals(data.getStatValue21(), "normal")) {
                 mBabyFood.setBackgroundColor(getResources().getColor(R.color.unnormal));
             }
-            if(TextUtils.equals(data.getStatValue25(), "abnormal") || TextUtils.equals(data.getStatValue26(), "abnormal")) {
+//            if(TextUtils.equals(data.getStatValue25(), "abnormal") || TextUtils.equals(data.getStatValue26(), "abnormal")) {
+//                mBabyExcretion.setBackgroundColor(getResources().getColor(R.color.unnormal));
+//            }
+            if(TextUtils.equals(data.getStatValue27(), "hava")) {
                 mBabyExcretion.setBackgroundColor(getResources().getColor(R.color.unnormal));
             }
             if(TextUtils.equals(data.getStatValue30(), "have") || TextUtils.equals(data.getStatValue31(), "have") || TextUtils.equals(data.getStatValue32(), "have")) {
@@ -467,7 +470,7 @@ public class ServiceInFragment extends HealthInfoFragment {
     private void hideForm() {
         mFormContainer.setVisibility(View.GONE);
         mMore.setVisibility(View.VISIBLE);
-        mIcMore.setVisibility(View.VISIBLE);
+       // mIcMore.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.tv_health_desc,
@@ -498,7 +501,7 @@ public class ServiceInFragment extends HealthInfoFragment {
         /*Intent intent=new Intent(getActivity(),ArticleDetailActivity.class);
         intent.putExtra(ArticleDetailActivity.URL,mUserInfo.getFoodUrl(getActivity()));
         startActivity(intent);*/
-        ActivitySvc.startArticle(getActivity(),true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null);
+        ActivitySvc.startArticle(this,true,mUserInfo.getFoodUrl(getActivity()), mUserInfo.getOrgInfo() + getString(R.string.month_food),null,null,null, getString(R.string.month_food));
     }
 
     @OnClick(R.id.ll_knowledge)

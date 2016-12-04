@@ -68,7 +68,8 @@ public class ActivitysAdapter extends BaseListViewAdapter<ActivityInfo> implemen
                             mDatas.get(position).getDataName(),
                             mDatas.get(position).getDataLabel(),
                             mDatas.get(position).getImageInfo(),
-                            mDatas.get(position).getDataSummary());
+                            mDatas.get(position).getDataSummary(),
+                            mContext.getResources().getString(R.string.activity));
         }
     }
 

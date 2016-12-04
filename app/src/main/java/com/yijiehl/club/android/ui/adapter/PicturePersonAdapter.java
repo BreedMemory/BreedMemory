@@ -38,9 +38,24 @@ import java.util.List;
  */
 public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
+    private boolean isSelect;
+
+    private  PictureFragment.DeleteListPhoto deleteListPhoto;
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+        refresh();
+    }
+
     public PicturePersonAdapter(PictureFragment mFragment) {
         super(mFragment.getActivity());
         this.mFragment = mFragment;
+    }
+
+    public PicturePersonAdapter(PictureFragment mFragment,PictureFragment.DeleteListPhoto deleteListPhoto) {
+        super(mFragment.getActivity());
+        this.mFragment = mFragment;
+        this.deleteListPhoto = deleteListPhoto;
     }
 
     private PictureFragment mFragment;
@@ -157,7 +172,7 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 //        holder.showAddress.setText("北京");
         List<PhotoInfo> dataGrid = mDatas.get(position);
         if (dataGrid != null && dataGrid.size() > 0) {
-            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid));
+            holder.gridView.setAdapter(new ImageGridPersonAdapter(mContext, dataGrid, isSelect, deleteListPhoto, position==0));
         }
         holder.gridView.setTag(R.id.picture_position, position);
         /**
@@ -171,18 +186,18 @@ public class PicturePersonAdapter extends BaseListViewAdapter<List<PhotoInfo>> {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int groupPosition = (int) parent.getTag(R.id.picture_position);
 
-            if (position == parent.getAdapter().getCount() - 1) {
+            if (groupPosition == 0 && position == parent.getAdapter().getCount() - 1) {
                 mFragment.upload();
             } else {
-                int groupPosition = (int) parent.getTag(R.id.picture_position);
                 ArrayList<String> list = new ArrayList<>();
                 ArrayList<String> codes = new ArrayList<>();
                 ArrayList<String> descs = new ArrayList<>();
                 for (int i = 0; i < mDatas.get(groupPosition).size(); i++) {
                     list.add("http://" + Common.SERVICE_URL + mDatas.get(groupPosition).get(i).getImageInfo());
                     codes.add(mDatas.get(groupPosition).get(i).getDataCode());
-                    descs.add(mDatas.get(groupPosition).get(i).getDataDesc());
+                    descs.add(mDatas.get(groupPosition).get(i).getDataLabel());
                 }
                 ActivitySvc.startImageViewer(mContext, list, codes, descs, false, position);
             }

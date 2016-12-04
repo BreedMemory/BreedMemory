@@ -210,7 +210,7 @@
                 android:src="@drawable/ic_excretion"
                 style="@style/health_info_icon" />
             <TextView
-                android:text="@string/excretion"
+                android:text="@string/cord"
                 style="@style/health_info_title" />
         </LinearLayout>
         <LinearLayout

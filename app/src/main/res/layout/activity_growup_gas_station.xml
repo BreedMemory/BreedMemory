@@ -50,7 +50,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="26dip"
             android:layout_marginRight="26dip"
-            android:text="这是月子会所给您宝宝的成长基金,未来宝宝的健康与教育相关的解决方案中,我们将助您一臂之力!"
+            android:text="        这是月子会所给您宝宝的成长基金,未来宝宝的健康与教育相关的解决方案中,我们将助您一臂之力!"
             android:textSize="18dip" />
     </RelativeLayout>
 
@@ -117,7 +117,7 @@
                 android:layout_height="155dip"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitXY"
-                android:src="@drawable/temp_gas_left" />
+                android:src="@drawable/temp_gas" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="13dip"
-                    android:text="素加宝宝配方奶粉2段" />
+                    android:text="奶嘴的挑选门道" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

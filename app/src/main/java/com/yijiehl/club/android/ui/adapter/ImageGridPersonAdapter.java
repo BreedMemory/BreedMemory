@@ -18,7 +18,9 @@ import com.uuzz.android.util.ioc.utils.InjectUtils;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.response.innerentity.PhotoInfo;
 import com.yijiehl.club.android.svc.ActivitySvc;
+import com.yijiehl.club.android.ui.fragment.PictureFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,19 +35,53 @@ import java.util.List;
  */
 public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
 
+    private boolean isSelect;
+    private boolean showAdd;
+
+    /**
+     * 用户选择的图片，存储为图片的完整路径
+     */
+    private ArrayList<String> mSelectedPhoto = new ArrayList<>();
+
+    public ArrayList<String> getmSelectedPhoto() {
+        return mSelectedPhoto;
+    }
+
+    public void setmSelectedPhoto(ArrayList<String> mSelectedPhoto) {
+        this.mSelectedPhoto = mSelectedPhoto;
+    }
+
+    private MyClickListener mListener = new MyClickListener();
+    private PictureFragment.DeleteListPhoto deleteListPhoto;
+
     @Override
     public int getCount() {
-        return super.getCount() + 1;
+        return showAdd?super.getCount() + 1:super.getCount();
     }
 
     public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data) {
         super(mContext);
-        mDatas= data;
+        mDatas = data;
+    }
+
+    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data, boolean isSelect) {
+        super(mContext);
+        mDatas = data;
+        this.isSelect = isSelect;
+    }
+
+
+    public ImageGridPersonAdapter(Context mContext, List<PhotoInfo> data, boolean isSelect,PictureFragment.DeleteListPhoto listener, boolean showAdd) {
+        super(mContext);
+        mDatas = data;
+        this.isSelect = isSelect;
+        this.deleteListPhoto = listener;
+        this.showAdd = showAdd;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_picture_grid_person, null);
             holder = new ViewHolder(convertView);
@@ -53,15 +89,62 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(position == getCount() - 1) {
+        if (showAdd && position == getCount() - 1) {
             holder.add.setVisibility(View.VISIBLE);
             holder.ivContent.setVisibility(View.GONE);
-        } else{
+        } else {
             holder.add.setVisibility(View.GONE);
             holder.ivContent.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(ActivitySvc.createResourceUrl(mContext, mDatas.get(position).getIconInfo1())).placeholder(R.drawable.bg_loading).into(holder.ivContent);
         }
+        if (isSelect) {
+            // DONE: 2016/11/27  显示蒙版
+            holder.ivChoose.setVisibility(View.VISIBLE);
+
+
+        } else {
+            // DONE: 2016/11/27 隐藏蒙版
+            holder.ivChoose.setVisibility(View.GONE);
+        }
+
+        holder.ivChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mSelectedPhoto.contains(mDatas.get(position).getDataCode())) {
+                    mSelectedPhoto.add(mDatas.get(position).getDataCode());
+                    Glide.with(mContext).load(R.drawable.picture_selected).dontAnimate().into(holder.ivChoose);
+                    holder.ivContent.setColorFilter(R.color.colorPrimary);
+                    deleteListPhoto.addDataCode(mDatas.get(position).getDataCode());
+                } else {
+                    mSelectedPhoto.remove(mDatas.get(position).getDataCode());
+                    Glide.with(mContext).load(R.drawable.picture_unselected).dontAnimate().into(holder.ivChoose);
+                    holder.ivContent.setColorFilter(null);
+                    deleteListPhoto.deleteDataCode(mDatas.get(position).getDataCode());
+                }
+            }
+        });
+        /**已经选好的照片，显示出选择的效果*//*
+        if (mSelectedPhoto.contains(mDatas.get(position))) {
+            Glide.with(mContext).load(R.drawable.picture_selected).dontAnimate().into(holder.ivChoose);
+            holder.ivContent.setColorFilter(R.color.colorPrimary);
+        } else {
+            Glide.with(mContext).load(R.drawable.picture_unselected).dontAnimate().into(holder.ivChoose);
+            holder.ivContent.setColorFilter(null);
+        }*/
         return convertView;
+    }
+
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.id.pick_picture_tag);
+            if (mSelectedPhoto.contains(mDatas.get(position))) {
+                mSelectedPhoto.remove(mDatas.get(position));
+            } else {
+                //mSelectedPhoto.add(mDatas.get(position));
+            }
+        }
     }
 
     private class ViewHolder {
@@ -73,5 +156,7 @@ public class ImageGridPersonAdapter extends BaseListViewAdapter<PhotoInfo> {
         ImageView ivContent;
         @ViewInject(R.id.icv_add)
         IconTextView add;
+        @ViewInject(R.id.iv_choose)
+        ImageView ivChoose;
     }
 }

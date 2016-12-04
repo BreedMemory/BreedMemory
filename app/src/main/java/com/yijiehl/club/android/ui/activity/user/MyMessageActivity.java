@@ -53,5 +53,7 @@ public class MyMessageActivity extends BmActivity{
         });
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(noData);
+
+        mListView.setOnItemClickListener(mAdapter);
     }
 }

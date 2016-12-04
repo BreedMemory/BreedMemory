@@ -142,7 +142,7 @@ public class CircleImageView extends ImageView {
         super.onDraw(canvas);
         mPaint.setXfermode(mMode);
         mPaint.setColor(Color.WHITE);
-        if(mFilterBitmap == null) {
+        if(mFilterBitmap == null || mFilterBitmap.isRecycled()) {
             makeBlockBackSrc(defaultWidth-2*mPadding, defaultHeight-2*mPadding);
         }
         canvas.drawBitmap(mFilterBitmap, mPadding, mPadding, mPaint);
@@ -193,7 +193,9 @@ public class CircleImageView extends ImageView {
 
     @Override
     protected void onDetachedFromWindow() {
-        mFilterBitmap.recycle();
+        if(mFilterBitmap != null && !mFilterBitmap.isRecycled()) {
+            mFilterBitmap.recycle();
+        }
         super.onDetachedFromWindow();
     }
 }

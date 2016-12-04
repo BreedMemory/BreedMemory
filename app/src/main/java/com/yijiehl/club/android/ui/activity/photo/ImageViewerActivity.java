@@ -68,6 +68,7 @@ public class ImageViewerActivity extends BmActivity {
         return "照片详情";
     }
 
+    private ImageViewerAdapter.PageSelectedListener mListener;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,7 @@ public class ImageViewerActivity extends BmActivity {
         if (0 > index || urls.size() <= index) {
             index = 0;
         }
-        mAdapter = new ImageViewerAdapter(this, urls, isNative, new ImageViewerAdapter.PageSelectedListener() {
+        mListener  = new ImageViewerAdapter.PageSelectedListener() {
             @Override
             public void onPageSelector(int position) {
                 if (descs == null || TextUtils.isEmpty(descs.get(position))) {
@@ -92,7 +93,9 @@ public class ImageViewerActivity extends BmActivity {
                     mTag.setText(descs.get(position));
                 }
             }
-        });
+        };
+
+        mAdapter = new ImageViewerAdapter(this, urls, isNative,mListener);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mAdapter);
         mViewPager.setCurrentItem(index);
@@ -122,6 +125,7 @@ public class ImageViewerActivity extends BmActivity {
                 }
             }
         });
+        mListener.onPageSelector(mViewPager.getCurrentItem());
     }
 
     /**
