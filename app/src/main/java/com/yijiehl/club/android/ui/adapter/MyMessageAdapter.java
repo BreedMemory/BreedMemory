@@ -66,7 +66,7 @@ public class MyMessageAdapter extends BaseListViewAdapter<MyMessage> implements 
             return;
         }
         ActivitySvc.startArticle((Activity) mContext, true,
-                ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()),mDatas.get(position).getDataContent(),null,null,null);
+                (mDatas.get(position).getDataShowUrl().startsWith("http") ? mDatas.get(position).getDataShowUrl():ActivitySvc.createWebUrl(mDatas.get(position).getDataShowUrl()) ),mDatas.get(position).getDataContent(),null,null,null);
     }
 
     class ViewHolder {

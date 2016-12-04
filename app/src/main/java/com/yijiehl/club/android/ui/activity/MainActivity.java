@@ -30,6 +30,7 @@ import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
 import com.yijiehl.club.android.network.request.search.ReqSearchMyMessage;
+import com.yijiehl.club.android.network.request.search.ReqSearchUnReadMessage;
 import com.yijiehl.club.android.network.response.RespSearchMyMessage;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
 import com.yijiehl.club.android.ui.adapter.HostViewPagerAdapter;
@@ -189,13 +190,14 @@ public class MainActivity extends BmActivity {
 
         @Override
         public void run() {
-            NetHelper.getDataFromNet(MainActivity.this, new ReqSearchMyMessage(MainActivity.this,true), new AbstractCallBack(MainActivity.this) {
+            NetHelper.getDataFromNet(MainActivity.this, new ReqSearchUnReadMessage(MainActivity.this), new AbstractCallBack(MainActivity.this) {
                 @Override
                 public void onSuccess(AbstractResponse pResponse) {
                     mHandler.removeCallbacks(mObtainMyMessageTask);
                     mHandler.postDelayed(mObtainMyMessageTask, 30*1000);
                     RespSearchMyMessage data = (RespSearchMyMessage) pResponse;
                     if(data.getResultList() == null || data.getResultList().size() == 0) {
+                        Toaster.showShortToast(MainActivity.this,"无数据");
                         return;
                     }
                     HostFragment fragment = (HostFragment) mAdapter.getItem(0);
