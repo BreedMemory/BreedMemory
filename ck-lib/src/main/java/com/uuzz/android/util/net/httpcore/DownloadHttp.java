@@ -2,6 +2,7 @@ package com.uuzz.android.util.net.httpcore;
 
 import android.text.TextUtils;
 
+import com.uuzz.android.util.Common;
 import com.uuzz.android.util.ReflectUtils;
 import com.uuzz.android.util.log.Logger;
 import com.uuzz.android.util.net.request.base.BaseRequestBean;
@@ -81,7 +82,7 @@ public class DownloadHttp<E> extends BaseHttp<E, String> {
 			//禁止自动重定向
 			conn.setInstanceFollowRedirects(false);
 			conn.setConnectTimeout(timeout);
-			conn.setReadTimeout(timeout);
+			conn.setReadTimeout(Common.HTTP_DOWNLOAD_TIMEOUT);
 //			写入正文长度
 //			conn.setRequestProperty("Content-Length", String.valueOf(entity.length));
 			conn.setDoOutput(true);//设置可以向外写数据
@@ -191,7 +192,7 @@ public class DownloadHttp<E> extends BaseHttp<E, String> {
 			//禁止自动重定向
 			conn.setInstanceFollowRedirects(false);
 			conn.setConnectTimeout(timeout);
-			conn.setReadTimeout(timeout);
+			conn.setReadTimeout(Common.HTTP_DOWNLOAD_TIMEOUT);
 			logger.i(String.valueOf(timeout));
 			//开始请求
 			try {

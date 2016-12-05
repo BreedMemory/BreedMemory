@@ -5,7 +5,7 @@
  * Created by 谌珂 on 2016/11/4.  <br/>
  * Copyright 2011 北京壹平台科技有限公司. All rights reserved.[版权声明]
  */
-package com.yijiehl.club.android.ui.controlversion;
+package com.yijiehl.club.android.network.request;
 
 import com.uuzz.android.util.Common;
 import com.uuzz.android.util.net.request.IRequest;

@@ -78,7 +78,7 @@ public class CameraHelper {
         // Iterate over all available sizes and pick the largest size that can fit in the view and
         // still maintain the aspect ratio.
         for (Camera.Size size : videoSizes) {
-            double ratio = (double) size.width / size.height;
+            double ratio = (double) size.height / size.width;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
                 continue;
             if (Math.abs(size.height - targetHeight) < minDiff && previewSizes.contains(size)) {

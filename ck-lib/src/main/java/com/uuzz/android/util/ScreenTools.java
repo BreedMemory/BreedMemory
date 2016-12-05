@@ -5,7 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Window;
+import android.view.WindowManager;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * 类 名: ScreenTools<br/>
@@ -42,12 +47,40 @@ public class ScreenTools {
 	 */
 	public static int[] getScreenPixel(Context context) {
 		int[] screenPixel = new int[2];
-		DisplayMetrics lDisplayMetrics;
-		lDisplayMetrics = context.getResources().getDisplayMetrics();
-		int width = lDisplayMetrics.widthPixels > lDisplayMetrics.heightPixels ? lDisplayMetrics.heightPixels
-				: lDisplayMetrics.widthPixels;
-		int height = lDisplayMetrics.heightPixels > lDisplayMetrics.widthPixels ? lDisplayMetrics.heightPixels
-				: lDisplayMetrics.widthPixels;
+		int width = 0, height = 0;
+		final DisplayMetrics metrics = new DisplayMetrics();
+		Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		Method mGetRawH, mGetRawW;
+
+		try {
+			// For JellyBean 4.2 (API 17) and onward
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+				display.getRealMetrics(metrics);
+
+				width = metrics.widthPixels;
+				height = metrics.heightPixels;
+			} else {
+				mGetRawH = Display.class.getMethod("getRawHeight");
+				mGetRawW = Display.class.getMethod("getRawWidth");
+
+				try {
+					width = (Integer) mGetRawW.invoke(display);
+					height = (Integer) mGetRawH.invoke(display);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (NoSuchMethodException e3) {
+			e3.printStackTrace();
+		}
+
 		screenPixel[0] = width;
 		screenPixel[1] = height;
 		return screenPixel;

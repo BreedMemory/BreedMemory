@@ -90,9 +90,13 @@
                     android:id="@+id/layout_mother_zone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dip"
-                    android:layout_marginRight="30dip"
-                    android:layout_marginTop="13dip">
+                    android:layout_marginLeft="@dimen/primary_margin"
+                    android:layout_marginRight="@dimen/primary_margin"
+                    android:paddingLeft="@dimen/primary_margin"
+                    android:paddingRight="@dimen/primary_margin"
+                    android:background="@drawable/bg_item_white_touchable"
+                    android:paddingTop="13dip"
+                    android:paddingBottom="13dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,16 +121,19 @@
                     android:layout_height="2dip"
                     android:layout_marginLeft="21dip"
                     android:layout_marginRight="28dip"
-                    android:layout_marginTop="12dip"
                     android:background="#eeeeee" />
 
                 <RelativeLayout
                     android:id="@+id/layout_baby_zone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dip"
-                    android:layout_marginRight="30dip"
-                    android:layout_marginTop="13dip">
+                    android:background="@drawable/bg_item_white_touchable"
+                    android:layout_marginLeft="@dimen/primary_margin"
+                    android:layout_marginRight="@dimen/primary_margin"
+                    android:paddingLeft="@dimen/primary_margin"
+                    android:paddingRight="@dimen/primary_margin"
+                    android:paddingTop="13dip"
+                    android:paddingBottom="13dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,7 +155,6 @@
                     android:layout_height="2dip"
                     android:layout_marginLeft="21dip"
                     android:layout_marginRight="28dip"
-                    android:layout_marginTop="12dip"
                     android:background="#eeeeee" />
                 <!--婴儿下拉展示布局-->
                 <LinearLayout
@@ -156,7 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="45dip"
-                    android:layout_marginRight="26dip"
+                    android:layout_marginRight="@dimen/primary_margin"
                     android:orientation="vertical">
 
                     <LinearLayout

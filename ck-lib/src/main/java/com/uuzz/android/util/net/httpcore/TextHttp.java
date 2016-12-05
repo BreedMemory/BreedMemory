@@ -57,6 +57,7 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 
 	@Override
 	protected ResponseContent<String> doPost(String url, Object params, Header[] headers, String charset, int timeout, boolean isSingle) {
+		StringBuilder sb = new StringBuilder();
 		if(mHttpClient == null){
 			if(url.startsWith("https")) {
 				mHttpClient = SingleHttpClient.getHttpsInstance();
@@ -82,6 +83,7 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 								multipartEntity.addPart(field.getName(),
 										new FileBody(file, fileHeadInfo.get(file.getName().substring(file.getName().lastIndexOf(".")+1))));
 							}else{
+								sb.append(field.getName()).append(":").append(String.valueOf(field.get(params))).append(",");
 								multipartEntity.addPart(field.getName(), new StringBody(String.valueOf(field.get(params)), Charset.forName(charset)));
 							}
 						}
@@ -100,6 +102,7 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 							multipartEntity.addPart(param.getKey(),
 									new FileBody(file, fileHeadInfo.get(file.getName().substring(file.getName().lastIndexOf(".")+1))));
 						}else{
+							sb.append(param.getKey()).append(":").append(String.valueOf(param.getValue())).append(",");
 							multipartEntity.addPart(param.getKey(), new StringBody(String.valueOf(param.getValue())));
 						}
 					}
@@ -108,10 +111,14 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 				} else if(String.class.isAssignableFrom(clazz)) {
 					// params是一个String对象
 					mEntity = new StringEntity((String) params, charset);
+					sb.append((String) params);
 				} else {
 					// params是一个Bean对象
 					List<NameValuePair> parameters = ReflectUtils.transformBeanToNameValuePairs(params.getClass(), params);
 					mEntity = new UrlEncodedFormEntity(parameters, charset);
+					for (NameValuePair parameter: parameters) {
+						sb.append(parameter.getName()).append(":").append(parameter.getValue()).append(",");
+					}
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -137,7 +144,7 @@ public class TextHttp<E> extends BaseHttp<E, String> {
 			try {
 				response = mHttpClient.execute(mHttpPost); //请求并返回结果
 			} catch (Exception e) {
-				logger.w("http time out,url:"+url, e);
+				logger.w("http time out,url:"+url + " entity are ===" + sb.toString(), e);
 				return null;
 			}
 			int statuCode = response.getStatusLine().getStatusCode();

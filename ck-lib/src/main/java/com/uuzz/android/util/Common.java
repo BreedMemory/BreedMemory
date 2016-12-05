@@ -21,7 +21,7 @@ public class Common {
     public static String PACKAGE_NAME;
     /** App版本号 */
     // ReleaseConfig: 谌珂 2016/8/29 APP版本号
-    public static String APP_VERSION = "1.0.25";
+    public static String APP_VERSION = "1.0.21";
 
     /** 默认超时时间 */
     // ReleaseConfig: 谌珂 2016/3/16 配置默认超时时间
@@ -32,6 +32,8 @@ public class Common {
     public static final int CONNECTION_TIMEOUT = DEFAULT_TIME_OUT;
     /** Http超时时间 */
     public static final int HTTP_TIMEOUT = DEFAULT_TIME_OUT;
+    /** Http下载超时时间 */
+    public static final int HTTP_DOWNLOAD_TIMEOUT = 2*60*1000;
 
     /** 是否输出日志 */
     // ReleaseConfig: 谌珂 2016/3/16 配置日志是否需要输出

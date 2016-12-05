@@ -6,7 +6,6 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import com.uuzz.android.util.net.NetHelper;
 import com.uuzz.android.util.net.response.AbstractResponse;
 import com.uuzz.android.util.net.task.AbstractCallBack;
 import com.yijiehl.club.android.R;
-import com.yijiehl.club.android.network.request.search.ReqSearchMyMessage;
 import com.yijiehl.club.android.network.request.search.ReqSearchUnReadMessage;
 import com.yijiehl.club.android.network.response.RespSearchMyMessage;
 import com.yijiehl.club.android.ui.activity.user.MineActivity;
@@ -197,7 +195,6 @@ public class MainActivity extends BmActivity {
                     mHandler.postDelayed(mObtainMyMessageTask, 30*1000);
                     RespSearchMyMessage data = (RespSearchMyMessage) pResponse;
                     if(data.getResultList() == null || data.getResultList().size() == 0) {
-                        Toaster.showShortToast(MainActivity.this,"无数据");
                         return;
                     }
                     HostFragment fragment = (HostFragment) mAdapter.getItem(0);

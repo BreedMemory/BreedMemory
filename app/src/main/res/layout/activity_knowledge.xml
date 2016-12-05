@@ -74,10 +74,13 @@
             <RelativeLayout
                 android:id="@+id/layout_pregnancy"
                 android:layout_width="match_parent"
-                android:layout_height="19dip"
-                android:layout_marginLeft="30dip"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_white_touchable"
+                android:layout_marginLeft="20dip"
                 android:layout_marginRight="30dip"
-                android:layout_marginTop="13dip">
+                android:paddingLeft="@dimen/primary_List_margin"
+                android:paddingTop="13dip"
+                android:paddingBottom="13dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,16 +105,18 @@
                 android:layout_height="2dip"
                 android:layout_marginLeft="21dip"
                 android:layout_marginRight="28dip"
-                android:layout_marginTop="12dip"
                 android:background="#eeeeee" />
 
             <RelativeLayout
                 android:id="@+id/layout_after_child_birth"
                 android:layout_width="match_parent"
-                android:layout_height="19dip"
-                android:layout_marginLeft="30dip"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_white_touchable"
+                android:layout_marginLeft="20dip"
                 android:layout_marginRight="30dip"
-                android:layout_marginTop="13dip">
+                android:paddingLeft="@dimen/primary_List_margin"
+                android:paddingTop="13dip"
+                android:paddingBottom="13dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,7 +138,6 @@
                 android:layout_height="2dip"
                 android:layout_marginLeft="21dip"
                 android:layout_marginRight="28dip"
-                android:layout_marginTop="12dip"
                 android:background="#eeeeee" />
             <!--产后下拉展示布局-->
             <LinearLayout
@@ -148,6 +152,7 @@
                     android:id="@+id/layout_confinement"
                     android:layout_width="match_parent"
                     android:layout_height="44dip"
+                    android:background="@drawable/bg_item_white_touchable"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -173,6 +178,7 @@
                     android:id="@+id/layout_confinement_after"
                     android:layout_width="match_parent"
                     android:layout_height="44dip"
+                    android:background="@drawable/bg_item_white_touchable"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -188,11 +194,6 @@
                         android:layout_marginLeft="3dip"
                         android:text="@string/confinement_after" />
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:background="#eeeeee" />
 
                 <View
                     android:layout_width="match_parent"

@@ -6,8 +6,8 @@
  */
 package com.yijiehl.club.android.ui.activity;
 
+import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -21,6 +21,9 @@ import android.widget.Button;
 
 import com.uuzz.android.util.CameraHelper;
 import com.uuzz.android.util.FileUtil;
+import com.uuzz.android.util.ioc.annotation.ContentView;
+import com.uuzz.android.util.ioc.annotation.OnClick;
+import com.uuzz.android.util.ioc.annotation.ViewInject;
 import com.yijiehl.club.android.R;
 
 import java.io.File;
@@ -37,24 +40,42 @@ import java.util.List;
  * 修改时间：2016/9/6 <br/>
  * @author 谌珂 <br/>
  */
-public class TestActivity extends Activity {
+@ContentView(R.layout.activity_test)
+public class TestActivity extends BmActivity {
+
+    @ViewInject(R.id.surface_view)
+    private TextureView mPreview;
+    @ViewInject(R.id.button_capture)
+    private Button captureButton;
 
     private Camera mCamera;
-    private TextureView mPreview;
     private MediaRecorder mMediaRecorder;
     private File mOutputFile;
 
     private boolean isRecording = false;
     private static final String TAG = "Recorder";
-    private Button captureButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+    protected String getHeadTitle() {
+        return "测试";
+    }
 
-        mPreview = (TextureView) findViewById(R.id.surface_view);
-        captureButton = (Button) findViewById(R.id.button_capture);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHeader.setVisibility(View.GONE);
+        mRootLayout.setFitsSystemWindows(false);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            mRootLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     /**
@@ -64,6 +85,7 @@ public class TestActivity extends Activity {
      *
      * @param view the view generating the event.
      */
+    @OnClick(R.id.button_capture)
     public void onCaptureClick(View view) {
         if (isRecording) {
 
@@ -86,11 +108,18 @@ public class TestActivity extends Activity {
             releaseCamera();
 
         } else {
-
-
-            new MediaPrepareTask().execute(null, null, null);
-
-
+            String[] permissions;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            } else {
+                permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            }
+            checkPromissions(permissions, new Runnable() {
+                @Override
+                public void run() {
+                    new MediaPrepareTask().execute();
+                }
+            }, null);
         }
     }
 
@@ -160,6 +189,7 @@ public class TestActivity extends Activity {
         }
 
 
+        mCamera.setDisplayOrientation(90);
         mMediaRecorder = new MediaRecorder();
 
         // Step 1: Unlock and set camera to MediaRecorder

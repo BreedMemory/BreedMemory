@@ -63,6 +63,10 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         mHeader.setVisibility(View.GONE);
         mEditText.addTextChangedListener(this);
+        questionListAdapter=new QuestionListAdapter(SearchQuestionActivity.this);
+        lv.setAdapter(questionListAdapter);
+        lv.setEmptyView(noData);
+        noData.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.tv_cancel)
@@ -84,12 +88,7 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
             @Override
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchQuestion data = (RespSearchQuestion) pResponse;
-                questionListAdapter=new QuestionListAdapter(SearchQuestionActivity.this);
-                questionListAdapter.addDatas(data.getResultList());
-                lv.setAdapter(questionListAdapter);
-                if(data.getResultList() == null || data.getResultList().size()<=0){
-                    noData.setVisibility(View.VISIBLE);
-                }
+                questionListAdapter.setDatas(data.getResultList());
             }
         }, false);
     }
@@ -108,6 +107,10 @@ public class SearchQuestionActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         if(!TextUtils.isEmpty(s.toString())){
             obtainData(s.toString());
+            noData.setVisibility(View.VISIBLE);
+        } else {
+            questionListAdapter.clear();
+            noData.setVisibility(View.GONE);
         }
     }
 

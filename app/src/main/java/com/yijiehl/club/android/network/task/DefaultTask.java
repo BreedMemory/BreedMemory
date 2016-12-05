@@ -50,6 +50,7 @@ public class DefaultTask extends AbstractTask {
             return;
         }
         if(result == null || result.getmResultCode() != 200){   //说明请求的内容还是有问题
+            logger.e("http work is error!");
             mListener.onFailed(mContext.getString(com.uuzz.android.R.string.net_error));
             closeLoadingCom();
             return;
@@ -58,9 +59,7 @@ public class DefaultTask extends AbstractTask {
         BaseResponse responseData = (BaseResponse)createHttpResponse(result.getEntity());
         if(responseData == null) {
             logger.e("http response entity is null");
-            if(mListener != null) {
-                mListener.onFailed(mContext.getString(R.string.net_error));
-            }
+            mListener.onFailed(mContext.getString(R.string.net_error));
             closeLoadingCom();
             return;
         }
@@ -71,17 +70,13 @@ public class DefaultTask extends AbstractTask {
                 ActivitySvc.startLoginActivity(mContext);
                 return;
             }
-            if(mListener != null) {
-                mListener.onFailed(responseData.getReturnMsg().getMessage());
-            }
+            mListener.onFailed(responseData.getReturnMsg().getMessage());
             return;
         }
         //缓存接口数据
         CacheDataDAO.getInstance(mContext).insertCacheDateAsync(mContext, String.valueOf(mRequest.hashCode()), result.getEntity());
 
-        if(mListener != null) {
-            mListener.onSuccess(responseData);
-        }
+        mListener.onSuccess(responseData);
         closeLoadingCom();
     }
 

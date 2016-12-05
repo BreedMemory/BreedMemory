@@ -30,7 +30,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="name,icon">
         <activity
-            android:name=".ui.activity.TestActivity"
+            android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>

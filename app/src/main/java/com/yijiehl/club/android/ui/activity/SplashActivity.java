@@ -23,7 +23,7 @@ import com.yijiehl.club.android.common.Common;
 import com.yijiehl.club.android.network.response.RespCheckVersion;
 import com.yijiehl.club.android.network.response.RespSensitize;
 import com.yijiehl.club.android.ui.controlversion.AppUpdateWindow;
-import com.yijiehl.club.android.ui.controlversion.ReqVersionCheck;
+import com.yijiehl.club.android.network.request.ReqVersionCheck;
 import com.yijiehl.club.android.ui.dialog.MessageDialog;
 
 /**

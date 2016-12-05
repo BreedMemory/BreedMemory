@@ -66,6 +66,8 @@ public class SearchActivitysActivity extends BmActivity implements TextWatcher {
         mActivitysAdapter=new ActivitysAdapter(this);
         lv.setAdapter(mActivitysAdapter);
         lv.setOnItemClickListener(mActivitysAdapter);
+        lv.setEmptyView(noData);
+        noData.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.tv_cancel)
@@ -88,9 +90,6 @@ public class SearchActivitysActivity extends BmActivity implements TextWatcher {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchActivitys data = (RespSearchActivitys) pResponse;
                 mActivitysAdapter.addDatas(data.getResultList());
-                if(data.getResultList() == null || data.getResultList().size()<=0){
-                    noData.setVisibility(View.VISIBLE);
-                }
             }
         }, false);
     }
@@ -109,6 +108,10 @@ public class SearchActivitysActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         if(!TextUtils.isEmpty(s.toString())){
             obtainData(s.toString());
+            noData.setVisibility(View.VISIBLE);
+        } else {
+            mActivitysAdapter.clear();
+            noData.setVisibility(View.GONE);
         }
     }
 

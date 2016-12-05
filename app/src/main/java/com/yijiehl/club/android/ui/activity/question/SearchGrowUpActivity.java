@@ -66,6 +66,8 @@ public class SearchGrowUpActivity extends BmActivity implements TextWatcher {
         mGrowUpContentAdapter=new GrowUpContentAdapter(this, GrowUpContentAdapter.ALL_DATA);
         lv.setAdapter(mGrowUpContentAdapter);
         lv.setOnItemClickListener(mGrowUpContentAdapter);
+        lv.setEmptyView(noData);
+        noData.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.tv_cancel)
@@ -88,9 +90,6 @@ public class SearchGrowUpActivity extends BmActivity implements TextWatcher {
             public void onSuccess(AbstractResponse pResponse) {
                 RespSearchArticle data = (RespSearchArticle) pResponse;
                 mGrowUpContentAdapter.addDatas(data.getResultList());
-                if(data.getResultList() == null || data.getResultList().size()<=0){
-                    noData.setVisibility(View.VISIBLE);
-                }
             }
         }, false);
     }
@@ -109,6 +108,10 @@ public class SearchGrowUpActivity extends BmActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
         if(!TextUtils.isEmpty(s.toString())){
             obtainData(s.toString());
+            noData.setVisibility(View.VISIBLE);
+        } else {
+            mGrowUpContentAdapter.clear();
+            noData.setVisibility(View.GONE);
         }
     }
 
